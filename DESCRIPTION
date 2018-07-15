@@ -1,0 +1,18 @@
+Package: EcoNetwork
+Type: Package
+Title: Ecological Networks Analysis 
+Version: 0.0.0.9000
+Authors@R: person("Leonardo A.", "Saravia", email = "lsaravia@campus.ungs.edu.ar", 
+  role = c("aut", "cre"))
+Description: This package calculates indices for ecological network analysis.
+Depends: R (>= 3.4.4)
+License: MIT
+Encoding: UTF-8
+LazyData: true
+Imports:
+    lubridate (>= 1.7.4), 
+    igraph (>= 1.1.2),
+    NetIndices (>= 1.4.4),
+    RColorBrewer (>= 1.1-2),
+    doParallel (>= 1.0.10)
+RoxygenNote: 6.0.1

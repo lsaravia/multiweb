@@ -1,0 +1,1916 @@
+Predator_name,Prey_name
+Cassidulinoides parkerianus,Bacillariophyta
+Cassidulinoides parkerianus,Detritus
+Cassidulinoides parkerianus,Sediment
+Cibicides refulgens,Bacillariophyta
+Cibicides refulgens,Detritus
+Cibicides refulgens,Sediment
+Globocassidulina crassa,Bacillariophyta
+Globocassidulina crassa,Detritus
+Globocassidulina crassa,Sediment
+Lenticulina antarctica,Bacillariophyta
+Lenticulina antarctica,Detritus
+Lenticulina antarctica,Sediment
+Neogloboquadriana pachyderma,Bacillariophyta
+Neogloboquadriana pachyderma,Detritus
+Neogloboquadriana pachyderma,Sediment
+Euphausia crystallorophias,Phytoplankton
+Euphausia frigida,Bacillariophyta
+Euphausia frigida,Zooplankton
+Euphausia frigida,Tintinnidae
+Euphausia frigida,Foraminifera
+Euphausia frigida,Phytoplankton
+Euphausia frigida,Copepoda
+Euphausia frigida,Pteropoda
+Thysanoessa macrura,Bacillariophyta
+Thysanoessa macrura,Zooplankton
+Thysanoessa macrura,Siphonophora
+Thysanoessa macrura,Tintinnidae
+Thysanoessa macrura,Foraminifera
+Thysanoessa macrura,Phytoplankton
+Thysanoessa macrura,Copepoda
+Thysanoessa macrura,Pteropoda
+Euphausia superba,Bacillariophyta
+Euphausia superba,Fragilariopsis
+Euphausia superba,Entomoneis sp.
+Euphausia superba,Nitzschia sp.
+Euphausia superba,Chaetoceros sp.
+Euphausia superba,Zooplankton
+Euphausia superba,Distephanus sp.
+Euphausia superba,Copepoda
+Euphausia superba,Oithona sp.
+Ampelisca richardsoni,Detritus
+Ampelisca richardsoni,Bacillariophyta
+Abyssorchomene rossi,Detritus
+Abyssorchomene rossi,Bacillariophyta
+Abyssorchomene rossi,Polychaeta
+Abyssorchomene rossi,Copepoda
+Abyssorchomene rossi,Porifera
+Abyssorchomene plebs ,Crustacea
+Abyssorchomene plebs ,Euphausia superba
+Abyssorchomene plebs ,Detritus
+Abyssorchomene plebs ,Bacillariophyta
+Abyssorchomene nodimanus,Polychaeta
+Abyssorchomene nodimanus,Holothuria
+Abyssorchomene nodimanus,Fish
+Abyssorchomene nodimanus,Octopoda
+Abyssorchomene nodimanus,Detritus
+Eusirus antarcticus,Copepoda
+Eusirus perdentatus,Crustacea
+Eusirus perdentatus,Amphipoda
+Eusirus perdentatus,Polychaeta
+Eusirus perdentatus,Detritus
+Alexandrella mixta,Ophiuroidea
+Tryphosella murrayi,Mysidacea
+Tryphosella murrayi,Dolloidraco longedorsalis
+Tryphosella murrayi,Fish
+Tryphosella murrayi,Crustacea
+Tryphosella murrayi,Amphipoda
+Waldeckia obesa ,Amphipoda
+Waldeckia obesa ,Eurythenes gryllus
+Waldeckia obesa ,Ophiuroidea
+Waldeckia obesa ,Hydrozoa
+Waldeckia obesa ,Cnidaria
+Waldeckia obesa ,Porifera
+Waldeckia obesa ,Polychaeta
+Waldeckia obesa ,Holothuria
+Waldeckia obesa ,Isopoda
+Waldeckia obesa ,Crustacea
+Waldeckia obesa ,Detritus
+Waldeckia obesa ,Necromass
+Parschisturella ceruviata ,Detritus
+Paramoera walkeri,Ophiuroidea
+Epimeriella walkeri,Holothuria
+Epimeriella walkeri,Crustacea
+Epimeriella walkeri,Porifera
+Epimeriella walkeri,Cnidaria
+Epimeriella walkeri,Bacillariophyta
+Epimeriella walkeri,Detritus
+Cyllopus lucasii,Bacillariophyta
+Cyllopus lucasii,Zooplankton
+Cyllopus lucasii,Tintinnidae
+Cyllopus lucasii,Copepoda
+Cyllopus lucasii,Oithona sp.
+Cyllopus lucasii,Oncaea sp.
+Cyllopus lucasii,Calanus propinquus
+Cyllopus lucasii,Metridia gerlachei
+Cyllopus lucasii,Ostracoda
+Cyllopus lucasii,Euphausia superba
+Cyllopus lucasii,Coelenterata
+Cyllopus lucasii,Pelagobia longicirrata
+Cyllopus lucasii,Eukrohnia hamata
+Hyperiella dilatata,Bacillariophyta
+Hyperiella dilatata,Zooplankton
+Hyperiella dilatata,Tintinnidae
+Hyperiella dilatata,Copepoda
+Hyperiella dilatata,Oithona sp.
+Hyperiella dilatata,Oncaea sp.
+Hyperiella dilatata,Coelenterata
+Vibilia antarctica,Zooplankton
+Vibilia stebbingi,Zooplankton
+Hyperia macrocephala,Pteropoda
+Hyperia macrocephala,Limacina helicina 
+Hyperia macrocephala,Salpa thompsoni
+Hyperia macrocephala,Coelenterata
+Hyperia macrocephala,Scyphozoa
+Epimeria similis,Hydrozoa
+Epimeria similis,Polychaeta
+Epimeria similis,Cnidaria
+Epimeria similis,Porifera
+Epimeria similis,Bacillariophyta
+Epimeria similis,Foraminifera
+Epimeria robusta,Euphausiacea
+Epimeria robusta,Holothuria
+Epimeria robusta,Zooplankton
+Epimeria robusta,Crustacea
+Epimeria robusta,Amphipoda
+Epimeria robusta,Cnidaria
+Epimeria robusta,Polychaeta
+Epimeria robusta,Taeniogyrus contortus
+Epimeria macrodonta,Cnidaria
+Epimeria macrodonta,Hydrozoa
+Epimeria macrodonta,Urticinopsis antarctica
+Epimeria macrodonta,Anthozoa
+Epimeria macrodonta,Crustacea
+Epimeria macrodonta,Euphausiacea
+Epimeria macrodonta,Pantopoda
+Epimeria macrodonta,Holothuria
+Epimeria macrodonta,Foraminifera
+Epimeria macrodonta,Bacillariophyta
+Epimeria macrodonta,Ostracoda
+Epimeria macrodonta,Porifera
+Epimeria macrodonta,Sediment
+Epimeria macrodonta,Squid
+Epimeria rubrieques,Euphausiacea
+Epimeria rubrieques,Zooplankton
+Epimeria rubrieques,Crustacea
+Epimeria rubrieques,Amphipoda
+Epimeria rubrieques,Cnidaria
+Epimeria rubrieques,Hydrozoa
+Epimeria rubrieques,Clavularia sp.
+Epimeria rubrieques,Polychaeta
+Epimeria rubrieques,Taeniogyrus contortus
+Epimeria georgiana,Crustacea
+Epimeria georgiana,Mysidacea
+Epimeria georgiana,Amphipoda
+Epimeria georgiana,Polychaeta
+Epimeria georgiana,Holothuria
+Epimeria georgiana,Hydrozoa
+Epimeria georgiana,Bacillariophyta
+Epimeria georgiana,Zooplankton
+Epimeria georgiana,Foraminifera
+Melphidippa antarctica,Euchaeta antarctica
+Melphidippa antarctica,Crustacea
+Melphidippa antarctica,Euphausiacea
+Melphidippa antarctica,Mysidacea
+Melphidippa antarctica,Porifera
+Melphidippa antarctica,Cnidaria
+Melphidippa antarctica,Holothuria
+Oediceroides emarginatus,Phytoplankton
+Oediceroides emarginatus,Crustacea
+Oediceroides emarginatus,Amphipoda
+Oediceroides calmani,Phytoplankton
+Oediceroides calmani,Crustacea
+Oediceroides calmani,Amphipoda
+Maxilliphimedia longipes,Cnidaria
+Maxilliphimedia longipes,Urticinopsis antarctica
+Maxilliphimedia longipes,Anthozoa
+Maxilliphimedia longipes,Hydrozoa
+Gnathiphimedia mandibularis,Bryozoa
+Gnathiphimedia mandibularis,Brachiopoda
+Gnathiphimedia mandibularis,Porifera
+Echiniphimedia hodgsoni,Porifera
+Echiniphimedia hodgsoni,Detritus
+Iphimediella cyclogena,Holothuria
+Iphimediella cyclogena,Polychaeta
+Paraceradocus gibber,Amphipoda
+Paraceradocus gibber,Bacillariophyta
+Paraceradocus gibber,Detritus
+Liljeborgia georgiana,Crustacea
+Liljeborgia georgiana,Amphipoda
+Liljeborgia georgiana,Euphausiacea
+Liljeborgia georgiana,Copepoda
+Liljeborgia georgiana,Polychaeta
+Liljeborgia georgiana,Eucranta mollis
+Liljeborgia georgiana,Eunoe spica
+Liljeborgia georgiana,Cnidaria
+Liljeborgia georgiana,Porifera
+Momoculodes scabriculosus,Detritus
+Uristes gigas,Crustacea
+Uristes gigas,Amphipoda
+Uristes gigas,Euphausiacea
+Uristes gigas,Porifera
+Uristes gigas,Bacillariophyta
+Eurythenes gryllus,Amphipoda
+Eurythenes gryllus,Eurythenes gryllus
+Eurythenes gryllus,Ophiuroidea
+Eurythenes gryllus,Hydrozoa
+Eurythenes gryllus,Urticinopsis antarctica
+Eurythenes gryllus,Anthozoa
+Eurythenes gryllus,Porifera
+Eurythenes gryllus,Polychaeta
+Eurythenes gryllus,Holothuria
+Eurythenes gryllus,Isopoda
+Eurythenes gryllus,Crustacea
+Eurythenes gryllus,Detritus
+Bathypanoploea schellenbergi,Urticinopsis antarctica
+Bathypanoploea schellenbergi,Anthozoa
+Bathypanoploea schellenbergi,Bacillariophyta
+Bathypanoploea schellenbergi,Crustacea
+Bathypanoploea schellenbergi,Holothuria
+Bathypanoploea schellenbergi,Bryozoa
+Pseudorchomene coatsi,Detritus
+Heterophoxus videns,Polychaeta
+Heterophoxus videns,Eucranta mollis
+Heterophoxus videns,Eunoe spica
+Heterophoxus videns,Laetmonice producta
+Heterophoxus videns,Tanaidacea
+Heterophoxus videns,Copepoda
+Heterophoxus videns,Porifera
+Heterophoxus videns,Bacillariophyta
+Heterophoxus videns,Foraminifera
+Heterophoxus videns,Nematoda
+Heterophoxus videns,Crustacea
+Haplocheira plumosa,Phytoplankton
+Haplocheira plumosa,Detritus
+Oradarea edentata,Phytoplankton
+Djerboa furcipes,Phytoplankton
+Rhachotropis antarctica,Euphausiacea
+Rhachotropis antarctica,Copepoda
+Rhachotropis antarctica,Amphipoda
+Rhachotropis antarctica,Polychaeta
+Rhachotropis antarctica,Bacillariophyta
+Rhachotropis antarctica,Cnidaria
+Notocrangon antarcticus,Bacillariophyta
+Notocrangon antarcticus,Foraminifera
+Notocrangon antarcticus,Porifera
+Notocrangon antarcticus,Gastropoda
+Notocrangon antarcticus,Bivalvia
+Notocrangon antarcticus,Yoldiella eightsi
+Notocrangon antarcticus,Polychaeta
+Notocrangon antarcticus,Mysidacea
+Notocrangon antarcticus,Holothuria
+Chorismus antarcticus,Bacillariophyta
+Chorismus antarcticus,Corethron sp.
+Chorismus antarcticus,Zooplankton
+Chorismus antarcticus,Foraminifera
+Chorismus antarcticus,Porifera
+Chorismus antarcticus,Nematoda
+Chorismus antarcticus,Gastropoda
+Chorismus antarcticus,Yoldiella eightsi
+Chorismus antarcticus,Polychaeta
+Chorismus antarcticus,Eucranta mollis
+Chorismus antarcticus,Eunoe spica
+Chorismus antarcticus,Laetmonice producta
+Chorismus antarcticus,Eulagisca gigantea
+Chorismus antarcticus,Barrukia cristata
+Chorismus antarcticus,Amphipoda
+Chorismus antarcticus,Isopoda
+Chorismus antarcticus,Taeniogyrus contortus
+Nematocarcinus lanceopes,Bacillariophyta
+Nematocarcinus lanceopes,Zooplankton
+Nematocarcinus lanceopes,Tintinnidae
+Nematocarcinus lanceopes,Phytoplankton
+Nematocarcinus lanceopes,Euchaeta antarctica
+Rhincalanus gigas,Bacillariophyta
+Rhincalanus gigas,SilicioZooplanktons
+Rhincalanus gigas,Zooplankton
+Rhincalanus gigas,Tintinnidae
+Rhincalanus gigas,Oithona sp.
+Rhincalanus gigas,Oncaea sp.
+Rhincalanus gigas,Coelenterata
+Calanus propinquus ,Bacillariophyta
+Calanus propinquus ,SilicioZooplanktons
+Calanus propinquus ,Zooplankton
+Calanus propinquus ,Tintinnidae
+Calanus propinquus ,Euchaeta antarctica
+Calanus propinquus ,Oithona sp.
+Calanus propinquus ,Copepoda
+Calanus propinquus ,Coelenterata
+Calanoides acutus ,Bacillariophyta
+Calanoides acutus ,SilicioZooplanktons
+Calanoides acutus ,Zooplankton
+Calanoides acutus ,Tintinnidae
+Calanoides acutus ,Copepoda
+Calanoides acutus ,Oithona sp.
+Calanoides acutus ,Oncaea sp.
+Calanoides acutus ,Pelagobia longicirrata
+Metridia gerlachei ,Bacillariophyta
+Metridia gerlachei ,SilicioZooplanktons
+Metridia gerlachei ,Zooplankton
+Metridia gerlachei ,Tintinnidae
+Metridia gerlachei ,Copepoda
+Metridia gerlachei ,Oithona sp.
+Metridia gerlachei ,Oncaea sp.
+Euchaeta antarctica,Bacillariophyta
+Euchaeta antarctica,SilicioZooplanktons
+Euchaeta antarctica,Zooplankton
+Euchaeta antarctica,Tintinnidae
+Euchaeta antarctica,Copepoda
+Euchaeta antarctica,Oithona sp.
+Euchaeta antarctica,Oncaea sp.
+Euchaeta antarctica,Metridia gerlachei
+Euchaeta antarctica,Euchaeta antarctica
+Euchaeta antarctica,Cyllopus lucasii
+Euchaeta antarctica,Coelenterata
+Euchaeta antarctica,Pelagobia longicirrata
+Euchaeta antarctica,Eukrohnia hamata
+Mysida,Bacillariophyta
+Mysida,Detritus
+Mysida,Zooplankton
+Eucopia australis,Bacillariophyta
+Eucopia australis,Detritus
+Eucopia australis,Zooplankton
+Euchaetomera antarcticus,Bacillariophyta
+Euchaetomera antarcticus,Detritus
+Euchaetomera antarcticus,Zooplankton
+Antarctomysis maxima,Bacillariophyta
+Antarctomysis maxima,Detritus
+Antarctomysis maxima,Zooplankton
+Ceratoserolis meridionalis,Polychaeta
+Ceratoserolis meridionalis,Crustacea
+Frontoserolis bouvieri,Polychaeta
+Frontoserolis bouvieri,Crustacea
+Natatolana obtusata,Detritus
+Natatolana oculata,Detritus
+Natatolana meridionalis,Detritus
+Gnathia calva,Zooplankton
+Glyptonotus antarcticus,Isopoda
+Glyptonotus antarcticus,Glyptonotus antarcticus
+Glyptonotus antarcticus,Asteroidea
+Glyptonotus antarcticus,Gastropoda
+Glyptonotus antarcticus,Euphausia superba
+Glyptonotus antarcticus,Polychaeta
+Glyptonotus antarcticus,Echinoidea
+Glyptonotus antarcticus,Ophiuroidea
+Glyptonotus antarcticus,Detritus
+Glyptonotus antarcticus,Limacina helicina 
+Austrosisignum grande,Detritus
+Austrosisignum grande,Bacillariophyta
+Aega antarctica,Detritus
+Arcturidae,Detritus
+Myodocopia,Sediment
+Myodocopia,Detritus
+Myodocopia,Zooplankton
+Alacia hettacra,Detritus
+Alacia hettacra,Bacillariophyta
+Alacia hettacra,Phytoplankton
+Alacia belgicae,Detritus
+Alacia belgicae,Bacillariophyta
+Alacia belgicae,Phytoplankton
+Metaconchoecia isocheira,Detritus
+Metaconchoecia isocheira,Bacillariophyta
+Metaconchoecia isocheira,Phytoplankton
+Boroecia antipoda,Detritus
+Boroecia antipoda,Bacillariophyta
+Boroecia antipoda,Phytoplankton
+Podocopida,Zooplankton
+Podocopida,Detritus
+Podocopida,Bacillariophyta
+Nototanais antarcticus,Detritus
+Nototanais antarcticus,Bacillariophyta
+Nototanais antarcticus,Bacteria
+Nototanais antarcticus,Sediment
+Peraeospinosus pushkini,Sediment
+Peraeospinosus pushkini,Detritus
+Peraeospinosus pushkini,Bacillariophyta
+Peraeospinosus pushkini,Porifera
+Nototanais dimorphus,Bacillariophyta
+Nototanais dimorphus,Bacteria
+Nototanais dimorphus,Detritus
+Eudorella splendida,Detritus
+Eudorella splendida,Bacillariophyta
+Eudorella splendida,Bacteria
+Eudorella splendida,Sediment
+Vaunthompsonia indermis,Detritus
+Vaunthompsonia indermis,Bacillariophyta
+Vaunthompsonia indermis,Bacteria
+Vaunthompsonia indermis,Sediment
+Camylaspis maculata,Bacillariophyta
+Diastylis mawsoni,Detritus
+Ekleptostylis debroyeri,Detritus
+Pentanymphon antarcticum,Bryozoa
+Pentanymphon antarcticum,Porifera
+Pentanymphon antarcticum,Gastropoda
+Pentanymphon antarcticum,Polychaeta
+Pentanymphon antarcticum,Ophiuroidea
+Pentanymphon antarcticum,Ctenophora
+Ammothea carolinensis,Bryozoa
+Ammothea carolinensis,Porifera
+Ammothea carolinensis,Gastropoda
+Ammothea carolinensis,Polychaeta
+Ammothea carolinensis,Ophiuroidea
+Ammothea carolinensis,Ctenophora
+Colossendeis sp.,Bryozoa
+Colossendeis sp.,Porifera
+Colossendeis sp.,Gastropoda
+Colossendeis sp.,Polychaeta
+Colossendeis sp.,Ophiuroidea
+Colossendeis sp.,Ctenophora
+Nymphon gracillimum,Bryozoa
+Nymphon gracillimum,Porifera
+Nymphon gracillimum,Gastropoda
+Nymphon gracillimum,Polychaeta
+Nymphon gracillimum,Ophiuroidea
+Nymphon gracillimum,Ctenophora
+Pelagobia longicirrata,Bacillariophyta
+Pelagobia longicirrata,Ostracoda
+Rhynchonereella bongraini,Bacillariophyta
+Rhynchonereella bongraini,Ostracoda
+Laetmonice producta,Detritus
+Laetmonice producta,Polychaeta
+Laetmonice producta,Crustacea
+Laetmonice producta,Amphipoda
+Laetmonice producta,Ophiuroidea
+Harmothoe spinosa,Holothuria
+Harmothoe spinosa,Detritus
+Harmothoe spinosa,Hydrozoa
+Harmothoe spinosa,Bryozoa
+Harmothoe spinosa,Gastropoda
+Harmothoe spinosa,Polychaeta
+Harmothoe spinosa,Pantopoda
+Harmothoe spinosa,Crustacea
+Harmothoe spinosa,Isopoda
+Harmothoe spinosa,Amphipoda
+Harmothoe spinosa,Ophiuroidea
+Harmothoe crosetensis,Detritus
+Harmothoe crosetensis,Polychaeta
+Harmothoe crosetensis,Crustacea
+Harmothoe crosetensis,Isopoda
+Harmothoe crosetensis,Amphipoda
+Harmothoe crosetensis,Holothuria
+Harmothoe crosetensis,Ophiuroidea
+Polyeunoa laevis ,Detritus
+Polyeunoa laevis ,Urticinopsis antarctica
+Polyeunoa laevis ,Anthozoa
+Polyeunoa laevis ,Crustacea
+Barrukia cristata,Detritus
+Barrukia cristata,Bivalvia
+Barrukia cristata,Polychaeta
+Barrukia cristata,Ophiuroidea
+Eulagisca gigantea,Detritus
+Eulagisca gigantea,Bryozoa
+Eulagisca gigantea,Pantopoda
+Eulagisca gigantea,Crustacea
+Eulagisca gigantea,Amphipoda
+Eulagisca gigantea,Ophiuroidea
+Eulagisca gigantea,Hydrozoa
+Eunoe spica,Detritus
+Eunoe spica,Bivalvia
+Eunoe spica,Polychaeta
+Eunoe spica,Pantopoda
+Eunoe spica,Crustacea
+Eunoe spica,Isopoda
+Eunoe spica,Holothuria
+Eunoe spica,Fish
+Eunoe spica,Amphipoda
+Eunoe hartmanae,Detritus
+Eunoe hartmanae,Hydrozoa
+Eunoe hartmanae,Bryozoa
+Eunoe hartmanae,Polychaeta
+Eunoe hartmanae,Ophiuroidea
+Eunoe hartmanae,Amphipoda
+Eunoe spica spicoides,Detritus
+Eunoe spica spicoides,Bryozoa
+Eunoe spica spicoides,Hydrozoa
+Eunoe spica spicoides,Bivalvia
+Eunoe spica spicoides,Gastropoda
+Eunoe spica spicoides,Polychaeta
+Eunoe spica spicoides,Pantopoda
+Eunoe spica spicoides,Crustacea
+Eunoe spica spicoides,Isopoda
+Eunoe spica spicoides,Amphipoda
+Eunoe spica spicoides,Holothuria
+Eunoe spica spicoides,Crinoidea
+Eunoe spica spicoides,Fish
+Eucranta mollis,Detritus
+Eucranta mollis,Crustacea
+Promachocrinus kerguelensis,Detritus
+Promachocrinus kerguelensis,Sediment
+Promachocrinus kerguelensis,Phytoplankton
+Anthometra adriani,Sediment
+Anthometra adriani,Detritus
+Anthometra adriani,Phytoplankton
+Acodontaster conspicuus,Homaxinella balfourensis
+Acodontaster conspicuus,Rossella racovitzae
+Acodontaster conspicuus,Scolymastra joubini
+Acodontaster conspicuus,Tetilla leptoderma
+Acodontaster conspicuus,Haliclona dancoi
+Acodontaster conspicuus,Mycale acerata
+Acodontaster conspicuus,Kirkpatrickia variolosa
+Bathybiaster loripes,Detritus
+Cuenotaster involutus,Detritus
+Diplasterias brucei,Yoldiella eightsi
+Diplasterias brucei,Gastropoda
+Diplasterias brucei,Detritus
+Luidiaster gerlachei,Ophiuroidea
+Luidiaster gerlachei,Detritus
+Labidiaster annulatus,Ophiuroidea
+Labidiaster annulatus,Gastropoda
+Labidiaster annulatus,Amphipoda
+Labidiaster annulatus,Bivalvia
+Labidiaster annulatus,Crinoidea
+Labidiaster annulatus,Polychaeta
+Labidiaster annulatus,Asteroidea
+Labidiaster annulatus,Isopoda
+Labidiaster annulatus,Echinoidea
+Lophaster gaini,Bivalvia
+Lophaster gaini,Adamussium colbecki
+Lophaster gaini,Yoldiella eightsi
+Notasterias armata,Bivalvia
+Notasterias armata,Adamussium colbecki
+Notasterias armata,Yoldiella eightsi
+Solaster sp.,Bivalvia
+Solaster sp.,Polychaeta
+Solaster sp.,Sediment
+Solaster sp.,Detritus
+Odontaster meridionalis,Porifera
+Odontaster meridionalis,Detritus
+Odontaster validus,Detritus
+Odontaster validus,Amphipoda
+Odontaster validus,Isopoda
+Odontaster validus,Glyptonotus antarcticus
+Odontaster validus,Asteroidea
+Odontaster validus,Adamussium colbecki
+Odontaster validus,Gastropoda
+Odontaster validus,Bivalvia
+Odontaster validus,Laternula elliptica
+Odontaster validus,Yoldiella eightsi
+Odontaster validus,Hydrozoa
+Odontaster validus,Ophiuroidea
+Odontaster validus,Bryozoa
+Odontaster validus,Porifera
+Odontaster validus,Homaxinella balfourensis
+Odontaster validus,Rossella racovitzae
+Odontaster validus,Rossella nuda
+Odontaster validus,Scolymastra joubini
+Odontaster validus,Tetilla leptoderma
+Odontaster validus,Ostracoda
+Odontaster validus,Echinoidea
+Odontaster validus,Sterechinus neumayeri
+Odontaster validus,Polychaeta
+Odontaster validus,Bacillariophyta
+Pteraster affinis aculeatus,Adamussium colbecki
+Perknaster densus,Detritus
+Perknaster fuscus antarcticus,Detritus
+Perknaster fuscus antarcticus,Porifera
+Perknaster fuscus antarcticus,Tetilla leptoderma
+Perknaster fuscus antarcticus,Scolymastra joubini
+Perknaster fuscus antarcticus,Mycale acerata
+Macroptychaster accrescens,Asteroidea
+Macroptychaster accrescens,Odontaster validus
+Macroptychaster accrescens,Echinoidea
+Macroptychaster accrescens,Sterechinus neumayeri
+Macroptychaster accrescens,Ophiuroidea
+Macroptychaster accrescens,Gastropoda
+Macroptychaster accrescens,Bivalvia
+Lysasterias perrieri,Bivalvia
+Lysasterias perrieri,Ostracoda
+Lysasterias perrieri,Ophiuroidea
+Lysasterias perrieri,Detritus
+Psilaster charcoti,Detritus
+Psilaster charcoti,Sediment
+Psilaster charcoti,Ascidiacea
+Psilaster charcoti,Fish
+Porania antarctica ,Detritus
+Porania antarctica ,Bacillariophyta
+Porania antarctica ,Ostracoda
+Ophionotus victoriae,Bacillariophyta
+Ophionotus victoriae,Foraminifera
+Ophionotus victoriae,Porifera
+Ophionotus victoriae,Hydrozoa
+Ophionotus victoriae,Nematoda
+Ophionotus victoriae,Bivalvia
+Ophionotus victoriae,Polychaeta
+Ophionotus victoriae,Amphipoda
+Ophionotus victoriae,Mysidacea
+Ophionotus victoriae,Euphausiacea
+Ophionotus victoriae,Crustacea
+Ophionotus victoriae,Bryozoa
+Ophionotus victoriae,Ophiuroidea
+Ophionotus victoriae,Echinoidea
+Ophionotus victoriae,Urticinopsis antarctica
+Ophionotus victoriae,Anthozoa
+Ophionotus victoriae,Detritus
+Ophionotus victoriae,Sediment
+Ophioceres incipiens,Bacillariophyta
+Ophioceres incipiens,SilicioZooplanktons
+Ophioceres incipiens,Zooplankton
+Ophioceres incipiens,Foraminifera
+Ophioceres incipiens,Porifera
+Ophioceres incipiens,Polychaeta
+Ophioceres incipiens,Crustacea
+Ophioceres incipiens,Urticinopsis antarctica
+Ophioceres incipiens,Anthozoa
+Ophioceres incipiens,Sediment
+Ophioceres incipiens,Detritus
+Ophiurolepis brevirima,Bacillariophyta
+Ophiurolepis brevirima,SilicioZooplanktons
+Ophiurolepis brevirima,Zooplankton
+Ophiurolepis brevirima,Foraminifera
+Ophiurolepis brevirima,Porifera
+Ophiurolepis brevirima,Cnidaria
+Ophiurolepis brevirima,Bivalvia
+Ophiurolepis brevirima,Polychaeta
+Ophiurolepis brevirima,Eunoe spica
+Ophiurolepis brevirima,Ostracoda
+Ophiurolepis brevirima,Amphipoda
+Ophiurolepis brevirima,Euphausiacea
+Ophiurolepis brevirima,Crustacea
+Ophiurolepis brevirima,Bryozoa
+Ophiurolepis brevirima,Detritus
+Ophiurolepis brevirima,Sediment
+Ophiurolepis gelida,Bacillariophyta
+Ophiurolepis gelida,SilicioZooplanktons
+Ophiurolepis gelida,Zooplankton
+Ophiurolepis gelida,Foraminifera
+Ophiurolepis gelida,Porifera
+Ophiurolepis gelida,Nematoda
+Ophiurolepis gelida,Bivalvia
+Ophiurolepis gelida,Polychaeta
+Ophiurolepis gelida,Amphipoda
+Ophiurolepis gelida,Euphausiacea
+Ophiurolepis gelida,Crustacea
+Ophiurolepis gelida,Bryozoa
+Ophiurolepis gelida,Detritus
+Ophiurolepis gelida,Sediment
+Ophiosparte gigas,Bacillariophyta
+Ophiosparte gigas,Foraminifera
+Ophiosparte gigas,Porifera
+Ophiosparte gigas,Cnidaria
+Ophiosparte gigas,Nematoda
+Ophiosparte gigas,Gastropoda
+Ophiosparte gigas,Laternula elliptica
+Ophiosparte gigas,Bivalvia
+Ophiosparte gigas,Adamussium colbecki
+Ophiosparte gigas,Yoldiella eightsi
+Ophiosparte gigas,Polychaeta
+Ophiosparte gigas,Eunoe spica
+Ophiosparte gigas,Pantopoda
+Ophiosparte gigas,Ostracoda
+Ophiosparte gigas,Mysidacea
+Ophiosparte gigas,Isopoda
+Ophiosparte gigas,Amphipoda
+Ophiosparte gigas,Euphausia crystallorophias
+Ophiosparte gigas,Euphausia superba
+Ophiosparte gigas,Chorismus antarcticus
+Ophiosparte gigas,Bryozoa
+Ophiosparte gigas,Promachocrinus kerguelensis
+Ophiosparte gigas,Odontaster validus
+Ophiosparte gigas,Ophiurolepis gelida
+Ophiosparte gigas,Ophionotus victoriae
+Ophiosparte gigas,Ophiosparte gigas
+Ophiosparte gigas,Ophiacantha 
+Ophiosparte gigas,Ophiocten 
+Ophiosparte gigas,Ophiuroidea
+Ophiosparte gigas,Sterechinus neumayeri
+Ophiosparte gigas,Fish
+Ophiosparte gigas,Detritus
+Ophiosparte gigas,Sediment
+Ophioperla koehleri,Euphausiacea
+Ophioperla koehleri,Polychaeta
+Ophioperla koehleri,Ophiuroidea
+Ophioperla koehleri,Porifera
+Ophioperla koehleri,Crinoidea
+Ophioperla koehleri,Foraminifera
+Ophioperla koehleri,Copepoda
+Ophioperla koehleri,Echinoidea
+Ophiacantha antarctica,Copepoda
+Ophiacantha antarctica,Bacillariophyta
+Ophiacantha antarctica,Foraminifera
+Ophiacantha pentacis,Copepoda
+Ophiacantha vivipara,Copepoda
+Astrotoma agassizii,Bacillariophyta
+Astrotoma agassizii,SilicioZooplanktons
+Astrotoma agassizii,Zooplankton
+Astrotoma agassizii,Foraminifera
+Astrotoma agassizii,Porifera
+Astrotoma agassizii,Hydrozoa
+Astrotoma agassizii,Cnidaria
+Astrotoma agassizii,Bivalvia
+Astrotoma agassizii,Polychaeta
+Astrotoma agassizii,Ostracoda
+Astrotoma agassizii,Calanoides acutus
+Astrotoma agassizii,Calanus propinquus
+Astrotoma agassizii,Euchaeta antarctica
+Astrotoma agassizii,Mysidacea
+Astrotoma agassizii,Euphausiacea
+Astrotoma agassizii,Crustacea
+Astrotoma agassizii,Bryozoa
+Astrotoma agassizii,Eukrohnia hamata
+Astrotoma agassizii,Echinoidea
+Astrotoma agassizii,Holothuria
+Astrotoma agassizii,Fish
+Astrotoma agassizii,Sediment
+Astrotoma agassizii,Detritus
+Astrochlamys bruneus,Coelenterata
+Astrochlamys bruneus,Zooplankton
+Astrochlamys bruneus,Euchaeta antarctica
+Gorgonocephalus chiliensis,Copepoda
+Sterechinus neumayeri,Bryozoa
+Sterechinus neumayeri,Bacillariophyta
+Sterechinus neumayeri,Foraminifera
+Sterechinus neumayeri,Polychaeta
+Sterechinus neumayeri,Porifera
+Sterechinus neumayeri,Detritus
+Sterechinus antarcticus,Bryozoa
+Sterechinus antarcticus,Bacillariophyta
+Sterechinus antarcticus,Foraminifera
+Sterechinus antarcticus,Porifera
+Sterechinus antarcticus,Detritus
+Ctenocidaris gigantea,Bivalvia
+Ctenocidaris gigantea,Bryozoa
+Ctenocidaris gigantea,Crustacea
+Ctenocidaris gigantea,Zooplankton
+Ctenocidaris gigantea,Hydrozoa
+Ctenocidaris gigantea,Polychaeta
+Ctenocidaris gigantea,Porifera
+Ctenocidaris gigantea,Detritus
+Ctenocidaris spinosa,Yoldiella eightsi
+Ctenocidaris spinosa,Bryozoa
+Ctenocidaris spinosa,Zooplankton
+Ctenocidaris spinosa,Foraminifera
+Ctenocidaris spinosa,Hydrozoa
+Ctenocidaris spinosa,Polychaeta
+Ctenocidaris spinosa,Porifera
+Ctenocidaris spinosa,Detritus
+Notocidaris mortenseni,Bryozoa
+Notocidaris mortenseni,Zooplankton
+Notocidaris mortenseni,Hydrozoa
+Notocidaris mortenseni,Porifera
+Notocidaris mortenseni,Detritus
+Abatus curvidens,Detritus
+Abatus cavernosus ,Detritus
+Abatus nimrodi,Detritus
+Abatus shackeltoni,Detritus
+Austrocidaris canaliculata,Foraminifera
+Austrocidaris canaliculata,Gastropoda
+Aporocidaris milleri,Polychaeta
+Aporocidaris milleri,Foraminifera
+Aporocidaris milleri,Hydrozoa
+Aporocidaris milleri,Gastropoda
+Aporocidaris milleri,Amphipoda
+Ctenocidaris perrieri,Polychaeta
+Ctenocidaris perrieri,Bryozoa
+Ctenocidaris perrieri,Eunoe spica
+Ctenocidaris perrieri,Porifera
+Ctenocidaris perrieri,Foraminifera
+Ctenocidaris gilberti,Porifera
+Ctenocidaris gilberti,Foraminifera
+Ctenocidaris gilberti,Bryozoa
+Mesothuria lactea,Detritus
+Achlyonice violaecuspidata,Detritus
+Bathyplotes gourdoni,Detritus
+Bathyplotes bongraini,Detritus
+Scotoplanes globosa,Detritus
+Molpadia musculus,Detritus
+Ypsilocucumis turricata,Detritus
+Psolidium incertum,Detritus
+Trachythyone parva,Detritus
+Ekmocucumis steineni,Detritus
+Ekmocucumis steineni,Phytoplankton
+Abyssocucumis liouvillei,Detritus
+Abyssocucumis liouvillei,Phytoplankton
+Psolus dubiosus,Detritus
+Psolus dubiosus,Phytoplankton
+Psolus charcoti,Detritus
+Psolus charcoti,Phytoplankton
+Psolus antarcticus,Detritus
+Psolus antarcticus,Phytoplankton
+Echinopsolus acanthocola,Detritus
+Echinopsolus acanthocola,Phytoplankton
+Ekmocucumis turqueti,Detritus
+Ekmocucumis turqueti,Phytoplankton
+Taeniogyrus contortus,Detritus
+Taeniogyrus contortus,Phytoplankton
+Silicularia rosea,Bacillariophyta
+Silicularia rosea,Tintinnidae
+Silicularia rosea,Zooplankton
+Silicularia rosea,Nematoda
+Silicularia rosea,Detritus
+Silicularia rosea,Crustacea
+Tubularia ralphii,Copepoda
+Tubularia ralphii,Zooplankton
+Tubularia ralphii,Detritus
+Oswaldella antarctica,Bacillariophyta
+Monocaulus parvula,Bacillariophyta
+Monocaulus parvula,Amphipoda
+Monocaulus parvula,Copepoda
+Monocaulus parvula,Zooplankton
+Monocaulus parvula,Hydrozoa
+Monocaulus parvula,Detritus
+Bargmannia sp.,Euphausiacea
+Bargmannia sp.,Zooplankton
+Solmundella bitentaculata,Pteropoda
+Solmundella bitentaculata,Limacina helicina 
+Solmundella bitentaculata,Salpa thompsoni
+Solmundella bitentaculata,Eukrohnia hamata
+Solmundella bitentaculata,Polychaeta
+Solmundella bitentaculata,Euphausiacea
+Dipulmaris antarctica,Copepoda
+Dipulmaris antarctica,Zooplankton
+Dipulmaris antarctica,Ctenophora
+Dipulmaris antarctica,Pteropoda
+Dipulmaris antarctica,Limacina helicina 
+Dipulmaris antarctica,Clione antarctica
+Desmonema glaciale,Euphausiacea
+Desmonema glaciale,Fish
+Desmonema glaciale,Asteroidea
+Desmonema glaciale,Odontaster validus
+Desmonema glaciale,Nemertini
+Urticinopsis antarctica,Asteroidea
+Urticinopsis antarctica,Odontaster validus
+Urticinopsis antarctica,Perknaster fuscus
+Urticinopsis antarctica,Diplasterias brucei
+Urticinopsis antarctica,Echinoidea
+Urticinopsis antarctica,Sterechinus neumayeri
+Isotealia antarctica,Bacillariophyta
+Isotealia antarctica,Copepoda
+Isotealia antarctica,Polychaeta
+Isotealia antarctica,Ctenophora
+Isotealia antarctica,Eunoe spica
+Edwardsia meridionalis,Bacillariophyta
+Edwardsia meridionalis,Copepoda
+Edwardsia meridionalis,Zooplankton
+Edwardsia meridionalis,Polychaeta
+Edwardsia meridionalis,Tanaidacea
+Edwardsia meridionalis,Detritus
+Primnoisis antarctica,Zooplankton
+Primnoisis antarctica,Phytoplankton
+Gersemia antarctica,Bacillariophyta
+Gersemia antarctica,Foraminifera
+Gersemia antarctica,Detritus
+Clavularia frankliniana,Bacillariophyta
+Clavularia frankliniana,Foraminifera
+Clavularia frankliniana,Phytoplankton
+Clavularia frankliniana,Nematoda
+Clavularia frankliniana,Zooplankton
+Primnoella sp.,Phytoplankton
+Primnoella sp.,Detritus
+Alcyonium antarcticum,Phytoplankton
+Anthomastus bathyproctus,Bacillariophyta
+Anthomastus bathyproctus,Detritus
+Anthomastus bathyproctus,Salpa thompsoni
+Nuttallochiton mirandus,Bryozoa
+Nuttallochiton mirandus,Porifera
+Nuttallochiton mirandus,Foraminifera
+Callochiton gaussi,Bryozoa
+Notaeolidia gigas,Hydrozoa
+Notaeolidia gigas,Tubularia
+Notaeolidia gigas,Urticinopsis antarctica
+Notaeolidia gigas,Anthozoa
+Notaeolidia gigas,Clavularia frankliniana
+Doris kerguelenensis,Rossella racovitzae
+Doris kerguelenensis,Rossella nuda
+Doris kerguelenensis,Scolymastra joubini
+Doris kerguelenensis,Tetilla leptoderma
+Doris kerguelenensis,Haliclona dancoi
+Doris kerguelenensis,Mycale acerata
+Doris kerguelenensis,Polymastia invaginata
+Doris kerguelenensis,Haliclona tenella
+Doris kerguelenensis,Calyx arcuarius
+Doris kerguelenensis,Isodyctia steifera
+Trophon longstaffi,Bivalvia
+Trophon longstaffi,Yoldiella eightsi
+Tritonia antarctica,Sediment
+Tritonia antarctica,Cephalodiscus sp.
+Aegires albus,Porifera
+Bathydoris clavigera,Porifera
+Bathydoris clavigera,Echinoidea
+Bathydoris clavigera,Urticinopsis antarctica
+Bathydoris clavigera,Anthozoa
+Bathydoris clavigera,Foraminifera
+Bathydoris clavigera,Hydrozoa
+Bathydoris clavigera,Sediment
+Tritoniella belli,Ascidiacea
+Tritoniella belli,Porifera
+Tritoniella belli,Bryozoa
+Tritoniella belli,Cephalodiscus sp.
+Tritoniella belli,Detritus
+Harpovoluta charcoti,Phytoplankton
+Puncturella conica,Porifera
+Puncturella conica,Foraminifera
+Puncturella conica,Bryozoa
+Puncturella conica,Bacillariophyta
+Puncturella conica,Sediment
+Neobuccinum eatoni,Bivalvia
+Neobuccinum eatoni,Adamussium colbecki
+Neobuccinum eatoni,Laternula elliptica
+Neobuccinum eatoni,Crustacea
+Neobuccinum eatoni,Fish
+Marseniopsis mollis,Yoldiella eightsi
+Marseniopsis mollis,Cnemidocarpa verrucosa
+Parmaphorella mawsoni,Sediment
+Parmaphorella mawsoni,Bacillariophyta
+Parmaphorella mawsoni,Porifera
+Parmaphorella mawsoni,Detritus
+Amauropis rossiana,Philobrya sublaevis
+Amauropis rossiana,Trophon longstaffi
+Amauropis rossiana,Cyclocardia astartoides
+Amauropis rossiana,Euphausia superba
+Pontiothauma ergata,Nemertini
+Cylichna sp.,Polychaeta
+Cylichna sp.,Scaphopoda
+Clione limacina,Limacina helicina 
+Clione limacina,Clione antarctica
+Clione antarctica,Limacina helicina 
+Clione antarctica,Clione antarctica
+Clio pyramidata,Copepoda
+Clio pyramidata,Oithona sp.
+Clio pyramidata,Pelagobia longicirrata
+Clio pyramidata,Gnathia calva
+Limacina helicina antarctica,Zooplankton
+Pareledone charcoti,Yoldiella eightsi
+Pareledone charcoti,Crustacea
+Pareledone charcoti,Fish
+Pareledone charcoti,Polychaeta
+Pareledone charcoti,Eukrohnia hamata
+Pareledone charcoti,Siphonophora
+Pareledone charcoti,Glyptonotus antarcticus
+Pareledone charcoti,Sterechinus neumayeri
+Pareledone antarctica,Isopoda
+Psychroteuthis glacialis ,Chionodraco hamatus
+Psychroteuthis glacialis ,Chaenodraco wilsoni
+Psychroteuthis glacialis ,Crustacea
+Psychroteuthis glacialis ,Fish
+Psychroteuthis glacialis ,Myctophidae
+Psychroteuthis glacialis ,Euphausia superba
+Psychroteuthis glacialis ,Pleuragramma antarcticum
+Psychroteuthis glacialis ,Psychroteuthis glacialis
+Moroteuthis ingens,Copepoda
+Moroteuthis ingens,Epimeria robusta
+Moroteuthis ingens,Squid
+Moroteuthis ingens,Myctophidae
+Moroteuthis ingens,Electrona antarctica
+Moroteuthis ingens,Cyllopus lucasii
+Alluroteuthis antarcticus,Euphausia superba
+Alluroteuthis antarcticus,Pleuragramma antarcticum
+Alluroteuthis antarcticus,Psychroteuthis glacialis
+Galiteuthis glacialis,Euphausia superba
+Kondakovia longimama,Euphausia superba
+Gonatus antarcticus,Cyllopus lucasii
+Gonatus antarcticus,Fish
+Gonatus antarcticus,Euphausia superba
+Mesonychoteuthis hamiltoni,Squid
+Mesonychoteuthis hamiltoni,Eukrohnia hamata
+Martialia hyadesi,Euphausia superba
+Martialia hyadesi,Gonatus antarcticus
+Martialia hyadesi,Gymnoscopelus nicholsi
+Martialia hyadesi,Chionodraco hamatus
+Martialia hyadesi,Protomyctophum bolini
+Martialia hyadesi,Psychroteuthis glacialis
+Cyclocardia astartoides,Bacillariophyta
+Cyclocardia astartoides,Detritus
+Yolida eightsi,Detritus
+Yolida eightsi,Bacillariophyta
+Laternula elliptica,Bacillariophyta
+Laternula elliptica,Detritus
+Limopsis lillei,Bacillariophyta
+Limopsis lillei,Detritus
+Limopsis marionensis,Bacillariophyta
+Limopsis marionensis,Detritus
+Lissarca notorcadensis,Bacillariophyta
+Lissarca notorcadensis,Detritus
+Propeleda longicaudata,Bacillariophyta
+Propeleda longicaudata,Detritus
+Cadulus (polychides) dalli antarcticum,Bacillariophyta
+Cadulus (polychides) dalli antarcticum,Detritus
+Dentalium (Fissidentalium) majorinum,Bacillariophyta
+Dentalium (Fissidentalium) majorinum,Detritus
+Cinachyra antarctica,Bacteria
+Cinachyra antarctica,Phytoplankton
+Cinachyra antarctica,Detritus
+Cinachyra barbata,Bacteria
+Cinachyra barbata,Phytoplankton
+Cinachyra barbata,Detritus
+Iophon radiatus,Bacteria
+Iophon radiatus,Phytoplankton
+Iophon radiatus,Detritus
+Kirkpatrickia variolosa,Bacteria
+Kirkpatrickia variolosa,Phytoplankton
+Kirkpatrickia variolosa,Detritus
+Rossella racovitzae,Bacteria
+Rossella racovitzae,Phytoplankton
+Rossella racovitzae,Detritus
+Stylocordyla borealis,Bacteria
+Stylocordyla borealis,Phytoplankton
+Stylocordyla borealis,Detritus
+Homaxinella balfourensis,Bacteria
+Homaxinella balfourensis,Phytoplankton
+Homaxinella balfourensis,Detritus
+Scolymastra joubini,Bacteria
+Scolymastra joubini,Phytoplankton
+Scolymastra joubini,Detritus
+Tetilla leptoderma,Bacteria
+Tetilla leptoderma,Phytoplankton
+Tetilla leptoderma,Detritus
+Haliclona dancoi,Bacteria
+Haliclona dancoi,Phytoplankton
+Haliclona dancoi,Detritus
+Mycale acerata,Bacteria
+Mycale acerata,Phytoplankton
+Mycale acerata,Detritus
+Rossella antarctica,Bacteria
+Rossella antarctica,Phytoplankton
+Rossella antarctica,Detritus
+Haliclona tenella,Bacteria
+Haliclona tenella,Phytoplankton
+Haliclona tenella,Detritus
+Calyx arcuarius,Bacteria
+Calyx arcuarius,Phytoplankton
+Calyx arcuarius,Detritus
+Isodyctia steifera,Bacteria
+Isodyctia steifera,Phytoplankton
+Isodyctia steifera,Detritus
+Axociella nidificata,Bacteria
+Axociella nidificata,Phytoplankton
+Axociella nidificata,Detritus
+Rossella nuda,Bacteria
+Rossella nuda,Phytoplankton
+Rossella nuda,Detritus
+Beroe cucumis,Ctenophora
+Beroe cucumis,Pelagobia longicirrata
+Lyrocteis flavopallidus,Phytoplankton
+Mertensiid ctenophore,Pteropoda
+Mertensiid ctenophore,Clione antarctica
+Mertensiid ctenophore,Zooplankton
+Mertensiid ctenophore,Copepoda
+Mertensiid ctenophore,Euchaeta antarctica
+Mertensiid ctenophore,Mysidacea
+Callianira antarctica,Zooplankton
+Callianira antarctica,Copepoda
+Baseodiscus antarcticus,Porifera
+Baseodiscus antarcticus,Homaxinella balfourensis
+Baseodiscus antarcticus,Bacillariophyta
+Baseodiscus antarcticus,Polychaeta
+Baseodiscus antarcticus,Fish
+Baseodiscus antarcticus,Actinaria
+Baseodiscus antarcticus,Asteroidea
+Baseodiscus antarcticus,Ctenophora
+Baseodiscus antarcticus,Crustacea
+Baseodiscus antarcticus,Bivalvia
+Baseodiscus antarcticus,Adamussium colbecki
+Lineus longifissus,Homaxinella balfourensis
+Lineus longifissus,Bacillariophyta
+Lineus longifissus,Polychaeta
+Lineus longifissus,Fish
+Lineus longifissus,Actinaria
+Lineus longifissus,Asteroidea
+Lineus longifissus,Ctenophora
+Lineus longifissus,Crustacea
+Lineus longifissus,Bivalvia
+Lineus longifissus,Adamussium colbecki
+Lineus longifissus,Porifera
+Parborlasia corrugatus,Homaxinella balfourensis
+Parborlasia corrugatus,Bacillariophyta
+Parborlasia corrugatus,Polychaeta
+Parborlasia corrugatus,Fish
+Parborlasia corrugatus,Actinaria
+Parborlasia corrugatus,Asteroidea
+Parborlasia corrugatus,Ctenophora
+Parborlasia corrugatus,Crustacea
+Parborlasia corrugatus,Bivalvia
+Parborlasia corrugatus,Adamussium colbecki
+Phascolion strombi,Detritus
+Golfingia nordenskojoeldi,Detritus
+Golfingia mawsoni,Detritus
+Golfingia ohlini,Detritus
+Golfingia anderssoni,Detritus
+Golfingia margaritacea margaritacea,Detritus
+Alomasoma belyaevi,Detritus
+Echiurus antarcticus,Detritus
+Hamingia sp.,Detritus
+Maxmuelleria faex,Detritus
+Alcyonidium sp.,Nanoplankton
+Alcyonidium sp.,Bacillariophyta
+Alcyonidium sp.,Detritus
+Camptoplites tricornis,Nanoplankton
+Camptoplites tricornis,Bacillariophyta
+Camptoplites tricornis,Detritus
+Nematroflustra flagellata,Nanoplankton
+Nematroflustra flagellata,Bacillariophyta
+Nematroflustra flagellata,Detritus
+Cellarinella sp.,Nanoplankton
+Cellarinella sp.,Bacillariophyta
+Cellarinella sp.,Detritus
+Melicerita obliqua,Nanoplankton
+Melicerita obliqua,Bacillariophyta
+Melicerita obliqua,Detritus
+Systenopora contracta,Nanoplankton
+Systenopora contracta,Bacillariophyta
+Systenopora contracta,Detritus
+Reteporella hippocrepis,Nanoplankton
+Reteporella hippocrepis,Bacillariophyta
+Reteporella hippocrepis,Detritus
+Pemmatoporella sp.,Nanoplankton
+Pemmatoporella sp.,Bacillariophyta
+Pemmatoporella sp.,Detritus
+Isoschizoporella tricuspis,Nanoplankton
+Isoschizoporella tricuspis,Bacillariophyta
+Isoschizoporella tricuspis,Detritus
+Bostrychopora dentata,Nanoplankton
+Bostrychopora dentata,Bacillariophyta
+Bostrychopora dentata,Detritus
+Liothyrella uva,Detritus
+Magellania joubini,Detritus
+Magellania fragilis,Detritus
+Crania lecointei,Detritus
+Composothyris racovitzae,Detritus
+Liothyrella uva antarctica,Detritus
+Eukrohnia hamata,Copepoda
+Eukrohnia hamata,Calanus propinquus
+Eukrohnia hamata,Metridia gerlachei
+Sagitta gazellae,Euchaeta antarctica
+Sagitta gazellae,Metridia gerlachei
+Sagitta marri,Copepoda
+Sagitta marri,Oithona sp.
+Sagitta marri,Oncaea sp.
+Sagitta marri,Metridia gerlachei
+Sagitta marri,Ostracoda
+Sagitta marri,Pelagobia longicirrata
+Cephalodiscus sp.,Detritus
+Molgula pedunculata,Bacillariophyta
+Molgula pedunculata,Detritus
+Molgula pedunculata,Nanoplankton
+Molgula pedunculata,Bacteria
+Ascidia challengeri,Bacillariophyta
+Ascidia challengeri,Detritus
+Ascidia challengeri,Nanoplankton
+Ascidia challengeri,Bacteria
+Corella eumyota,Bacillariophyta
+Corella eumyota,Detritus
+Corella eumyota,Nanoplankton
+Corella eumyota,Bacteria
+Aplidium vastum ,Bacillariophyta
+Aplidium vastum ,Detritus
+Aplidium vastum ,Nanoplankton
+Aplidium vastum ,Bacteria
+Synoicum adareanum,Bacillariophyta
+Synoicum adareanum,Detritus
+Synoicum adareanum,Nanoplankton
+Synoicum adareanum,Bacteria
+Cnemidocarpa verrucosa,Bacillariophyta
+Cnemidocarpa verrucosa,Detritus
+Cnemidocarpa verrucosa,Nanoplankton
+Cnemidocarpa verrucosa,Bacteria
+Salpa thompsoni,Bacillariophyta
+Salpa thompsoni,SilicioZooplanktons
+Salpa thompsoni,Zooplankton
+Salpa thompsoni,Tintinnidae
+Salpa thompsoni,Foraminifera
+Salpa thompsoni,Phytoplankton
+Salpa thompsoni,Detritus
+Salpa thompsoni,Copepoda
+Salpa thompsoni,Oithona sp.
+Salpa thompsoni,Oncaea sp.
+Salpa thompsoni,Euchaeta antarctica
+Salpa thompsoni,Calanus propinquus
+Salpa thompsoni,Metridia gerlachei
+Salpa thompsoni,Limacina helicina 
+Salpa thompsoni,Pelagobia longicirrata
+Salpa thompsoni,Eukrohnia hamata
+Salpa gerlachei,Phytoplankton
+Salpa gerlachei,Bacillariophyta
+Ihlea racovitzai,Phytoplankton
+Ihlea racovitzai,Bacillariophyta
+Artedidraco orianae,Epimeria macrodonta
+Artedidraco orianae,Epimeria robusta
+Artedidraco orianae,Iphimediella cyclogena
+Artedidraco orianae,Liljeborgia georgiana
+Artedidraco orianae,Cyllopus lucasii
+Artedidraco orianae,Copepoda
+Artedidraco orianae,Gnathia calva
+Artedidraco orianae,Isopoda
+Artedidraco orianae,Natatolana obtusata
+Artedidraco orianae,Euphausiacea
+Artedidraco orianae,Ostracoda
+Artedidraco orianae,Pantopoda
+Artedidraco orianae,Polychaeta
+Artedidraco orianae,Eunoe spica
+Artedidraco loennbergi,Crustacea
+Artedidraco loennbergi,Amphipoda
+Artedidraco loennbergi,Isopoda
+Artedidraco loennbergi,Tanaidacea
+Artedidraco loennbergi,Cumacea
+Artedidraco loennbergi,Copepoda
+Artedidraco loennbergi,Polychaeta
+Artedidraco loennbergi,Gastropoda
+Artedidraco loennbergi,Actinaria
+Artedidraco shackletoni,Crustacea
+Artedidraco shackletoni,Isopoda
+Artedidraco shackletoni,Polychaeta
+Artedidraco skottsbergi,Crustacea
+Artedidraco skottsbergi,Amphipoda
+Artedidraco skottsbergi,Isopoda
+Artedidraco skottsbergi,Cumacea
+Artedidraco skottsbergi,Ostracoda
+Artedidraco skottsbergi,Polychaeta
+Artedidraco skottsbergi,Gastropoda
+Artedidraco skottsbergi,Urticinopsis antarctica
+Artedidraco skottsbergi,Anthozoa
+Dolloidraco longedorsalis,Crustacea
+Dolloidraco longedorsalis,Amphipoda
+Dolloidraco longedorsalis,Isopoda
+Dolloidraco longedorsalis,Tanaidacea
+Dolloidraco longedorsalis,Mysidacea
+Dolloidraco longedorsalis,Euphausiacea
+Dolloidraco longedorsalis,Cumacea
+Dolloidraco longedorsalis,Ostracoda
+Dolloidraco longedorsalis,Copepoda
+Dolloidraco longedorsalis,Polychaeta
+Dolloidraco longedorsalis,Bivalvia
+Dolloidraco longedorsalis,Gastropoda
+Dolloidraco longedorsalis,Scaphopoda
+Dolloidraco longedorsalis,Hydrozoa
+Dolloidraco longedorsalis,Urticinopsis antarctica
+Dolloidraco longedorsalis,Anthozoa
+Dolloidraco longedorsalis,Actinaria
+Pogonophryne marmorata,Epimeria macrodonta
+Pogonophryne marmorata,Epimeria robusta
+Pogonophryne marmorata,Iphimediella cyclogena
+Pogonophryne marmorata,Liljeborgia georgiana
+Pogonophryne marmorata,Cyllopus lucasii
+Pogonophryne marmorata,Isopoda
+Pogonophryne marmorata,Zooplankton
+Pogonophryne marmorata,Euphausiacea
+Pogonophryne marmorata,Polychaeta
+Pogonophryne phyllopogon,Crustacea
+Pogonophryne phyllopogon,Amphipoda
+Pogonophryne phyllopogon,Isopoda
+Pogonophryne phyllopogon,Mysidacea
+Pogonophryne phyllopogon,Polychaeta
+Pogonophryne phyllopogon,Crinoidea
+Pogonophryne permitini,Crustacea
+Pogonophryne permitini,Amphipoda
+Pogonophryne permitini,Isopoda
+Pogonophryne permitini,Mysidacea
+Pogonophryne permitini,Polychaeta
+Pogonophryne permitini,Hydrozoa
+Pogonophryne permitini,Scaphopoda
+Pogonophryne scotti,Fish
+Pogonophryne barsukovi,Fish
+Cygnodraco mawsoni,Crustacea
+Cygnodraco mawsoni,Amphipoda
+Cygnodraco mawsoni,Decapoda
+Cygnodraco mawsoni,Mysidacea
+Cygnodraco mawsoni,Euphausia crystallorophias
+Cygnodraco mawsoni,Pteropoda
+Cygnodraco mawsoni,Fish
+Gerlachea australis,Crustacea
+Gerlachea australis,Amphipoda
+Gerlachea australis,Mysidacea
+Gerlachea australis,Euphausiacea
+Gerlachea australis,Euphausia crystallorophias
+Gymnodraco acuticeps,Euphausiacea
+Gymnodraco acuticeps,Amphipoda
+Gymnodraco acuticeps,Polychaeta
+Gymnodraco acuticeps,Zooplankton
+Gymnodraco acuticeps,Fish
+Prionodraco evansii,Copepoda
+Prionodraco evansii,Euphausiacea
+Prionodraco evansii,Eukrohnia hamata
+Prionodraco evansii,Mysidacea
+Prionodraco evansii,Cumacea
+Prionodraco evansii,Isopoda
+Prionodraco evansii,Amphipoda
+Prionodraco evansii,Ostracoda
+Prionodraco evansii,Polychaeta
+Racovitzia glacialis,Amphipoda
+Racovitzia glacialis,Isopoda
+Racovitzia glacialis,Tanaidacea
+Racovitzia glacialis,Mysidacea
+Racovitzia glacialis,Polychaeta
+Racovitzia glacialis,Fish
+Chaenodraco wilsoni,Euphausiacea
+Chaenodraco wilsoni,Mysidacea
+Chionodraco hamatus,Euphausiacea
+Chionodraco hamatus,Copepoda
+Chionodraco hamatus,Fish
+Chionodraco myersi,Euphausiacea
+Chionodraco myersi,Fish
+Cryodraco antarcticus,Euphausiacea
+Cryodraco antarcticus,Pleuragramma antarcticum
+Dacodraco hunteri,Nototheniidae
+Pagetopsis maculatus,Crustacea
+Pagetopsis maculatus,Euphausiacea
+Pagetopsis maculatus,Euphausia crystallorophias
+Pagetopsis maculatus,Euphausia superba
+Pagetopsis maculatus,Fish
+Aethotaxis mitopteryx,Crustacea
+Aethotaxis mitopteryx,Amphipoda
+Aethotaxis mitopteryx,Isopoda
+Aethotaxis mitopteryx,Mysidacea
+Aethotaxis mitopteryx,Cumacea
+Aethotaxis mitopteryx,Copepoda
+Aethotaxis mitopteryx,Polychaeta
+Dissostichus mawsoni,Fish
+Dissostichus mawsoni,Myctophidae
+Dissostichus mawsoni,Bathylagus antarcticus
+Dissostichus mawsoni,Nototheniidae
+Dissostichus mawsoni,Dissostichus mawsoni
+Dissostichus mawsoni,Harpagifer antarcticus
+Dissostichus mawsoni,Macrourus whitsoni
+Dissostichus mawsoni,Octopoda
+Dissostichus mawsoni,Galiteuthis glacialis
+Dissostichus mawsoni,Gonatus antarcticus
+Dissostichus mawsoni,Kondakovia longimama
+Dissostichus mawsoni,Moroteuthis ingens
+Dissostichus mawsoni,Vampryoteuthis
+Dissostichus mawsoni,Crustacea
+Dissostichus mawsoni,Amphipoda
+Trematomus eulepidotus,Zooplankton
+Trematomus eulepidotus,Fish
+Trematomus eulepidotus,Isopoda
+Trematomus eulepidotus,Cyllopus lucasii
+Trematomus eulepidotus,Amphipoda
+Trematomus eulepidotus,Epimeria robusta
+Trematomus eulepidotus,Mysidacea
+Trematomus eulepidotus,Euphausia superba
+Trematomus eulepidotus,Euphausia crystallorophias
+Trematomus eulepidotus,Copepoda
+Trematomus eulepidotus,Metridia gerlachei
+Trematomus eulepidotus,Euchaeta antarctica
+Trematomus eulepidotus,Oncaea curvata
+Trematomus eulepidotus,Ostracoda
+Trematomus eulepidotus,Crustacea
+Trematomus eulepidotus,Polychaeta
+Trematomus eulepidotus,Gastropoda
+Trematomus lepidorhinus ,Isopoda
+Trematomus lepidorhinus ,Amphipoda
+Trematomus lepidorhinus ,Epimeria robusta
+Trematomus lepidorhinus ,Mysidacea
+Trematomus lepidorhinus ,Mysida
+Trematomus lepidorhinus ,Decapoda
+Trematomus lepidorhinus ,Euphausia crystallorophias
+Trematomus lepidorhinus ,Euphausia superba
+Trematomus lepidorhinus ,Copepoda
+Trematomus lepidorhinus ,Metridia gerlachei
+Trematomus lepidorhinus ,Ostracoda
+Trematomus lepidorhinus ,Crustacea
+Trematomus lepidorhinus ,Polychaeta
+Trematomus lepidorhinus ,Eunoe spica
+Trematomus lepidorhinus ,Laternula elliptica
+Trematomus lepidorhinus ,Gastropoda
+Trematomus loennbergii,Crustacea
+Trematomus loennbergii,Amphipoda
+Trematomus loennbergii,Isopoda
+Trematomus loennbergii,Mysidacea
+Trematomus loennbergii,Euphausia crystallorophias
+Trematomus loennbergii,Euphausia superba
+Trematomus loennbergii,Cumacea
+Trematomus loennbergii,Copepoda
+Trematomus loennbergii,Polychaeta
+Trematomus loennbergii,Gastropoda
+Trematomus loennbergii,Pteropoda
+Trematomus loennbergii,Cyllopus lucasii
+Trematomus loennbergii,Eukrohnia hamata
+Trematomus loennbergii,Fish
+Trematomus loennbergii,Bryozoa
+Trematomus loennbergii,Salpa thompsoni
+Trematomus nicolai,Isopoda
+Trematomus nicolai,Tanaidacea
+Trematomus nicolai,Amphipoda
+Trematomus nicolai,Epimeria robusta
+Trematomus nicolai,Mysidacea
+Trematomus nicolai,Mysida
+Trematomus nicolai,Euphausia superba
+Trematomus nicolai,Euphausia crystallorophias
+Trematomus nicolai,Copepoda
+Trematomus nicolai,Calanoides acutus
+Trematomus nicolai,Metridia gerlachei
+Trematomus nicolai,Crustacea
+Trematomus nicolai,Gastropoda
+Trematomus pennellii,Fish
+Trematomus pennellii,Isopoda
+Trematomus pennellii,Gnathia calva
+Trematomus pennellii,Ceratoserolis meridionalis
+Trematomus pennellii,Natatolana obtusata
+Trematomus pennellii,Aega antarctica
+Trematomus pennellii,Glyptonotus antarcticus
+Trematomus pennellii,Tanaidacea
+Trematomus pennellii,Amphipoda
+Trematomus pennellii,Epimeria robusta
+Trematomus pennellii,Cyllopus lucasii
+Trematomus pennellii,Decapoda
+Trematomus pennellii,Euphausia crystallorophias
+Trematomus pennellii,Euphausia superba
+Trematomus pennellii,Copepoda
+Trematomus pennellii,Ostracoda
+Trematomus pennellii,Crustacea
+Trematomus pennellii,Pentanymphon antarcticum
+Trematomus pennellii,Polychaeta
+Trematomus pennellii,Bivalvia
+Trematomus pennellii,Gastropoda
+Trematomus pennellii,Urticinopsis antarctica
+Trematomus pennellii,Anthozoa
+Trematomus pennellii,Hydrozoa
+Trematomus scotti,Zooplankton
+Trematomus scotti,Crinoidea
+Trematomus scotti,Isopoda
+Trematomus scotti,Gnathia calva
+Trematomus scotti,Natatolana obtusata
+Trematomus scotti,Tanaidacea
+Trematomus scotti,Cumacea
+Trematomus scotti,Amphipoda
+Trematomus scotti,Epimeria robusta
+Trematomus scotti,Cyllopus lucasii
+Trematomus scotti,Mysidacea
+Trematomus scotti,Euphausia crystallorophias
+Trematomus scotti,Euphausia superba
+Trematomus scotti,Copepoda
+Trematomus scotti,Metridia gerlachei
+Trematomus scotti,Calanoides acutus
+Trematomus scotti,Calanus propinquus
+Trematomus scotti,Euchaeta antarctica
+Trematomus scotti,Ostracoda
+Trematomus scotti,Pantopoda
+Trematomus scotti,Polychaeta
+Trematomus scotti,Eunoe hartmanae
+Trematomus scotti,Eunoe spica
+Trematomus scotti,Gastropoda
+Trematomus scotti,Hydrozoa
+Pleuragramma antarcticum,Cyllopus lucasii
+Pleuragramma antarcticum,Copepoda
+Pleuragramma antarcticum,Euphausiacea
+Pleuragramma antarcticum,Salpa thompsoni
+Pleuragramma antarcticum,Myctophidae
+Notothenia marmorata,Ctenophora
+Notothenia marmorata,Hydrozoa
+Notothenia marmorata,Euphausia superba
+Notothenia marmorata,Crustacea
+Notothenia marmorata,Amphipoda
+Notothenia marmorata,Salpa thompsoni
+Notothenia marmorata,Fish
+Notothenia coriiceps,Porifera
+Notothenia coriiceps,Polychaeta
+Notothenia coriiceps,Gastropoda
+Notothenia coriiceps,Zooplankton
+Notothenia coriiceps,Bivalvia
+Notothenia coriiceps,Octopoda
+Notothenia coriiceps,Epimeria robusta
+Notothenia coriiceps,Cyllopus lucasii
+Notothenia coriiceps,Isopoda
+Notothenia coriiceps,Copepoda
+Notothenia coriiceps,Euphausiacea
+Notothenia coriiceps,Salpa thompsoni
+Notothenia coriiceps,Fish
+Trematomus bernacchii,Crustacea
+Trematomus bernacchii,Amphipoda
+Trematomus bernacchii,Isopoda
+Trematomus bernacchii,Copepoda
+Trematomus bernacchii,Cyllopus lucasii
+Trematomus bernacchii,Gastropoda
+Trematomus bernacchii,Echiurida
+Trematomus bernacchii,Sipunculida
+Trematomus bernacchii,Zooplankton
+Trematomus bernacchii,Fish
+Trematomus bernacchii,Bryozoa
+Trematomus bernacchii,Hydrozoa
+Trematomus bernacchii,Polychaeta
+Trematomus bernacchii,Ostracoda
+Trematomus bernacchii,Metridia gerlachei
+Trematomus bernacchii,Epimeria robusta
+Trematomus bernacchii,Tanaidacea
+Trematomus bernacchii,Yoldiella eightsi
+Trematomus hansoni,Zooplankton
+Trematomus hansoni,Fish
+Trematomus hansoni,Trematomus pennellii
+Trematomus hansoni,Trematomus eulepidotus
+Trematomus hansoni,Isopoda
+Trematomus hansoni,Ceratoserolis meridionalis
+Trematomus hansoni,Cyllopus lucasii
+Trematomus hansoni,Amphipoda
+Trematomus hansoni,Decapoda
+Trematomus hansoni,Euphausia superba
+Trematomus hansoni,Euphausia crystallorophias
+Trematomus hansoni,Copepoda
+Trematomus hansoni,Metridia gerlachei
+Trematomus hansoni,Pantopoda
+Trematomus hansoni,Pentanymphon antarcticum
+Trematomus hansoni,Polychaeta
+Trematomus hansoni,Gastropoda
+Trematomus hansoni,Neobuccinum eatoni
+Macrourus holotrachis,Octopoda
+Macrourus holotrachis,Squid
+Macrourus holotrachis,Fish
+Macrourus holotrachis,Crustacea
+Macrourus holotrachis,Amphipoda
+Macrourus whitsoni,Octopoda
+Macrourus whitsoni,Squid
+Macrourus whitsoni,Fish
+Macrourus whitsoni,Crustacea
+Macrourus whitsoni,Polychaeta
+Macrourus whitsoni,Amphipoda
+Electrona antarctica,Amphipoda
+Electrona antarctica,Eukrohnia hamata
+Electrona antarctica,Copepoda
+Electrona antarctica,Calanus propinquus
+Electrona antarctica,Oncaea sp.
+Electrona antarctica,Metridia gerlachei
+Electrona antarctica,Euchaeta antarctica
+Electrona antarctica,Rhincalanus gigas
+Electrona antarctica,Euphausiacea
+Electrona antarctica,Euphausia frigida
+Electrona antarctica,Euphausia superba
+Electrona antarctica,Pelagobia longicirrata
+Electrona antarctica,Thysanoessa macrura
+Electrona antarctica,Gastropoda
+Electrona antarctica,Ostracoda
+Electrona antarctica,Polychaeta
+Harpagifer antarcticus,Crustacea
+Harpagifer antarcticus,Epimeria robusta
+Harpagifer antarcticus,Oradarea edentata
+Harpagifer antarcticus,Djerboa furcipes
+Harpagifer antarcticus,Notocrangon antarcticus
+Harpagifer antarcticus,Natatolana meridionalis
+Harpagifer antarcticus,Isopoda
+Harpagifer antarcticus,Euphausia superba
+Harpagifer antarcticus,Gastropoda
+Harpagifer antarcticus,Bivalvia
+Harpagifer antarcticus,Chiton
+Harpagifer antarcticus,Polychaeta
+Harpagifer antarcticus,Detritus
+Harpagifer antarcticus,Sediment
+Harpagifer antarcticus,Amphipoda
+Bathylagus antarcticus,Foraminifera
+Bathylagus antarcticus,Copepoda
+Bathylagus antarcticus,Oithona sp.
+Bathylagus antarcticus,Oncaea sp.
+Bathylagus antarcticus,Euchaeta antarctica
+Bathylagus antarcticus,Metridia gerlachei
+Bathylagus antarcticus,Zooplankton
+Bathylagus antarcticus,Euphausia superba
+Bathylagus antarcticus,Limacina helicina 
+Bathylagus antarcticus,Coelenterata
+Bathylagus antarcticus,Pelagobia longicirrata
+Bathylagus antarcticus,Eukrohnia hamata
+Bathylagus antarcticus,Sagitta marri
+Notolepis coatsi,Copepoda
+Notolepis coatsi,Oithona sp.
+Notolepis coatsi,Oncaea sp.
+Notolepis coatsi,Euchaeta antarctica
+Notolepis coatsi,Metridia gerlachei
+Notolepis coatsi,Notocrangon antarcticus
+Notolepis coatsi,Euphausia superba
+Notolepis coatsi,Limacina helicina 
+Notolepis coatsi,Coelenterata
+Notolepis coatsi,Pelagobia longicirrata
+Notolepis coatsi,Eukrohnia hamata
+Notolepis coatsi,Sagitta marri
+Notolepis coatsi,Salpa thompsoni
+Gymnoscopelus braueri,Euchaeta antarctica
+Gymnoscopelus braueri,Metridia gerlachei
+Gymnoscopelus braueri,Zooplankton
+Gymnoscopelus braueri,Euphausia superba
+Gymnoscopelus braueri,Limacina helicina 
+Gymnoscopelus braueri,Coelenterata
+Gymnoscopelus braueri,Pelagobia longicirrata
+Gymnoscopelus braueri,Eukrohnia hamata
+Gymnoscopelus braueri,Sagitta marri
+Gymnoscopelus braueri,Salpa thompsoni
+Gymnoscopelus braueri,Copepoda
+Gymnoscopelus braueri,Cyllopus lucasii
+Gymnoscopelus braueri,Clio pyramidata
+Gymnoscopelus opisthopterus,Metridia gerlachei
+Gymnoscopelus opisthopterus,Zooplankton
+Gymnoscopelus opisthopterus,Euphausia superba
+Gymnoscopelus opisthopterus,Limacina helicina 
+Gymnoscopelus opisthopterus,Coelenterata
+Gymnoscopelus opisthopterus,Pelagobia longicirrata
+Gymnoscopelus opisthopterus,Eukrohnia hamata
+Gymnoscopelus opisthopterus,Sagitta marri
+Gymnoscopelus opisthopterus,Salpa thompsoni
+Gymnoscopelus opisthopterus,Copepoda
+Gymnoscopelus opisthopterus,Cyllopus lucasii
+Gymnoscopelus opisthopterus,Clio pyramidata
+Gymnoscopelus opisthopterus,Oithona sp.
+Gymnoscopelus nicholsi,Amphipoda
+Gymnoscopelus nicholsi,Chaetognatha
+Gymnoscopelus nicholsi,Copepoda
+Gymnoscopelus nicholsi,Calanus propinquus
+Gymnoscopelus nicholsi,Oncaea sp.
+Gymnoscopelus nicholsi,Metridia gerlachei
+Gymnoscopelus nicholsi,Euchaeta antarctica
+Gymnoscopelus nicholsi,Rhincalanus gigas
+Gymnoscopelus nicholsi,Euphausiacea
+Gymnoscopelus nicholsi,Euphausia frigida
+Gymnoscopelus nicholsi,Euphausia superba
+Gymnoscopelus nicholsi,Thysanoessa macrura
+Gymnoscopelus nicholsi,Ostracoda
+Gymnoscopelus nicholsi,Fish
+Gymnoscopelus nicholsi,Protomyctophum bolini
+Gymnoscopelus nicholsi,Euphausia crystallorophias
+Protomyctophum bolini,Copepoda
+Protomyctophum bolini,Calanus propinquus
+Protomyctophum bolini,Oncaea sp.
+Protomyctophum bolini,Metridia gerlachei
+Protomyctophum bolini,Euchaeta antarctica
+Protomyctophum bolini,Rhincalanus gigas
+Protomyctophum bolini,Euphausiacea
+Protomyctophum bolini,Chaetognatha
+Protomyctophum bolini,Gastropoda
+Protomyctophum bolini,Thysanoessa macrura
+Protomyctophum bolini,Ostracoda
+Fulmarus glacialoides,Euphausia superba
+Fulmarus glacialoides,Notocrangon antarcticus
+Fulmarus glacialoides,Cyllopus lucasii
+Fulmarus glacialoides,Vibilia antarctica
+Fulmarus glacialoides,Vibilia stebbingi
+Fulmarus glacialoides,Amphipoda
+Fulmarus glacialoides,Eurythenes gryllus
+Fulmarus glacialoides,Crustacea
+Fulmarus glacialoides,Electrona antarctica
+Fulmarus glacialoides,Gymnoscopelus opisthopterus
+Fulmarus glacialoides,Gymnoscopelus braueri
+Fulmarus glacialoides,Notolepis coatsi
+Fulmarus glacialoides,Protomyctophum bolini
+Fulmarus glacialoides,Fish
+Fulmarus glacialoides,Galiteuthis glacialis
+Fulmarus glacialoides,Gonatus antarcticus
+Fulmarus glacialoides,Psychroteuthis glacialis
+Fulmarus glacialoides,Salpa thompsoni
+Thalassoica antarctica,Euphausia superba
+Thalassoica antarctica,Notocrangon antarcticus
+Thalassoica antarctica,Cyllopus lucasii
+Thalassoica antarctica,Vibilia antarctica
+Thalassoica antarctica,Vibilia stebbingi
+Thalassoica antarctica,Amphipoda
+Thalassoica antarctica,Eurythenes gryllus
+Thalassoica antarctica,Crustacea
+Thalassoica antarctica,Electrona antarctica
+Thalassoica antarctica,Gymnoscopelus braueri
+Thalassoica antarctica,Gymnoscopelus nicholsi
+Thalassoica antarctica,Gymnoscopelus opisthopterus
+Thalassoica antarctica,Notolepis coatsi
+Thalassoica antarctica,Protomyctophum bolini
+Thalassoica antarctica,Fish
+Thalassoica antarctica,Galiteuthis glacialis
+Thalassoica antarctica,Gonatus antarcticus
+Thalassoica antarctica,Psychroteuthis glacialis
+Thalassoica antarctica,Detritus
+Halobaena caerulea,Euphausia superba
+Halobaena caerulea,Euphausia frigida
+Halobaena caerulea,Thysanoessa macrura
+Halobaena caerulea,Notocrangon antarcticus
+Halobaena caerulea,Cyllopus lucasii
+Halobaena caerulea,Vibilia antarctica
+Halobaena caerulea,Vibilia stebbingi
+Halobaena caerulea,Amphipoda
+Halobaena caerulea,Eurythenes gryllus
+Halobaena caerulea,Crustacea
+Halobaena caerulea,Electrona antarctica
+Halobaena caerulea,Gymnoscopelus opisthopterus
+Halobaena caerulea,Gymnoscopelus braueri
+Halobaena caerulea,Notolepis coatsi
+Halobaena caerulea,Protomyctophum bolini
+Halobaena caerulea,Fish
+Halobaena caerulea,Pteropoda
+Halobaena caerulea,Salpa thompsoni
+Halobaena caerulea,Detritus
+Daption capense,Euphausia superba
+Daption capense,Notocrangon antarcticus
+Daption capense,Cyllopus lucasii
+Daption capense,Vibilia antarctica
+Daption capense,Vibilia stebbingi
+Daption capense,Amphipoda
+Daption capense,Electrona antarctica
+Daption capense,Gymnoscopelus nicholsi
+Daption capense,Gymnoscopelus braueri
+Daption capense,Gymnoscopelus opisthopterus
+Daption capense,Notolepis coatsi
+Daption capense,Protomyctophum bolini
+Daption capense,Fish
+Daption capense,Galiteuthis glacialis
+Daption capense,Gonatus antarcticus
+Daption capense,Psychroteuthis glacialis
+Daption capense,Salpa thompsoni
+Pagodroma nivea,Euphausia superba
+Pagodroma nivea,Notocrangon antarcticus
+Pagodroma nivea,Cyllopus lucasii
+Pagodroma nivea,Vibilia antarctica
+Pagodroma nivea,Vibilia stebbingi
+Pagodroma nivea,Eurythenes gryllus
+Pagodroma nivea,Crustacea
+Pagodroma nivea,Electrona antarctica
+Pagodroma nivea,Gymnoscopelus braueri
+Pagodroma nivea,Notolepis coatsi
+Pagodroma nivea,Protomyctophum bolini
+Pagodroma nivea,Fish
+Pagodroma nivea,Galiteuthis glacialis
+Pagodroma nivea,Psychroteuthis glacialis
+Pagodroma nivea,Detritus
+Pterodroma brevirostris,Euphausia superba
+Pterodroma brevirostris,Notocrangon antarcticus
+Pterodroma brevirostris,Cyllopus lucasii
+Pterodroma brevirostris,Vibilia antarctica
+Pterodroma brevirostris,Eurythenes gryllus
+Pterodroma brevirostris,Electrona antarctica
+Pterodroma brevirostris,Gymnoscopelus braueri
+Pterodroma brevirostris,Notolepis coatsi
+Pterodroma brevirostris,Protomyctophum bolini
+Pterodroma brevirostris,Fish
+Pterodroma brevirostris,Galiteuthis glacialis
+Macronectes halli,Nototheniidae
+Macronectes halli,Galiteuthis glacialis
+Macronectes halli,Gonatus antarcticus
+Macronectes halli,Kondakovia longimama
+Macronectes halli,Martialia hyadesi
+Macronectes halli,Psychroteuthis glacialis
+Macronectes halli,Squid
+Macronectes halli,Detritus
+Macronectes halli,Vampryoteuthis
+Macronectes halli,Crustacea
+Macronectes giganteus,Nototheniidae
+Macronectes giganteus,Galiteuthis glacialis
+Macronectes giganteus,Gonatus antarcticus
+Macronectes giganteus,Kondakovia longimama
+Macronectes giganteus,Crustacea
+Macronectes giganteus,Detritus
+Procellaria aequinoctialis,Euphausia superba
+Procellaria aequinoctialis,Vibilia antarctica
+Procellaria aequinoctialis,Electrona antarctica
+Procellaria aequinoctialis,Fish
+Procellaria aequinoctialis,Galiteuthis glacialis
+Procellaria aequinoctialis,Gonatus antarcticus
+Procellaria aequinoctialis,Kondakovia longimama
+Procellaria aequinoctialis,Psychroteuthis glacialis
+Procellaria aequinoctialis,Salpa thompsoni
+Oceanites oceanicus,Euphausia superba
+Oceanites oceanicus,Cyllopus lucasii
+Oceanites oceanicus,Vibilia antarctica
+Oceanites oceanicus,Crustacea
+Oceanites oceanicus,Electrona antarctica
+Oceanites oceanicus,Protomyctophum bolini
+Oceanites oceanicus,Fish
+Oceanites oceanicus,Salpa thompsoni
+Sterna vittata,Euphausia superba
+Sterna vittata,Electrona antarctica
+Sterna paradisaea,Euphausia superba
+Sterna paradisaea,Thysanoessa macrura
+Sterna paradisaea,Cyllopus lucasii
+Sterna paradisaea,Vibilia antarctica
+Sterna paradisaea,Amphipoda
+Sterna paradisaea,Electrona antarctica
+Pachyptila desolata,Euphausia superba
+Pachyptila desolata,Thysanoessa macrura
+Pachyptila desolata,Notocrangon antarcticus
+Pachyptila desolata,Cyllopus lucasii
+Pachyptila desolata,Vibilia antarctica
+Pachyptila desolata,Crustacea
+Pachyptila desolata,Electrona antarctica
+Pachyptila desolata,Gymnoscopelus braueri
+Pachyptila desolata,Notolepis coatsi
+Pachyptila desolata,Protomyctophum bolini
+Pachyptila desolata,Fish
+Pachyptila desolata,Salpa thompsoni
+Pachyptila desolata,Calanoides acutus
+Pachyptila desolata,Calanus propinquus
+Pachyptila desolata,Rhincalanus gigas
+Pachyptila desolata,Metridia gerlachei
+Pachyptila desolata,Euchaeta antarctica
+Pachyptila desolata,Copepoda
+Pachyptila desolata,Primno macropa
+Pachyptila desolata,Amphipoda
+Pachyptila desolata,Euphausia frigida
+Pachyptila desolata,Octopoda
+Pachyptila desolata,Gymnoscopelus nicholsi
+Aptenodytes forsteri,Euphausia superba
+Aptenodytes forsteri,Thysanoessa macrura
+Aptenodytes forsteri,Electrona antarctica
+Aptenodytes forsteri,Gymnoscopelus braueri
+Aptenodytes forsteri,Gymnoscopelus opisthopterus
+Aptenodytes forsteri,Notolepis coatsi
+Aptenodytes forsteri,Protomyctophum bolini
+Aptenodytes forsteri,Fish
+Aptenodytes forsteri,Galiteuthis glacialis
+Aptenodytes forsteri,Gonatus antarcticus
+Aptenodytes forsteri,Kondakovia longimama
+Aptenodytes forsteri,Psychroteuthis glacialis
+Pygoscelis adeliae,Euphausia superba
+Pygoscelis adeliae,Thysanoessa macrura
+Pygoscelis adeliae,Cyllopus lucasii
+Pygoscelis adeliae,Electrona antarctica
+Pygoscelis adeliae,Kondakovia longimama
+Pygoscelis adeliae,Psychroteuthis glacialis
+Lobodon carcinophagus ,Euphausia superba
+Lobodon carcinophagus ,Euphausiacea
+Lobodon carcinophagus ,Crustacea
+Lobodon carcinophagus ,Fish
+Lobodon carcinophagus ,Squid
+Lobodon carcinophagus ,Mysidacea
+Lobodon carcinophagus ,Nematoda
+Hydrurga leptonyx ,Fish
+Hydrurga leptonyx ,Squid
+Hydrurga leptonyx ,Euphausiacea
+Hydrurga leptonyx ,Amphipoda
+Hydrurga leptonyx ,Kondakovia longimama
+Hydrurga leptonyx ,Psychroteuthis glacialis
+Arctocephalus gazella ,Euphausiacea
+Arctocephalus gazella ,Fish
+Arctocephalus gazella ,Myctophidae
+Arctocephalus gazella ,Nototheniidae
+Arctocephalus gazella ,Dissostichus mawsoni
+Arctocephalus gazella ,Pygoscelis adeliae
+Arctocephalus gazella ,Amphipoda
+Arctocephalus gazella ,Nematoda
+Arctocephalus gazella ,Electrona antarctica
+Arctocephalus gazella ,Gymnoscopelus nicholsi
+Arctocephalus gazella ,Gymnoscopelus braueri
+Arctocephalus gazella ,Pleuragramma antarcticum
+Arctocephalus gazella ,Protomyctophum bolini
+Arctocephalus gazella ,Trematomus eulepidotus
+Arctocephalus gazella ,Chaenodraco wilsoni
+Arctocephalus gazella ,Chionodraco
+Mirounga leonina ,Myctophidae
+Mirounga leonina ,Gymnoscopelus nicholsi
+Mirounga leonina ,Electrona antarctica
+Mirounga leonina ,Nototheniidae
+Mirounga leonina ,Pleuragramma antarcticum
+Mirounga leonina ,Trematomus hansoni
+Mirounga leonina ,Trematomus eulepidotus
+Mirounga leonina ,Trematomus scotti
+Mirounga leonina ,Trematomus pennellii
+Mirounga leonina ,Dissostichus mawsoni
+Mirounga leonina ,Chionodraco hamatus
+Mirounga leonina ,Chionodraco
+Mirounga leonina ,Fish
+Mirounga leonina ,Squid
+Mirounga leonina ,Alluroteuthis antarcticus
+Mirounga leonina ,Galiteuthis glacialis
+Mirounga leonina ,Gonatus antarcticus
+Mirounga leonina ,Kondakovia longimama
+Mirounga leonina ,Martialia hyadesi
+Mirounga leonina ,Mesonychoteuthis hamiltoni
+Mirounga leonina ,Moroteuthis ingens
+Mirounga leonina ,Psychroteuthis glacialis
+Ommatophoca rossii ,Fish
+Ommatophoca rossii ,Squid
+Ommatophoca rossii ,Psychroteuthis glacialis
+Ommatophoca rossii ,Galiteuthis glacialis
+Ommatophoca rossii ,Alluroteuthis antarcticus
+Ommatophoca rossii ,Kondakovia longimama
+Leptonychotes weddelli,Squid
+Leptonychotes weddelli,Octopoda
+Leptonychotes weddelli,Euphausia crystallorophias
+Leptonychotes weddelli,Pleuragramma antarcticum
+Leptonychotes weddelli,Aethotaxis mitopteryx
+Leptonychotes weddelli,Dissostichus mawsoni
+Leptonychotes weddelli,Trematomus hansoni
+Leptonychotes weddelli,Fish
+Balaenoptera musculus,Dissostichus mawsoni
+Balaenoptera musculus,Champsocephalus gunnari 
+Balaenoptera musculus,Myctophidae
+Balaenoptera musculus,Fish
+Balaenoptera musculus,Squid
+Balaenoptera musculus,Zooplankton
+Balaenoptera musculus,Euphausiacea
+Balaenoptera physalus,Dissostichus mawsoni
+Balaenoptera physalus,Champsocephalus gunnari 
+Balaenoptera physalus,Myctophidae
+Balaenoptera physalus,Fish
+Balaenoptera physalus,Squid
+Balaenoptera physalus,Zooplankton
+Balaenoptera physalus,Euphausiacea
+Balaenoptera acutorostrata,Myctophidae
+Balaenoptera acutorostrata,Fish
+Balaenoptera acutorostrata,Zooplankton
+Balaenoptera acutorostrata,Euphausiacea
+Physeter macrocephalus,Dissostichus mawsoni
+Physeter macrocephalus,Champsocephalus gunnari 
+Physeter macrocephalus,Myctophidae
+Physeter macrocephalus,Fish
+Physeter macrocephalus,Crustacea
+Physeter macrocephalus,Euphausiacea
+Physeter macrocephalus,Squid
+Megaptera novaeangliae,Euphausiacea
+Orcinus orca,Squid
+Orcinus orca,Balaenoptera acutorostrata
+Orcinus orca,Ommatophoca rossii 
+Orcinus orca,Leptonychotes weddelli
+Orcinus orca,Arctocephalus gazella 
+Orcinus orca,Mirounga leonina 
+Orcinus orca,Lobodon carcinophagus 
+Orcinus orca,Hydrurga leptonyx 
+Orcinus orca,Pygoscelis adeliae
+Orcinus orca,Thalassoica antarctica
+Orcinus orca,Halobaena caerulea
+Orcinus orca,Dissostichus mawsoni
+Orcinus orca,Myctophidae
+Orcinus orca,Fish
+Lagenorhynchus cruciger,Dissostichus mawsoni
+Lagenorhynchus cruciger,Champsocephalus gunnari 
+Lagenorhynchus cruciger,Myctophidae
+Lagenorhynchus cruciger,Fish
+Lagenorhynchus cruciger,Squid
+Lagenorhynchus cruciger,Euphausiacea
+Tursiops truncatus,Fish
+Tursiops truncatus,Dissostichus mawsoni
+Tursiops truncatus,Champsocephalus gunnari 
+Tursiops truncatus,Myctophidae
+Tursiops truncatus,Euphausiacea
+Tursiops truncatus,Squid
+Notothenia coriiceps,Waldeckia obesa
+Lepidonotothen nudifrons,Waldeckia obesa
+Bovallia gigantea,Waldeckia obesa
+Ophionotus victoriae,Waldeckia obesa
+Sterechinus neumayeri,Waldeckia obesa
