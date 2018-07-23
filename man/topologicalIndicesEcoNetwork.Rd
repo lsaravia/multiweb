@@ -7,7 +7,7 @@
 topologicalIndicesEcoNetwork(ig)
 }
 \arguments{
-\item{ig}{igraph object}
+\item{ig}{vector of igraph objects}
 }
 \value{
 a data.frame with the following fields:

@@ -2,19 +2,35 @@
 % Please edit documentation in R/functions.r
 \name{readEcoNetwork}
 \alias{readEcoNetwork}
-\title{Read ecological networks in CSV format as edge list or adyacency matrix}
+\title{Read ecological networks in CSV  or tab separated file format as edge list or adyacency matrix}
 \usage{
-readEcoNetwork(fileName)
+readEcoNetwork(fileName, filePath = NULL)
 }
 \arguments{
-\item{fileName}{Filename of the csv formated network}
+\item{fileName}{vector of fileNames with the networks}
 }
 \value{
-an igraph object
+an igraph object if there is only one file or a list of igraph objects named after the list without extension
 }
 \description{
-Read ecological networks in CSV format as edge list or adyacency matrix
+Read ecological networks in CSV  or tab separated file format as edge list or adyacency matrix
 }
 \examples{
-readEcoNetwork("econetwork.csv")
+
+# Reads a network in edge list (interaction list) format, with predators as the first column
+#
+fileName <- system.file("extdata", "WeddellSea_FW.csv", package = "EcoNetwork"))
+g <- readEcoNetwork(fileName)
+
+# Reads a network in adyacency matrix format, with predators as columns
+#
+fileName <- system.file("extdata", "BarentsBoreal_FW.csv", package = "EcoNetwork"))
+g <- readEcoNetwork(fileName)
+
+# Read a vector of files
+#
+\dontrun{
+dn <- list.files("inst/extdata",pattern = "^.*\\\\.csv$")
+netData <- readEcoNetwork(dn,"inst/extdata")
+}
 }

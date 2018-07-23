@@ -2,28 +2,55 @@
 
 
 
-#' Read ecological networks in CSV format as edge list or adyacency matrix
+#' Read ecological networks in CSV  or tab separated file format as edge list or adyacency matrix
 #'
-#' @param fileName Filename of the csv formated network
+#' @param fileName vector of fileNames with the networks
+#' @path  filePath of the files "." by default
 #'
-#' @return an igraph object
+#' @return an igraph object if there is only one file or a list of igraph objects named after the list without extension
 #' @export
 #'
-#' @examples readEcoNetwork("econetwork.csv")
-readEcoNetwork <- function(fileName){
+#' @examples
+#'
+#' # Reads a network in edge list (interaction list) format, with predators as the first column
+#' #
+#' fileName <- system.file("extdata", "WeddellSea_FW.csv", package = "EcoNetwork"))
+#' g <- readEcoNetwork(fileName)
+#'
+#' # Reads a network in adyacency matrix format, with predators as columns
+#' #
+#' fileName <- system.file("extdata", "BarentsBoreal_FW.csv", package = "EcoNetwork"))
+#' g <- readEcoNetwork(fileName)
+#'
+#' # Read a vector of files
+#' #
+#'\dontrun{
+#' dn <- list.files("inst/extdata",pattern = "^.*\\.csv$")
+#' netData <- readEcoNetwork(dn,"inst/extdata")
+#'}
 
-  g <- lapply(fileName, function(fname){
 
-    web <- read.csv(fname,  header = T,check.names = F)
+
+readEcoNetwork <- function(fileName,filePath=NULL){
+
+  fn <-  if(!is.null(filePath)) paste0(filePath,"/",fileName) else fileName
+
+  g <- lapply(fn, function(fname){
+
+    fe <- tools::file_ext(fname)
+    if(fe=="csv")
+      web <- read.csv(fname,  header = T,check.names = F,stringsAsFactors = FALSE)
+    else
+      web <- read.delim(fname,  header = T,check.names = F,stringsAsFactors = FALSE)
 
     if( ncol(web)==2 ){
       web <- web[,c(2,1)]
 
-      g <- graph_from_data_frame(web)
+      g <- igraph::graph_from_data_frame(web)
 
     } else {
       if( (ncol(web)-1) == nrow(web)  ) {                   # The adjacency matrix must be square
-        g <- graph_from_adjacency_matrix(as.matrix(web[,2:ncol(web)]))
+        g <- igraph::graph_from_adjacency_matrix(as.matrix(web[,2:ncol(web)]))
 
       } else {
         g <- NULL
@@ -32,6 +59,12 @@ readEcoNetwork <- function(fileName){
     }
 
   })
+
+  names(g) <- tools::file_path_sans_ext(fileName)
+
+  if(length(g)==1)
+    g <- g[[1]]
+
   return(g)
 }
 
@@ -91,7 +124,7 @@ plotEcoNetworkTrophLevel <- function(g,vertexLabel=FALSE,vertexSizeFactor=5){
 
 #' Calculate topological indices for ecological networks
 #'
-#' @param ig igraph object
+#' @param ig vector of igraph objects
 #'
 #' @return a data.frame with the following fields:
 #'         Size: Number of species

@@ -1,12 +1,12 @@
 Package: EcoNetwork
 Type: Package
 Title: Ecological Networks Analysis 
-Version: 0.0.0.9000
+Version: 0.1.0.9000
 Authors@R: person("Leonardo A.", "Saravia", email = "lsaravia@campus.ungs.edu.ar", 
   role = c("aut", "cre"))
 Description: This package calculates indices for ecological network analysis.
 Depends: R (>= 3.4.4)
-License: MIT
+License:  MIT + file LICENSE
 Encoding: UTF-8
 LazyData: true
 Imports:
