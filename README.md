@@ -1,6 +1,6 @@
 # EcoNetwork 
 
-This is an R package to calculate recently developed network metrics and also some old ones conveniently in the same place. Functions to read, plot and big set of networks are also included in the package. 
+This is an R package to calculate recently developed network metrics and also some old ones conveniently in the same place. Functions to read, plot and a big set of networks are also included in the package. 
 
 ## Instalation 
 

@@ -3,3 +3,7 @@
 export(plotEcoNetworkTrophLevel)
 export(readEcoNetwork)
 export(topologicalIndicesEcoNetwork)
+importFrom(NetIndices,TrophInd)
+importFrom(RColorBrewer,brewer.pal)
+importFrom(igraph,V)
+importFrom(igraph,degree)

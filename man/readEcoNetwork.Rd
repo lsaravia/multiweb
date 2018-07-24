@@ -8,6 +8,8 @@ readEcoNetwork(fileName, filePath = NULL)
 }
 \arguments{
 \item{fileName}{vector of fileNames with the networks}
+
+\item{filePath}{path of the files NULL by default}
 }
 \value{
 an igraph object if there is only one file or a list of igraph objects named after the list without extension

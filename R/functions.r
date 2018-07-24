@@ -5,7 +5,7 @@
 #' Read ecological networks in CSV  or tab separated file format as edge list or adyacency matrix
 #'
 #' @param fileName vector of fileNames with the networks
-#' @path  filePath of the files "." by default
+#' @param filePath path of the files NULL by default
 #'
 #' @return an igraph object if there is only one file or a list of igraph objects named after the list without extension
 #' @export
@@ -28,8 +28,6 @@
 #' dn <- list.files("inst/extdata",pattern = "^.*\\.csv$")
 #' netData <- readEcoNetwork(dn,"inst/extdata")
 #'}
-
-
 
 readEcoNetwork <- function(fileName,filePath=NULL){
 
@@ -79,7 +77,13 @@ readEcoNetwork <- function(fileName,filePath=NULL){
 #' @return a plot
 #' @export
 #'
+#'
+#' @importFrom NetIndices TrophInd
+#' @importFrom igraph     V degree
+#' @importFrom RColorBrewer brewer.pal
 #' @examples
+#'
+#' plotEcoNetworkTrophLevel(netData[[1]])
 plotEcoNetworkTrophLevel <- function(g,vertexLabel=FALSE,vertexSizeFactor=5){
 
   deg <- degree(g, mode="all") # calculate the degree: the number of edges
@@ -94,7 +98,7 @@ plotEcoNetworkTrophLevel <- function(g,vertexLabel=FALSE,vertexSizeFactor=5){
   if(!vertexLabel)
     V(g)$label <- NA
 
-  tl <- TrophInd(get.adjacency(g,sparse=F))  # Calculate the trophic level
+  tl <- NetIndices::TrophInd(get.adjacency(g,sparse=F))  # Calculate the trophic level
 
   # Layout matrix to specify the position of each vertix
   # Rows equal to the number of vertices (species)

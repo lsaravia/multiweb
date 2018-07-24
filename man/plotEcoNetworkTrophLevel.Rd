@@ -19,3 +19,7 @@ a plot
 \description{
 Plot ecological network organized by trophic level, with node size determined by the node degree
 }
+\examples{
+
+plotEcoNetworkTrophLevel(netData[[1]])
+}
