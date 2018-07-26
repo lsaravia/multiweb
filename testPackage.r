@@ -24,3 +24,22 @@ plotTrophLevel(g,vertexLabel = TRUE,vertexSizeFactor = 20)
 calcIncoherence(g)
 
 
+# test with dat files
+#
+
+dn <- list.files("~/Dropbox/Projects/NetworksAsUnifyingPrinciple/Data",pattern = "^.*\\.dat$")
+nets <- readNetwork(dn,"~/Dropbox/Projects/NetworksAsUnifyingPrinciple/Data",fhead=FALSE)
+topologicalIndices(list(netData$CaymanIs_FW,nets$cayman_islands))
+require(RColorBrewer)
+plotTrophLevel(nets$cayman_islands)
+plotTrophLevel(netData$CaymanIs_FW)
+
+# The incoherence parameter seems not well calculated compared to Johnson 2017 Appendix Table S1
+#
+require(igraph)
+
+calcIncoherence(nets$benguela)
+mean(degree(nets$benguela))
+
+calcIncoherence(nets$bridge)
+mean(degree(nets$benguela))

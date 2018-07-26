@@ -6,6 +6,7 @@
 #'
 #' @param fileName vector of fileNames with the networks
 #' @param filePath path of the files NULL by default
+#' @param fhead TRUE if the files have header fields, FALSE otherwise.
 #'
 #' @return an igraph object if there is only one file or a list of igraph objects named after the list without extension
 #' @export
@@ -29,7 +30,7 @@
 #' netData <- readNetwork(dn,"inst/extdata")
 #'}
 
-readNetwork <- function(fileName,filePath=NULL){
+readNetwork <- function(fileName,filePath=NULL,fhead=TRUE){
 
   fn <-  if(!is.null(filePath)) paste0(filePath,"/",fileName) else fileName
 
@@ -37,9 +38,14 @@ readNetwork <- function(fileName,filePath=NULL){
 
     fe <- tools::file_ext(fname)
     if(fe=="csv")
-      web <- read.csv(fname,  header = T,check.names = F,stringsAsFactors = FALSE)
-    else
-      web <- read.delim(fname,  header = T,check.names = F,stringsAsFactors = FALSE)
+      web <- read.csv(fname,  header = fhead,check.names = F,stringsAsFactors = FALSE)
+    else {
+
+      web <- read.delim(fname,  header = fhead,check.names = F,stringsAsFactors = FALSE)
+      if(ncol(web)==1)
+        web <- read.table(fname,header = fhead,check.names = F,stringsAsFactors = FALSE)
+
+    }
 
     if( ncol(web)==2 ){
       web <- web[,c(2,1)]
@@ -52,7 +58,7 @@ readNetwork <- function(fileName,filePath=NULL){
 
       } else {
         g <- NULL
-        warning("Invalid file format: ",fileName)
+        warning("Invalid file format: ",fname)
       }
     }
 
@@ -265,9 +271,9 @@ parTopologicalIndices <- function(ig){
 #' @return a data.frame with the following fields
 #'
 #'       \item{Q}{incoherence (0=coherent)}
-#'      \item{rQ}{ratio of Q with expected Q under null expectation given N=nodes L=links B=basal nodes Lb=basal links}
-#'      \item{mTi}{mean trophic level}
-#'      \item{rTI}{ration of TI with expected TI under the same null}
+#'      \item{rQ}{ratio of Q with expected Q under null expectation of a random network given N=nodes L=links B=basal nodes Lb=basal links}
+#'      \item{mTI}{mean trophic level}
+#'      \item{rTI}{ratio of mTI with expected TI under the same null model expectation}
 #
 #'
 #' @export

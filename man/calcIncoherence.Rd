@@ -15,9 +15,9 @@ calcIncoherence(g, ti = NULL)
 a data.frame with the following fields
 
       \item{Q}{incoherence (0=coherent)}
-     \item{rQ}{ratio of Q with expected Q under null expectation given N=nodes L=links B=basal nodes Lb=basal links}
-     \item{mTi}{mean trophic level}
-     \item{rTI}{ration of TI with expected TI under the same null}
+     \item{rQ}{ratio of Q with expected Q under null expectation of a random network given N=nodes L=links B=basal nodes Lb=basal links}
+     \item{mTI}{mean trophic level}
+     \item{rTI}{ratio of mTI with expected TI under the same null model expectation}
 }
 \description{
 The incoherence index is based in how the species fit in discrete trophic levels

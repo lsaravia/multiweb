@@ -4,12 +4,14 @@
 \alias{readNetwork}
 \title{Read ecological networks in CSV  or tab separated file format as edge list or adyacency matrix}
 \usage{
-readNetwork(fileName, filePath = NULL)
+readNetwork(fileName, filePath = NULL, fhead = TRUE)
 }
 \arguments{
 \item{fileName}{vector of fileNames with the networks}
 
 \item{filePath}{path of the files NULL by default}
+
+\item{fhead}{TRUE if the files have header fields, FALSE otherwise.}
 }
 \value{
 an igraph object if there is only one file or a list of igraph objects named after the list without extension
