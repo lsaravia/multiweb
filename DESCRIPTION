@@ -4,16 +4,15 @@ Title: Ecological Networks Analysis
 Version: 0.1.0.9000
 Authors@R: c( 
         person("Leonardo A.", "Saravia", email = "lsaravia@campus.ungs.edu.ar", role ="cre"),
-        person("Tomas I.", "Marina", email = "tomasimarina@gmail.com", role ="aut"),
-        person("Iara D.", "Rodriguez", email = "irodriguez@campus.ungs.edu.ar", role ="aut"),
-        person("Melina", "Crettaz Minaglia", email = "mcrettaz@campus.ungs.edu.ar", role ="aut"))
+        person("Tomas I.", "Marina", email = "tomasimarina@gmail.com", role ="ctb"),
+        person("Iara D.", "Rodriguez", email = "irodriguez@campus.ungs.edu.ar", role ="ctb"),
+        person("Melina", "Crettaz Minaglia", email = "mcrettaz@campus.ungs.edu.ar", role ="ctb"))
 Description: This package calculates indices for ecological network analysis.
 Depends: R (>= 3.4.4)
 License:  MIT + file LICENSE
 Encoding: UTF-8
 LazyData: true
 Imports:
-    lubridate (>= 1.7.4), 
     igraph (>= 1.1.2),
     NetIndices (>= 1.4.4),
     RColorBrewer (>= 1.1-2),

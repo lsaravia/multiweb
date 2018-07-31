@@ -222,10 +222,9 @@ calcModularitySWnessZScore<- function(g, nsim=1000,sLevel=0.01,paralell=TRUE){
   {
     m<-cluster_spinglass(redes.r[[i]])
     modl <- m$modularity
-    ngrp <- length(m$csize)
     clus.coef <- transitivity(redes.r[[i]], type="Global")
     cha.path  <- average.path.length(redes.r[[i]])
-    data.frame(modularity=modl,ngroups=ngrp,clus.coef=clus.coef,cha.path=cha.path)
+    data.frame(modularity=modl,clus.coef=clus.coef,cha.path=cha.path)
   }
 
   ind$gamma <- t$Clustering/ind$clus.coef
@@ -237,22 +236,32 @@ calcModularitySWnessZScore<- function(g, nsim=1000,sLevel=0.01,paralell=TRUE){
   sLevel <- sLevel/2
   qSW <- quantile(ind$SWness,c(sLevel,1-sLevel),na.rm = TRUE)
   qmo <- quantile(ind$modularity,c(sLevel,1-sLevel))
-  qgr <- quantile(ind$ngroups,c(sLevel,1-sLevel))
 
   mcc <- mean(ind$clus.coef)
   mcp <- mean(ind$cha.path)
 
   zcc <- (t$Clustering-mcc)/sd(ind$clus.coef)
   zcp <- (t$PathLength-mcp)/sd(ind$cha.path)
+  qcc <- quantile(ind$clus.coef,c(sLevel,1-sLevel),na.rm = TRUE)
+  qcp <- quantile(ind$cha.path,c(sLevel,1-sLevel),na.rm = TRUE)
+
+
 
   m<-cluster_spinglass(g)
 
   zmo <- (m$modularity - mean(ind$modularity))/sd(ind$modularity)
-  zgr <- (length(m$csize) - mean(ind$ngroups))/sd(ind$ngroups)
 
   mSW <- mean(t$Clustering/mcc*mcp/t$PathLength)
   mCI <- 1+(qSW[2]-qSW[1])/2
 
-  return(data.frame(Clustering=t$Clustering, PathLength= t$PathLength, Modularity=m$modularity, nGroups=length(m$csize), zCC=zcc,zCP=zcp,zMO=zmo,zGR=zgr,SWness=mSW,SWnessCI=mCI,MOlow=qmo[1],MOhigh=qmo[2],
-                    GRlow=qgr[1],GRhigh=qgr[2]))
+  isLowInsideCPL <- t$PathLength<=qcp[2]
+  isGreaterCC <- t$Clustering>qcc[2]
+  isSW       <- (isLowInsideCPL & isGreaterCC)
+  isSWness   <- (mSW>mCI)
+
+  return(data.frame(Clustering=t$Clustering, PathLength= t$PathLength, Modularity=m$modularity,
+    zCC=zcc,zCP=zcp,zMO=zmo,
+    CClow=qcc[1],CChigh=qcc[2],CPlow=qcp[1],CPhigh=qcp[2],MOlow=qmo[1],MOhigh=qmo[2],
+    SWness=mSW,SWnessCI=mCI,
+    isSW=isSW,isSWness=isSWness))
 }

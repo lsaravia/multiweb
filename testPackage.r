@@ -55,3 +55,9 @@ plotTrophLevel(g,vertexLabel = TRUE,vertexSizeFactor = 20,modules = TRUE)
 title(main="9 species")
 calcIncoherence(g)
 calcModularitySWnessZScore(g,100,0.1,paralell = FALSE)
+
+g <-   graph_from_literal( 1 -+ 4 -+ 7,2 -+ 5 -+ 9, 4+-5,
+                           3 -+ 6 -+ 8,5 -+8, 8-+ 9, simplify = FALSE)
+plotTrophLevel(g,vertexLabel = TRUE,vertexSizeFactor = 20,modules = TRUE)
+calcIncoherence(g)
+calcModularitySWnessZScore(g,100,0.1,paralell = FALSE)
