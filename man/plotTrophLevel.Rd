@@ -4,7 +4,8 @@
 \alias{plotTrophLevel}
 \title{Plot ecological network organized by trophic level, with node size determined by the node degree}
 \usage{
-plotTrophLevel(g, vertexLabel = FALSE, vertexSizeFactor = 5, tk = FALSE)
+plotTrophLevel(g, vertexLabel = FALSE, vertexSizeFactor = 5, tk = FALSE,
+  modules = FALSE, ...)
 }
 \arguments{
 \item{vertexLabel}{logical plot vertex labels}
@@ -13,7 +14,13 @@ plotTrophLevel(g, vertexLabel = FALSE, vertexSizeFactor = 5, tk = FALSE)
 
 \item{tk}{TRUE generate an interactive plot using tkplot}
 
+\item{modules}{FALSE plot modules in the x axis, obtained with the cluster spinglass algorithm}
+
+\item{...}{Addittional parameters to the plot function}
+
 \item{ig}{igraph object}
+
+\item{title}{title for the plot}
 }
 \value{
 a plot

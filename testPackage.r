@@ -13,6 +13,7 @@ netData <- readEcoNetwork(dn,"inst/extdata")
 plotEcoNetworkTrophLevel(netData[[1]])
 
 require(igraph)
+require(NetIndices)
 g <-   graph_from_literal( 1 -+ 4 -+ 7,2 -+ 5 -+7, 3-+6-+7, 7-+7, 4+-3, simplify = FALSE)
 topologicalIndices(g)
 plotTrophLevel(g,vertexLabel = TRUE,vertexSizeFactor = 20)
@@ -22,9 +23,9 @@ g <-   graph_from_literal( 1 -+ 4 -+ 7,2 -+ 5 -+7, 3-+6-+7, 4+-5, simplify = FAL
 topologicalIndices(g)
 plotTrophLevel(g,vertexLabel = TRUE,vertexSizeFactor = 20)
 calcIncoherence(g)
+calcModularitySWnessZScore(g,10,0.1,paralell = FALSE)
 
-
-# test with dat files
+# test reading .dat files
 #
 
 dn <- list.files("~/Dropbox/Projects/NetworksAsUnifyingPrinciple/Data",pattern = "^.*\\.dat$")
@@ -43,3 +44,14 @@ mean(degree(nets$benguela))
 
 calcIncoherence(nets$bridge)
 mean(degree(nets$benguela))
+
+
+# Test modularity
+#
+g <-   graph_from_literal( 1 -+ 4 -+ 7,2 -+ 5 -+ 9, 4+-5,
+                           3 -+ 6 -+ 8,5 -+8, simplify = FALSE)
+topologicalIndices(g)
+plotTrophLevel(g,vertexLabel = TRUE,vertexSizeFactor = 20,modules = TRUE)
+title(main="9 species")
+calcIncoherence(g)
+calcModularitySWnessZScore(g,100,0.1,paralell = FALSE)
