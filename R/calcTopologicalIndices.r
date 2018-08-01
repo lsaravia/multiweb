@@ -179,6 +179,15 @@ calcIncoherence <- function(g,ti=NULL) {
 #'
 #'
 #' @return a data frame with indices z-scores and CI
+#'
+#'       \item{Clustering}{ Clustering coefficient, measures the average fraction of pairs of neighbors of a node that are also neighbors of each other}
+#'       \item{PathLength}{ Mean of the shortest paths between all pair of vertices }
+#'       \item{Modularity}{ modularity measures how separated are different groups from each other, the algorithm \code{cluster_spinglass} was used to obtain the groups}
+#'       \item{zCC,zCP,zMO}{Z-scores of Clustering,PathLength and Modularity with respect to a random Erdos-Renyi null model}
+#'       \item{CClow,CChigh,CPlow,CPhigh,MOlow,MOhigh}{sLevel confidence intervals}
+#'       \item{SWness,SWnessCI}{ Small-world-ness and it CI value}
+#'       \item{isSW,isSWness}{ Logical variable signalling if the network is Small-world by the method of Marina 2018 or the method of Humprhies & Gurney 2008 }
+
 #' @export
 #'
 #' @importFrom foreach foreach %dopar%
