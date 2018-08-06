@@ -2,12 +2,12 @@
 
 fileName <- c(system.file("extdata",  package = "EcoNetwork"))
 fileName <- system.file("extdata", "BarentsBoreal_FW.csv", package = "EcoNetwork")
-g <- readEcoNetwork(fileName)
+g <- readNetwork(fileName)
 
 
 
 dn <- list.files("inst/extdata",pattern = "^.*\\.csv$")
-netData <- readEcoNetwork(dn,"inst/extdata")
+netData <- readNetwork(dn,"inst/extdata")
 
 
 plotEcoNetworkTrophLevel(netData[[1]])

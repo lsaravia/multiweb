@@ -148,11 +148,11 @@ calcIncoherence <- function(g,ti=NULL) {
   if(is.null(ti) )
     ti<-TrophInd(get.adjacency(g,sparse=FALSE))
   v <- ti$TL
-  z <- outer(v,v,'-');
+  z <- round(outer(v,v,'-'),8);
   A <- get.adjacency(g,sparse = FALSE)
   xx <- A>0
   x <- (A*t(z))[xx]
-  Q <- sqrt(sum(x*x-1)/ecount(g) )
+  Q <- round(sqrt(sum((x-1)^2)/ecount(g) ),8)
 
   basal <- which(round(v,8)==1)
   bedges <- sum(degree(g,basal,mode='out'))
