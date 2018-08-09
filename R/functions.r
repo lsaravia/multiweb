@@ -2,11 +2,12 @@
 
 
 
-#' Read ecological networks in CSV  or tab separated file format as edge list or adyacency matrix
+#' Read ecological networks in CSV or tab separated file format as edge list or adyacency matrix
 #'
 #' @param fileName vector of fileNames with the networks
 #' @param filePath path of the files NULL by default
 #' @param fhead TRUE if the files have header fields, FALSE otherwise.
+#' @param skipColum integer, number of columns that are skiped 1 by default
 #'
 #' @return an igraph object if there is only one file or a list of igraph objects named after the list without extension
 #' @export
@@ -30,7 +31,7 @@
 #' netData <- readNetwork(dn,"inst/extdata")
 #'}
 
-readNetwork <- function(fileName,filePath=NULL,fhead=TRUE){
+readNetwork <- function(fileName,filePath=NULL,fhead=TRUE,skipColumn=1){
 
   fn <-  if(!is.null(filePath)) paste0(filePath,"/",fileName) else fileName
 
@@ -53,8 +54,9 @@ readNetwork <- function(fileName,filePath=NULL,fhead=TRUE){
       g <- igraph::graph_from_data_frame(web)
 
     } else {
-      if( (ncol(web)-1) == nrow(web)  ) {                   # The adjacency matrix must be square
-        g <- igraph::graph_from_adjacency_matrix(as.matrix(web[,2:ncol(web)]))
+      if( (ncol(web)-skipColumn) == nrow(web)  ) {                   # The adjacency matrix must be square
+        skipColumn <- skipColumn+1
+        g <- igraph::graph_from_adjacency_matrix(as.matrix(web[,skipColumn:ncol(web)]),mode="directed")
 
       } else {
         g <- NULL
@@ -70,6 +72,50 @@ readNetwork <- function(fileName,filePath=NULL,fhead=TRUE){
     g <- g[[1]]
 
   return(g)
+}
+
+#' Read ecological multiplex networks using different files for each layer as a 'node-aligned' multilayer network
+#'
+#' This functions uses [readNetwork()] to read files that represent network layers that can be
+#'   different interaction types, represented by the type attribute of the igraph object.
+#'
+#' @param fileName vector of fileNames with the layers of the networks
+#' @param types vector of types that represent the layers
+#' @param filePath path of the files NULL by default
+#' @param fhead TRUE if the files have header fields, FALSE otherwise.
+#' @param skipColum integer, number of columns that are skiped 1 by default
+#'
+#' @return an igraph object with the type attribute set to each kind of layer or interaction
+#' @export
+#'
+#' @seealso [readNetwork()]
+#' @examples
+#'
+#' # Read a vector of files
+#' #
+#'\dontrun{
+#'
+#' fpath <- system.file("extdata", package = "EcoNetwork")
+#' dn <- list.files(fpath,pattern = "^Kefi2015.*\\.txt$")
+#' netData <- readMultiplex(dn,c("Competitive","Mutualistic","Trophic"),fpath,skipColum=2)
+#'}
+
+readMultiplex <- function(fileName,types,filePath=NULL,fhead=TRUE,skipColumn=1){
+  g <- readNetwork(fileName=fileName,filePath=filePath, fhead=fhead,skipColumn = skipColumn)
+
+  stopifnot(length(g)==length(types))
+
+  for(t in seq_along(types)){
+    E(g[[t]])$type <- types[t]
+  }
+  gt <- Reduce('+',g)
+  delTypes <- setdiff(edge_attr_names(gt),"type")
+  for(dt in delTypes){
+    E(gt)$type <- ifelse(is.na(E(gt)$type),edge_attr(gt,dt),E(gt)$type)
+    gt <- delete_edge_attr(gt,dt)
+  }
+
+  return(gt)
 }
 
 

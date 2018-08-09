@@ -8,9 +8,9 @@ g <- readNetwork(fileName)
 
 dn <- list.files("inst/extdata",pattern = "^.*\\.csv$")
 netData <- readNetwork(dn,"inst/extdata")
+names(netData)
 
-
-plotEcoNetworkTrophLevel(netData[[1]])
+plotTrophLevel(netData[[1]])
 
 require(igraph)
 require(NetIndices)

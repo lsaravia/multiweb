@@ -10,20 +10,19 @@ topologicalIndices(ig)
 \item{ig}{vector of igraph objects}
 }
 \value{
-a data.frame with the following fields:
-
-        \item{Size:}{Number of species}
-        \item{Top:}{Number of top predator species}
-        \item{Basal:}{Number of basal especies}
-        \item{Omnivory:}{ Number of omnivory species, is the number }
-        \item{Links:}{ number of interactions}
-        \item{LD:}{ linkage density}
-        \item{Connectance:}{ Connectance}
-        \item{PathLength:}{ average path length}
-        \item{Clustering:}{ clustering coeficient}
-        \item{Cannib:}{ number of cannibalistic species}
-        \item{TLmean:}{ mean trophic level}
-        \item{Cannib:}{ maximum trophic level}
+a data.frame with the following fields:\preformatted{    \item{Size:}{Number of species}
+    \item{Top:}{Number of top predator species}
+    \item{Basal:}{Number of basal especies}
+    \item{Omnivory:}{ Number of omnivory species, is the number }
+    \item{Links:}{ number of interactions}
+    \item{LD:}{ linkage density}
+    \item{Connectance:}{ Connectance}
+    \item{PathLength:}{ average path length}
+    \item{Clustering:}{ clustering coeficient}
+    \item{Cannib:}{ number of cannibalistic species}
+    \item{TLmean:}{ mean trophic level}
+    \item{Cannib:}{ maximum trophic level}
+}
 }
 \description{
 Calculate topological indices for ecological networks
