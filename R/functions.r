@@ -84,10 +84,16 @@ readNetwork <- function(fileName,filePath=NULL,fhead=TRUE,skipColumn=1){
 #' @param filePath path of the files NULL by default
 #' @param fhead TRUE if the files have header fields, FALSE otherwise.
 #' @param skipColum integer, number of columns that are skiped 1 by default
+#' @param format string, "layers" is the default were diferent layers are coded as different files
+#'   there must be the same number of files as the length of the types vector as each type represent
+#'   a layer. "GLV" Represent multiple intarction types as pairs of entries in a matrix so competition
+#'   is represented as a[i,j]= -1, a[j,i]=-1, predation a[i,j]=1,a[j,i]=-1 where species j is
+#'   the predator. Mutualism is a[i,j]=a[j,i]=1. Any negative or positive number works because intensity of interactions are not registered.
 #'
-#' @return an igraph object with the type attribute set to each kind of layer or interaction
+#' @return an mgraph object inherited from igraph object  with the type attribute set to each kind of layer or interaction
 #' @export
 #'
+#' @importFrom igraph     E graph_from_data_frame graph_from_adjacency_matrix V
 #' @seealso [readNetwork()]
 #' @examples
 #'
@@ -100,20 +106,77 @@ readNetwork <- function(fileName,filePath=NULL,fhead=TRUE,skipColumn=1){
 #' netData <- readMultiplex(dn,c("Competitive","Mutualistic","Trophic"),fpath,skipColum=2)
 #'}
 
-readMultiplex <- function(fileName,types,filePath=NULL,fhead=TRUE,skipColumn=1){
-  g <- readNetwork(fileName=fileName,filePath=filePath, fhead=fhead,skipColumn = skipColumn)
+readMultiplex <- function(fileName,types=c("Competitive","Mutualistic","Trophic"),filePath=NULL,
+                          fhead=TRUE,skipColumn=1,format="layers"){
 
-  stopifnot(length(g)==length(types))
+  if( format=="layers"){
+    g <- readNetwork(fileName=fileName,filePath=filePath, fhead=fhead,skipColumn = skipColumn)
+    stopifnot(length(g)==length(types))
 
-  for(t in seq_along(types)){
-    E(g[[t]])$type <- types[t]
+    for(t in seq_along(types)){
+      E(g[[t]])$type <- types[t]
+    }
+    gg <- lapply(g, igraph::as_data_frame)
+    gt <- do.call(rbind,gg)
+    gt <- graph_from_data_frame(gt)
+
+  } else if(format=="GLV"){
+
+    stopifnot(length(types)==3)
+
+    fn <-  if(!is.null(filePath)) paste0(filePath,"/",fileName) else fileName
+
+    web <- read.delim(fn,stringsAsFactors = FALSE)
+    if( (ncol(web)-skipColumn) == nrow(web)  ) {                 # The adjacency matrix must be square
+      skipColumn <- skipColumn+1
+      web <- web[,skipColumn:ncol(web)]
+      pred <- matrix(0,nrow = nrow(web),ncol = nrow(web))
+      comp <- matrix(0,nrow = nrow(web),ncol = nrow(web))
+      mut  <- matrix(0,nrow = nrow(web),ncol = nrow(web))
+
+      for( i in 1:nrow(web))
+        for(j in 1:nrow(web)){
+          if(web[i,j]!=0){
+            if(web[i,j]>0 && web[j,i]<0){
+              pred[i,j]<-1
+            } else if(web[i,j]<0 && web[j,i]==0) {
+              comp[i,j] <- 1
+            }else if(web[i,j]<0 && web[j,i]<0) {
+              comp[i,j] <- 1
+              comp[j,i] <- 1
+            } else if(web[i,j]>0 && web[j,i]==0) {
+              mut[i,j] <- 1
+            } else if(web[i,j]>0 && web[j,i]>0){
+              mut[i,j] <- 1
+              mut[j,i] <- 1
+            } else if(web[i,j]<0 && web[j,i]>0){
+              pred[j,i]<-1
+            } else {
+              warning("Unclasified interaction type ", web[i,j], web[j,i])
+            }
+
+          }
+
+        }
+
+      gg <- list(comp,mut,pred)
+      # convert to igraph
+      gdf <- lapply(seq_along(gg), function(t){
+        g <- graph_from_adjacency_matrix(gg[[t]])
+        E(g)$type <- types[t]
+        df <- igraph::as_data_frame(g)
+      })
+      gt <- do.call(rbind,gdf)
+      gt <- graph_from_data_frame(gt)
+      V(gt)$name <- names(web)
+
+    } else {
+      gt <- NULL
+      warning("Interaction matrix not square")
+    }
+
   }
-  gt <- Reduce('+',g)
-  delTypes <- setdiff(edge_attr_names(gt),"type")
-  for(dt in delTypes){
-    E(gt)$type <- ifelse(is.na(E(gt)$type),edge_attr(gt,dt),E(gt)$type)
-    gt <- delete_edge_attr(gt,dt)
-  }
+  class(gt) <- c(class(gt),"mgraph")
 
   return(gt)
 }
@@ -130,7 +193,7 @@ readMultiplex <- function(fileName,types,filePath=NULL,fhead=TRUE,skipColumn=1){
 #' @param title title for the plot
 #' @param ... Addittional parameters to the plot function
 #'
-#' @return a plot
+#' @return if tk==TRUE returns a layout matrix, else returns a plot
 #' @export
 #'
 #'
@@ -154,8 +217,12 @@ plotTrophLevel <- function(g,vertexLabel=FALSE,vertexSizeFactor=5,tk=FALSE,modul
   if(!vertexLabel)
     V(g)$label <- NA
 
-  tl <- TrophInd(get.adjacency(g,sparse=F))  # Calculate the trophic level
-
+  if(inherits(g, "mgraph") && ("Trophic" %in% unique(unlist(edge.attributes(g)))) ){
+    tt <- subgraph.edges(g,E(g)[E(g)$type=="Trophic"])
+    tl <- TrophInd(get.adjacency(tt,sparse=F))
+  } else {
+    tl <- TrophInd(get.adjacency(g,sparse=F))  # Calculate the trophic level
+  }
   # Layout matrix to specify the position of each vertix
   # Rows equal to the number of vertices (species)
   lMat <-matrix(
@@ -166,7 +233,21 @@ plotTrophLevel <- function(g,vertexLabel=FALSE,vertexSizeFactor=5,tk=FALSE,modul
   lMat[,2]<-jitter(tl$TL,0.1)              # y-axis value based on trophic level
 
   if(modules) {
-    m<-cluster_spinglass(g)
+    if(count_components(g)>1){
+      if(!is.named(g)) V(g)$name <- (1:vcount(g))
+      dg <- components(g)
+      V(g)$membership = 0
+      for(comp in unique(dg$membership)) {
+        g1 <- induced_subgraph(g, which(dg$membership == comp))
+        m<-cluster_spinglass(g1)
+        V(g)[V(g1)$name]$membership <-  m$membership + max(V(g)$membership)
+      }
+      m$membership <- V(g)$membership
+
+    } else {
+      m<-cluster_spinglass(g)
+    }
+
     lMat[,1]<-jitter(m$membership,1) # randomly assign along x-axis
   } else {
     lMat[,1]<-runif(vcount(g))               # randomly assign along x-axis

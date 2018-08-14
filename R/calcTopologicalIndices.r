@@ -35,7 +35,7 @@
 #'
 #' topologicalIndices(g)
 
-topologicalIndices <- function(ig){
+calcTopologicalIndices <- function(ig){
 
   if(class(ig)=="igraph") {
     ig <- list(ig)
@@ -103,7 +103,7 @@ parTopologicalIndices <- function(ig){
 
   df <- foreach(i=seq_along(ig), .combine='rbind',.inorder=FALSE,.packages='igraph') %dopar% {
 
-    topologicalIndices(g)
+    calcTopologicalIndices(g)
 
   }
   stopCluster(cl)
@@ -202,7 +202,7 @@ calcModularitySWnessZScore<- function(g, nsim=1000,sLevel=0.01,paralell=TRUE){
   if(!is_igraph(g))
     stop("Parameter g must be an igraph object")
 
-  t <- topologicalIndices(g)
+  t <- calcTopologicalIndices(g)
 
   redes.r <- lapply(1:nsim, function (x) {
     e <- sample_gnm(t$Size, t$Links, directed = TRUE)

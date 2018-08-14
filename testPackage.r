@@ -57,7 +57,39 @@ calcIncoherence(g)
 calcModularitySWnessZScore(g,100,0.1,paralell = FALSE)
 
 g <-   graph_from_literal( 1 -+ 4 -+ 7,2 -+ 5 -+ 9, 4+-5,
-                           3 -+ 6 -+ 8,5 -+8, 8-+ 9, simplify = FALSE)
-plotTrophLevel(g,vertexLabel = TRUE,vertexSizeFactor = 20,modules = TRUE)
+                           3 -+ 6,5 -+8, 8-+ 9, simplify = FALSE)
+plotTrophLevel(g,vertexLabel = TRUE,vertexSizeFactor = 20,modules = FALSE)
 calcIncoherence(g)
 calcModularitySWnessZScore(g,100,0.1,paralell = FALSE)
+dg <- components(g)
+m<-cluster_spinglass(g)
+m$membership
+
+#
+# Testing Curve Ball algorithm
+#
+g <-   graph_from_literal( 1 -+ 4 -+ 7,2 -+ 5 -+ 9, 4+-5,
+                           3 -+ 6 -+ 8,5 -+8, simplify = FALSE)
+plotTrophLevel(g,vertexLabel = TRUE,vertexSizeFactor = 20,modules = TRUE)
+g
+gg <- curveBall(g,10)
+plotTrophLevel(gg[[1]],vertexLabel = TRUE,vertexSizeFactor = 10,modules = TRUE)
+plotTrophLevel(gg[[2]],vertexLabel = TRUE,vertexSizeFactor = 10,modules=TRUE)
+plotTrophLevel(gg[[3]],vertexLabel = TRUE,vertexSizeFactor = 10,modules = TRUE)
+plotTrophLevel(gg[[10]],vertexLabel = TRUE,vertexSizeFactor = 20,modules = TRUE)
+lapply(gg, function(g) components(g)$no)
+calcTopologicalIndices(gg)
+
+gg <- curveBall(netData[[1]],10)
+lapply(gg,count_components)
+
+# generalization = in degree
+# vulnerability  = out degree
+
+
+*
+
+dn <- list.files("~/Dropbox/Projects/NetworksAsUnifyingPrinciple/Data",pattern = "^PotterCove.*\\.txt$")
+gt <- readMultiplex("~/Dropbox/Projects/NetworksAsUnifyingPrinciple/Data/PotterCove_Multiplex.txt",format="GLV")
+
+E(gt)[1:1]$type

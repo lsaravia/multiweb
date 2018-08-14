@@ -23,7 +23,7 @@ plotTrophLevel(g, vertexLabel = FALSE, vertexSizeFactor = 5, tk = FALSE,
 \item{title}{title for the plot}
 }
 \value{
-a plot
+if tk==TRUE returns a layout matrix, else returns a plot
 }
 \description{
 Plot ecological network organized by trophic level, with node size determined by the node degree

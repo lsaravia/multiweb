@@ -4,39 +4,44 @@
 \alias{readMultiplex}
 \title{Read ecological multiplex networks using different files for each layer as a 'node-aligned' multilayer network}
 \usage{
-readMultiplex(fileName, filePath = NULL, fhead = TRUE, skipColumn = 1)
+readMultiplex(fileName, types = c("Competitive", "Mutualistic", "Trophic"),
+  filePath = NULL, fhead = TRUE, skipColumn = 1, format = "layers")
 }
 \arguments{
-\item{fileName}{vector of fileNames with the networks}
+\item{fileName}{vector of fileNames with the layers of the networks}
+
+\item{types}{vector of types that represent the layers}
 
 \item{filePath}{path of the files NULL by default}
 
 \item{fhead}{TRUE if the files have header fields, FALSE otherwise.}
 
+\item{format}{string, "layers" is the default were diferent layers are coded as different files
+there must be the same number of files as the length of the types vector as each type represent
+a layer. "GLV" Represent multiple intarction types as pairs of entries in a matrix so competition
+is represented as a\link{i,j}= -1, a\link{j,i}=-1, predation a\link{i,j}=1,a\link{j,i}=-1 where species j is
+the predator. Mutualism is a\link{i,j}=a\link{j,i}=1. Any negative or positive number works because intensity of interactions are not registered.}
+
 \item{skipColum}{integer, number of columns that are skiped 1 by default}
 }
 \value{
-an igraph object if there is only one file or a list of igraph objects named after the list without extension
+an mgraph object inherited from igraph object  with the type attribute set to each kind of layer or interaction
 }
 \description{
-This functions uses \code{\link[=readNetwork]{readNetwork()}}
+This functions uses \code{\link[=readNetwork]{readNetwork()}} to read files that represent network layers that can be
+different interaction types, represented by the type attribute of the igraph object.
 }
 \examples{
-
-# Reads a network in edge list (interaction list) format, with predators as the first column
-#
-fileName <- system.file("extdata", "WeddellSea_FW.csv", package = "EcoNetwork")
-g <- readNetwork(fileName)
-
-# Reads a network in adyacency matrix format, with predators as columns
-#
-fileName <- system.file("extdata", "BarentsBoreal_FW.csv", package = "EcoNetwork")
-g <- readNetwork(fileName)
 
 # Read a vector of files
 #
 \dontrun{
-dn <- list.files("inst/extdata",pattern = "^.*\\\\.csv$")
-netData <- readNetwork(dn,"inst/extdata")
+
+fpath <- system.file("extdata", package = "EcoNetwork")
+dn <- list.files(fpath,pattern = "^Kefi2015.*\\\\.txt$")
+netData <- readMultiplex(dn,c("Competitive","Mutualistic","Trophic"),fpath,skipColum=2)
 }
+}
+\seealso{
+\code{\link[=readNetwork]{readNetwork()}}
 }
