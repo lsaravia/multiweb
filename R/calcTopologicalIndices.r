@@ -37,7 +37,7 @@
 
 calcTopologicalIndices <- function(ig){
 
-  if(class(ig)=="igraph") {
+  if(inherits(ig,"igraph")) {
     ig <- list(ig)
   } else if(class(ig[[1]])!="igraph") {
     stop("parameter ig must be an igraph object")

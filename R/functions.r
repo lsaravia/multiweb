@@ -4,6 +4,8 @@
 
 #' Read ecological networks in CSV or tab separated file format as edge list or adyacency matrix
 #'
+#'
+#'
 #' @param fileName vector of fileNames with the networks
 #' @param filePath path of the files NULL by default
 #' @param fhead TRUE if the files have header fields, FALSE otherwise.
@@ -57,7 +59,21 @@ readNetwork <- function(fileName,filePath=NULL,fhead=TRUE,skipColumn=1){
       if( (ncol(web)-skipColumn) == nrow(web)  ) {                   # The adjacency matrix must be square
         skipColumn <- skipColumn+1
         g <- igraph::graph_from_adjacency_matrix(as.matrix(web[,skipColumn:ncol(web)]),mode="directed")
-
+        if(skipColumn>1){
+          #
+          # Assume first column before data is species names
+          #
+          nmes <- web[,skipColumn-1]
+          igraph::V(g)$name <- nmes
+        } else {
+          # if all col names starts with V strip the V
+          #
+          if( all(grepl("^V",names(web))) ) {
+            names(web) <- sub("^V(*.)","\\1",names(web))
+            igraph::V(g)$name <- names(web)
+            }
+        }
+        g
       } else {
         g <- NULL
         warning("Invalid file format: ",fname)
@@ -128,6 +144,8 @@ readMultiplex <- function(fileName,types=c("Competitive","Mutualistic","Trophic"
 
     web <- read.delim(fn,stringsAsFactors = FALSE)
     if( (ncol(web)-skipColumn) == nrow(web)  ) {                 # The adjacency matrix must be square
+
+      nmes <- web[,skipColumn]
       skipColumn <- skipColumn+1
       web <- web[,skipColumn:ncol(web)]
       pred <- matrix(0,nrow = nrow(web),ncol = nrow(web))
@@ -168,7 +186,7 @@ readMultiplex <- function(fileName,types=c("Competitive","Mutualistic","Trophic"
       })
       gt <- do.call(rbind,gdf)
       gt <- graph_from_data_frame(gt)
-      V(gt)$name <- names(web)
+      V(gt)$name <- nmes
 
     } else {
       gt <- NULL
