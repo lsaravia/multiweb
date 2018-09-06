@@ -208,7 +208,7 @@ readMultiplex <- function(fileName,types=c("Competitive","Mutualistic","Trophic"
 #' @param vertexSizeFactor numeric factor to determine the size of the label with degree
 #' @param tk TRUE generate an interactive plot using tkplot
 #' @param modules FALSE plot modules in the x axis, obtained with the cluster spinglass algorithm
-#' @param title title for the plot
+#' @param lMat Matrix of postions for the nodes
 #' @param ... Addittional parameters to the plot function
 #'
 #' @return if tk==TRUE returns a layout matrix, else returns a plot
@@ -221,7 +221,7 @@ readMultiplex <- function(fileName,types=c("Competitive","Mutualistic","Trophic"
 #' @examples
 #'
 #' plotTrophLevel(netData[[1]])
-plotTrophLevel <- function(g,vertexLabel=FALSE,vertexSizeFactor=5,tk=FALSE,modules=FALSE, ...){
+plotTrophLevel <- function(g,vertexLabel=FALSE,vertexSizeFactor=5,tk=FALSE,modules=FALSE,lMat=NULL, ...){
 
   deg <- degree(g, mode="all") # calculate the degree: the number of edges
   # or interactions
@@ -231,6 +231,7 @@ plotTrophLevel <- function(g,vertexLabel=FALSE,vertexSizeFactor=5,tk=FALSE,modul
   V(g)$frame.color <- "white"    # Specify plot options directly on the object
 
   V(g)$color <- "orange"         #
+  E(g)$color <- "gray50"
 
   if(!vertexLabel)
     V(g)$label <- NA
@@ -243,32 +244,35 @@ plotTrophLevel <- function(g,vertexLabel=FALSE,vertexSizeFactor=5,tk=FALSE,modul
   }
   # Layout matrix to specify the position of each vertix
   # Rows equal to the number of vertices (species)
-  lMat <-matrix(
-    nrow=vcount(g),
-    ncol=2
-  )
+  if(is.null(lMat)){
 
-  lMat[,2]<-jitter(tl$TL,0.1)              # y-axis value based on trophic level
+    lMat <-matrix(
+      nrow=vcount(g),
+      ncol=2
+    )
 
-  if(modules) {
-    if(count_components(g)>1){
-      if(!is.named(g)) V(g)$name <- (1:vcount(g))
-      dg <- components(g)
-      V(g)$membership = 0
-      for(comp in unique(dg$membership)) {
-        g1 <- induced_subgraph(g, which(dg$membership == comp))
-        m<-cluster_spinglass(g1)
-        V(g)[V(g1)$name]$membership <-  m$membership + max(V(g)$membership)
+    lMat[,2]<-jitter(tl$TL,0.1)              # y-axis value based on trophic level
+
+    if(modules) {
+      if(count_components(g)>1){
+        if(!is.named(g)) V(g)$name <- (1:vcount(g))
+        dg <- components(g)
+        V(g)$membership = 0
+        for(comp in unique(dg$membership)) {
+          g1 <- induced_subgraph(g, which(dg$membership == comp))
+          m<-cluster_spinglass(g1)
+          V(g)[V(g1)$name]$membership <-  m$membership + max(V(g)$membership)
+        }
+        m$membership <- V(g)$membership
+
+      } else {
+        m<-cluster_spinglass(g)
       }
-      m$membership <- V(g)$membership
 
+      lMat[,1]<-jitter(m$membership,1) # randomly assign along x-axis
     } else {
-      m<-cluster_spinglass(g)
+      lMat[,1]<-runif(vcount(g))               # randomly assign along x-axis
     }
-
-    lMat[,1]<-jitter(m$membership,1) # randomly assign along x-axis
-  } else {
-    lMat[,1]<-runif(vcount(g))               # randomly assign along x-axis
   }
 
   colTL <-as.numeric(cut(tl$TL,11))   # Divide trophic levels in 11 segments
@@ -279,14 +283,12 @@ plotTrophLevel <- function(g,vertexLabel=FALSE,vertexSizeFactor=5,tk=FALSE,modul
   if(tk){
     tkid <- tkplot(g, edge.width=.3,edge.arrow.size=.4,
        vertex.label.color="white",
-       edge.color="grey50",
        edge.curved=0.3, layout=lMat)
     return( tkplot.getcoords(tkid))
 
   } else {
     plot(g, edge.width=.3,edge.arrow.size=.4,
          vertex.label.color="white",
-         edge.color="grey50",
          edge.curved=0.3, layout=lMat,...)
 
   }

@@ -5,7 +5,7 @@
 \title{Plot ecological network organized by trophic level, with node size determined by the node degree}
 \usage{
 plotTrophLevel(g, vertexLabel = FALSE, vertexSizeFactor = 5, tk = FALSE,
-  modules = FALSE, ...)
+  modules = FALSE, lMat = NULL, ...)
 }
 \arguments{
 \item{vertexLabel}{logical plot vertex labels}
@@ -16,11 +16,11 @@ plotTrophLevel(g, vertexLabel = FALSE, vertexSizeFactor = 5, tk = FALSE,
 
 \item{modules}{FALSE plot modules in the x axis, obtained with the cluster spinglass algorithm}
 
+\item{lMat}{Matrix of postions for the nodes}
+
 \item{...}{Addittional parameters to the plot function}
 
 \item{ig}{igraph object}
-
-\item{title}{title for the plot}
 }
 \value{
 if tk==TRUE returns a layout matrix, else returns a plot

@@ -135,7 +135,6 @@ g[[1]]
 
 gt[]
 
-
 dg <- degree(g[[1]])
 class(dg)
 dg2 <- degree(g[[2]])
@@ -144,5 +143,28 @@ dg3 <- degree(g[[3]])
 sort(degree(gt)) == sort(dg+dg2+dg3)
 require(NetIndices)
 require(RColorBrewer)
-plotTrophLevel(g[[1]],tk=TRUE)
-plotTrophLevel(gt)
+require(igraph)
+plotTrophLevel(g[[1]],modules = T)
+plotTrophLevel(g[[2]],modules = T)
+plotTrophLevel(g[[3]],modules = T)
+plotTrophLevel(gt,modules = T)
+
+
+g <-   graph_from_literal( 2 -+ 1 +-3,4 -+ 1, 4-+4, 3+-3, 5-+5, 4-+6-+2, 2+-5-+3, simplify = FALSE)
+E(g)$type <- "Trophic"
+
+
+pltMat <- plotTrophLevel(g,vertexLabel = TRUE,vertexSizeFactor = 20,modules = TRUE,tk=TRUE)
+pltMat[6,2] <- 1
+pltMat[6,1] <- 400
+pltMat[4,1] <- 20
+pltMat[4,2] <- 1
+pltMat[5,1] <- 250
+pltMat[5,2] <- 70
+pltMat[3,1] <- 10
+pltMat[3,2] <- 220
+pltMat[1,1] <- 450
+pltMat[1,2] <- 339
+pltMat[2,1] <- 150
+pltMat[2,2] <- 376
+plotTrophLevel(g,vertexLabel = TRUE,vertexSizeFactor = 20,lMat=pltMat)
