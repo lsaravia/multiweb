@@ -4,7 +4,7 @@
 \alias{calcModularitySWnessZScore}
 \title{Calculation of Modularity and Small-world-ness z-scores}
 \usage{
-calcModularitySWnessZScore(g, nsim = 1000, sLevel = 0.01, paralell = TRUE)
+calcModularitySWnessZScore(g, nsim = 1000, sLevel = 0.01, ncores = 0)
 }
 \arguments{
 \item{g}{igraph object}
@@ -12,16 +12,19 @@ calcModularitySWnessZScore(g, nsim = 1000, sLevel = 0.01, paralell = TRUE)
 \item{nsim}{number of simulations of the Erdos-Renyi random networks}
 
 \item{sLevel}{significance level to calculate CI (two tails)}
+
+\item{ncores}{number of cores to use paralell computation}
 }
 \value{
-a data frame with indices z-scores and CI\preformatted{  \item{Clustering}{ Clustering coefficient, measures the average fraction of pairs of neighbors of a node that are also neighbors of each other}
-  \item{PathLength}{ Mean of the shortest paths between all pair of vertices }
-  \item{Modularity}{ modularity measures how separated are different groups from each other, the algorithm \code{cluster_spinglass} was used to obtain the groups}
-  \item{zCC,zCP,zMO}{Z-scores of Clustering,PathLength and Modularity with respect to a random Erdos-Renyi null model}
-  \item{CClow,CChigh,CPlow,CPhigh,MOlow,MOhigh}{sLevel confidence intervals}
-  \item{SWness,SWnessCI}{ Small-world-ness and it CI value}
-  \item{isSW,isSWness}{ Logical variable signalling if the network is Small-world by the method of Marina 2018 or the method of Humprhies & Gurney 2008 }
-}
+a data frame with indices z-scores and CI
+
+\item{Clustering}{ Clustering coefficient, measures the average fraction of pairs of neighbors of a node that are also neighbors of each other}
+\item{PathLength}{ Mean of the shortest paths between all pair of vertices }
+\item{Modularity}{ modularity measures how separated are different groups from each other, the algorithm \code{cluster_spinglass} was used to obtain the groups}
+\item{zCC,zCP,zMO}{Z-scores of Clustering,PathLength and Modularity with respect to a random Erdos-Renyi null model}
+\item{CClow,CChigh,CPlow,CPhigh,MOlow,MOhigh}{sLevel confidence intervals}
+\item{SWness,SWnessCI}{ Small-world-ness and it CI value}
+\item{isSW,isSWness}{ Logical variable signalling if the network is Small-world by the method of Marina 2018 or the method of Humprhies & Gurney 2008 }
 }
 \description{
 The function calculates modularity, number of groups and small-world-ness z-scores and 99\% CI intervals

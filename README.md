@@ -9,6 +9,22 @@ require(devtools)
 install_github("lsaravia/EcoNetworks")
 ```
 
+## Examples
+
+Read the example data included in the package
+
+```R
+require(EcoNetwork)
+
+fileName <- c(system.file("extdata",  package = "EcoNetwork"))
+fileName <- system.file("extdata", "BarentsBoreal_FW.csv", package = "EcoNetwork")
+g <- readNetwork(fileName)
+
+
+```
+
+
+
 ## References
 
 1. Marina, T. I., Saravia, L. A., Cordone, G., Salinas, V., Doyle, S. R., & Momo, F. R. (2018). Architecture of marine food webs: To be or not be a ‘small-world.’ PLoS ONE, 13(5), 1–13. https://doi.org/10.1371/journal.pone.0198217

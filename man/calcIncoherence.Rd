@@ -4,23 +4,26 @@
 \alias{calcIncoherence}
 \title{Calculate the incoherence index of a food web}
 \usage{
-calcIncoherence(g, ti = NULL)
+calcIncoherence(ig, ti = NULL)
 }
 \arguments{
-\item{g}{an igraph object}
-
 \item{ti}{trophic level vector if not supplied is calculated internally}
+
+\item{g}{an igraph object}
 }
 \value{
-a data.frame with the following fields\preformatted{  \item{Q}{incoherence (0=coherent)}
- \item{rQ}{ratio of Q with expected Q under null expectation of a random network given N=nodes L=links B=basal nodes Lb=basal links}
- \item{mTI}{mean trophic level}
- \item{rTI}{ratio of mTI with expected TI under the same null model expectation than Q}
-}
+a data.frame with the following fields
+
+\item{Q}{incoherence (0=coherent)}
+\item{rQ}{ratio of Q with expected Q under null expectation of a random network given N=nodes L=links B=basal nodes Lb=basal links}
+\item{mTI}{mean trophic level}
+\item{rTI}{ratio of mTI with expected TI under the same null model expectation than Q}
 }
 \description{
 The incoherence index is based in how the species fit in discrete trophic levels
-when Q is closer to 0 more coherent and stable is a food web.
+when Q is closer to 0 more coherent and stable is a food web, and the less omnivory it has.
+It calculates the trophic level using the package NetIndices, or optionally the trophic levels could be passed
+by parameter as a vector but in that case that the same vector will be used for all the networks.
 }
 \details{
 Based on:

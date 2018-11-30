@@ -7,18 +7,18 @@
 #'
 #' @return a data.frame with the following fields:
 #'
-#'         \item{Size:}{Number of species}
-#'         \item{Top:}{Number of top predator species}
-#'         \item{Basal:}{Number of basal especies}
-#'         \item{Omnivory:}{ Number of omnivory species, is the number }
-#'         \item{Links:}{ number of interactions}
-#'         \item{LD:}{ linkage density}
-#'         \item{Connectance:}{ Connectance}
-#'         \item{PathLength:}{ average path length}
-#'         \item{Clustering:}{ clustering coeficient}
-#'         \item{Cannib:}{ number of cannibalistic species}
-#'         \item{TLmean:}{ mean trophic level}
-#'         \item{Cannib:}{ maximum trophic level}
+#'  \item{Size:}{Number of species}
+#'  \item{Top:}{Number of top predator species}
+#'  \item{Basal:}{Number of basal especies}
+#'  \item{Omnivory:}{ Number of omnivory species, is the number }
+#'  \item{Links:}{ number of interactions}
+#'  \item{LD:}{ linkage density}
+#'  \item{Connectance:}{ Connectance}
+#'  \item{PathLength:}{ average path length}
+#'  \item{Clustering:}{ clustering coeficient}
+#'  \item{Cannib:}{ number of cannibalistic species}
+#'  \item{TLmean:}{ mean trophic level}
+#'  \item{Cannib:}{ maximum trophic level}
 #'
 #'
 #' @export
@@ -57,7 +57,7 @@ calcTopologicalIndices <- function(ig){
 
     nBasal <- length(V(g)[indegree==0]) # Basal species do not have preys
 
-    vcount(g)-nTop-nBasal
+    #vcount(g)-nTop-nBasal
 
     size <- vcount(g)
 
@@ -75,7 +75,7 @@ calcTopologicalIndices <- function(ig){
 
     tl <- TrophInd(get.adjacency(g,sparse=F))  # Calculate the trophic level
 
-    omn <- sum(round(tl$OI,5)>0)
+    omn <- sum(round(tl$OI,5)>0)/size        # Omnivory
 
     data.frame(Size=size,Top=nTop,Basal=nBasal,Omnivory=omn,Links=links, LD=linkDen,Connectance=conn,PathLength=pathLength,
                Clustering=clusCoef, Cannib=cannib, TLmean=mean(tl$TL),TLmax=max(tl$TL))
@@ -115,7 +115,9 @@ parTopologicalIndices <- function(ig){
 #' Calculate the incoherence index of a food web
 #'
 #' The incoherence index is based in how the species fit in discrete trophic levels
-#' when Q is closer to 0 more coherent and stable is a food web.
+#' when Q is closer to 0 more coherent and stable is a food web, and the less omnivory it has.
+#' It calculates the trophic level using the package NetIndices, or optionally the trophic levels could be passed
+#' by parameter as a vector but in that case that the same vector will be used for all the networks.
 #'
 #' Based on:
 #'
@@ -129,10 +131,10 @@ parTopologicalIndices <- function(ig){
 #'
 #' @return a data.frame with the following fields
 #'
-#'       \item{Q}{incoherence (0=coherent)}
-#'      \item{rQ}{ratio of Q with expected Q under null expectation of a random network given N=nodes L=links B=basal nodes Lb=basal links}
-#'      \item{mTI}{mean trophic level}
-#'      \item{rTI}{ratio of mTI with expected TI under the same null model expectation than Q}
+#'  \item{Q}{incoherence (0=coherent)}
+#'  \item{rQ}{ratio of Q with expected Q under null expectation of a random network given N=nodes L=links B=basal nodes Lb=basal links}
+#'  \item{mTI}{mean trophic level}
+#'  \item{rTI}{ratio of mTI with expected TI under the same null model expectation than Q}
 #
 #'
 #' @export
@@ -144,23 +146,34 @@ parTopologicalIndices <- function(ig){
 #'
 #' @importFrom NetIndices TrophInd
 #' @importFrom igraph     V degree get.adjacency vcount ecount
-calcIncoherence <- function(g,ti=NULL) {
-  if(is.null(ti) )
-    ti<-TrophInd(get.adjacency(g,sparse=FALSE))
-  v <- ti$TL
-  z <- round(outer(v,v,'-'),8);
-  A <- get.adjacency(g,sparse = FALSE)
-  xx <- A>0
-  x <- (A*t(z))[xx]
-  Q <- round(sqrt(sum((x-1)^2)/ecount(g) ),8)
+calcIncoherence <- function(ig,ti=NULL) {
 
-  basal <- which(round(v,8)==1)
-  bedges <- sum(degree(g,basal,mode='out'))
-  mTI <- mean(v)
-  mK <- mean(degree(g,mode='out'))
-  eTI <- 1+(1-length(basal)/vcount(g))*ecount(g)/bedges
-  eQ <- sqrt(ecount(g)/bedges-1)
-  data.frame(Q=Q,rQ=Q/eQ,mTI=mTI,rTI=mTI/eTI)
+  if(inherits(ig,"igraph")) {
+    ig <- list(ig)
+  } else if(class(ig[[1]])!="igraph") {
+    stop("parameter ig must be an igraph object")
+  }
+
+  df <- lapply(ig, function(g){
+
+    if(is.null(ti) )
+      ti<-TrophInd(get.adjacency(g,sparse=FALSE))
+    v <- ti$TL
+    z <- round(outer(v,v,'-'),8);
+    A <- get.adjacency(g,sparse = FALSE)
+    xx <- A>0
+    x <- (A*t(z))[xx]
+    Q <- round(sqrt(sum((x-1)^2)/ecount(g) ),8)
+
+    basal <- which(round(v,8)==1)
+    bedges <- sum(degree(g,basal,mode='out'))
+    mTI <- mean(v)
+    mK <- mean(degree(g,mode='out'))
+    eTI <- 1+(1-length(basal)/vcount(g))*ecount(g)/bedges
+    eQ <- sqrt(ecount(g)/bedges-1)
+    data.frame(Q=Q,rQ=Q/eQ,mTI=mTI,rTI=mTI/eTI)
+  })
+  do.call(rbind,df)
 }
 
 
@@ -176,17 +189,18 @@ calcIncoherence <- function(g,ti=NULL) {
 #' @param g  igraph object
 #' @param nsim number of simulations of the Erdos-Renyi random networks
 #' @param sLevel significance level to calculate CI (two tails)
+#' @param ncores number of cores to use paralell computation
 #'
 #'
 #' @return a data frame with indices z-scores and CI
 #'
-#'       \item{Clustering}{ Clustering coefficient, measures the average fraction of pairs of neighbors of a node that are also neighbors of each other}
-#'       \item{PathLength}{ Mean of the shortest paths between all pair of vertices }
-#'       \item{Modularity}{ modularity measures how separated are different groups from each other, the algorithm \code{cluster_spinglass} was used to obtain the groups}
-#'       \item{zCC,zCP,zMO}{Z-scores of Clustering,PathLength and Modularity with respect to a random Erdos-Renyi null model}
-#'       \item{CClow,CChigh,CPlow,CPhigh,MOlow,MOhigh}{sLevel confidence intervals}
-#'       \item{SWness,SWnessCI}{ Small-world-ness and it CI value}
-#'       \item{isSW,isSWness}{ Logical variable signalling if the network is Small-world by the method of Marina 2018 or the method of Humprhies & Gurney 2008 }
+#'  \item{Clustering}{ Clustering coefficient, measures the average fraction of pairs of neighbors of a node that are also neighbors of each other}
+#'  \item{PathLength}{ Mean of the shortest paths between all pair of vertices }
+#'  \item{Modularity}{ modularity measures how separated are different groups from each other, the algorithm \code{cluster_spinglass} was used to obtain the groups}
+#'  \item{zCC,zCP,zMO}{Z-scores of Clustering,PathLength and Modularity with respect to a random Erdos-Renyi null model}
+#'  \item{CClow,CChigh,CPlow,CPhigh,MOlow,MOhigh}{sLevel confidence intervals}
+#'  \item{SWness,SWnessCI}{ Small-world-ness and it CI value}
+#'  \item{isSW,isSWness}{ Logical variable signalling if the network is Small-world by the method of Marina 2018 or the method of Humprhies & Gurney 2008 }
 
 #' @export
 #'
@@ -197,7 +211,7 @@ calcIncoherence <- function(g,ti=NULL) {
 #'
 #' calcModularitySWnessZScore(netData[[1]])
 
-calcModularitySWnessZScore<- function(g, nsim=1000,sLevel=0.01,paralell=TRUE){
+calcModularitySWnessZScore<- function(g, nsim=1000,sLevel=0.01,ncores=0){
 
   if(!is_igraph(g))
     stop("Parameter g must be an igraph object")
@@ -215,7 +229,7 @@ calcModularitySWnessZScore<- function(g, nsim=1000,sLevel=0.01,paralell=TRUE){
     return(e) }
   )
 
-  if(paralell) {
+  if(ncores) {
     cn <-parallel::detectCores()
     # cl <- makeCluster(cn,outfile="foreach.log") # Logfile to debug
     cl <- parallel::makeCluster(cn)

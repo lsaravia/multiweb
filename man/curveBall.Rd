@@ -2,7 +2,7 @@
 % Please edit documentation in R/models.r
 \name{curveBall}
 \alias{curveBall}
-\title{Curbe ball algorithm to generate random networks from a given network with the same colums and row totals}
+\title{Curbe ball algorithm to generate random networks with given in and out degree sequence}
 \usage{
 curveBall(g, nsim = 1000)
 }
@@ -15,6 +15,12 @@ curveBall(g, nsim = 1000)
 a list of randomized igraph objects
 }
 \description{
+This extract the adjacency matrix from an igraph object and generates a randomized version
+of the network with the same row and column totals, the results have the same in and out degree sequence
+than the original network. The diagonals are not avoided so it can generate self-links or cannibalism in
+the context of food-webs.
+}
+\details{
 Based on:
 }
 \examples{

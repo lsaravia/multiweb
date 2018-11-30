@@ -1,5 +1,10 @@
 
-#' Curbe ball algorithm to generate random networks from a given network with the same colums and row totals
+#' Curbe ball algorithm to generate random networks with given in and out degree sequence
+#'
+#' This extract the adjacency matrix from an igraph object and generates a randomized version
+#' of the network with the same row and column totals, the results have the same in and out degree sequence
+#' than the original network. The diagonals are not avoided so it can generate self-links or cannibalism in
+#' the context of food-webs.
 #'
 #' Based on:
 #'
