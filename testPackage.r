@@ -105,12 +105,16 @@ m$membership
 g <-   graph_from_literal( 1 -+ 4 -+ 7,2 -+ 5 -+ 9, 4+-5,
                            3 -+ 6 -+ 8,5 -+8, simplify = FALSE)
 plotTrophLevel(g,vertexLabel = TRUE,vertexSizeFactor = 20,modules = TRUE)
-gg <- curveBall(g,1000)
+gg <- curveBall(g,100)
 plotTrophLevel(gg[[1]],vertexLabel = TRUE,vertexSizeFactor = 20,modules = TRUE)
 plotTrophLevel(gg[[2]],vertexLabel = TRUE,vertexSizeFactor = 10,modules=TRUE)
 plotTrophLevel(gg[[3]],vertexLabel = TRUE,vertexSizeFactor = 10,modules = TRUE)
 plotTrophLevel(gg[[10]],vertexLabel = TRUE,vertexSizeFactor = 20,modules = TRUE)
-lapply(gg, function(g) components(g)$no)
+
+# Test SW zscores
+#
+any(sapply(gg, function(g) components(g)$no>1))
+calcModularitySWnessZScore(g,gg,0.01)
 
 # Test Parallel
 #
@@ -120,6 +124,7 @@ p <- calcIncoherence(gg,4)
 # Calculate 1000 randomizations of a real network
 #
 gg <- curveBall(netData[[1]],100)
+sapply(gg, function(g) components(g)$no)
 
 lapply(gg,count_components)!=1
 tp <- calcTopologicalIndices(gg)

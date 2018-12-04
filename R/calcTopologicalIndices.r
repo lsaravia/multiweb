@@ -226,6 +226,9 @@ calcModularitySWnessZScore<- function(g, nullDist,sLevel=0.01,ncores=NULL){
   if(length(nullDist)<5)
     stop("nullDist: There has to be more than 5 elements in the list")
 
+  if(any(sapply(nullDist, function(g) components(g)$no>1)))
+    stop("nullDist: one or more igraph object from nullDist have more than one component")
+
   # nullDist <- lapply(1:nsim, function (x) {
   #   e <- sample_gnm(t$Size, t$Links, directed = TRUE)
   #

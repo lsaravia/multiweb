@@ -25,7 +25,7 @@ curveBall<-function(g,nsim=1000){
   m <- get.adjacency(g,sparse=FALSE)
 
   nets<- lapply(1:nsim, function (x) {
-
+    repeat {
     RC <- dim(m)
     R  <- RC[1]
     C  <- RC[2]
@@ -52,8 +52,11 @@ curveBall<-function(g,nsim=1000){
     rm <- matrix(0,R,C)
     for (row in 1:R){rm[row,hp[[row]]] <- 1}
 
-    graph_from_adjacency_matrix(rm,mode="directed")
-
+    g <- graph_from_adjacency_matrix(rm,mode="directed")
+    if(components(g)$no==1)
+      break
+    }
+    return(g)
   })
 }
 
