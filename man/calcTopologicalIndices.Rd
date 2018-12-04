@@ -4,10 +4,12 @@
 \alias{calcTopologicalIndices}
 \title{Calculate topological indices for ecological networks}
 \usage{
-calcTopologicalIndices(ig)
+calcTopologicalIndices(ig, ncores = NULL)
 }
 \arguments{
 \item{ig}{vector of igraph objects}
+
+\item{ncores}{number of cores used to compute in parallel, if NULL only one core is used.}
 }
 \value{
 a data.frame with the following fields:

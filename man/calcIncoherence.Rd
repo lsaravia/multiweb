@@ -4,10 +4,12 @@
 \alias{calcIncoherence}
 \title{Calculate the incoherence index of a food web}
 \usage{
-calcIncoherence(ig, ti = NULL)
+calcIncoherence(ig, ti = NULL, ncores = NULL)
 }
 \arguments{
 \item{ti}{trophic level vector if not supplied is calculated internally}
+
+\item{ncores}{number of cores used to compute in parallel, if NULL one core is used.}
 
 \item{g}{an igraph object}
 }

@@ -4,6 +4,7 @@
 #' Calculate topological indices for ecological networks
 #'
 #' @param ig vector of igraph objects
+#' @param ncores number of cores used to compute in parallel, if NULL only one core is used.
 #'
 #' @return a data.frame with the following fields:
 #'
@@ -24,6 +25,7 @@
 #' @export
 #' @importFrom NetIndices TrophInd
 #' @import igraph
+#' @importFrom foreach foreach %dopar%
 #'
 #' @examples
 #'
@@ -35,7 +37,7 @@
 #'
 #' topologicalIndices(g)
 
-calcTopologicalIndices <- function(ig){
+calcTopologicalIndices <- function(ig,ncores=NULL){
 
   if(inherits(ig,"igraph")) {
     ig <- list(ig)
@@ -43,7 +45,22 @@ calcTopologicalIndices <- function(ig){
     stop("parameter ig must be an igraph object")
   }
 
-  df <- lapply(ig, function(g){
+  if(!is.null(ncores)) {
+    cn <-parallel::detectCores()
+    if(cn>ncores)
+      cn <- ncores
+    else
+      cn <- cn-1
+    # cl <- makeCluster(cn,outfile="foreach.log") # Logfile to debug
+    cl <- parallel::makeCluster(cn)
+    doParallel::registerDoParallel(cl)
+    on.exit(parallel::stopCluster(cl))
+  } else {
+    foreach::registerDoSEQ()
+  }
+
+  df <-  foreach(g=ig,.combine='rbind',.inorder=FALSE,.packages=c('igraph','NetIndices')) %dopar%
+    {
 
     deg <- degree(simplify(g), mode="out") # calculate the out-degree: the number of predators
 
@@ -79,36 +96,8 @@ calcTopologicalIndices <- function(ig){
 
     data.frame(Size=size,Top=nTop,Basal=nBasal,Omnivory=omn,Links=links, LD=linkDen,Connectance=conn,PathLength=pathLength,
                Clustering=clusCoef, Cannib=cannib, TLmean=mean(tl$TL),TLmax=max(tl$TL))
-  })
-
-  do.call(rbind,df)
-}
-
-
-#' Paralell version of topologicalIndices
-#'
-#' @param ig vector of igraph objects
-#'
-#' @return the same as topologicalIndices
-#' @export
-#'
-#' @examples
-#'
-#' parTopologicalIndices(netData)
-parTopologicalIndices <- function(ig){
-
-  cn <-detectCores()
-  cl <- makeCluster(cn)
-  registerDoParallel(cl)
-
-  df <- foreach(i=seq_along(ig), .combine='rbind',.inorder=FALSE,.packages='igraph') %dopar% {
-
-    calcTopologicalIndices(g)
-
   }
-  stopCluster(cl)
 
-  return(df)
 }
 
 
@@ -128,6 +117,7 @@ parTopologicalIndices <- function(ig){
 #'
 #' @param g an igraph object
 #' @param ti trophic level vector if not supplied is calculated internally
+#' @param ncores number of cores used to compute in parallel, if NULL one core is used.
 #'
 #' @return a data.frame with the following fields
 #'
@@ -146,7 +136,7 @@ parTopologicalIndices <- function(ig){
 #'
 #' @importFrom NetIndices TrophInd
 #' @importFrom igraph     V degree get.adjacency vcount ecount
-calcIncoherence <- function(ig,ti=NULL) {
+calcIncoherence <- function(ig,ti=NULL,ncores=NULL) {
 
   if(inherits(ig,"igraph")) {
     ig <- list(ig)
@@ -154,7 +144,23 @@ calcIncoherence <- function(ig,ti=NULL) {
     stop("parameter ig must be an igraph object")
   }
 
-  df <- lapply(ig, function(g){
+  if(!is.null(ncores)) {
+    cn <-parallel::detectCores()
+    if(cn>ncores)
+      cn <- ncores
+    else
+      cn <- cn-1
+
+    # cl <- makeCluster(cn,outfile="foreach.log") # Logfile to debug
+    cl <- parallel::makeCluster(cn)
+    doParallel::registerDoParallel(cl)
+    on.exit(parallel::stopCluster(cl))
+  } else {
+    foreach::registerDoSEQ()
+  }
+
+  df <-  foreach(g=ig,.combine='rbind',.inorder=FALSE,.packages=c('igraph','NetIndices')) %dopar%
+  {
 
     if(is.null(ti) )
       ti<-TrophInd(get.adjacency(g,sparse=FALSE))
@@ -172,8 +178,7 @@ calcIncoherence <- function(ig,ti=NULL) {
     eTI <- 1+(1-length(basal)/vcount(g))*ecount(g)/bedges
     eQ <- sqrt(ecount(g)/bedges-1)
     data.frame(Q=Q,rQ=Q/eQ,mTI=mTI,rTI=mTI/eTI)
-  })
-  do.call(rbind,df)
+  }
 }
 
 
@@ -187,9 +192,9 @@ calcIncoherence <- function(ig,ti=NULL) {
 #' Marina, T. I., Saravia, L. A., Cordone, G., Salinas, V., Doyle, S. R., & Momo, F. R. (2018). Architecture of marine food webs: To be or not be a ‘small-world.’ PLoS ONE, 13(5), 1–13. https://doi.org/10.1371/journal.pone.0198217
 #'
 #' @param g  igraph object
-#' @param nsim number of simulations of the Erdos-Renyi random networks
+#' @param nullDist list of igraph object with the null model simulations
 #' @param sLevel significance level to calculate CI (two tails)
-#' @param ncores number of cores to use paralell computation
+#' @param ncores number of cores to use paralell computation, if NULL no parallel computation is used
 #'
 #'
 #' @return a data frame with indices z-scores and CI
@@ -211,26 +216,34 @@ calcIncoherence <- function(ig,ti=NULL) {
 #'
 #' calcModularitySWnessZScore(netData[[1]])
 
-calcModularitySWnessZScore<- function(g, nsim=1000,sLevel=0.01,ncores=0){
+calcModularitySWnessZScore<- function(g, nullDist,sLevel=0.01,ncores=NULL){
 
   if(!is_igraph(g))
     stop("Parameter g must be an igraph object")
 
   t <- calcTopologicalIndices(g)
 
-  redes.r <- lapply(1:nsim, function (x) {
-    e <- sample_gnm(t$Size, t$Links, directed = TRUE)
+  if(length(nullDist)<5)
+    stop("nullDist: There has to be more than 5 elements in the list")
 
-    # Check that the ER networks has only one connected component
-    #
-    while(components(e)$no>1)
-      e <- erdos.renyi.game(t$Size, t$Links, type="gnm",directed = TRUE)
+  # nullDist <- lapply(1:nsim, function (x) {
+  #   e <- sample_gnm(t$Size, t$Links, directed = TRUE)
+  #
+  #   # Check that the ER networks has only one connected component
+  #   #
+  #   while(components(e)$no>1)
+  #     e <- erdos.renyi.game(t$Size, t$Links, type="gnm",directed = TRUE)
+  #
+  #   return(e) }
+  # )
 
-    return(e) }
-  )
-
-  if(ncores) {
+  if(!is.null(ncores)) {
     cn <-parallel::detectCores()
+    if(cn>ncores)
+      cn <- ncores
+    else
+      cn <- cn-1
+
     # cl <- makeCluster(cn,outfile="foreach.log") # Logfile to debug
     cl <- parallel::makeCluster(cn)
     doParallel::registerDoParallel(cl)
@@ -241,12 +254,12 @@ calcModularitySWnessZScore<- function(g, nsim=1000,sLevel=0.01,ncores=0){
 
   ind <- data.frame()
 
-  ind <- foreach(i=1:nsim,.combine='rbind',.inorder=FALSE,.packages='igraph') %dopar%
+  ind <- foreach(i=1:length(nullDist),.combine='rbind',.inorder=FALSE,.packages='igraph') %dopar%
   {
-    m<-cluster_spinglass(redes.r[[i]])
+    m<-cluster_spinglass(nullDist[[i]])
     modl <- m$modularity
-    clus.coef <- transitivity(redes.r[[i]], type="Global")
-    cha.path  <- average.path.length(redes.r[[i]])
+    clus.coef <- transitivity(nullDist[[i]], type="Global")
+    cha.path  <- average.path.length(nullDist[[i]])
     data.frame(modularity=modl,clus.coef=clus.coef,cha.path=cha.path)
   }
 

@@ -4,16 +4,16 @@
 \alias{calcModularitySWnessZScore}
 \title{Calculation of Modularity and Small-world-ness z-scores}
 \usage{
-calcModularitySWnessZScore(g, nsim = 1000, sLevel = 0.01, ncores = 0)
+calcModularitySWnessZScore(g, nullDist, sLevel = 0.01, ncores = NULL)
 }
 \arguments{
 \item{g}{igraph object}
 
-\item{nsim}{number of simulations of the Erdos-Renyi random networks}
+\item{nullDist}{list of igraph object with the null model simulations}
 
 \item{sLevel}{significance level to calculate CI (two tails)}
 
-\item{ncores}{number of cores to use paralell computation}
+\item{ncores}{number of cores to use paralell computation, if NULL no parallel computation is used}
 }
 \value{
 a data frame with indices z-scores and CI

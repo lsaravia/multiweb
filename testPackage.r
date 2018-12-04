@@ -21,10 +21,11 @@ plotTrophLevel(g,vertexLabel = TRUE,vertexSizeFactor = 20)
 calcIncoherence(g)
 
 g <-   graph_from_literal( 1 -+ 4 -+ 7,2 -+ 5 -+7, 3-+6-+7, 4+-5, simplify = FALSE)
-topologicalIndices(g)
-plotTrophLevel(g,vertexLabel = TRUE,vertexSizeFactor = 20)
+calcTopologicalIndices(g)
+plotTrophLevel(g,vertexLabel = TRUE,vertexSizeFactor = 20, modules = TRUE)
 calcIncoherence(g)
-calcModularitySWnessZScore(g,10,0.1,paralell = FALSE)
+nullg <- generateERbasal(g,10)
+calcModularitySWnessZScore(g,nullg,0.1,ncores = NULL)
 
 
 # test reading .csv files
@@ -104,32 +105,39 @@ m$membership
 g <-   graph_from_literal( 1 -+ 4 -+ 7,2 -+ 5 -+ 9, 4+-5,
                            3 -+ 6 -+ 8,5 -+8, simplify = FALSE)
 plotTrophLevel(g,vertexLabel = TRUE,vertexSizeFactor = 20,modules = TRUE)
-gg <- curveBall(g,10)
+gg <- curveBall(g,1000)
 plotTrophLevel(gg[[1]],vertexLabel = TRUE,vertexSizeFactor = 20,modules = TRUE)
 plotTrophLevel(gg[[2]],vertexLabel = TRUE,vertexSizeFactor = 10,modules=TRUE)
 plotTrophLevel(gg[[3]],vertexLabel = TRUE,vertexSizeFactor = 10,modules = TRUE)
 plotTrophLevel(gg[[10]],vertexLabel = TRUE,vertexSizeFactor = 20,modules = TRUE)
 lapply(gg, function(g) components(g)$no)
-calcTopologicalIndices(gg)
+
+# Test Parallel
+#
+p <- calcTopologicalIndices(gg,4)
+p <- calcIncoherence(gg,4)
 
 # Calculate 1000 randomizations of a real network
 #
-gg <- curveBall(netData[[1]],1000)
+gg <- curveBall(netData[[1]],100)
 
 lapply(gg,count_components)!=1
 tp <- calcTopologicalIndices(gg)
+tp1<- calcTopologicalIndices(gg,4)
+any(p!=p1)
+
+#
+# Duplicate the same network to test the function
+#
+any(tp1!=tp)
+gg <- rep(list(netData[[1]]),100)
+p <- calcIncoherence(gg)
+p1 <- calcIncoherence(gg,ncores=4)
+any(p!=p1)
+
+
 require(ggplot2)
 ggplot(tp, aes(Omnivory)) + geom_density() + theme_bw()
-
-hist(tp$Top)
-hist(tp$Basal)
-hist(tp$Omnivory)
-hist(tp$PathLength)
-hist(tp$Clustering)
-hist(tp$Cannib)
-hist(tp$TLmean)
-hist(tp$TLmax)
-tp <- calcIncoherence(gg)
 
 require(ggplot2)
 ggplot(tp, aes(Q)) + geom_density() + theme_bw()

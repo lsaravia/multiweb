@@ -56,3 +56,40 @@ curveBall<-function(g,nsim=1000){
 
   })
 }
+
+#' Generate directed Erdos-Renyi random networks with at least 1 basal node and only one component
+#'
+#' This uses the igraph's function sample_gnm to generate nsim random networks with the same number of nodes
+#' and links than the parameter ig and two restrictions:
+#' 1) at least one basal species/node, that is a species that has no prey, 2) 1 connected component so there is no
+#' disconnected species or sub-community.
+#'
+#' @param ig igraph object with parameters to use in the random network simulations: number of species/nodes
+#'           and number of links/edges
+#' @param nsim number of simulations
+#'
+#' @return a list with igraph objects
+#' @export
+#'
+#' @examples
+#'
+#' generateERbasal(netData[[1]])
+generateERbasal <- function(ig,nsim=1000){
+  if(!is_igraph(ig))
+    stop("Parameter ig must be an igraph object")
+
+  size <- vcount(ig)
+
+  links <- ecount(ig)
+
+  er <- lapply(1:nsim, function (x) {
+    e <- sample_gnm(size, links, directed = TRUE)
+    basal <- length(V(e)[degree(e,mode="in")==0])
+    while(components(e)$no>1 | basal==0){
+      e <- sample_gnm(size, links,directed = TRUE)
+      basal <- length(V(e)[degree(e,mode="in")==0])
+    }
+    return(e) })
+}
+
+
