@@ -208,7 +208,8 @@ readMultiplex <- function(fileName,types=c("Competitive","Mutualistic","Trophic"
 
 #' From multiple interaction object 'mgraph'to GLV adjacency matrix
 #'
-#' This functions takse an 'magraph'object and convert it to a Generalized Lotka-Volterra adjacency matrix
+#' This functions takes a 'mgraph' object and convert it to a Generalized Lotka-Volterra adjacency matrix
+#' Position is important in fact the order is  Competitive/Negative,Mutualistic/Positive,Trophic/Antagonistic
 #'
 #'
 #' @param mg multiple interaction object, class 'mgraph'
@@ -261,4 +262,80 @@ toGLVadjMat <- function(mg,types=c("Competitive","Mutualistic","Trophic")){
   }
 
   return(web)
+}
+
+
+
+#' From multiple interaction object 'mgraph'to GLV adjacency matrix
+#'
+#' This functions takes a 'mgraph' object and convert it to a Generalized Lotka-Volterra adjacency matrix.
+#'
+#'
+#' @param mg list of 'igraph' objects
+#' @param types vector of types that represent the layers with the same length as mg
+#'
+#' @return class 'mgraph' object
+#' @export
+#'
+#' @seealso [readMultiplex()]
+#' @examples
+#'
+#' # Read a vector of files
+#' #
+#'\dontrun{
+#'
+#' fileName <- c(system.file("extdata",  package = "EcoNetwork"))
+#' dn <- list.files("inst/extdata",pattern = "^Kefi2015.*\\.txt$")
+#' g <- readNetwork(dn,"inst/extdata", skipColumn = 2)
+#' igraph2mgraph(g,c("Negative","Positive","Antagonistic"))
+#'
+#'}
+
+fromIgraphToMgraph <- function(g,types){
+
+  if( any(sapply(g,class)!='igraph'))
+    stop("parameter mg must be a list of igraph objects")
+
+  if(length(g)!= length(types))
+     stop("Length of mg must be equal to length of types")
+
+  names(g) <- types
+  class(g) <- 'mgraph'
+
+  return(g)
+}
+
+#' From Generalized Lotka Volterra adjacency matrix to igraph object
+#'
+#' It counts predator-prey/Antagonistic interactions like 1 edge,
+#' competition and mutualisms are counted as is: two edges or one edge
+#'
+#' @param glvAdj numeric matrix Generalized Lotka-Volterra adjacency matrix
+#' @param spc numeric vector of present Species
+#'
+#' @return an igraph object
+#' @export
+#' @importFrom igraph     graph_from_adjacency_matrix V
+#'
+#' @examples
+#'
+fromGLVadjToIgraph<- function(glvAdj,spc){
+  require(igraph)
+
+  stopifnot(nrow(glvAdj)==ncol(glvAdj))
+  d <- spc!=0
+  A <- glvAdj[d,d]
+  for(i in seq_len(nrow(A)))
+    for(j in seq_len(nrow(A))){
+      if(A[i,j]<0 && A[j,i]>0){
+        A[i,j] <- 1
+        A[j,i] <- 0
+      }
+    }
+  diag(A) <- 0
+  A[A>0] <- 1
+  A[A<0] <- 1
+  g <- graph_from_adjacency_matrix(A,mode="directed")
+  V(g)$name <- which(spc>0)                              # Maintains the "names" of the original matrix
+  return(g)
 }

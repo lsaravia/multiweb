@@ -15,7 +15,8 @@ toGLVadjMat(mg, types = c("Competitive", "Mutualistic", "Trophic"))
 an matrix with the signs of the interactions
 }
 \description{
-This functions takse an 'magraph'object and convert it to a Generalized Lotka-Volterra adjacency matrix
+This functions takes a 'mgraph' object and convert it to a Generalized Lotka-Volterra adjacency matrix
+Position is important in fact the order is  Competitive/Negative,Mutualistic/Positive,Trophic/Antagonistic
 }
 \examples{
 

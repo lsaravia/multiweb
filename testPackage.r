@@ -199,6 +199,8 @@ plotTrophLevel(gt[[3]],modules = T)
 fileName <- c(system.file("extdata",  package = "EcoNetwork"))
 dn <- list.files("inst/extdata",pattern = "^Kefi2015.*\\.txt$")
 g <- readNetwork(dn,"inst/extdata", skipColumn = 2)
+gt <- igraph2mgraph(g,c("Negative","Positive","Antagonistic"))
+
 types <- c("Competitive","Mutualistic","Trophic")
 gt <- readMultiplex(dn,types,"inst/extdata", skipColumn = 2)
 
