@@ -16,7 +16,7 @@ plotTrophLevel(g[[1]])
 require(igraph)
 require(NetIndices)
 g <-   graph_from_literal( 1 -+ 4 -+ 7,2 -+ 5 -+7, 3-+6-+7, 7-+7, 4+-3, simplify = FALSE)
-topologicalIndices(g)
+print(calcTopologicalIndices(g))
 plotTrophLevel(g,vertexLabel = TRUE,vertexSizeFactor = 20)
 calcIncoherence(g)
 
@@ -129,12 +129,14 @@ sapply(gg, function(g) components(g)$no)
 lapply(gg,count_components)!=1
 tp <- calcTopologicalIndices(gg)
 tp1<- calcTopologicalIndices(gg,4)
-any(p!=p1)
+any(tp!=tp1)
+tp <- calcIncoherence(gg)
+tp1 <- calcIncoherence(gg,ncores=4)
+any(tp!=tp1)
 
 #
 # Duplicate the same network to test the function
 #
-any(tp1!=tp)
 gg <- rep(list(netData[[1]]),100)
 p <- calcIncoherence(gg)
 p1 <- calcIncoherence(gg,ncores=4)

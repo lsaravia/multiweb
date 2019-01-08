@@ -16,7 +16,8 @@ Imports:
     igraph (>= 1.1.2),
     NetIndices (>= 1.4.4),
     RColorBrewer (>= 1.1-2),
-    doParallel (>= 1.0.10)
+    doParallel (>= 1.0.10),
+    doFuture (>= 0.6.0)
 RoxygenNote: 6.1.1
 Suggests: testthat
 Roxygen: list(markdown = TRUE)

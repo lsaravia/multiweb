@@ -4,7 +4,7 @@
 #' Calculate topological indices for ecological networks
 #'
 #' @param ig vector of igraph objects
-#' @param ncores number of cores used to compute in parallel, if NULL only one core is used.
+#' @param ncores number of cores used to compute in parallel, if 0 sequential processing is used.
 #'
 #' @return a data.frame with the following fields:
 #'
@@ -19,13 +19,16 @@
 #'  \item{Clustering:}{ clustering coeficient}
 #'  \item{Cannib:}{ number of cannibalistic species}
 #'  \item{TLmean:}{ mean trophic level}
-#'  \item{Cannib:}{ maximum trophic level}
+#'  \item{TLmax:}{ maximum trophic level}
+#'  \item{Components:}{ number of weakly connected components}
 #'
 #'
 #' @export
 #' @importFrom NetIndices TrophInd
 #' @import igraph
 #' @importFrom foreach foreach %dopar%
+#' @importFrom doFuture registerDoFuture
+#' @importFrom future sequential multiprocess
 #'
 #' @examples
 #'
@@ -37,7 +40,7 @@
 #'
 #' topologicalIndices(g)
 
-calcTopologicalIndices <- function(ig,ncores=NULL){
+calcTopologicalIndices <- function(ig,ncores=0){
 
   if(inherits(ig,"igraph")) {
     ig <- list(ig)
@@ -45,19 +48,17 @@ calcTopologicalIndices <- function(ig,ncores=NULL){
     stop("parameter ig must be an igraph object")
   }
 
-  if(!is.null(ncores)) {
-    cn <-parallel::detectCores()
-    if(cn>ncores)
-      cn <- ncores
-    else
-      cn <- cn-1
-    # cl <- makeCluster(cn,outfile="foreach.log") # Logfile to debug
-    cl <- parallel::makeCluster(cn)
-    doParallel::registerDoParallel(cl)
-    on.exit(parallel::stopCluster(cl))
+  registerDoFuture()
+  if(ncores) {
+    cn <- future::availableCores()
+    if(ncores>cn)
+      ncores <- cn
+    future::plan(multiprocess, workers=ncores)
+    on.exit(future::plan(sequential))
   } else {
-    foreach::registerDoSEQ()
+    future::plan(sequential)
   }
+
 
   df <-  foreach(g=ig,.combine='rbind',.inorder=FALSE,.packages=c('igraph','NetIndices')) %dopar%
     {
@@ -95,7 +96,7 @@ calcTopologicalIndices <- function(ig,ncores=NULL){
     omn <- sum(round(tl$OI,5)>0)/size        # Omnivory
 
     data.frame(Size=size,Top=nTop,Basal=nBasal,Omnivory=omn,Links=links, LD=linkDen,Connectance=conn,PathLength=pathLength,
-               Clustering=clusCoef, Cannib=cannib, TLmean=mean(tl$TL),TLmax=max(tl$TL))
+               Clustering=clusCoef, Cannib=cannib, TLmean=mean(tl$TL),TLmax=max(tl$TL),Components=components(g)$no)
   }
 
 }
@@ -117,7 +118,7 @@ calcTopologicalIndices <- function(ig,ncores=NULL){
 #'
 #' @param g an igraph object
 #' @param ti trophic level vector if not supplied is calculated internally
-#' @param ncores number of cores used to compute in parallel, if NULL one core is used.
+#' @param ncores number of cores used to compute in parallel, if 0 sequential processing is used.
 #'
 #' @return a data.frame with the following fields
 #'
@@ -136,7 +137,11 @@ calcTopologicalIndices <- function(ig,ncores=NULL){
 #'
 #' @importFrom NetIndices TrophInd
 #' @importFrom igraph     V degree get.adjacency vcount ecount
-calcIncoherence <- function(ig,ti=NULL,ncores=NULL) {
+#' @importFrom foreach foreach %dopar%
+#' @importFrom doFuture registerDoFuture
+#' @importFrom future sequential multiprocess
+
+calcIncoherence <- function(ig,ti=NULL,ncores=0) {
 
   if(inherits(ig,"igraph")) {
     ig <- list(ig)
@@ -144,20 +149,32 @@ calcIncoherence <- function(ig,ti=NULL,ncores=NULL) {
     stop("parameter ig must be an igraph object")
   }
 
-  if(!is.null(ncores)) {
-    cn <-parallel::detectCores()
-    if(cn>ncores)
-      cn <- ncores
-    else
-      cn <- cn-1
-
-    # cl <- makeCluster(cn,outfile="foreach.log") # Logfile to debug
-    cl <- parallel::makeCluster(cn)
-    doParallel::registerDoParallel(cl)
-    on.exit(parallel::stopCluster(cl))
+  registerDoFuture()
+  if(ncores) {
+    cn <- future::availableCores()
+    if(ncores>cn)
+      ncores <- cn
+    future::plan(multiprocess, workers=ncores)
+    on.exit(future::plan(sequential))
   } else {
-    foreach::registerDoSEQ()
+    future::plan(sequential)
   }
+
+
+  # if(!is.null(ncores)) {
+  #   cn <-parallel::detectCores()
+  #   if(cn>ncores)
+  #     cn <- ncores
+  #   else
+  #     cn <- cn-1
+  #
+  #   # cl <- makeCluster(cn,outfile="foreach.log") # Logfile to debug
+  #   cl <- parallel::makeCluster(cn)
+  #   doParallel::registerDoParallel(cl)
+  #   on.exit(parallel::stopCluster(cl))
+  # } else {
+  #   foreach::registerDoSEQ()
+  # }
 
   df <-  foreach(g=ig,.combine='rbind',.inorder=FALSE,.packages=c('igraph','NetIndices')) %dopar%
   {
@@ -185,8 +202,8 @@ calcIncoherence <- function(ig,ti=NULL,ncores=NULL) {
 #' Calculation of Modularity and Small-world-ness z-scores
 #'
 #' The function calculates modularity, number of groups and small-world-ness z-scores and 99\% CI intervals
-#' using as null model Erdos-Renyi random networks with the same number of links and species.
-#'
+#' using as null model Erdos-Renyi random networks with the same number of links and species. Only works for one
+#' component networks
 #'
 #' @references
 #' Marina, T. I., Saravia, L. A., Cordone, G., Salinas, V., Doyle, S. R., & Momo, F. R. (2018). Architecture of marine food webs: To be or not be a ‘small-world.’ PLoS ONE, 13(5), 1–13. https://doi.org/10.1371/journal.pone.0198217
@@ -194,7 +211,7 @@ calcIncoherence <- function(ig,ti=NULL,ncores=NULL) {
 #' @param g  igraph object
 #' @param nullDist list of igraph object with the null model simulations
 #' @param sLevel significance level to calculate CI (two tails)
-#' @param ncores number of cores to use paralell computation, if NULL no parallel computation is used
+#' @param ncores number of cores to use paralell computation, if 0 sequential processing is used.
 #'
 #'
 #' @return a data frame with indices z-scores and CI
@@ -209,14 +226,18 @@ calcIncoherence <- function(ig,ti=NULL,ncores=NULL) {
 
 #' @export
 #'
-#' @importFrom foreach foreach %dopar%
 #' @importFrom igraph transitivity average.path.length cluster_spinglass
-
-#' @examples
+#' @importFrom foreach foreach %dopar%
+#' @importFrom doFuture registerDoFuture
+#' @importFrom future sequential multiprocess
 #'
-#' calcModularitySWnessZScore(netData[[1]])
-
-calcModularitySWnessZScore<- function(g, nullDist,sLevel=0.01,ncores=NULL){
+#' @examples
+#' \dontrun{
+#' nullg <- generateERbasal(netData[[1]],10)
+#' calcModularitySWnessZScore(netData[[1]],nullg)
+#' }
+#'
+calcModularitySWnessZScore<- function(g, nullDist,sLevel=0.01,ncores=0){
 
   if(!is_igraph(g))
     stop("Parameter g must be an igraph object")
@@ -240,19 +261,15 @@ calcModularitySWnessZScore<- function(g, nullDist,sLevel=0.01,ncores=NULL){
   #   return(e) }
   # )
 
-  if(!is.null(ncores)) {
-    cn <-parallel::detectCores()
-    if(cn>ncores)
-      cn <- ncores
-    else
-      cn <- cn-1
-
-    # cl <- makeCluster(cn,outfile="foreach.log") # Logfile to debug
-    cl <- parallel::makeCluster(cn)
-    doParallel::registerDoParallel(cl)
-    on.exit(parallel::stopCluster(cl))
+  registerDoFuture()
+  if(ncores) {
+    cn <- future::availableCores()
+    if(ncores>cn)
+      ncores <- cn
+    future::plan(multiprocess, workers=ncores)
+    on.exit(future::plan(sequential))
   } else {
-    foreach::registerDoSEQ()
+    future::plan(sequential)
   }
 
   ind <- data.frame()

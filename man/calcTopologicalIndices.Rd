@@ -4,12 +4,12 @@
 \alias{calcTopologicalIndices}
 \title{Calculate topological indices for ecological networks}
 \usage{
-calcTopologicalIndices(ig, ncores = NULL)
+calcTopologicalIndices(ig, ncores = 0)
 }
 \arguments{
 \item{ig}{vector of igraph objects}
 
-\item{ncores}{number of cores used to compute in parallel, if NULL only one core is used.}
+\item{ncores}{number of cores used to compute in parallel, if 0 sequential processing is used.}
 }
 \value{
 a data.frame with the following fields:
@@ -25,7 +25,8 @@ a data.frame with the following fields:
 \item{Clustering:}{ clustering coeficient}
 \item{Cannib:}{ number of cannibalistic species}
 \item{TLmean:}{ mean trophic level}
-\item{Cannib:}{ maximum trophic level}
+\item{TLmax:}{ maximum trophic level}
+\item{Components:}{ number of weakly connected components}
 }
 \description{
 Calculate topological indices for ecological networks

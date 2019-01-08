@@ -4,7 +4,7 @@
 \alias{calcModularitySWnessZScore}
 \title{Calculation of Modularity and Small-world-ness z-scores}
 \usage{
-calcModularitySWnessZScore(g, nullDist, sLevel = 0.01, ncores = NULL)
+calcModularitySWnessZScore(g, nullDist, sLevel = 0.01, ncores = 0)
 }
 \arguments{
 \item{g}{igraph object}
@@ -13,7 +13,7 @@ calcModularitySWnessZScore(g, nullDist, sLevel = 0.01, ncores = NULL)
 
 \item{sLevel}{significance level to calculate CI (two tails)}
 
-\item{ncores}{number of cores to use paralell computation, if NULL no parallel computation is used}
+\item{ncores}{number of cores to use paralell computation, if 0 sequential processing is used.}
 }
 \value{
 a data frame with indices z-scores and CI
@@ -28,11 +28,15 @@ a data frame with indices z-scores and CI
 }
 \description{
 The function calculates modularity, number of groups and small-world-ness z-scores and 99\% CI intervals
-using as null model Erdos-Renyi random networks with the same number of links and species.
+using as null model Erdos-Renyi random networks with the same number of links and species. Only works for one
+component networks
 }
 \examples{
+\dontrun{
+nullg <- generateERbasal(netData[[1]],10)
+calcModularitySWnessZScore(netData[[1]],nullg)
+}
 
-calcModularitySWnessZScore(netData[[1]])
 }
 \references{
 Marina, T. I., Saravia, L. A., Cordone, G., Salinas, V., Doyle, S. R., & Momo, F. R. (2018). Architecture of marine food webs: To be or not be a ‘small-world.’ PLoS ONE, 13(5), 1–13. https://doi.org/10.1371/journal.pone.0198217

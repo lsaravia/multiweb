@@ -5,7 +5,7 @@
 #' of the network with the same row and column totals, the results have the same in and out degree sequence
 #' than the original network. The diagonals are not avoided so it can generate self-links or cannibalism in
 #' the context of food-webs. In the case that the network has multiple components (or disconnected networks)
-#' the algorithm simulates with around the same number of components, if the original network has 1 component
+#' the algorithm simulates around the same number of components, if the original network has 1 component
 #' the algorithm enforces that the results have all 1 component.
 #'
 #' Based on:
@@ -57,9 +57,6 @@ curveBall<-function(g,nsim=1000){
       for (row in 1:R){rm[row,hp[[row]]] <- 1}
 
       g <- graph_from_adjacency_matrix(rm,mode="directed")
-      # if(components(g)$no==1)
-      #   break
-      # }
       return(g)
     })
   } else {   #if the the networks has only one component enforce that in the simulations
