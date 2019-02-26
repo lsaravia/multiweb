@@ -2,7 +2,7 @@
 % Please edit documentation in R/readNetwork.r
 \name{fromIgraphToMgraph}
 \alias{fromIgraphToMgraph}
-\title{From multiple interaction object 'mgraph'to GLV adjacency matrix}
+\title{From multiple igraph objects to 'mgraph'}
 \usage{
 fromIgraphToMgraph(g, types)
 }
@@ -15,7 +15,7 @@ fromIgraphToMgraph(g, types)
 class 'mgraph' object
 }
 \description{
-This functions takes a 'mgraph' object and convert it to a Generalized Lotka-Volterra adjacency matrix.
+This functions takes a list of igraph objects and convert it to a 'mgraph' object.
 }
 \examples{
 

@@ -266,9 +266,9 @@ toGLVadjMat <- function(mg,types=c("Competitive","Mutualistic","Trophic")){
 
 
 
-#' From multiple interaction object 'mgraph'to GLV adjacency matrix
+#' From multiple igraph objects to 'mgraph'
 #'
-#' This functions takes a 'mgraph' object and convert it to a Generalized Lotka-Volterra adjacency matrix.
+#' This functions takes a list of igraph objects and convert it to a 'mgraph' object.
 #'
 #'
 #' @param mg list of 'igraph' objects
