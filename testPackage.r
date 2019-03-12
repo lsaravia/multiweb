@@ -257,3 +257,20 @@ pltMat[1,2] <- 339
 pltMat[2,1] <- 150
 pltMat[2,2] <- 376
 plotTrophLevel(g,vertexLabel = TRUE,vertexSizeFactor = 20,lMat=pltMat)
+
+# Test network with different components and modules
+#
+fileName <- "../NetworkGolfoSanJorge/Data/TTtotal2102.csv"
+g <- readNetwork(fileName,edgeListFormat=2 )
+V(g)[nei(V(g)[name=="POM"],"out")]
+V(g)[nei(V(g)[name=="POM"],"in")]
+
+plotTrophLevel(g,vertexLabel = TRUE,vertexSizeFactor = 5,modules = TRUE)
+
+# Plot a network with two different components as modules
+#
+g <-   graph_from_literal( 2 -+ 1 +-3,4 -+ 1, 3+-3, 5-+5, 4-+6-+2, 2+-5-+3, simplify = FALSE)
+g1 <-   graph_from_literal( 7 -+ 8 +-9,10 -+ 8, 10-+10, 9+-9, 11-+11, 10-+13-+12, 12+-11-+9, simplify = FALSE)
+
+g2 <- g+g1
+plotTrophLevel(g2,vertexLabel = TRUE,vertexSizeFactor = 7,modules = TRUE)

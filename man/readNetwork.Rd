@@ -4,7 +4,8 @@
 \alias{readNetwork}
 \title{Read ecological networks in CSV or tab separated file format as edge list or adyacency matrix}
 \usage{
-readNetwork(fileName, filePath = NULL, fhead = TRUE, skipColumn = 1)
+readNetwork(fileName, filePath = NULL, fhead = TRUE, skipColumn = 1,
+  edgeListFormat = 1)
 }
 \arguments{
 \item{fileName}{vector of fileNames with the networks}
@@ -12,6 +13,9 @@ readNetwork(fileName, filePath = NULL, fhead = TRUE, skipColumn = 1)
 \item{filePath}{path of the files NULL by default}
 
 \item{fhead}{TRUE if the files have header fields, FALSE otherwise.}
+
+\item{edgeListFormat}{integer, for the edge list format, if 1 the first column is the "in" (the predator),
+if 2 the first column is the "out" link (the prey).}
 
 \item{skipColum}{integer, number of columns that are skiped 1 by default}
 }
@@ -23,7 +27,7 @@ Read ecological networks in CSV or tab separated file format as edge list or ady
 }
 \examples{
 
-# Reads a network in edge list (interaction list) format, with predators as the first column
+# Reads a network in edge list (interaction list) format, with predators as the first column by default
 #
 fileName <- system.file("extdata", "WeddellSea_FW.csv", package = "EcoNetwork")
 g <- readNetwork(fileName)

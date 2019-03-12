@@ -10,13 +10,15 @@
 #' @param filePath path of the files NULL by default
 #' @param fhead TRUE if the files have header fields, FALSE otherwise.
 #' @param skipColum integer, number of columns that are skiped 1 by default
+#' @param edgeListFormat integer, for the edge list format, if 1 the first column is the "in" (the predator),
+#'                       if 2 the first column is the "out" link (the prey).
 #'
 #' @return an igraph object if there is only one file or a list of igraph objects named after the list without extension
 #' @export
 #'
 #' @examples
 #'
-#' # Reads a network in edge list (interaction list) format, with predators as the first column
+#' # Reads a network in edge list (interaction list) format, with predators as the first column by default
 #' #
 #' fileName <- system.file("extdata", "WeddellSea_FW.csv", package = "EcoNetwork")
 #' g <- readNetwork(fileName)
@@ -33,7 +35,7 @@
 #' netData <- readNetwork(dn,"inst/extdata")
 #'}
 
-readNetwork <- function(fileName,filePath=NULL,fhead=TRUE,skipColumn=1){
+readNetwork <- function(fileName,filePath=NULL,fhead=TRUE,skipColumn=1,edgeListFormat=1){
 
   fn <-  if(!is.null(filePath)) paste0(filePath,"/",fileName) else fileName
 
@@ -51,7 +53,8 @@ readNetwork <- function(fileName,filePath=NULL,fhead=TRUE,skipColumn=1){
     }
 
     if( ncol(web)==2 ){
-      web <- web[,c(2,1)]
+      if( edgeListFormat==1 )
+          web <- web[,c(2,1)]
 
       g <- igraph::graph_from_data_frame(web)
 
