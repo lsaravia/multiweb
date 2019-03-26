@@ -323,7 +323,6 @@ fromIgraphToMgraph <- function(g,types){
 #' @examples
 #'
 fromGLVadjToIgraph<- function(glvAdj,spc){
-  require(igraph)
 
   stopifnot(nrow(glvAdj)==ncol(glvAdj))
   d <- spc!=0

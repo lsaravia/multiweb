@@ -321,3 +321,5 @@ calcModularitySWnessZScore<- function(g, nullDist,sLevel=0.01,ncores=0){
     SWness=mSW,SWnessCI=mCI,
     isSW=isSW,isSWness=isSWness))
 }
+
+

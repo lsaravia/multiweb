@@ -2,7 +2,9 @@
 
 export(calcIncoherence)
 export(calcModularitySWnessZScore)
+export(calcQuantitativeConnectance)
 export(calcTopologicalIndices)
+export(calc_quantitative_connectance)
 export(curveBall)
 export(fromGLVadjToIgraph)
 export(fromIgraphToMgraph)
