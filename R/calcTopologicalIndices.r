@@ -30,17 +30,19 @@
 #' @importFrom doFuture registerDoFuture
 #' @importFrom future sequential multiprocess
 #'
+#' @aliases calcTopologicalIndices
+#'
 #' @examples
 #'
-#' topologicalIndices(netData)
+#' calc_topological_indices(netData)
 #'
 #' # Generate a test network
 #'
 #' g <-   graph_from_literal( 1 -+ 4 -+ 7,2 -+ 5 -+7, 3-+6-+7, 7-+7, 4+-3, simplify = FALSE)
 #'
-#' topologicalIndices(g)
+#' calc_topological_indices(g)
 
-calcTopologicalIndices <- function(ig,ncores=0){
+calc_topological_indices <- function(ig,ncores=0){
 
   if(inherits(ig,"igraph")) {
     ig <- list(ig)
@@ -98,7 +100,10 @@ calcTopologicalIndices <- function(ig,ncores=0){
     data.frame(Size=size,Top=nTop,Basal=nBasal,Omnivory=omn,Links=links, LD=linkDen,Connectance=conn,PathLength=pathLength,
                Clustering=clusCoef, Cannib=cannib, TLmean=mean(tl$TL),TLmax=max(tl$TL),Components=components(g)$no)
   }
+}
 
+calcTopologicalIndices <- function(ig,ncores=0){
+    calc_topological_indices(ig,ncores=0)
 }
 
 

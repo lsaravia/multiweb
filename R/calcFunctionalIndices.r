@@ -63,7 +63,7 @@ calc_quantitative_connectance <- function(interM,d){
 
   for(k in seq_along(d)) {
     for(i in seq_along(d)) {
-      SS[i,k] <- TT[i,k]/TTT * log(TT[i,k]^2/(TTrow[i]*TTcol[k]))
+      SS[i,k] <- TT[i,k]/TTT * log2(TT[i,k]^2/(TTrow[i]*TTcol[k]))
       if(TT[i,k]!=0){
         Hin[k] <- Hin[k] - TT[i,k]/TTcol[k]*log(TT[i,k]/TTcol[k])
       }
@@ -79,14 +79,10 @@ calc_quantitative_connectance <- function(interM,d){
   nout[TTrow==0] <- 0
   nin <- exp(Hout)
   nin[TTcol==0] <- 0
-  LDq <- exp(-sum(SS,na.rm = T)/2)   # C= linkage Density / S
+  LDq <- 2^(-sum(SS,na.rm = T)/2)   # C= linkage Density / S
   Cq <- 1/(2*nsp^2)*(sum(nout+nin))  #
   return(list(Cq=Cq,LDq=LDq))
 }
 
-#' See [calc_quantitative_connectance()]
-#'
-#' @export
-#'
 calcQuantitativeConnectance <- function(interM,d){
   calc_quantitative_connectance(interM,d)}

@@ -4,8 +4,8 @@
 \alias{plotTrophLevel}
 \title{Plot ecological network organized by trophic level, with node size determined by the node degree}
 \usage{
-plotTrophLevel(g, vertexLabel = FALSE, vertexSizeFactor = 5,
-  tk = FALSE, modules = FALSE, lMat = NULL, ...)
+plotTrophLevel(g, vertexLabel = FALSE, vertexSizeFactor = 5, tk = FALSE,
+  modules = FALSE, lMat = NULL, ...)
 }
 \arguments{
 \item{vertexLabel}{logical plot vertex labels}
