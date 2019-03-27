@@ -132,12 +132,13 @@ calcTopologicalIndices <- function(ig,ncores=0){
 #'  \item{mTI}{mean trophic level}
 #'  \item{rTI}{ratio of mTI with expected TI under the same null model expectation than Q}
 #
+#' @aliases calcIncoherence
 #'
 #' @export
 #'
 #' @examples
 #'
-#' calcIncoherence(netData[[1]])
+#' calc_incoherence(netData[[1]])
 #'
 #'
 #' @importFrom NetIndices TrophInd
@@ -146,7 +147,7 @@ calcTopologicalIndices <- function(ig,ncores=0){
 #' @importFrom doFuture registerDoFuture
 #' @importFrom future sequential multiprocess
 
-calcIncoherence <- function(ig,ti=NULL,ncores=0) {
+calc_incoherence <- function(ig,ti=NULL,ncores=0) {
 
   if(inherits(ig,"igraph")) {
     ig <- list(ig)
@@ -203,6 +204,9 @@ calcIncoherence <- function(ig,ti=NULL,ncores=0) {
   }
 }
 
+calcIncoherence <- function(ig,ti=NULL,ncores=0){
+  calc_incoherence(ig,ti,ncores)
+  }
 
 #' Calculation of Modularity and Small-world-ness z-scores
 #'

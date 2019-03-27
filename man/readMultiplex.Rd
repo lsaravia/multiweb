@@ -4,8 +4,9 @@
 \alias{readMultiplex}
 \title{Read ecological multiplex networks using different files for each layer as a 'node-aligned' multilayer network}
 \usage{
-readMultiplex(fileName, types = c("Competitive", "Mutualistic", "Trophic"),
-  filePath = NULL, fhead = TRUE, skipColumn = 1, format = "layers")
+readMultiplex(fileName, types = c("Competitive", "Mutualistic",
+  "Trophic"), filePath = NULL, fhead = TRUE, skipColumn = 1,
+  format = "layers")
 }
 \arguments{
 \item{fileName}{vector of fileNames with the layers of the networks}
