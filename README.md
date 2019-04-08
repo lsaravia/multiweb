@@ -6,7 +6,7 @@ This is an R package to calculate recently developed network metrics and also so
 
 ```R
 require(devtools)
-install_github("lsaravia/EcoNetworks")
+install_github("lsaravia/EcoNetwork")
 ```
 
 ## Examples
