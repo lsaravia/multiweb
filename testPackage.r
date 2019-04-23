@@ -16,7 +16,7 @@ plotTrophLevel(g[[1]])
 require(igraph)
 require(NetIndices)
 g <-   graph_from_literal( 1 -+ 4 -+ 7,2 -+ 5 -+7, 3-+6-+7, 7-+7, 4+-3, simplify = FALSE)
-print(calcTopologicalIndices(g))
+print(calc_topological_indices(g))
 plotTrophLevel(g,vertexLabel = TRUE,vertexSizeFactor = 20)
 calcIncoherence(g)
 
@@ -169,7 +169,7 @@ sapply(gt,vcount)
 sapply(gt,ecount)/sum(sapply(gt,ecount))
 
 # Connectivity
-sum(sapply(gt,ecount))/(91*91)
+sapply(gt,ecount)/(sapply(gt,vcount)*sapply(gt,vcount))
 
 
 glv <- toGLVadjMat(gt)
@@ -213,7 +213,7 @@ sapply(gt,ecount)/sum(sapply(gt,ecount))
 # Number of species
 sapply(gt,vcount)
 
-# Connectivity
+# Total Connectivity
 sum(sapply(gt,ecount))/(106*106)
 
 #
@@ -316,3 +316,14 @@ m[1,3] <- m[2,3] <- m[3,4] <- m[4,1] <- m[3,1] <- m[2,4] <- m[4,2] <- 5.66
 print(calc_quantitative_connectance(m, c(1,1,1,1))) # =0.4411018, 1.096489
 sum(m>0)/(nrow(m)^2)
 
+#
+# Test Topological roles
+#
+
+sapply(netData,vcount)
+
+g <- netData[[2]]
+
+tp <- calc_topological_roles(g,nsim=100,ncores=4)
+
+classify_topological_roles(tp,g,plt=TRUE)
