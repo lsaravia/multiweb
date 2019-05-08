@@ -87,7 +87,7 @@ calc_topological_indices <- function(ig,ncores=0){
 
     conn <- links/size^2           # Connectance
 
-    pathLength <- average.path.length(g)   # Average path length
+    pathLength <- mean_distance(g)   # Average path length
 
     clusCoef <- transitivity(g, type = "global")
 

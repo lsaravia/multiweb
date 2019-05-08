@@ -4,7 +4,7 @@
 
 #' Read ecological networks in CSV or tab separated file format as edge list or adyacency matrix
 #'
-#'
+#' If the network is in edge list format and, there is a third column is treated as an edge attribute with the name of the column
 #'
 #' @param fileName vector of fileNames with the networks
 #' @param filePath path of the files NULL by default
@@ -52,11 +52,14 @@ readNetwork <- function(fileName,filePath=NULL,fhead=TRUE,skipColumn=1,edgeListF
 
     }
 
-    if( ncol(web)==2 ){
+    if( ncol(web)<=3 ){
       if( edgeListFormat==1 )
+        if( nrow(web)==2)
           web <- web[,c(2,1)]
+        else
+          web <- web[,c(2,1,3)]
 
-      g <- igraph::graph_from_data_frame(web)
+      g <- igraph::graph_from_data_frame(web)                        # the 3d field generate an attribute
 
     } else {
       if( (ncol(web)-skipColumn) == nrow(web)  ) {                   # The adjacency matrix must be square

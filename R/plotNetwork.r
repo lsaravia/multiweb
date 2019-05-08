@@ -1,12 +1,15 @@
 
-#' Plot ecological network organized by trophic level, with node size determined by the node degree
+#' Plot ecological network organized by trophic level, with node size determined by the node degree, and modules
 #'
 #' @param ig igraph object
 #' @param vertexLabel logical plot vertex labels
 #' @param vertexSizeFactor numeric factor to determine the size of the label with degree
 #' @param tk TRUE generate an interactive plot using tkplot
-#' @param modules FALSE plot modules in the x axis, obtained with the cluster spinglass algorithm
+#' @param modules if TRUE plot modules in the x axis, obtained with the cluster spinglass algorithm
 #' @param lMat Matrix of postions for the nodes
+#' @param weights edge attribute for the [igraph::cluster_spinglass()] community detection,
+#'                if NA weight attributte is not considered, NULL weight attribute is taken into account,
+#'                other edge attribute to take into account for weight.
 #' @param ... Addittional parameters to the plot function
 #'
 #' @return if tk==TRUE returns a layout matrix, else returns a plot
@@ -19,7 +22,7 @@
 #' @examples
 #'
 #' plotTrophLevel(netData[[1]])
-plotTrophLevel <- function(g,vertexLabel=FALSE,vertexSizeFactor=5,tk=FALSE,modules=FALSE,lMat=NULL, ...){
+plotTrophLevel <- function(g,vertexLabel=FALSE,vertexSizeFactor=5,tk=FALSE,modules=FALSE,lMat=NULL,weights=NA, ...){
 
   deg <- degree(g, mode="all") # calculate the degree: the number of edges
   # or interactions
@@ -66,7 +69,7 @@ plotTrophLevel <- function(g,vertexLabel=FALSE,vertexSizeFactor=5,tk=FALSE,modul
         m$membership <- V(g)$membership
 
       } else {
-        m<-cluster_spinglass(g)
+        m<-cluster_spinglass(g,weights=weights)
       }
 
       lMat[,1]<-jitter(m$membership,1) # randomly assign along x-axis

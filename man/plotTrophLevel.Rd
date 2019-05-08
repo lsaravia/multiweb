@@ -2,10 +2,10 @@
 % Please edit documentation in R/plotNetwork.r
 \name{plotTrophLevel}
 \alias{plotTrophLevel}
-\title{Plot ecological network organized by trophic level, with node size determined by the node degree}
+\title{Plot ecological network organized by trophic level, with node size determined by the node degree, and modules}
 \usage{
 plotTrophLevel(g, vertexLabel = FALSE, vertexSizeFactor = 5,
-  tk = FALSE, modules = FALSE, lMat = NULL, ...)
+  tk = FALSE, modules = FALSE, lMat = NULL, weights = NA, ...)
 }
 \arguments{
 \item{vertexLabel}{logical plot vertex labels}
@@ -14,9 +14,13 @@ plotTrophLevel(g, vertexLabel = FALSE, vertexSizeFactor = 5,
 
 \item{tk}{TRUE generate an interactive plot using tkplot}
 
-\item{modules}{FALSE plot modules in the x axis, obtained with the cluster spinglass algorithm}
+\item{modules}{if TRUE plot modules in the x axis, obtained with the cluster spinglass algorithm}
 
 \item{lMat}{Matrix of postions for the nodes}
+
+\item{weights}{edge attribute for the \code{\link[igraph:cluster_spinglass]{igraph::cluster_spinglass()}} community detection,
+if NA weight attributte is not considered, NULL weight attribute is taken into account,
+other edge attribute to take into account for weight.}
 
 \item{...}{Addittional parameters to the plot function}
 
@@ -26,7 +30,7 @@ plotTrophLevel(g, vertexLabel = FALSE, vertexSizeFactor = 5,
 if tk==TRUE returns a layout matrix, else returns a plot
 }
 \description{
-Plot ecological network organized by trophic level, with node size determined by the node degree
+Plot ecological network organized by trophic level, with node size determined by the node degree, and modules
 }
 \examples{
 

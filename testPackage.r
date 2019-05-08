@@ -258,14 +258,21 @@ pltMat[2,1] <- 150
 pltMat[2,2] <- 376
 plotTrophLevel(g,vertexLabel = TRUE,vertexSizeFactor = 20,lMat=pltMat)
 
-# Test network with different components and modules
+# Test network with weights
 #
-fileName <- "../NetworkGolfoSanJorge/Data/TTtotal2102.csv"
+fileName <- "../../Collaborations/NetworkGolfoSanJorge/Data/testInteracion.dat"
 g <- readNetwork(fileName,edgeListFormat=2 )
 V(g)[nei(V(g)[name=="POM"],"out")]
 V(g)[nei(V(g)[name=="POM"],"in")]
+g
+g[]
+# Get the weights of a predator
+g[,"Acanthistius patachonicus"]
+# Get the adjacency matrix with weights
+as_adjacency_matrix(g,attr="weight",sparse = FALSE)
 
 plotTrophLevel(g,vertexLabel = TRUE,vertexSizeFactor = 5,modules = TRUE)
+
 
 # Plot a network with two different components as modules
 #
