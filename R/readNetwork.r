@@ -54,7 +54,7 @@ readNetwork <- function(fileName,filePath=NULL,fhead=TRUE,skipColumn=1,edgeListF
 
     if( ncol(web)<=3 ){
       if( edgeListFormat==1 )
-        if( nrow(web)==2)
+        if( ncol(web)==2)
           web <- web[,c(2,1)]
         else
           web <- web[,c(2,1,3)]
