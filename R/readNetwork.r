@@ -4,7 +4,7 @@
 
 #' Read ecological networks in CSV or tab separated file format as edge list or adyacency matrix
 #'
-#' If the network is in edge list format and, there is a third column is treated as an edge attribute with the name of the column
+#' If the network is in edge list format and there is a third column is treated as an edge attribute with the name of the column
 #'
 #' @param fileName vector of fileNames with the networks
 #' @param filePath path of the files NULL by default
@@ -238,33 +238,67 @@ readMultiplex <- function(fileName,types=c("Competitive","Mutualistic","Trophic"
 #' toGLVadjMat(netData)
 #'}
 
-toGLVadjMat <- function(mg,types=c("Competitive","Mutualistic","Trophic")){
+toGLVadjMat <- function(mg,types=c("Competitive","Mutualistic","Trophic"),istrength=FALSE){
 
   if( class(mg)!='mgraph')
     stop("parameter mg must be an mgraph object")
 
   stopifnot(length(types)==3)
 
-  pred <- as_adj(mg[[types[3]]],sparse = FALSE)
-  comp <- as_adj(mg[[types[1]]],sparse = FALSE)
-  mut  <- as_adj(mg[[types[2]]],sparse = FALSE)
+  if(is.null(edge_attr(mg[[types[3]]],"weight")))
+    pred <- as_adj(mg[[types[3]]],sparse = FALSE)
+  else
+    pred <- as_adj(mg[[types[3]]],sparse = FALSE,attr="weight")
+
+  if(is.null(edge_attr(mg[[types[1]]],"weight")))
+    comp <- as_adj(mg[[types[1]]],sparse = FALSE)
+  else
+    comp <- as_adj(mg[[types[1]]],sparse = FALSE,attr="weight")
+
+  if(is.null(edge_attr(mg[[types[2]]],"weight")))
+    mut <- as_adj(mg[[types[2]]],sparse = FALSE)
+  else
+    mut <- as_adj(mg[[types[2]]],sparse = FALSE,attr="weight")
+
   web  <- matrix(0,nrow = nrow(pred),ncol = nrow(pred))
 
-  for( i in 1:nrow(web)){
-    for(j in 1:nrow(web)){
-      if(pred[i,j]){
-          web[i,j] <- -1
-          web[j,i] <- 1
-      } else if(comp[i,j]) {
+  if(istrength)
+  {
+    for( i in 1:nrow(web)){
+      for(j in 1:nrow(web)){
+        if(pred[i,j]){
+            web[i,j] <- -pred[i,j]
+            web[j,i] <- pred[i,j]
+        } else if(comp[i,j]) {
 
-          web[i,j] <- -1
+            web[i,j] <- -comp[i,j]
 
-      } else if(mut[i,j]) {
-          web[i,j] <- 1
+        } else if(mut[i,j]) {
+            web[i,j] <- mut[i,j]
+        }
+
       }
 
     }
 
+  } else {
+
+    for( i in 1:nrow(web)){
+      for(j in 1:nrow(web)){
+        if(pred[i,j]){
+            web[i,j] <- -1
+            web[j,i] <- 1
+        } else if(comp[i,j]) {
+
+            web[i,j] <- -1
+
+        } else if(mut[i,j]) {
+            web[i,j] <- 1
+        }
+
+      }
+
+    }
   }
 
   return(web)

@@ -4,7 +4,8 @@
 \alias{toGLVadjMat}
 \title{From multiple interaction object 'mgraph'to GLV adjacency matrix}
 \usage{
-toGLVadjMat(mg, types = c("Competitive", "Mutualistic", "Trophic"))
+toGLVadjMat(mg, types = c("Competitive", "Mutualistic", "Trophic"),
+  istrength = FALSE)
 }
 \arguments{
 \item{mg}{multiple interaction object, class 'mgraph'}

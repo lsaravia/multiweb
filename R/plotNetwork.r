@@ -61,7 +61,7 @@ plotTrophLevel <- function(g,vertexLabel=FALSE,vertexSizeFactor=5,tk=FALSE,modul
         V(g)$membership = 0
         for(comp in unique(dg$membership)) {
           g1 <- induced_subgraph(g, which(dg$membership == comp))
-          m<-cluster_spinglass(g1)
+          m<-cluster_spinglass(g1,weights=weights)
           if(length(m$membership)==0)
             m$membership <- 1
           V(g)[V(g1)$name]$membership <-  m$membership + max(V(g)$membership)

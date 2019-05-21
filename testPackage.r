@@ -258,9 +258,10 @@ pltMat[2,1] <- 150
 pltMat[2,2] <- 376
 plotTrophLevel(g,vertexLabel = TRUE,vertexSizeFactor = 20,lMat=pltMat)
 
+#
 # Test network with weights
 #
-fileName <- "../../Collaborations/NetworkGolfoSanJorge/Data/testInteracion.dat"
+fileName <- "../../Collaborations/NetworkGolfoSanJorge/Data/TTSinPescaInteraccion.dat"
 g <- readNetwork(fileName,edgeListFormat=2 )
 V(g)[nei(V(g)[name=="POM"],"out")]
 V(g)[nei(V(g)[name=="POM"],"in")]
@@ -271,8 +272,16 @@ g[,"Acanthistius patachonicus"]
 # Get the adjacency matrix with weights
 as_adjacency_matrix(g,attr="weight",sparse = FALSE)
 
+edge_attr(g,"weight")
+
+glvI <- fromIgraphToMgraph(list(make_empty_graph(n=vcount(g)),make_empty_graph(n=vcount(g)),g) ,c("empty","empty","Antagonistic"))
+glv <- toGLVadjMat(glvI,c("empty","empty","Antagonistic"),istrength = TRUE)   #
+mean(glv[glv>0])
+glv[glv>0] <- glv[glv>0]*0.1
 plotTrophLevel(g,vertexLabel = TRUE,vertexSizeFactor = 5,modules = TRUE)
 
+null <- curveBall(g,100)
+calc_modularity_swness_zscore(g,null)
 
 # Plot a network with two different components as modules
 #
@@ -334,3 +343,36 @@ g <- netData[[2]]
 tp <- calc_topological_roles(g,nsim=100,ncores=4)
 
 classify_topological_roles(tp,g,plt=TRUE)
+
+
+
+#
+# Test QSS
+#
+
+sapply(netData,vcount)
+
+set.seed(342)
+g <- netData[[2]]
+
+tp <- calc_QSS(list(g,g),nsim=10000,ncores=8)
+
+prop.test(x=tp$QSS*10000, n=c(10000,10000))
+
+tp
+
+
+
+#
+# test calc_modularity
+#
+
+nullg <- generateERbasal(netData[[1]],10)
+calc_modularity(nullg)
+
+
+#
+#
+#
+nullg <- generateERbasal(netData[[1]],10)
+calc_modularity(nullg)

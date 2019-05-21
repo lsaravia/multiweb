@@ -1,7 +1,7 @@
 Package: EcoNetwork
 Type: Package
 Title: Ecological Networks Analysis 
-Version: 0.2.6.9000
+Version: 0.2.7.9000
 Authors@R: c( 
         person("Leonardo A.", "Saravia", email = "lsaravia@campus.ungs.edu.ar", role ="cre"),
         person("Tomas I.", "Marina", email = "tomasimarina@gmail.com", role ="ctb"),
@@ -17,7 +17,8 @@ Imports:
     NetIndices (>= 1.4.4),
     RColorBrewer (>= 1.1-2),
     doParallel (>= 1.0.10),
-    doFuture (>= 0.6.0)
+    doFuture (>= 0.6.0),
+    future.apply (>= 1.2.0)
 RoxygenNote: 6.1.1
 Suggests: testthat
 Roxygen: list(markdown = TRUE)

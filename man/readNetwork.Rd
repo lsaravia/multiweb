@@ -23,7 +23,7 @@ if 2 the first column is the "out" link (the prey).}
 an igraph object if there is only one file or a list of igraph objects named after the list without extension
 }
 \description{
-If the network is in edge list format and, there is a third column is treated as an edge attribute with the name of the column
+If the network is in edge list format and there is a third column is treated as an edge attribute with the name of the column
 }
 \examples{
 

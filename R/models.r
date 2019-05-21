@@ -13,6 +13,7 @@
 #' @references Strona, G. et al. 2014. A fast and unbiased procedure to randomize ecological binary matrices with
 #' fixed row and column totals. -Nat. Comm. 5: 4114. doi: 10.1038/ncomms5114
 #'
+#' @aliases curveBall
 #' @param g igraph object to extract adjacency matrix
 #' @param nsim number of generated random networks
 #'
@@ -21,8 +22,9 @@
 #'
 #' @examples
 #'
-#' curveBall(netData[[1]])
-curveBall<-function(g,nsim=1000){
+#' curve_ball(netData[[1]])
+#'
+curve_ball<-function(g,nsim=1000){
   stopifnot(class(g)=="igraph")
   m <- get.adjacency(g,sparse=FALSE)
 
@@ -98,6 +100,11 @@ curveBall<-function(g,nsim=1000){
   }
 }
 
+#' @export
+curveBall<-function(g,nsim=1000){curve_ball(g,nsim=1000)}
+
+
+
 #' Generate directed Erdos-Renyi random networks with at least 1 basal node and only one component
 #'
 #' This uses the igraph's function sample_gnm to generate nsim random networks with the same number of nodes
@@ -109,13 +116,15 @@ curveBall<-function(g,nsim=1000){
 #'           and number of links/edges
 #' @param nsim number of simulations
 #'
+#' @aliases generateERbasal
+#'
 #' @return a list with igraph objects
 #' @export
 #'
 #' @examples
 #'
 #' generateERbasal(netData[[1]])
-generateERbasal <- function(ig,nsim=1000){
+generate_er_basal <- function(ig,nsim=1000){
   if(!is_igraph(ig))
     stop("Parameter ig must be an igraph object")
 
@@ -133,4 +142,5 @@ generateERbasal <- function(ig,nsim=1000){
     return(e) })
 }
 
-
+#' @export
+generateERbasal <- function(ig,nsim=1000){generate_er_basal(ig,nsim=1000)}

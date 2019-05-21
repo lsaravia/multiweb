@@ -4,7 +4,8 @@
 \alias{calc_modularity_swness_zscore}
 \title{Calculation of Modularity and Small-world-ness z-scores}
 \usage{
-calc_modularity_swness_zscore(g, nullDist, sLevel = 0.01, ncores = 0)
+calc_modularity_swness_zscore(g, nullDist, sLevel = 0.01, ncores = 0,
+  weights = NA)
 }
 \arguments{
 \item{g}{igraph object}
@@ -16,7 +17,7 @@ calc_modularity_swness_zscore(g, nullDist, sLevel = 0.01, ncores = 0)
 \item{ncores}{number of cores to use paralell computation, if 0 sequential processing is used.}
 }
 \value{
-a data frame with indices z-scores and CI
+a list with two data frames: one with indices z-scores and CI
 
 \item{Clustering}{ Clustering coefficient, measures the average fraction of pairs of neighbors of a node that are also neighbors of each other}
 \item{PathLength}{ Mean of the shortest paths between all pair of vertices }
@@ -25,11 +26,15 @@ a data frame with indices z-scores and CI
 \item{CClow,CChigh,CPlow,CPhigh,MOlow,MOhigh}{sLevel confidence intervals}
 \item{SWness,SWnessCI}{ Small-world-ness and it CI value}
 \item{isSW,isSWness}{ Logical variable signalling if the network is Small-world by the method of Marina 2018 or the method of Humprhies & Gurney 2008 }
+
+Another data.frame with the values calculated for the nullDist.
 }
 \description{
 The function calculates modularity, number of groups and small-world-ness z-scores and 99\% CI intervals
-using as null model Erdos-Renyi random networks with the same number of links and species. Only works for one
-component networks
+using as null model the list of networks in the nullDist parameters. Modularity is calculated using the \code{\link[igraph:cluster_spinglass]{igraph::cluster_spinglass()}}
+if the parameter weights is NULL the atribute "weigths" is used, or if it has the name of an network attribute, that is used as a weigth
+to build the modules, when this parameter is NA then no weigth is used.
+Only works for one component networks
 }
 \examples{
 \dontrun{

@@ -213,8 +213,10 @@ calcIncoherence <- function(ig,ti=NULL,ncores=0){
 #' Calculation of Modularity and Small-world-ness z-scores
 #'
 #' The function calculates modularity, number of groups and small-world-ness z-scores and 99\% CI intervals
-#' using as null model Erdos-Renyi random networks with the same number of links and species. Only works for one
-#' component networks
+#' using as null model the list of networks in the nullDist parameters. Modularity is calculated using the [igraph::cluster_spinglass()]
+#' if the parameter weights is NULL the atribute "weigths" is used, or if it has the name of an network attribute, that is used as a weigth
+#' to build the modules, when this parameter is NA then no weigth is used.
+#' Only works for one component networks
 #'
 #' @references
 #' Marina, T. I., Saravia, L. A., Cordone, G., Salinas, V., Doyle, S. R., & Momo, F. R. (2018). Architecture of marine food webs: To be or not be a ‘small-world.’ PLoS ONE, 13(5), 1–13. https://doi.org/10.1371/journal.pone.0198217
@@ -225,7 +227,7 @@ calcIncoherence <- function(ig,ti=NULL,ncores=0){
 #' @param ncores number of cores to use paralell computation, if 0 sequential processing is used.
 #'
 #'
-#' @return a data frame with indices z-scores and CI
+#' @return a list with two data frames: one with indices z-scores and CI
 #'
 #'  \item{Clustering}{ Clustering coefficient, measures the average fraction of pairs of neighbors of a node that are also neighbors of each other}
 #'  \item{PathLength}{ Mean of the shortest paths between all pair of vertices }
@@ -234,7 +236,9 @@ calcIncoherence <- function(ig,ti=NULL,ncores=0){
 #'  \item{CClow,CChigh,CPlow,CPhigh,MOlow,MOhigh}{sLevel confidence intervals}
 #'  \item{SWness,SWnessCI}{ Small-world-ness and it CI value}
 #'  \item{isSW,isSWness}{ Logical variable signalling if the network is Small-world by the method of Marina 2018 or the method of Humprhies & Gurney 2008 }
-
+#'
+#'  Another data.frame with the values calculated for the nullDist.
+#'
 #' @export
 #'
 #' @importFrom igraph transitivity average.path.length cluster_spinglass
@@ -248,7 +252,7 @@ calcIncoherence <- function(ig,ti=NULL,ncores=0){
 #' calcModularitySWnessZScore(netData[[1]],nullg)
 #' }
 #'
-calc_modularity_swness_zscore<- function(g, nullDist,sLevel=0.01,ncores=0){
+calc_modularity_swness_zscore<- function(g, nullDist,sLevel=0.01,ncores=0,weights=NA){
 
   if(!is_igraph(g))
     stop("Parameter g must be an igraph object")
@@ -287,7 +291,7 @@ calc_modularity_swness_zscore<- function(g, nullDist,sLevel=0.01,ncores=0){
 
   ind <- foreach(i=1:length(nullDist),.combine='rbind',.inorder=FALSE,.packages='igraph') %dopar%
   {
-    m<-cluster_spinglass(nullDist[[i]])
+    m<-cluster_spinglass(nullDist[[i]],weights=weights)
     modl <- m$modularity
     clus.coef <- transitivity(nullDist[[i]], type="Global")
     cha.path  <- average.path.length(nullDist[[i]])
@@ -314,7 +318,7 @@ calc_modularity_swness_zscore<- function(g, nullDist,sLevel=0.01,ncores=0){
 
 
 
-  m<-cluster_spinglass(g)
+  m<-cluster_spinglass(g, weights=weights)
 
   zmo <- (m$modularity - mean(ind$modularity))/sd(ind$modularity)
 
@@ -326,11 +330,11 @@ calc_modularity_swness_zscore<- function(g, nullDist,sLevel=0.01,ncores=0){
   isSW       <- (isLowInsideCPL & isGreaterCC)
   isSWness   <- (mSW>mCI)
 
-  return(data.frame(Clustering=t$Clustering, PathLength= t$PathLength, Modularity=m$modularity,
+  return(list(da=data.frame(Clustering=t$Clustering, PathLength= t$PathLength, Modularity=m$modularity,
     zCC=zcc,zCP=zcp,zMO=zmo,
     CClow=qcc[1],CChigh=qcc[2],CPlow=qcp[1],CPhigh=qcp[2],MOlow=qmo[1],MOhigh=qmo[2],
     SWness=mSW,SWnessCI=mCI,
-    isSW=isSW,isSWness=isSWness))
+    isSW=isSW,isSWness=isSWness),sims=ind))
 }
 
 #' @export
@@ -401,7 +405,7 @@ calc_topological_roles <- function(g,nsim=1000,ncores=0)
     #
     # Standarized Within module degree z-score
     #
-    m<-cluster_spinglass(g)
+    m<-cluster_spinglass(g,weights = NA)
     spingB.mem<- m$membership
 
     l<-vector()
@@ -485,7 +489,7 @@ calc_topological_roles <- function(g,nsim=1000,ncores=0)
 classify_topological_roles <- function(tRoles,g,spingB=NULL,plt=FALSE){
 
   if(is.null(spingB))
-    spingB <- cluster_spinglass(g)
+    spingB <- cluster_spinglass(g,weights=NA)
 
   spingB.mem<- spingB$membership
 
@@ -566,4 +570,59 @@ classify_topological_roles <- function(tRoles,g,spingB=NULL,plt=FALSE){
 
   hub_conn <- rbind(hub_conn, data.frame(type="modcon",node=modhub,name=modlbl))
 
+}
+
+#' Calculation of Modularity for a list of igraph objects
+#'
+#' The function calculates modularity of the list of networks in the nullDist parameter.
+#' Modularity is calculated using the [igraph::cluster_spinglass()]
+#' if the parameter weights is NULL the atribute "weigths" is used, or if it has the name of an network attribute,
+#' that is used as a weigth to build the modules, when this parameter is NA then no weigth is used.
+#' Only works for one component networks.
+#'
+#'
+#' @param ig list of igraph objects to calculate modularity
+#' @param ncores number of cores used to compute in parallel, if 0 sequential processing is used.
+#'
+#' @return a data.frame with the field Modularity
+#'
+#' @export
+#'
+#' @import igraph
+#' @importFrom foreach foreach %dopar%
+#' @importFrom doFuture registerDoFuture
+#' @importFrom future sequential multiprocess
+#'
+#'
+#' @examples
+#' \dontrun{
+#' nullg <- generateERbasal(netData[[1]],10)
+#' calc_modularity(nullg)
+#' }
+#'
+calc_modularity <- function(ig,ncores=0){
+
+  if(inherits(ig,"igraph")) {
+    ig <- list(ig)
+  } else if(class(ig[[1]])!="igraph") {
+    stop("parameter ig must be an igraph object")
+  }
+
+  registerDoFuture()
+  if(ncores) {
+    cn <- future::availableCores()
+    if(ncores>cn)
+      ncores <- cn
+    future::plan(multiprocess, workers=ncores)
+    on.exit(future::plan(sequential))
+  } else {
+    future::plan(sequential)
+  }
+  df <-  foreach(g=ig,.combine='rbind',.inorder=FALSE) %dopar%
+    {
+      m<-cluster_spinglass(g,weights=NA)
+      modl <- m$modularity
+      data.frame(Modularity=modl)
+    }
+  return(df)
 }

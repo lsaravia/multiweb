@@ -86,3 +86,87 @@ calc_quantitative_connectance <- function(interM,d){
 
 calcQuantitativeConnectance <- function(interM,d){
   calc_quantitative_connectance(interM,d)}
+
+
+#' Calc the Quasi Sign Stability measure for antagonistic (predator-prey) networks
+#'
+#' The proportion of matrices that are locally stable, these matrices are created by sampling the values of the community matrix
+#' (the Jacobian) from a uniform distribution, preserving the sign structure (the links)
+#'
+#' @references
+#'
+#' 1. Allesina, S. & Pascual, M. (2008). Network structure, predator - Prey modules, and stability in large food webs.
+#' Theor. Ecol., 1, 55–64.
+#'
+#' @param ig  igraph or a list of igraph networks
+#' @param sims number of simulations to calculate QSS
+#' @param ncores number of cores to use in parallel comutation if 0 it uses sequential processing
+#'
+#' @return a data.frame with the QSS metric
+#'
+#' @export
+#'
+#' @import igraph
+#' @importFrom foreach foreach %dopar% %do%
+#' @importFrom doFuture registerDoFuture
+#' @importFrom future sequential multiprocess
+#' @importFrom future.apply future_lapply
+#'
+#' @examples
+#' \dontrun{
+#'
+#' g <- netData[[2]]
+#'
+#' tp <- calc_QSS(g)
+#'
+#' }
+calc_QSS <- function(ig,nsim=1000,ncores=0) {
+  if(inherits(ig,"igraph")) {
+    ig <- list(ig)
+  } else if(class(ig[[1]])!="igraph") {
+    stop("parameter ig must be an igraph object")
+  }
+
+  registerDoFuture()
+  if(ncores) {
+    cn <- future::availableCores()
+    if(ncores>cn)
+      ncores <- cn
+    future::plan(multiprocess, workers=ncores)
+    on.exit(future::plan(sequential))
+  } else {
+    future::plan(sequential)
+  }
+
+  df <-  foreach(red=ig,.combine='rbind') %do%
+    {
+      lred <- fromIgraphToMgraph(list(make_empty_graph(n=vcount(red)),make_empty_graph(n=vcount(red)),red),
+                                 c("empty","empty","Antagonistic"))
+      mat <- toGLVadjMat(lred,c("empty","empty","Antagonistic"),istrength = FALSE)   #
+
+      df <- future_lapply(seq_len(nsim), function(i){
+        ranmat <- ranUnif(mat)
+        eigs <- maxRE(ranmat)
+      })
+      df <-   do.call(rbind,df)
+      data.frame(QSS=sum(df<0)/nsim)
+    }
+}
+
+
+# Auxiliar function of calc_QSS, Calculates a random community mattrix with a fixed signed structure
+#
+ranUnif <- function(motmat){
+  newmat <- apply(motmat, c(1,2), function(x){
+    if(x==1){runif(1, 0, 1)}else if(x==-1){runif(1, -1, 0)} else{0}
+  })
+  diag(newmat) <- runif(nrow(motmat), -1, 0)
+  return(newmat)
+}
+
+# Auxiliar function of calc_QSS, Compute the eigenvalues and return the largest real part.
+#
+maxRE <- function(rmat){
+  lam.max <- max(Re(eigen(rmat)$values))
+  return(lam.max)
+}
