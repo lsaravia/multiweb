@@ -91,18 +91,20 @@ calcQuantitativeConnectance <- function(interM,d){
 #' Calc the Quasi Sign Stability measure for antagonistic (predator-prey) networks
 #'
 #' The proportion of matrices that are locally stable, these matrices are created by sampling the values of the community matrix
-#' (the Jacobian) from a uniform distribution, preserving the sign structure (the links)
+#' (the Jacobian) from a uniform distribution, preserving the sign structure (the links) [1].
+#' And it also calculates the mean of the real part of the maximum eingenvalue, which is also a measure of stability [2]
 #'
 #' @references
 #'
 #' 1. Allesina, S. & Pascual, M. (2008). Network structure, predator - Prey modules, and stability in large food webs.
 #' Theor. Ecol., 1, 55–64.
+#' 2. Grilli, J., Rogers, T. & Allesina, S. (2016). Modularity and stability in ecological communities. Nat. Commun., 7, 12031
 #'
 #' @param ig  igraph or a list of igraph networks
 #' @param sims number of simulations to calculate QSS
 #' @param ncores number of cores to use in parallel comutation if 0 it uses sequential processing
 #'
-#' @return a data.frame with the QSS metric
+#' @return a data.frame with the QSS, and MEing, the mean of the real part of the maximum eingenvalue
 #'
 #' @export
 #'
@@ -149,7 +151,7 @@ calc_QSS <- function(ig,nsim=1000,ncores=0) {
         eigs <- maxRE(ranmat)
       })
       df <-   do.call(rbind,df)
-      data.frame(QSS=sum(df<0)/nsim)
+      data.frame(QSS=sum(df<0)/nsim,MEing=mean(df))
     }
 }
 

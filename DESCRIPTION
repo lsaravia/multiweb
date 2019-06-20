@@ -1,7 +1,7 @@
 Package: EcoNetwork
 Type: Package
 Title: Ecological Networks Analysis 
-Version: 0.2.7.9000
+Version: 0.2.8.9000
 Authors@R: c( 
         person("Leonardo A.", "Saravia", email = "lsaravia@campus.ungs.edu.ar", role ="cre"),
         person("Tomas I.", "Marina", email = "tomasimarina@gmail.com", role ="ctb"),

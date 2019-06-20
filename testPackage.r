@@ -354,13 +354,15 @@ sapply(netData,vcount)
 
 set.seed(342)
 g <- netData[[2]]
-
-tp <- calc_QSS(list(g,g),nsim=10000,ncores=8)
+g1 <- netData[[18]]
+tp <- calc_QSS(list(g,g1),nsim=10000,ncores=48)
 
 prop.test(x=tp$QSS*10000, n=c(10000,10000))
 
 tp
-
+#      QSS      MEing
+# 1 0.0005 0.24024671
+# 2 0.3224 0.07553226
 
 
 #

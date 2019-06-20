@@ -14,11 +14,12 @@ calc_QSS(ig, nsim = 1000, ncores = 0)
 \item{sims}{number of simulations to calculate QSS}
 }
 \value{
-a data.frame with the QSS metric
+a data.frame with the QSS, and MEing, the mean of the real part of the maximum eingenvalue
 }
 \description{
 The proportion of matrices that are locally stable, these matrices are created by sampling the values of the community matrix
-(the Jacobian) from a uniform distribution, preserving the sign structure (the links)
+(the Jacobian) from a uniform distribution, preserving the sign structure (the links) \link{1}.
+And it also calculates the mean of the real part of the maximum eingenvalue, which is also a measure of stability \link{2}
 }
 \examples{
 \dontrun{
@@ -33,5 +34,6 @@ tp <- calc_QSS(g)
 \enumerate{
 \item Allesina, S. & Pascual, M. (2008). Network structure, predator - Prey modules, and stability in large food webs.
 Theor. Ecol., 1, 55–64.
+\item Grilli, J., Rogers, T. & Allesina, S. (2016). Modularity and stability in ecological communities. Nat. Commun., 7, 12031
 }
 }
