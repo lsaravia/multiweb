@@ -92,17 +92,25 @@ calcQuantitativeConnectance <- function(interM,d){
 #'
 #' The proportion of matrices that are locally stable, these matrices are created by sampling the values of the community matrix
 #' (the Jacobian) from a uniform distribution, preserving the sign structure (the links) [1].
-#' And it also calculates the mean of the real part of the maximum eingenvalue, which is also a measure of stability [2]
+#' It also calculates the mean of the real part of the maximum eingenvalue, which is also a measure of stability [2]
+#' It uses a uniform distribution between 0 and maximum values given by the parameters `negative`, `positive` and `selfDamping`
+#' corresponding to the sign of interactions and self-limitation effect[3].
+#' If the values of these parameters are 0 then there is no interaction of that kind.
 #'
 #' @references
 #'
 #' 1. Allesina, S. & Pascual, M. (2008). Network structure, predator - Prey modules, and stability in large food webs.
 #' Theor. Ecol., 1, 55–64.
 #' 2. Grilli, J., Rogers, T. & Allesina, S. (2016). Modularity and stability in ecological communities. Nat. Commun., 7, 12031
+#' 3. Monteiro, A.B. & Del Bianco Faria, L. (2017). Causal relationships between population stability and food-web topology. Functional Ecology, 31, 1294–1300.
+
 #'
 #' @param ig  igraph or a list of igraph networks
 #' @param sims number of simulations to calculate QSS
 #' @param ncores number of cores to use in parallel comutation if 0 it uses sequential processing
+#' @param negative the maximum magnitude of the negative interaction (the effect of the predator on the prey) must be <= 0
+#' @param positive the maximum magnitude of the positive interaction (the effect of the prey on the predator) must be >= 0
+#' @param selfDamping the maximum magnitude of the self-limitation (the effect of the species on itself) must be <= 0
 #'
 #' @return a data.frame with the QSS, and MEing, the mean of the real part of the maximum eingenvalue
 #'
@@ -122,12 +130,14 @@ calcQuantitativeConnectance <- function(interM,d){
 #' tp <- calc_QSS(g)
 #'
 #' }
-calc_QSS <- function(ig,nsim=1000,ncores=0) {
+calc_QSS <- function(ig,nsim=1000,ncores=0,negative=-10, positive=0.1, selfDamping=-1) {
   if(inherits(ig,"igraph")) {
     ig <- list(ig)
   } else if(class(ig[[1]])!="igraph") {
     stop("parameter ig must be an igraph object")
   }
+  if(negative>0 || positive<0 || selfDamping>0)
+    stop("Parameters should be negative<=0, positive>=0, selfDamping<=0")
 
   registerDoFuture()
   if(ncores) {
@@ -147,7 +157,7 @@ calc_QSS <- function(ig,nsim=1000,ncores=0) {
       mat <- toGLVadjMat(lred,c("empty","empty","Antagonistic"),istrength = FALSE)   #
 
       df <- future_lapply(seq_len(nsim), function(i){
-        ranmat <- ranUnif(mat)
+        ranmat <- ranUnif(mat,negative,positive,selfDamping)
         eigs <- maxRE(ranmat)
       })
       df <-   do.call(rbind,df)
@@ -158,11 +168,11 @@ calc_QSS <- function(ig,nsim=1000,ncores=0) {
 
 # Auxiliar function of calc_QSS, Calculates a random community mattrix with a fixed signed structure
 #
-ranUnif <- function(motmat){
+ranUnif <- function(motmat, negative=-10,positive=0.1,selfDamping=-1){
   newmat <- apply(motmat, c(1,2), function(x){
-    if(x==1){runif(1, 0, 1)}else if(x==-1){runif(1, -1, 0)} else{0}
+    if(x==1){runif(1, 0, positive)}else if(x==-1){runif(1, negative, 0)} else{0}
   })
-  diag(newmat) <- runif(nrow(motmat), -1, 0)
+  diag(newmat) <- runif(nrow(motmat), selfDamping, 0)
   return(newmat)
 }
 

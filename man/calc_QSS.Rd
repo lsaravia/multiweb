@@ -4,12 +4,19 @@
 \alias{calc_QSS}
 \title{Calc the Quasi Sign Stability measure for antagonistic (predator-prey) networks}
 \usage{
-calc_QSS(ig, nsim = 1000, ncores = 0)
+calc_QSS(ig, nsim = 1000, ncores = 0, negative = -10,
+  positive = 0.1, selfDamping = -1)
 }
 \arguments{
 \item{ig}{igraph or a list of igraph networks}
 
 \item{ncores}{number of cores to use in parallel comutation if 0 it uses sequential processing}
+
+\item{negative}{the maximum magnitude of the negative interaction (the effect of the predator on the prey) must be <= 0}
+
+\item{positive}{the maximum magnitude of the positive interaction (the effect of the prey on the predator) must be >= 0}
+
+\item{selfDamping}{the maximum magnitude of the self-limitation (the effect of the species on itself) must be <= 0}
 
 \item{sims}{number of simulations to calculate QSS}
 }
@@ -19,7 +26,10 @@ a data.frame with the QSS, and MEing, the mean of the real part of the maximum e
 \description{
 The proportion of matrices that are locally stable, these matrices are created by sampling the values of the community matrix
 (the Jacobian) from a uniform distribution, preserving the sign structure (the links) \link{1}.
-And it also calculates the mean of the real part of the maximum eingenvalue, which is also a measure of stability \link{2}
+It also calculates the mean of the real part of the maximum eingenvalue, which is also a measure of stability \link{2}
+It uses a uniform distribution between 0 and maximum values given by the parameters \code{negative}, \code{positive} and \code{selfDamping}
+corresponding to the sign of interactions and self-limitation effect\link{3}.
+If the values of these parameters are 0 then there is no interaction of that kind.
 }
 \examples{
 \dontrun{
@@ -35,5 +45,6 @@ tp <- calc_QSS(g)
 \item Allesina, S. & Pascual, M. (2008). Network structure, predator - Prey modules, and stability in large food webs.
 Theor. Ecol., 1, 55–64.
 \item Grilli, J., Rogers, T. & Allesina, S. (2016). Modularity and stability in ecological communities. Nat. Commun., 7, 12031
+\item Monteiro, A.B. & Del Bianco Faria, L. (2017). Causal relationships between population stability and food-web topology. Functional Ecology, 31, 1294–1300.
 }
 }
