@@ -1,12 +1,12 @@
-# EcoNetwork 
+# multiweb 
 
-This is an R package to calculate recently developed network metrics and also some old ones conveniently in the same place. Functions to read, plot and a big set of networks are also included in the package. 
+This is an R package to analize ecological networks, including multilayer networks, recently developed network metrics and also some old ones conveniently in the same place. Functions to read, plot and a big set of networks are also included in the package. 
 
 ## Instalation 
 
 ```R
 require(devtools)
-install_github("lsaravia/EcoNetwork")
+install_github("lsaravia/multiweb")
 ```
 
 ## Examples
@@ -14,15 +14,28 @@ install_github("lsaravia/EcoNetwork")
 Read the example data included in the package
 
 ```R
-require(EcoNetwork)
+require(multiweb)
 
-fileName <- c(system.file("extdata",  package = "EcoNetwork"))
-fileName <- system.file("extdata", "BarentsBoreal_FW.csv", package = "EcoNetwork")
+fileName <- c(system.file("extdata",  package = "multiweb"))
+fileName <- system.file("extdata", "BarentsBoreal_FW.csv", package = "multiweb")
 g <- readNetwork(fileName)
 
 
 ```
 
+Read multiple interaction network in different layers
+
+```R
+
+fileName <- c(system.file("extdata",  package = "multiweb"))
+dn <- list.files("inst/extdata",pattern = "^Kefi2015.*\\.txt$")
+g <- readNetwork(dn,"inst/extdata", skipColumn = 2)
+gt <- igraph2mgraph(g,c("Negative","Positive","Antagonistic"))
+
+types <- c("Competitive","Mutualistic","Trophic")
+gt <- readMultiplex(dn,types,"inst/extdata", skipColumn = 2)
+
+```
 
 
 ## References

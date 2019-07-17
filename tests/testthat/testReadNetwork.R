@@ -1,9 +1,9 @@
 # Test ReadNetwork
 context("Read network files")
-library(EcoNetwork)
+library(multiweb)
 
 test_that("Read a single csv file with adyacency matrix format and header and first column names", {
-  fileName <- system.file("extdata", "BarentsBoreal_FW.csv", package = "EcoNetwork")
+  fileName <- system.file("extdata", "BarentsBoreal_FW.csv", package = "multiweb")
   g <- readNetwork(fileName)
   expect_is(g,"igraph")
   expect_equal(igraph::vcount(g),180)
@@ -11,7 +11,7 @@ test_that("Read a single csv file with adyacency matrix format and header and fi
 })
 
 test_that("Read a single csv file with interaction list format", {
-  fileName <- system.file("extdata", "WeddellSea_FW.csv", package = "EcoNetwork")
+  fileName <- system.file("extdata", "WeddellSea_FW.csv", package = "multiweb")
   g <- readNetwork(fileName)
   expect_is(g,"igraph")
   expect_equal(igraph::vcount(g),442)
@@ -19,7 +19,7 @@ test_that("Read a single csv file with interaction list format", {
 })
 
 test_that("Read multiple files with compatible formats", {
-  filepath <- c(system.file("extdata",  package = "EcoNetwork"))
+  filepath <- c(system.file("extdata",  package = "multiweb"))
 
   dn <- list.files(filepath,pattern = "^.*\\.csv$")
   g <- readNetwork(dn,filepath)
@@ -31,7 +31,7 @@ test_that("Read multiple files with compatible formats", {
 
 
 test_that("Read a single txt file adyacency matrix no header no species names", {
-  fileName <- system.file("extdata", "carpinteria_FW.txt", package = "EcoNetwork")
+  fileName <- system.file("extdata", "carpinteria_FW.txt", package = "multiweb")
   # The file has no header but also no species names so a warning is expected
   expect_warning(readNetwork(fileName,fhead = FALSE))
   # No header and no species names

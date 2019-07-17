@@ -23,7 +23,7 @@ This functions takes a list of igraph objects and convert it to a 'mgraph' objec
 #
 \dontrun{
 
-fileName <- c(system.file("extdata",  package = "EcoNetwork"))
+fileName <- c(system.file("extdata",  package = "multiweb"))
 dn <- list.files("inst/extdata",pattern = "^Kefi2015.*\\\\.txt$")
 g <- readNetwork(dn,"inst/extdata", skipColumn = 2)
 igraph2mgraph(g,c("Negative","Positive","Antagonistic"))

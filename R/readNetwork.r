@@ -20,12 +20,12 @@
 #'
 #' # Reads a network in edge list (interaction list) format, with predators as the first column by default
 #' #
-#' fileName <- system.file("extdata", "WeddellSea_FW.csv", package = "EcoNetwork")
+#' fileName <- system.file("extdata", "WeddellSea_FW.csv", package = "multiweb")
 #' g <- readNetwork(fileName)
 #'
 #' # Reads a network in adyacency matrix format, with predators as columns
 #' #
-#' fileName <- system.file("extdata", "BarentsBoreal_FW.csv", package = "EcoNetwork")
+#' fileName <- system.file("extdata", "BarentsBoreal_FW.csv", package = "multiweb")
 #' g <- readNetwork(fileName)
 #'
 #' # Read a vector of files
@@ -123,7 +123,7 @@ readNetwork <- function(fileName,filePath=NULL,fhead=TRUE,skipColumn=1,edgeListF
 #' #
 #'\dontrun{
 #'
-#' fpath <- system.file("extdata", package = "EcoNetwork")
+#' fpath <- system.file("extdata", package = "multiweb")
 #' dn <- list.files(fpath,pattern = "^Kefi2015.*\\.txt$")
 #' netData <- readMultiplex(dn,c("Competitive","Mutualistic","Trophic"),fpath,skipColum=2)
 #'}
@@ -232,7 +232,7 @@ readMultiplex <- function(fileName,types=c("Competitive","Mutualistic","Trophic"
 #' #
 #'\dontrun{
 #'
-#' fpath <- system.file("extdata", package = "EcoNetwork")
+#' fpath <- system.file("extdata", package = "multiweb")
 #' dn <- list.files(fpath,pattern = "^Kefi2015.*\\.txt$")
 #' netData <- readMultiplex(dn,c("Competitive","Mutualistic","Trophic"),fpath,skipColum=2)
 #' toGLVadjMat(netData)
@@ -324,7 +324,7 @@ toGLVadjMat <- function(mg,types=c("Competitive","Mutualistic","Trophic"),istren
 #' #
 #'\dontrun{
 #'
-#' fileName <- c(system.file("extdata",  package = "EcoNetwork"))
+#' fileName <- c(system.file("extdata",  package = "multiweb"))
 #' dn <- list.files("inst/extdata",pattern = "^Kefi2015.*\\.txt$")
 #' g <- readNetwork(dn,"inst/extdata", skipColumn = 2)
 #' igraph2mgraph(g,c("Negative","Positive","Antagonistic"))

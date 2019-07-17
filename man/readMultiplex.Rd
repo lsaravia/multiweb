@@ -38,7 +38,7 @@ different interaction types, represented by the type attribute of the igraph obj
 #
 \dontrun{
 
-fpath <- system.file("extdata", package = "EcoNetwork")
+fpath <- system.file("extdata", package = "multiweb")
 dn <- list.files(fpath,pattern = "^Kefi2015.*\\\\.txt$")
 netData <- readMultiplex(dn,c("Competitive","Mutualistic","Trophic"),fpath,skipColum=2)
 }

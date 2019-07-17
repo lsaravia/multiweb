@@ -1,7 +1,7 @@
 # Test
 require(igraph)
-fileName <- c(system.file("extdata",  package = "EcoNetwork"))
-fileName <- system.file("extdata", "BarentsBoreal_FW.csv", package = "EcoNetwork")
+fileName <- c(system.file("extdata",  package = "multiweb"))
+fileName <- system.file("extdata", "BarentsBoreal_FW.csv", package = "multiweb")
 g <- readNetwork(fileName)
 g
 
@@ -198,7 +198,7 @@ plotTrophLevel(gt[[3]],modules = T)
 # Read multiple interaction network in different layers
 #
 
-fileName <- c(system.file("extdata",  package = "EcoNetwork"))
+fileName <- c(system.file("extdata",  package = "multiweb"))
 dn <- list.files("inst/extdata",pattern = "^Kefi2015.*\\.txt$")
 g <- readNetwork(dn,"inst/extdata", skipColumn = 2)
 gt <- igraph2mgraph(g,c("Negative","Positive","Antagonistic"))

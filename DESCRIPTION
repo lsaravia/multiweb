@@ -1,12 +1,11 @@
-Package: EcoNetwork
+Package: multiweb
 Type: Package
-Title: Ecological Networks Analysis 
+Title: Ecological analysis includind multiplex networks
 Version: 0.2.9.9000
 Authors@R: c( 
         person("Leonardo A.", "Saravia", email = "lsaravia@campus.ungs.edu.ar", role ="cre"),
         person("Tomas I.", "Marina", email = "tomasimarina@gmail.com", role ="ctb"),
-        person("Iara D.", "Rodriguez", email = "irodriguez@campus.ungs.edu.ar", role ="ctb"),
-        person("Melina", "Crettaz Minaglia", email = "mcrettaz@campus.ungs.edu.ar", role ="ctb"))
+        person("Iara D.", "Rodriguez", email = "irodriguez@campus.ungs.edu.ar", role ="ctb"))
 Description: This package calculates indices for ecological network analysis.
 Depends: R (>= 3.4.4)
 License: MIT + file LICENSE
@@ -22,5 +21,5 @@ Imports:
 RoxygenNote: 6.1.1
 Suggests: testthat
 Roxygen: list(markdown = TRUE)
-URL: https://github.com/lsaravia/MetaWebAssemblyModels
-BugReports: https://github.com/lsaravia/MetaWebAssemblyModels/issues
+URL: https://github.com/lsaravia/multiweb
+BugReports: https://github.com/lsaravia/multiweb/issues

@@ -25,7 +25,7 @@ Position is important in fact the order is  Competitive/Negative,Mutualistic/Pos
 #
 \dontrun{
 
-fpath <- system.file("extdata", package = "EcoNetwork")
+fpath <- system.file("extdata", package = "multiweb")
 dn <- list.files(fpath,pattern = "^Kefi2015.*\\\\.txt$")
 netData <- readMultiplex(dn,c("Competitive","Mutualistic","Trophic"),fpath,skipColum=2)
 toGLVadjMat(netData)

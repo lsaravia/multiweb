@@ -29,12 +29,12 @@ If the network is in edge list format and there is a third column is treated as 
 
 # Reads a network in edge list (interaction list) format, with predators as the first column by default
 #
-fileName <- system.file("extdata", "WeddellSea_FW.csv", package = "EcoNetwork")
+fileName <- system.file("extdata", "WeddellSea_FW.csv", package = "multiweb")
 g <- readNetwork(fileName)
 
 # Reads a network in adyacency matrix format, with predators as columns
 #
-fileName <- system.file("extdata", "BarentsBoreal_FW.csv", package = "EcoNetwork")
+fileName <- system.file("extdata", "BarentsBoreal_FW.csv", package = "multiweb")
 g <- readNetwork(fileName)
 
 # Read a vector of files

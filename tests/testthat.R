@@ -1,4 +1,4 @@
 library(testthat)
-library(EcoNetwork)
+library(multiweb)
 
-test_check("EcoNetwork")
+test_check("multiweb")
