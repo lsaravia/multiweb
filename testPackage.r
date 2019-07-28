@@ -16,7 +16,7 @@ plotTrophLevel(g[[1]])
 require(igraph)
 require(NetIndices)
 g <-   graph_from_literal( 1 -+ 4 -+ 7,2 -+ 5 -+7, 3-+6-+7, 7-+7, 4+-3, simplify = FALSE)
-print(calc_topological_indices(g))
+calc_topological_indices(g)
 plotTrophLevel(g,vertexLabel = TRUE,vertexSizeFactor = 20)
 calcIncoherence(g)
 
@@ -53,6 +53,7 @@ calcTopologicalIndices(nets)
 netData <- nets
 devtools::use_data(netData,overwrite = TRUE)
 
+
 # test reading .dat files from Johnson 2017
 #
 
@@ -62,6 +63,11 @@ calcTopologicalIndices(list(netData$CaymanIs_FW,nets$cayman_islands))
 require(RColorBrewer)
 plotTrophLevel(nets$cayman_islands)
 plotTrophLevel(netData$CaymanIs_FW)
+
+
+#
+nets <- readNetwork("Meta.dat","~/Dropbox/Projects/StabilityConstraints/Data",edgeListFormat = 2)
+
 
 
 # The incoherence parameter seems not well calculated compared to Johnson 2017 Appendix Table S1
@@ -201,11 +207,11 @@ plotTrophLevel(gt[[3]],modules = T)
 fileName <- c(system.file("extdata",  package = "multiweb"))
 dn <- list.files("inst/extdata",pattern = "^Kefi2015.*\\.txt$")
 g <- readNetwork(dn,"inst/extdata", skipColumn = 2)
-gt <- igraph2mgraph(g,c("Negative","Positive","Antagonistic"))
+gt <- fromIgraphToMgraph(g,c("Negative","Positive","Antagonistic"))
 
 types <- c("Competitive","Mutualistic","Trophic")
 gt <- readMultiplex(dn,types,"inst/extdata", skipColumn = 2)
-
+tp <- calc_topological_indices(gt)
 # how many interactions from each type
 #
 sapply(gt,ecount)/sum(sapply(gt,ecount))

@@ -327,7 +327,7 @@ toGLVadjMat <- function(mg,types=c("Competitive","Mutualistic","Trophic"),istren
 #' fileName <- c(system.file("extdata",  package = "multiweb"))
 #' dn <- list.files("inst/extdata",pattern = "^Kefi2015.*\\.txt$")
 #' g <- readNetwork(dn,"inst/extdata", skipColumn = 2)
-#' igraph2mgraph(g,c("Negative","Positive","Antagonistic"))
+#' fromIgraphToMgraph(g,c("Negative","Positive","Antagonistic"))
 #'
 #'}
 

@@ -100,6 +100,7 @@ calc_topological_indices <- function(ig,ncores=0){
     data.frame(Size=size,Top=nTop,Basal=nBasal,Omnivory=omn,Links=links, LD=linkDen,Connectance=conn,PathLength=pathLength,
                Clustering=clusCoef, Cannib=cannib, TLmean=mean(tl$TL),TLmax=max(tl$TL),Components=components(g)$no)
   }
+return(df)
 }
 
 #' @export
@@ -203,6 +204,7 @@ calc_incoherence <- function(ig,ti=NULL,ncores=0) {
     eQ <- sqrt(ecount(g)/bedges-1)
     data.frame(Q=Q,rQ=Q/eQ,mTI=mTI,rTI=mTI/eTI)
   }
+  return(df)
 }
 
 #' @export
