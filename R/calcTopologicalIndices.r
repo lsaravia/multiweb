@@ -349,19 +349,24 @@ calcModularitySWnessZScore<- function(g, nullDist,sLevel=0.01,ncores=0){
 
 #' Calc topological roles among network communities/modules
 #'
-#' Topological roles are characterized by two parameters: the standardized within-module degree \eqn{dz} and the among-module
+#' Topological roles characterize species as its roles between communities or modules, we calculate the modules using
+#' the [igraph::cluster_spinglass()] function.
+#' Topological roles are described by two parameters: the standardized within-module degree \eqn{dz} and the among-module
 #' connectivity participation coefficient \eqn{PC}.  The within-module degree is a z-score that measures how well a species is
 #' connected to other species within its own module compared with a random graph. The participation coefficient \eqn{PC}
-#' estimates the distribution of the links of species among modules
+#' estimates the distribution of the links of species among modules. As the community algorithm is stochastic we run it several
+#' times and return the repeated runs for both parameters.
 #'
 #' @references
 #'
 #' 1. Guimerà, R. & Nunes Amaral, L.A. (2005). Functional cartography of complex metabolic networks. Nature, 433, 895–900
 #'
-#' 1. Saravia, L.A., Marina, T.I., De Troch, M. & Momo, F.R. (2018). Ecological Network assembly: how the regional meta web influence local food webs. bioRxiv, 340430, doi: https://doi.org/10.1101/340430
+#' 1. Kortsch, S. et al. 2015. Climate change alters the structure of arctic marine food webs due to poleward shifts of boreal generalists. - Proceedings of the Royal Society B: Biological Sciences 282: 20151546. https://doi.org/10.1098/rspb.2015.1546
+
 #'
 #' @param g an Igraph object with the network
 #' @param nsim  number of simulations with different community
+#' @param ncores  number of cores to use paralell computation, if 0 sequential processing is used.
 #'
 #' @return a  data frame with two numeric fields: within_module_degree, among_module_conn
 #'
@@ -478,6 +483,7 @@ calc_topological_roles <- function(g,nsim=1000,ncores=0)
 #' @export
 #'
 #' @importFrom RColorBrewer brewer.pal
+#' @importFrom dplyr %>% group_by summarise_all inner_join
 #'
 #' @examples
 #' \dontrun{
@@ -494,7 +500,7 @@ classify_topological_roles <- function(tRoles,g,spingB=NULL,plt=FALSE){
     spingB <- cluster_spinglass(g,weights=NA)
 
   spingB.mem<- spingB$membership
-
+  tRoles <- tRoles %>% group_by(node) %>% summarise_all(mean)
   l <- tRoles$within_module_degree
   r <- tRoles$among_module_conn
   # Plot
@@ -520,7 +526,7 @@ classify_topological_roles <- function(tRoles,g,spingB=NULL,plt=FALSE){
   #
   modhub <- which(l>2.5)
   modhub <- modhub[which(l>2.5) %in% which(r<=0.625)]
-  modlbl <- unlist(vertex_attr(g,index=modhub))
+  modlbl <- vertex_attr(g, "name", index=modhub)
   if(is.null(modlbl))
     modlbl <- modhub
   hub_conn <- data.frame()
@@ -537,7 +543,7 @@ classify_topological_roles <- function(tRoles,g,spingB=NULL,plt=FALSE){
   #
   modhub <- which(l>2.5)
   modhub <- modhub[which(l>2.5) %in% which(r>0.625)]
-  modlbl <- unlist(vertex_attr(g,index=modhub))
+  modlbl <- vertex_attr(g,"name",index=modhub)
   if(is.null(modlbl))
     modlbl <- modhub
   if(length(modhub)) {
@@ -556,7 +562,7 @@ classify_topological_roles <- function(tRoles,g,spingB=NULL,plt=FALSE){
   #
   modhub <- which(l<=2.5)
   modhub <- modhub[which(l<=2.5) %in% which(r<=0.625)]
-  modlbl <- unlist(vertex_attr(g,index=modhub))
+  modlbl <- vertex_attr(g,"name",index=modhub)
   if(is.null(modlbl))
     modlbl <- modhub
 
@@ -566,13 +572,15 @@ classify_topological_roles <- function(tRoles,g,spingB=NULL,plt=FALSE){
   #
   modhub <- which(l<=2.5)
   modhub <- modhub[which(l<=2.5) %in% which(r>0.625)]
-  modlbl <- unlist(vertex_attr(g,index=modhub))
+  modlbl <- vertex_attr(g,"name", index=modhub)
   if(is.null(modlbl))
     modlbl <- modhub
 
   hub_conn <- rbind(hub_conn, data.frame(type="modcon",node=modhub,name=modlbl))
-
+  hub_conn <- hub_conn %>% inner_join(tRoles)
+  return(hub_conn)
 }
+
 
 #' Calculation of Modularity for a list of igraph objects
 #'

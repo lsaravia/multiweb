@@ -1,4 +1,7 @@
+
 # multiweb 
+
+[![DOI](https://zenodo.org/badge/142077196.svg)](https://zenodo.org/badge/latestdoi/142077196)
 
 This is an R package to analize ecological networks, including multilayer networks, recently developed network metrics and also some old ones conveniently in the same place. Functions to read, plot and a big set of networks are also included in the package. 
 
@@ -42,5 +45,6 @@ gt <- readMultiplex(dn,types,"inst/extdata", skipColumn = 2)
 
 1. Marina, T. I., Saravia, L. A., Cordone, G., Salinas, V., Doyle, S. R., & Momo, F. R. (2018). Architecture of marine food webs: To be or not be a ‘small-world.’ PLoS ONE, 13(5), 1–13. https://doi.org/10.1371/journal.pone.0198217
 
-2. Saravia, L. A., Marina, T. I., De Troch, M., & Momo, F. R. (2018). Ecological Network assembly: how the regional meta web influence local food webs. BioRxiv, 340430. Retrieved from http://biorxiv.org/content/early/2018/06/21/340430.abstract
-
+2. Ecological Network assembly: how the regional metaweb influences local food webs
+Leonardo A. Saravia, Tomás I. Marina, Marleen De Troch, Fernando R. Momo
+bioRxiv 340430; doi: https://doi.org/10.1101/340430

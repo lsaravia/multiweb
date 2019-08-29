@@ -10,15 +10,20 @@ calc_topological_roles(g, nsim = 1000, ncores = 0)
 \item{g}{an Igraph object with the network}
 
 \item{nsim}{number of simulations with different community}
+
+\item{ncores}{number of cores to use paralell computation, if 0 sequential processing is used.}
 }
 \value{
 a  data frame with two numeric fields: within_module_degree, among_module_conn
 }
 \description{
-Topological roles are characterized by two parameters: the standardized within-module degree \eqn{dz} and the among-module
+Topological roles characterize species as its roles between communities or modules, we calculate the modules using
+the \code{\link[igraph:cluster_spinglass]{igraph::cluster_spinglass()}} function.
+Topological roles are described by two parameters: the standardized within-module degree \eqn{dz} and the among-module
 connectivity participation coefficient \eqn{PC}.  The within-module degree is a z-score that measures how well a species is
 connected to other species within its own module compared with a random graph. The participation coefficient \eqn{PC}
-estimates the distribution of the links of species among modules
+estimates the distribution of the links of species among modules. As the community algorithm is stochastic we run it several
+times and return the repeated runs for both parameters.
 }
 \examples{
 #' \dontrun{
@@ -32,6 +37,6 @@ tp <- calc_topological_roles(g,nsim=10)
 \references{
 \enumerate{
 \item Guimerà, R. & Nunes Amaral, L.A. (2005). Functional cartography of complex metabolic networks. Nature, 433, 895–900
-\item Saravia, L.A., Marina, T.I., De Troch, M. & Momo, F.R. (2018). Ecological Network assembly: how the regional meta web influence local food webs. bioRxiv, 340430, doi: https://doi.org/10.1101/340430
+\item Kortsch, S. et al. 2015. Climate change alters the structure of arctic marine food webs due to poleward shifts of boreal generalists. - Proceedings of the Royal Society B: Biological Sciences 282: 20151546. https://doi.org/10.1098/rspb.2015.1546
 }
 }

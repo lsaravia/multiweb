@@ -182,7 +182,10 @@ glv <- toGLVadjMat(gt)
 
 sum(glv==-1)   # Competitive + trophic
 
-require(MetaWebAssemblyModels)
+
+# Meta-web assembly models package
+#
+require(meweasmo)
 
 
 pin  <- calcPropInteractionsGLVadjMat(glv, rep(1,times=nrow(glv)))
@@ -232,7 +235,7 @@ glv <- toGLVadjMat(gt)
 
 sum(glv==-1)   # Competitive + trophic
 
-require(MetaWebAssemblyModels)
+require(meweasmo)
 
 calcPropInteractionsGLVadjMat(glv, rep(1,times=nrow(glv)))
 
@@ -342,11 +345,11 @@ sum(m>0)/(nrow(m)^2)
 # Test Topological roles
 #
 
-sapply(netData,vcount)
+sapply(netData,igraph::vcount)
 
-g <- netData[[2]]
+g <- netData[[1]]
 
-tp <- calc_topological_roles(g,nsim=100,ncores=4)
+tp <- calc_topological_roles(g,nsim=10,ncores=4)
 
 classify_topological_roles(tp,g,plt=TRUE)
 

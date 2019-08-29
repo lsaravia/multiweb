@@ -1,9 +1,10 @@
 Package: multiweb
 Type: Package
 Title: Ecological analysis includind multiplex networks
-Version: 0.2.9.9000
+Version: 0.2.95.9000
 Authors@R: c( 
         person("Leonardo A.", "Saravia", email = "lsaravia@campus.ungs.edu.ar", role ="cre"),
+        person("Susanne", "Kortsch", email = "sko003@post.uit.no", role ="ctb"),
         person("Tomas I.", "Marina", email = "tomasimarina@gmail.com", role ="ctb"),
         person("Iara D.", "Rodriguez", email = "irodriguez@campus.ungs.edu.ar", role ="ctb"))
 Description: This package calculates indices for ecological network analysis.
@@ -17,7 +18,8 @@ Imports:
     RColorBrewer (>= 1.1-2),
     doParallel (>= 1.0.10),
     doFuture (>= 0.6.0),
-    future.apply (>= 1.2.0)
+    future.apply (>= 1.2.0),
+    dplyr (>= 0.8.0.1)
 RoxygenNote: 6.1.1
 Suggests: testthat
 Roxygen: list(markdown = TRUE)
