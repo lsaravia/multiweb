@@ -4,13 +4,13 @@
 #' @param ig igraph object
 #' @param vertexLabel logical plot vertex labels
 #' @param vertexSizeFactor numeric factor to determine the size of the label with degree
-#' @param tk TRUE generate an interactive plot using tkplot
+#' @param tk TRUE generate an interactive plot using tkplot and returns a matrix with coordinates from [igraph::tkplot.getcoords()]
 #' @param modules if TRUE plot modules in the x axis, obtained with the cluster spinglass algorithm
 #' @param lMat Matrix of postions for the nodes
 #' @param weights The weights of the edges for the [igraph::cluster_spinglass()] community detection, either a numeric vector, NULL, or NA.
 #'                if NULL and the network has a 'weight' attribute then that will be used,
 #'                if NA then the 'weight' attributte is not considered.
-#' @param bpal RColorBrewer palette name by default it uses the "RdYlGn" palette.
+#' @param bpal if NULL it uses the "RdYlGn" RColorBrewer palette, else must be a vector of colors of length 11.
 #' @param maxTL maximum trophic level to draw y-axis
 #' @param edge.width if NULL edge width is fixed in 0.3, if numberic takes into account edge weights multiplied by this value to draw edge widths,
 #'                   the parameter weights determine the behavior.
@@ -29,7 +29,7 @@
 #' @examples
 #'
 #' plot_troph_level(netData[[1]])
-plot_troph_level <- function(g,vertexLabel=FALSE,vertexSizeFactor=5,tk=FALSE,modules=FALSE,lMat=NULL,weights=NA, bpal= "RdYlGn",
+plot_troph_level <- function(g,vertexLabel=FALSE,vertexSizeFactor=5,tk=FALSE,modules=FALSE,lMat=NULL,weights=NA, bpal= NULL,
                              maxTL=NULL,edge.width=NULL,...){
 
   deg <- degree(g, mode="all") # calculate the degree: the number of edges
@@ -99,17 +99,17 @@ plot_troph_level <- function(g,vertexLabel=FALSE,vertexSizeFactor=5,tk=FALSE,mod
   }
 
   colTL <-as.numeric(cut(tl$TL,11))   # Divide trophic levels in 11 segments
-  if( RColorBrewer::brewer.pal.info[ bpal,]$maxcolors< 11)
-    colnet <- colorRampPalette(brewer.pal(RColorBrewer::brewer.pal.info[ bpal,]$maxcolors,bpal))(11)
-  else
-    colnet <- brewer.pal(11,bpal)   # Assign colors to trophic levels
+  if( !is.null(bpal)) {
+    colnet <- colorRampPalette(bpal)(11)
+  } else {
+    colnet <- brewer.pal(11,"RdYlGn")   # Assign colors to trophic levels
+  }
   V(g)$color <- colnet[12-colTL]      # Add colors to the igraph object
 
 
   if(tk){
-    tkid <- tkplot(g, edge.width=.3,edge.arrow.size=.4,
-       vertex.label.color="white",
-       edge.curved=0.3, layout=lMat)
+    tkid <- tkplot(g, edge.arrow.size=.4,
+       edge.curved=0.3, layout=lMat,...)
     return( tkplot.getcoords(tkid))
 
   } else {
@@ -131,7 +131,7 @@ plot_troph_level <- function(g,vertexLabel=FALSE,vertexSizeFactor=5,tk=FALSE,mod
 
 
 #' @export
-plotTrophLevel <- function(g,vertexLabel=FALSE,vertexSizeFactor=5,tk=FALSE,modules=FALSE,lMat=NULL,weights=NA, bpal= "RdYlGn", ...){
+plotTrophLevel <- function(g,vertexLabel=FALSE,vertexSizeFactor=5,tk=FALSE,modules=FALSE,lMat=NULL,weights=NA, bpal= NULL, ...){
   plot_troph_level(g,vertexLabel,vertexSizeFactor,tk,modules,lMat,weights, bpal, ...)
 }
 

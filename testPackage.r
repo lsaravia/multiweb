@@ -20,11 +20,14 @@ require(NetIndices)
 g <-   graph_from_literal( 1 -+ 4 -+ 7,2 -+ 5 -+7, 3-+6-+7, 7-+7, 4+-3, simplify = FALSE)
 calc_topological_indices(g)
 plotTrophLevel(g,vertexLabel = TRUE,vertexSizeFactor = 20,modules = TRUE,maxTL=4,weights=NULL)
+plotTrophLevel(g,vertexLabel = TRUE,vertexSizeFactor = 20,modules = TRUE,maxTL=4,weights=NULL, bpal=viridisLite::viridis(11))
 
 # Test tk and use of lMat
-tk <- plotTrophLevel(g,vertexLabel = FALSE,vertexSizeFactor = 20,modules = TRUE, tk=TRUE)
+tk <- plotTrophLevel(g,vertexLabel = TRUE,vertexSizeFactor = 20,modules = TRUE, tk=TRUE,vertex.label.color="white")
 tk [,2] <- seq(0,100, length.out = 7)
 plotTrophLevel(g,vertexLabel = TRUE,vertexSizeFactor = 20,modules = TRUE, lMat=tk,maxTL=2)
+
+
 
 # add weights
 #
