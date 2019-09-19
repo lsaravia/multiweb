@@ -1,5 +1,5 @@
 
-#' Plot ecological network organized by trophic level, with node size determined by the node degree, and modules
+#' Plot ecological network organized by trophic level, with node size determined by the node degree, and modules.
 #'
 #' @param ig igraph object
 #' @param vertexLabel logical plot vertex labels
@@ -7,22 +7,30 @@
 #' @param tk TRUE generate an interactive plot using tkplot
 #' @param modules if TRUE plot modules in the x axis, obtained with the cluster spinglass algorithm
 #' @param lMat Matrix of postions for the nodes
-#' @param weights edge attribute for the [igraph::cluster_spinglass()] community detection,
-#'                if NA weight attributte is not considered, NULL weight attribute is taken into account,
-#'                other edge attribute to take into account for weight.
+#' @param weights The weights of the edges for the [igraph::cluster_spinglass()] community detection, either a numeric vector, NULL, or NA.
+#'                if NULL and the network has a 'weight' attribute then that will be used,
+#'                if NA then the 'weight' attributte is not considered.
+#' @param bpal RColorBrewer palette name by default it uses the "RdYlGn" palette.
+#' @param maxTL maximum trophic level to draw y-axis
+#' @param edge.width if NULL edge width is fixed in 0.3, if numberic takes into account edge weights multiplied by this value to draw edge widths,
+#'                   the parameter weights determine the behavior.
 #' @param ... Addittional parameters to the plot function
 #'
-#' @return if tk==TRUE returns a layout matrix, else returns a plot
+#' @return returns a plot and if tk==TRUE returns a layout matrix
 #' @export
+#'
+#' @aliases plotTrophLevel
 #'
 #'
 #' @importFrom NetIndices TrophInd
-#' @importFrom igraph     V degree get.adjacency cluster_spinglass
+#' @importFrom igraph     V degree get.adjacency cluster_spinglass vcount
 #' @importFrom RColorBrewer brewer.pal
+#' @importFrom dplyr      "%>%" mutate dense_rank
 #' @examples
 #'
-#' plotTrophLevel(netData[[1]])
-plotTrophLevel <- function(g,vertexLabel=FALSE,vertexSizeFactor=5,tk=FALSE,modules=FALSE,lMat=NULL,weights=NA, ...){
+#' plot_troph_level(netData[[1]])
+plot_troph_level <- function(g,vertexLabel=FALSE,vertexSizeFactor=5,tk=FALSE,modules=FALSE,lMat=NULL,weights=NA, bpal= "RdYlGn",
+                             maxTL=NULL,edge.width=NULL,...){
 
   deg <- degree(g, mode="all") # calculate the degree: the number of edges
   # or interactions
@@ -33,6 +41,13 @@ plotTrophLevel <- function(g,vertexLabel=FALSE,vertexSizeFactor=5,tk=FALSE,modul
 
   V(g)$color <- "orange"         #
   E(g)$color <- "gray50"
+  E(g)$width <- .3
+  if( !is.null(edge.width )) {
+    if( is.null(weights) )
+        E(g)$width <- E(g)$weight* edge.width
+    else if( is.vector(weights, mode="numeric"))
+        E(g)$width <- weights* edge.width
+  }
 
   if(!vertexLabel)
     V(g)$label <- NA
@@ -72,14 +87,22 @@ plotTrophLevel <- function(g,vertexLabel=FALSE,vertexSizeFactor=5,tk=FALSE,modul
         m<-cluster_spinglass(g,weights=weights)
       }
 
-      lMat[,1]<-jitter(m$membership,1) # randomly assign along x-axis
+      # Order groups in ascending trofic level
+      #
+      df <- data.frame(tl=tl$TL,m=m$membership)
+      df <- df %>% mutate(m = dense_rank(ave(tl, m, FUN = max)))
+      lMat[,1]<-jitter(df$m,1) # randomly assign along x-axis
+
     } else {
       lMat[,1]<-runif(vcount(g))               # randomly assign along x-axis
     }
   }
 
   colTL <-as.numeric(cut(tl$TL,11))   # Divide trophic levels in 11 segments
-  colnet <- brewer.pal(11,"RdYlGn")   # Assign colors to trophic levels
+  if( RColorBrewer::brewer.pal.info[ bpal,]$maxcolors< 11)
+    colnet <- colorRampPalette(brewer.pal(RColorBrewer::brewer.pal.info[ bpal,]$maxcolors,bpal))(11)
+  else
+    colnet <- brewer.pal(11,bpal)   # Assign colors to trophic levels
   V(g)$color <- colnet[12-colTL]      # Add colors to the igraph object
 
 
@@ -90,12 +113,26 @@ plotTrophLevel <- function(g,vertexLabel=FALSE,vertexSizeFactor=5,tk=FALSE,modul
     return( tkplot.getcoords(tkid))
 
   } else {
-    plot(g, edge.width=.3,edge.arrow.size=.4,
+    plot(g, edge.arrow.size=.4,
          vertex.label.color="white",
          edge.curved=0.3, layout=lMat,...)
+    maxnew <- max(tl$TL)
+    minnew <- min(tl$TL)
+    maxold <- 1
+    minold <- -1
+    t2 <- function(x) (maxold-minold)/(maxnew -minnew)*(x - maxnew)+maxold
+    tlseq <- seq(1,ifelse(is.null(maxTL),maxnew+1,maxTL),by=1)
+    axis(side=2,at=t2(tlseq),labels=tlseq,  las=1, col = NA, col.ticks = 1)
+
 
   }
 
+}
+
+
+#' @export
+plotTrophLevel <- function(g,vertexLabel=FALSE,vertexSizeFactor=5,tk=FALSE,modules=FALSE,lMat=NULL,weights=NA, bpal= "RdYlGn", ...){
+  plot_troph_level(g,vertexLabel,vertexSizeFactor,tk,modules,lMat,weights, bpal, ...)
 }
 
 

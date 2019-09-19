@@ -3,8 +3,10 @@ require(igraph)
 fileName <- c(system.file("extdata",  package = "multiweb"))
 fileName <- system.file("extdata", "BarentsBoreal_FW.csv", package = "multiweb")
 g <- readNetwork(fileName)
-g
-
+V(g)$weigth <-  runif(vcount(g))
+plotTrophLevel(g,vertexLabel = FALSE,vertexSizeFactor = 3,modules = TRUE,maxTL=4,weights=NULL, frame.color="black")
+tk <- plotTrophLevel(g,vertexLabel = FALSE,vertexSizeFactor = 3,modules = TRUE, tk=TRUE)
+plotTrophLevel(g,vertexLabel = FALSE,vertexSizeFactor = 3,modules = TRUE, lMat=tk)
 
 dn <- list.files("inst/extdata",pattern = "^.*\\.csv$")
 g<- readNetwork(dn,"inst/extdata")
@@ -17,7 +19,23 @@ require(igraph)
 require(NetIndices)
 g <-   graph_from_literal( 1 -+ 4 -+ 7,2 -+ 5 -+7, 3-+6-+7, 7-+7, 4+-3, simplify = FALSE)
 calc_topological_indices(g)
-plotTrophLevel(g,vertexLabel = TRUE,vertexSizeFactor = 20)
+plotTrophLevel(g,vertexLabel = TRUE,vertexSizeFactor = 20,modules = TRUE,maxTL=4,weights=NULL)
+
+# Test tk and use of lMat
+tk <- plotTrophLevel(g,vertexLabel = FALSE,vertexSizeFactor = 20,modules = TRUE, tk=TRUE)
+tk [,2] <- seq(0,100, length.out = 7)
+plotTrophLevel(g,vertexLabel = TRUE,vertexSizeFactor = 20,modules = TRUE, lMat=tk,maxTL=2)
+
+# add weights
+#
+E(g)$weight <- c(2,2.5,0.1,0.2,1,5,0.1,2)
+plotTrophLevel(g,vertexLabel = TRUE,vertexSizeFactor = 20,modules = TRUE,maxTL=4,weights=NA,edge.width=5)
+
+plotTrophLevel(g,vertexLabel = TRUE,vertexSizeFactor = 20,modules = TRUE,maxTL=4,weights=NULL,edge.width=5)
+
+
+# Test incoherence
+#
 calcIncoherence(g)
 
 g <-   graph_from_literal( 1 -+ 4 -+ 7,2 -+ 5 -+7, 3-+6-+7, 4+-5, simplify = FALSE)
