@@ -101,7 +101,7 @@ curve_ball<-function(g,nsim=1000){
 }
 
 #' @export
-curveBall<-function(g,nsim=1000){curve_ball(g,nsim=1000)}
+curveBall<-function(g,nsim=1000){curve_ball(g,nsim)}
 
 
 
@@ -143,4 +143,4 @@ generate_er_basal <- function(ig,nsim=1000){
 }
 
 #' @export
-generateERbasal <- function(ig,nsim=1000){generate_er_basal(ig,nsim=1000)}
+generateERbasal <- function(ig,nsim=1000){generate_er_basal(ig,nsim)}

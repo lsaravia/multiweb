@@ -44,10 +44,11 @@ calcIncoherence(g)
 g <-   graph_from_literal( 1 -+ 4 -+ 7,2 -+ 5 -+7, 3-+6-+7, 4+-5, simplify = FALSE)
 calcTopologicalIndices(g)
 plotTrophLevel(g,vertexLabel = TRUE,vertexSizeFactor = 20, modules = TRUE)
-calcIncoherence(g)
 nullg <- generateERbasal(g,10)
-calcModularitySWnessZScore(g,nullg,0.1,ncores = NULL)
+calcIncoherence(nullg,ncores=0)
 
+calcModularitySWnessZScore(g,nullg,0.1,ncores = NULL)
+calc_swness_zscore(g,nullg,0.1,ncores = 0)
 
 # test reading .csv files
 #
@@ -71,8 +72,9 @@ nets$Jamaica_FW <- readNetwork(dn[15],"~/Academicos/GitProjects/MarineFoodWebsSm
 nets$Cuba_FW <- readNetwork(dn[11],"~/Academicos/GitProjects/MarineFoodWebsSmallWorld/Data/FoodWebs",fhead = FALSE,skipColumn = 0)
 
 calcTopologicalIndices(nets)
-netData <- nets
-devtools::use_data(netData,overwrite = TRUE)
+calcIncoherence(nets)
+#netData <- nets
+#devtools::use_data(netData,overwrite = TRUE)
 
 
 # test reading .dat files from Johnson 2017
@@ -132,7 +134,10 @@ m$membership
 g <-   graph_from_literal( 1 -+ 4 -+ 7,2 -+ 5 -+ 9, 4+-5,
                            3 -+ 6 -+ 8,5 -+8, simplify = FALSE)
 plotTrophLevel(g,vertexLabel = TRUE,vertexSizeFactor = 20,modules = TRUE)
-gg <- curveBall(g,100)
+gg <- curveBall(g,10)
+gg <- curve_ball(g,1000)
+calcTopologicalIndices(gg,ncores=48)
+
 plotTrophLevel(gg[[1]],vertexLabel = TRUE,vertexSizeFactor = 20,modules = TRUE)
 plotTrophLevel(gg[[2]],vertexLabel = TRUE,vertexSizeFactor = 10,modules=TRUE)
 plotTrophLevel(gg[[3]],vertexLabel = TRUE,vertexSizeFactor = 10,modules = TRUE)

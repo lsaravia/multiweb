@@ -5,14 +5,12 @@
 \alias{calcIncoherence}
 \title{Calculate the incoherence index of a food web}
 \usage{
-calc_incoherence(ig, ti = NULL, ncores = 0)
+calc_incoherence(ig, ncores = 0)
 }
 \arguments{
-\item{ti}{trophic level vector if not supplied is calculated internally}
+\item{ig}{an igraph object or a list of igraph objects}
 
 \item{ncores}{number of cores used to compute in parallel, if 0 sequential processing is used.}
-
-\item{g}{an igraph object}
 }
 \value{
 a data.frame with the following fields
@@ -25,8 +23,7 @@ a data.frame with the following fields
 \description{
 The incoherence index is based in how the species fit in discrete trophic levels
 when Q is closer to 0 more coherent and stable is a food web, and the less omnivory it has.
-It calculates the trophic level using the package NetIndices, or optionally the trophic levels could be passed
-by parameter as a vector but in that case that the same vector will be used for all the networks.
+It calculates the trophic level using the package NetIndices.
 }
 \details{
 Based on:

@@ -105,7 +105,7 @@ return(df)
 
 #' @export
 calcTopologicalIndices <- function(ig,ncores=0){
-    calc_topological_indices(ig,ncores=0)
+    calc_topological_indices(ig,ncores)
 }
 
 
@@ -113,8 +113,7 @@ calcTopologicalIndices <- function(ig,ncores=0){
 #'
 #' The incoherence index is based in how the species fit in discrete trophic levels
 #' when Q is closer to 0 more coherent and stable is a food web, and the less omnivory it has.
-#' It calculates the trophic level using the package NetIndices, or optionally the trophic levels could be passed
-#' by parameter as a vector but in that case that the same vector will be used for all the networks.
+#' It calculates the trophic level using the package NetIndices.
 #'
 #' Based on:
 #'
@@ -123,8 +122,7 @@ calcTopologicalIndices <- function(ig,ncores=0){
 #' @references Johnson, S., & Jones, N. S. (2017). Looplessness in networks is linked to trophic coherence. Proceedings of the National Academy of Sciences, 114(22), 5618–5623. https://doi.org/10.1073/pnas.1613786114
 #'
 #'
-#' @param g an igraph object
-#' @param ti trophic level vector if not supplied is calculated internally
+#' @param ig an igraph object or a list of igraph objects
 #' @param ncores number of cores used to compute in parallel, if 0 sequential processing is used.
 #'
 #' @return a data.frame with the following fields
@@ -149,7 +147,7 @@ calcTopologicalIndices <- function(ig,ncores=0){
 #' @importFrom doFuture registerDoFuture
 #' @importFrom future sequential multiprocess
 
-calc_incoherence <- function(ig,ti=NULL,ncores=0) {
+calc_incoherence <- function(ig,ncores=0) {
 
   if(inherits(ig,"igraph")) {
     ig <- list(ig)
@@ -186,9 +184,7 @@ calc_incoherence <- function(ig,ti=NULL,ncores=0) {
 
   df <-  foreach(g=ig,.combine='rbind',.inorder=FALSE,.packages=c('igraph','NetIndices')) %dopar%
   {
-
-    if(is.null(ti) )
-      ti<-TrophInd(get.adjacency(g,sparse=FALSE))
+    ti<-TrophInd(get.adjacency(g,sparse=FALSE))
     v <- ti$TL
     z <- round(outer(v,v,'-'),8);
     A <- get.adjacency(g,sparse = FALSE)
@@ -208,8 +204,8 @@ calc_incoherence <- function(ig,ti=NULL,ncores=0) {
 }
 
 #' @export
-calcIncoherence <- function(ig,ti=NULL,ncores=0){
-  calc_incoherence(ig,ti,ncores)
+calcIncoherence <- function(ig,ncores=0){
+  calc_incoherence(ig,ncores)
   }
 
 #' Calculation of Modularity and Small-world-ness z-scores
@@ -342,6 +338,108 @@ calc_modularity_swness_zscore<- function(g, nullDist,sLevel=0.01,ncores=0,weight
 #' @export
 calcModularitySWnessZScore<- function(g, nullDist,sLevel=0.01,ncores=0){
   calc_modularity_swness_zscore(g, nullDist,sLevel,ncores)
+}
+
+
+#' Calculation Small-world-ness z-scores
+#'
+#' The function calculates small-world-ness z-scores and 99\% CI intervals,
+#' using as null model the list of networks in the nullDist parameter.
+#'
+#' @references
+#' Marina, T. I., Saravia, L. A., Cordone, G., Salinas, V., Doyle, S. R., & Momo, F. R. (2018). Architecture of marine food webs: To be or not be a ‘small-world.’ PLoS ONE, 13(5), 1–13. https://doi.org/10.1371/journal.pone.0198217
+#'
+#' @param g  igraph object
+#' @param nullDist list of igraph object with the null model simulations
+#' @param sLevel significance level to calculate CI (two tails)
+#' @param ncores number of cores to use paralell computation, if 0 sequential processing is used.
+#'
+#'
+#' @return a list with two data frames: one with indices z-scores and CI
+#'
+#'  \item{Clustering}{ Clustering coefficient, measures the average fraction of pairs of neighbors of a node that are also neighbors of each other}
+#'  \item{PathLength}{ Mean of the shortest paths between all pair of vertices }
+#'  \item{Modularity}{ modularity measures how separated are different groups from each other, the algorithm \code{cluster_spinglass} was used to obtain the groups}
+#'  \item{zCC,zCP,zMO}{Z-scores of Clustering,PathLength and Modularity with respect to a random Erdos-Renyi null model}
+#'  \item{CClow,CChigh,CPlow,CPhigh,MOlow,MOhigh}{sLevel confidence intervals}
+#'  \item{SWness,SWnessCI}{ Small-world-ness and it CI value}
+#'  \item{isSW,isSWness}{ Logical variable signalling if the network is Small-world by the method of Marina 2018 or the method of Humprhies & Gurney 2008 }
+#'
+#'  Another data.frame with the values calculated for the nullDist.
+#'
+#' @export
+#'
+#' @importFrom igraph transitivity average.path.length
+#' @importFrom foreach foreach %dopar%
+#' @importFrom doFuture registerDoFuture
+#' @importFrom future sequential multiprocess
+#'
+#' @examples
+#' \dontrun{
+#' nullg <- generateERbasal(netData[[1]],10)
+#' calc_swness_zscore(netData[[1]],nullg)
+#' }
+#'
+calc_swness_zscore<- function(g, nullDist,sLevel=0.01,ncores=0,weights=NA){
+
+  if(!is_igraph(g))
+    stop("Parameter g must be an igraph object")
+
+  t <- calcTopologicalIndices(g)
+
+  if(length(nullDist)<5)
+    stop("nullDist: There has to be more than 5 elements in the list")
+
+  registerDoFuture()
+  if(ncores) {
+    cn <- future::availableCores()
+    if(ncores>cn)
+      ncores <- cn
+    future::plan(multiprocess, workers=ncores)
+    on.exit(future::plan(sequential))
+  } else {
+    future::plan(sequential)
+  }
+
+  ind <- data.frame()
+
+  ind <- foreach(i=1:length(nullDist),.combine='rbind',.inorder=FALSE,.packages='igraph') %dopar%
+    {
+      clus.coef <- transitivity(nullDist[[i]], type="Global")
+      cha.path  <- average.path.length(nullDist[[i]])
+      data.frame(clus.coef=clus.coef,cha.path=cha.path)
+    }
+
+  ind$gamma <- t$Clustering/ind$clus.coef
+  ind$lambda <- t$PathLength/ind$cha.path
+  ind$SWness <- ind$gamma/ind$lambda
+
+  # 99% confidence interval
+  #
+  sLevel <- sLevel/2
+  qSW <- quantile(ind$SWness,c(sLevel,1-sLevel),na.rm = TRUE)
+
+  mcc <- mean(ind$clus.coef)
+  mcp <- mean(ind$cha.path)
+
+  zcc <- (t$Clustering-mcc)/sd(ind$clus.coef)
+  zcp <- (t$PathLength-mcp)/sd(ind$cha.path)
+  qcc <- quantile(ind$clus.coef,c(sLevel,1-sLevel),na.rm = TRUE)
+  qcp <- quantile(ind$cha.path,c(sLevel,1-sLevel),na.rm = TRUE)
+
+  mSW <- mean(t$Clustering/mcc*mcp/t$PathLength)
+  mCI <- 1+(qSW[2]-qSW[1])/2
+
+  isLowInsideCPL <- t$PathLength<=qcp[2]
+  isGreaterCC <- t$Clustering>qcc[2]
+  isSW       <- (isLowInsideCPL & isGreaterCC)
+  isSWness   <- (mSW>mCI)
+
+  return(list(da=data.frame(Clustering=t$Clustering, PathLength= t$PathLength,
+                            zCC=zcc,zCP=zcp,
+                            CClow=qcc[1],CChigh=qcc[2],CPlow=qcp[1],CPhigh=qcp[2],
+                            SWness=mSW,SWnessCI=mCI,
+                            isSW=isSW,isSWness=isSWness),sims=ind))
 }
 
 
