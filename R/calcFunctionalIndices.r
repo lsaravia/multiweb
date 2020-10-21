@@ -159,7 +159,7 @@ calc_QSS <- function(ig,nsim=1000,ncores=0,negative=-10, positive=0.1, selfDampi
       df <- future_lapply(seq_len(nsim), function(i){
         ranmat <- ranUnif(mat,negative,positive,selfDamping)
         eigs <- maxRE(ranmat)
-      })
+      },future.seed = TRUE)
       df <-   do.call(rbind,df)
       data.frame(QSS=sum(df<0)/nsim,MEing=mean(df))
     }

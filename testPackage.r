@@ -390,7 +390,7 @@ sapply(netData,vcount)
 set.seed(342)
 g <- netData[[2]]
 g1 <- netData[[18]]
-tp <- calc_QSS(list(g,g1),nsim=10000,ncores=48)
+tp <- calc_QSS(list(g,g1),nsim=1000,ncores=48)
 
 
 # with default values QSS is almost always 0
