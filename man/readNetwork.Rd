@@ -4,8 +4,13 @@
 \alias{readNetwork}
 \title{Read ecological networks in CSV or tab separated file format as edge list or adyacency matrix}
 \usage{
-readNetwork(fileName, filePath = NULL, fhead = TRUE, skipColumn = 1,
-  edgeListFormat = 1)
+readNetwork(
+  fileName,
+  filePath = NULL,
+  fhead = TRUE,
+  skipColumn = 1,
+  edgeListFormat = 1
+)
 }
 \arguments{
 \item{fileName}{vector of fileNames with the networks}

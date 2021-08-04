@@ -4,8 +4,13 @@
 \alias{calc_modularity_swness_zscore}
 \title{Calculation of Modularity and Small-world-ness z-scores}
 \usage{
-calc_modularity_swness_zscore(g, nullDist, sLevel = 0.01, ncores = 0,
-  weights = NA)
+calc_modularity_swness_zscore(
+  g,
+  nullDist,
+  sLevel = 0.01,
+  ncores = 0,
+  weights = NA
+)
 }
 \arguments{
 \item{g}{igraph object}
@@ -30,7 +35,7 @@ a list with two data frames: one with indices z-scores and CI
 Another data.frame with the values calculated for the nullDist.
 }
 \description{
-The function calculates modularity, number of groups and small-world-ness z-scores and 99\% CI intervals
+The function calculates modularity, number of groups and small-world-ness z-scores and 99\\% CI intervals
 using as null model the list of networks in the nullDist parameters. Modularity is calculated using the \code{\link[igraph:cluster_spinglass]{igraph::cluster_spinglass()}}
 if the parameter weights is NULL the atribute "weigths" is used, or if it has the name of an network attribute, that is used as a weigth
 to build the modules, when this parameter is NA then no weigth is used.

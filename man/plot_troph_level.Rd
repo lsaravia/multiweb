@@ -5,16 +5,26 @@
 \alias{plotTrophLevel}
 \title{Plot ecological network organized by trophic level, with node size determined by the node degree, and modules.}
 \usage{
-plot_troph_level(g, vertexLabel = FALSE, vertexSizeFactor = 5,
-  tk = FALSE, modules = FALSE, lMat = NULL, weights = NA,
-  bpal = NULL, maxTL = NULL, edge.width = NULL, ...)
+plot_troph_level(
+  g,
+  vertexLabel = FALSE,
+  vertexSizeFactor = 5,
+  tk = FALSE,
+  modules = FALSE,
+  lMat = NULL,
+  weights = NA,
+  bpal = NULL,
+  maxTL = NULL,
+  edge.width = NULL,
+  ...
+)
 }
 \arguments{
 \item{vertexLabel}{logical plot vertex labels}
 
 \item{vertexSizeFactor}{numeric factor to determine the size of the label with degree}
 
-\item{tk}{TRUE generate an interactive plot using tkplot and returns a matrix with coordinates from \code{\link[igraph:tkplot.getcoords]{igraph::tkplot.getcoords()}}}
+\item{tk}{TRUE generate an interactive plot using tkplot and returns a matrix with coordinates from \code{\link[igraph:tkplot]{igraph::tkplot.getcoords()}}}
 
 \item{modules}{if TRUE plot modules in the x axis, obtained with the cluster spinglass algorithm}
 

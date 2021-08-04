@@ -216,10 +216,12 @@ readMultiplex <- function(fileName,types=c("Competitive","Mutualistic","Trophic"
 #'
 #' This functions takes a 'mgraph' object and convert it to a Generalized Lotka-Volterra adjacency matrix
 #' Position is important in fact the order is  Competitive/Negative,Mutualistic/Positive,Trophic/Antagonistic
+#' If 'istrength' is TRUE the attribute weight is assumed as the strength of the interacion
 #'
 #'
 #' @param mg multiple interaction object, class 'mgraph'
 #' @param types vector of types that represent the layers
+#' @param istrength edge weights
 #'
 #' @return an matrix with the signs of the interactions
 #' @export
@@ -242,6 +244,8 @@ toGLVadjMat <- function(mg,types=c("Competitive","Mutualistic","Trophic"),istren
 
   if( class(mg)!='mgraph')
     stop("parameter mg must be an mgraph object")
+  if( length(mg)!=3 )
+    stop("parameter mg must have 3 components")
 
   stopifnot(length(types)==3)
 

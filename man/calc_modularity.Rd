@@ -4,12 +4,14 @@
 \alias{calc_modularity}
 \title{Calculation of Modularity for a list of igraph objects}
 \usage{
-calc_modularity(ig, ncores = 0)
+calc_modularity(ig, ncores = 0, weights = NA)
 }
 \arguments{
 \item{ig}{list of igraph objects to calculate modularity}
 
 \item{ncores}{number of cores used to compute in parallel, if 0 sequential processing is used.}
+
+\item{weights}{weights}
 }
 \value{
 a data.frame with the field Modularity

@@ -2,13 +2,19 @@
 % Please edit documentation in R/calcFunctionalIndices.r
 \name{calc_QSS}
 \alias{calc_QSS}
-\title{Calc the Quasi Sign Stability measure for antagonistic (predator-prey) networks}
+\title{Calc the Quasi Sign Stability measure for antagonistic (predator-prey) or mgraph networks}
 \usage{
-calc_QSS(ig, nsim = 1000, ncores = 0, negative = -10,
-  positive = 0.1, selfDamping = -1)
+calc_QSS(
+  ig,
+  nsim = 1000,
+  ncores = 0,
+  negative = -10,
+  positive = 0.1,
+  selfDamping = -1
+)
 }
 \arguments{
-\item{ig}{igraph or a list of igraph networks}
+\item{ig}{igraph or a list of igraph networks or mgraph network}
 
 \item{ncores}{number of cores to use in parallel comutation if 0 it uses sequential processing}
 
@@ -25,8 +31,9 @@ a data.frame with the QSS, and MEing, the mean of the real part of the maximum e
 }
 \description{
 The proportion of matrices that are locally stable, these matrices are created by sampling the values of the community matrix
-(the Jacobian) from a uniform distribution, preserving the sign structure (the links) \link{1}.
-It also calculates the mean of the real part of the maximum eingenvalue, which is also a measure of stability \link{2}
+(the Jacobian) from a uniform distribution, preserving the sign structure (the links) \link{1}. If the 'ig' parameter is
+an \code{mgraph} network it needs to have been built with the order \code{c("Competitive", "Mutualistic", "Trophic")}
+It also calculates the mean of the real part of the maximum eingenvalue, which is also a measure of stability \link{2}.
 It uses a uniform distribution between 0 and maximum values given by the parameters \code{negative}, \code{positive} and \code{selfDamping}
 corresponding to the sign of interactions and self-limitation effect\link{3}.
 If the values of these parameters are 0 then there is no interaction of that kind.

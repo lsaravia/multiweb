@@ -4,13 +4,18 @@
 \alias{toGLVadjMat}
 \title{From multiple interaction object 'mgraph'to GLV adjacency matrix}
 \usage{
-toGLVadjMat(mg, types = c("Competitive", "Mutualistic", "Trophic"),
-  istrength = FALSE)
+toGLVadjMat(
+  mg,
+  types = c("Competitive", "Mutualistic", "Trophic"),
+  istrength = FALSE
+)
 }
 \arguments{
 \item{mg}{multiple interaction object, class 'mgraph'}
 
 \item{types}{vector of types that represent the layers}
+
+\item{istrength}{edge weights}
 }
 \value{
 an matrix with the signs of the interactions
@@ -18,6 +23,7 @@ an matrix with the signs of the interactions
 \description{
 This functions takes a 'mgraph' object and convert it to a Generalized Lotka-Volterra adjacency matrix
 Position is important in fact the order is  Competitive/Negative,Mutualistic/Positive,Trophic/Antagonistic
+If 'istrength' is TRUE the attribute weight is assumed as the strength of the interacion
 }
 \examples{
 

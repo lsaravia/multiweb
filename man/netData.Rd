@@ -4,7 +4,9 @@
 \name{netData}
 \alias{netData}
 \title{Compilation of Ecological Networks (food webs) in igraph format.}
-\format{A list with 23 igraph network objects}
+\format{
+A list with 23 igraph network objects
+}
 \source{
 \url{https://doi.org/10.1371/journal.pone.0198217}
 }

@@ -21,7 +21,7 @@ a data.frame with the classified topological roles
 \description{
 We use the topological roles calculated with \code{\link[=calc_topological_roles]{calc_topological_roles()}} and categorize them following the approach of
 Kortsch (2015), that defines species roles based in two thresholds \eqn{PC=0.625} and \eqn{dz=2.5}.
-If a species had at least 60% of links within its own module then \eqn{PC<0.625}, and if it also had \eqn{dz\ge 2.5}, thus it was
+If a species had at least 60\% of links within its own module then \eqn{PC<0.625}, and if it also had \eqn{dz\ge 2.5}, thus it was
 classified as a module hub, labeled \strong{modhub}. If a species had \eqn{PC<0.625} and \eqn{dz<2.5}, then it was called a peripheral
 or specialist, labeled \strong{modspe}. Species that had \eqn{PC\ge0.625} and \eqn{dz<2.5} were considered module connectors \strong{modcon}.
 Finally, if a species had \eqn{PC\ge0.625} and \eqn{dz\ge 2.5}, then it was classified as a super-generalist or hub-connector \strong{hubcon}.

@@ -4,8 +4,7 @@
 \alias{calc_swness_zscore}
 \title{Calculation Small-world-ness z-scores}
 \usage{
-calc_swness_zscore(g, nullDist, sLevel = 0.01, ncores = 0,
-  weights = NA)
+calc_swness_zscore(g, nullDist, sLevel = 0.01, ncores = 0, weights = NA)
 }
 \arguments{
 \item{g}{igraph object}
@@ -30,7 +29,7 @@ a list with two data frames: one with indices z-scores and CI
 Another data.frame with the values calculated for the nullDist.
 }
 \description{
-The function calculates small-world-ness z-scores and 99\% CI intervals,
+The function calculates small-world-ness z-scores and 99\\% CI intervals,
 using as null model the list of networks in the nullDist parameter.
 }
 \examples{

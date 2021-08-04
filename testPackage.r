@@ -47,7 +47,7 @@ plotTrophLevel(g,vertexLabel = TRUE,vertexSizeFactor = 20, modules = TRUE)
 nullg <- generateERbasal(g,10)
 calcIncoherence(nullg,ncores=0)
 
-calcModularitySWnessZScore(g,nullg,0.1,ncores = NULL)
+calcModularitySWnessZScore(g,nullg,0.1)
 calc_swness_zscore(g,nullg,0.1,ncores = 0)
 
 # test reading .csv files
@@ -113,7 +113,7 @@ plotTrophLevel(g,vertexLabel = TRUE,vertexSizeFactor = 20,modules = TRUE)
 title(main="9 species")
 calcTopologicalIndices(g)
 calcIncoherence(g)
-calcModularitySWnessZScore(g,100,0.1)
+calcModularitySWnessZScore(g,generateERbasal(g,10),0.1)
 
 
 # Completely coherent Q=0 network
@@ -123,7 +123,7 @@ g <-   graph_from_literal( 1 -+ 4 -+ 7,2 -+ 5 , 2-+4, 5-+7, 3-+6 -+8,
 plotTrophLevel(g,vertexLabel = TRUE,vertexSizeFactor = 20,modules = TRUE)
 calcTopologicalIndices(g)
 calcIncoherence(g)
-calcModularitySWnessZScore(g,100,0.1,ncores = 0)
+calcModularitySWnessZScore(g,generateERbasal(g,100),0.1,ncores = 0)
 dg <- components(g)
 m<-cluster_spinglass(g)
 m$membership
@@ -190,8 +190,8 @@ ggplot(tp, aes(Q)) + geom_density() + theme_bw() + geom_point(data=tp1,aes(Q,y))
 # generalization = in degree
 # vulnerability  = out degree
 
-dn <- list.files("~/Dropbox/Projects/NetworksAsUnifyingPrinciple/Data",pattern = "^PotterCove.*\\.txt$")
-gt <- readMultiplex("~/Dropbox/Projects/NetworksAsUnifyingPrinciple/Data/PotterCove_Multiplex.txt",format="GLV")
+dn <- list.files("~/Academicos/InconclusedProjects/NetworksAsUnifyingPrinciple/Data",pattern = "^PotterCove.*\\.txt$")
+gt <- readMultiplex("~/Academicos/InconclusedProjects/NetworksAsUnifyingPrinciple/Data/PotterCove_Multiplex.txt",format="GLV")
 
 # Number of interaction by type
 sapply(gt,ecount)
@@ -251,6 +251,19 @@ sapply(gt,vcount)
 # Total Connectivity
 sum(sapply(gt,ecount))/(106*106)
 
+
+# Calc multi type interaction QSS
+#
+calc_QSS(gt)
+# QSS    MEing
+# 1   0 25.53313
+
+calc_QSS(g[[3]])               # QSS with trophic interactions only should be more stable
+#  QSS    MEing
+# 1   0 3.055153
+
+
+
 #
 # Select the first type of interaction
 #
@@ -261,37 +274,35 @@ glv <- toGLVadjMat(gt)
 
 sum(glv==-1)   # Competitive + trophic
 
+#
+# Simple test
+#
+g <-   graph_from_literal( 2 -+ 1 +-3,4 -+ 1, 4-+4, 3+-3, 5-+5, 4-+6-+2, 2+-5-+3, simplify = FALSE)
+E(g)$type <- "Trophic"
+plotTrophLevel(g,vertexLabel = TRUE,vertexSizeFactor = 20,modules = TRUE)
+
+g1 <-   graph_from_literal(1,2,3, 4 -+ 5, 5-+4,6, simplify = FALSE)
+E(g1)$type <- "Competitive"
+
+g2 <-   graph_from_literal(1 -+ 2,2,3,4,5, 6 -+ 3, 3-+6, simplify = FALSE)
+E(g2)$type <- "Mutualistic"
+g2
+#
+# Builds an mgraph object
+#
+mg <- fromIgraphToMgraph(list(g1,g2,g),c("Competitive", "Mutualistic", "Trophic"))
+
+#
+# Automatically uses the function toGLVadjMat to calculate the Generalized Lotka-Volterra interaction matrix
+# and then calculates the QSS
+#
+calc_QSS(list(g,g1,g2))
+calc_QSS(mg)
+qss
 require(meweasmo)
 
 calcPropInteractionsGLVadjMat(glv, rep(1,times=nrow(glv)))
 
-require(NetIndices)
-require(RColorBrewer)
-require(igraph)
-plotTrophLevel(g[[1]],modules = T)
-plotTrophLevel(g[[2]],modules = T)
-plotTrophLevel(g[[3]],modules = T)
-plotTrophLevel(gt,modules = T)
-
-
-g <-   graph_from_literal( 2 -+ 1 +-3,4 -+ 1, 4-+4, 3+-3, 5-+5, 4-+6-+2, 2+-5-+3, simplify = FALSE)
-E(g)$type <- "Trophic"
-
-
-pltMat <- plotTrophLevel(g,vertexLabel = TRUE,vertexSizeFactor = 20,modules = TRUE,tk=TRUE)
-pltMat[6,2] <- 1
-pltMat[6,1] <- 400
-pltMat[4,1] <- 20
-pltMat[4,2] <- 1
-pltMat[5,1] <- 250
-pltMat[5,2] <- 70
-pltMat[3,1] <- 10
-pltMat[3,2] <- 220
-pltMat[1,1] <- 450
-pltMat[1,2] <- 339
-pltMat[2,1] <- 150
-pltMat[2,2] <- 376
-plotTrophLevel(g,vertexLabel = TRUE,vertexSizeFactor = 20,lMat=pltMat)
 
 #
 # Test network with weights
@@ -400,7 +411,7 @@ tp
 #2   0 2.052344
 
 set.seed(342)
-tp <- calc_QSS(list(g,g1),nsim=10000,ncores=48,negative=-1,positive=1)
+tp <- calc_QSS(list(g,g1),nsim=100,ncores=48,negative=-1,positive=1)
 tp
 #      QSS      MEing
 # 1 0.0005 0.24024671
@@ -418,9 +429,10 @@ prop.test(x=tp$QSS*10000, n=c(10000,10000))
 nullg <- generateERbasal(netData[[1]],10)
 calc_modularity(nullg)
 
+# with weigths
+g <- netData[[1]]
+calc_modularity(g)
 
-#
-#
-#
-nullg <- generateERbasal(netData[[1]],10)
-calc_modularity(nullg)
+V(g)$weight <-  runif(vcount(g))
+calc_modularity(g,weights = NULL)
+

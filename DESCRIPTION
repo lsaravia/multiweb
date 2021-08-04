@@ -1,7 +1,7 @@
 Package: multiweb
 Type: Package
 Title: Ecological network analysis includind multiplex networks
-Version: 0.3.00.0000
+Version: 0.4.00.0000
 Authors@R: c( 
         person("Leonardo A.", "Saravia", email = "lsaravia@campus.ungs.edu.ar", role ="cre"),
         person("Susanne", "Kortsch", email = "sko003@post.uit.no", role ="ctb"),
@@ -20,7 +20,7 @@ Imports:
     doFuture (>= 0.6.0),
     future.apply (>= 1.2.0),
     dplyr (>= 0.8.0.1)
-RoxygenNote: 6.1.1
+RoxygenNote: 7.1.1
 Suggests: testthat
 Roxygen: list(markdown = TRUE)
 URL: https://github.com/lsaravia/multiweb

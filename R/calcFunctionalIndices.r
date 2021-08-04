@@ -88,11 +88,12 @@ calcQuantitativeConnectance <- function(interM,d){
   calc_quantitative_connectance(interM,d)}
 
 
-#' Calc the Quasi Sign Stability measure for antagonistic (predator-prey) networks
+#' Calc the Quasi Sign Stability measure for antagonistic (predator-prey) or mgraph networks
 #'
 #' The proportion of matrices that are locally stable, these matrices are created by sampling the values of the community matrix
-#' (the Jacobian) from a uniform distribution, preserving the sign structure (the links) [1].
-#' It also calculates the mean of the real part of the maximum eingenvalue, which is also a measure of stability [2]
+#' (the Jacobian) from a uniform distribution, preserving the sign structure (the links) [1]. If the 'ig' parameter is
+#' an `mgraph` network it needs to have been built with the order `c("Competitive", "Mutualistic", "Trophic")`
+#' It also calculates the mean of the real part of the maximum eingenvalue, which is also a measure of stability [2].
 #' It uses a uniform distribution between 0 and maximum values given by the parameters `negative`, `positive` and `selfDamping`
 #' corresponding to the sign of interactions and self-limitation effect[3].
 #' If the values of these parameters are 0 then there is no interaction of that kind.
@@ -105,7 +106,7 @@ calcQuantitativeConnectance <- function(interM,d){
 #' 3. Monteiro, A.B. & Del Bianco Faria, L. (2017). Causal relationships between population stability and food-web topology. Functional Ecology, 31, 1294–1300.
 
 #'
-#' @param ig  igraph or a list of igraph networks
+#' @param ig  igraph or a list of igraph networks or mgraph network
 #' @param sims number of simulations to calculate QSS
 #' @param ncores number of cores to use in parallel comutation if 0 it uses sequential processing
 #' @param negative the maximum magnitude of the negative interaction (the effect of the predator on the prey) must be <= 0
@@ -117,10 +118,9 @@ calcQuantitativeConnectance <- function(interM,d){
 #' @export
 #'
 #' @import igraph
-#' @importFrom foreach foreach %dopar% %do%
-#' @importFrom doFuture registerDoFuture
 #' @importFrom future sequential multiprocess
 #' @importFrom future.apply future_lapply
+#' @importFrom dplyr bind_rows
 #'
 #' @examples
 #' \dontrun{
@@ -139,7 +139,6 @@ calc_QSS <- function(ig,nsim=1000,ncores=0,negative=-10, positive=0.1, selfDampi
   if(negative>0 || positive<0 || selfDamping>0)
     stop("Parameters should be negative<=0, positive>=0, selfDamping<=0")
 
-  registerDoFuture()
   if(ncores) {
     cn <- future::availableCores()
     if(ncores>cn)
@@ -150,10 +149,11 @@ calc_QSS <- function(ig,nsim=1000,ncores=0,negative=-10, positive=0.1, selfDampi
     future::plan(sequential)
   }
 
-  df <-  foreach(red=ig,.combine='rbind') %do%
+  if(class(ig)!='mgraph') {
+    df <-  lapply(ig, function(red)
     {
       lred <- fromIgraphToMgraph(list(make_empty_graph(n=vcount(red)),make_empty_graph(n=vcount(red)),red),
-                                 c("empty","empty","Antagonistic"))
+                                   c("empty","empty","Antagonistic"))
       mat <- toGLVadjMat(lred,c("empty","empty","Antagonistic"),istrength = FALSE)   #
 
       df <- future_lapply(seq_len(nsim), function(i){
@@ -162,7 +162,18 @@ calc_QSS <- function(ig,nsim=1000,ncores=0,negative=-10, positive=0.1, selfDampi
       },future.seed = TRUE)
       df <-   do.call(rbind,df)
       data.frame(QSS=sum(df<0)/nsim,MEing=mean(df))
-    }
+    })
+  } else {
+    mat <- toGLVadjMat(ig,c("Competitive", "Mutualistic", "Trophic"),istrength = FALSE)   #
+    df <- future_lapply(seq_len(nsim), function(i){
+      ranmat <- ranUnif(mat,negative,positive,selfDamping)
+      eigs <- maxRE(ranmat)
+    },future.seed = TRUE)
+    df <-   do.call(rbind,df)
+    df <- data.frame(QSS=sum(df<0)/nsim,MEing=mean(df))
+  }
+
+  bind_rows(df)
 }
 
 

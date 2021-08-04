@@ -240,8 +240,7 @@ calcIncoherence <- function(ig,ncores=0){
 #' @export
 #'
 #' @importFrom igraph transitivity average.path.length cluster_spinglass
-#' @importFrom foreach foreach %dopar%
-#' @importFrom doFuture registerDoFuture
+#' @importFrom future.apply future_lapply
 #' @importFrom future sequential multiprocess
 #'
 #' @examples
@@ -274,7 +273,6 @@ calc_modularity_swness_zscore<- function(g, nullDist,sLevel=0.01,ncores=0,weight
   #   return(e) }
   # )
 
-  registerDoFuture()
   if(ncores) {
     cn <- future::availableCores()
     if(ncores>cn)
@@ -287,14 +285,15 @@ calc_modularity_swness_zscore<- function(g, nullDist,sLevel=0.01,ncores=0,weight
 
   ind <- data.frame()
 
-  ind <- foreach(i=1:length(nullDist),.combine='rbind',.inorder=FALSE,.packages='igraph') %dopar%
+  ind <- future_lapply(1:length(nullDist), function(i)
   {
     m<-cluster_spinglass(nullDist[[i]],weights=weights)
     modl <- m$modularity
     clus.coef <- transitivity(nullDist[[i]], type="Global")
     cha.path  <- average.path.length(nullDist[[i]])
     data.frame(modularity=modl,clus.coef=clus.coef,cha.path=cha.path)
-  }
+  }, future.seed = TRUE)
+  ind <- bind_rows(ind)
 
   ind$gamma <- t$Clustering/ind$clus.coef
   ind$lambda <- t$PathLength/ind$cha.path
@@ -691,14 +690,14 @@ classify_topological_roles <- function(tRoles,g,spingB=NULL,plt=FALSE){
 #'
 #' @param ig list of igraph objects to calculate modularity
 #' @param ncores number of cores used to compute in parallel, if 0 sequential processing is used.
+#' @param weights weights
 #'
 #' @return a data.frame with the field Modularity
 #'
 #' @export
 #'
 #' @import igraph
-#' @importFrom foreach foreach %dopar%
-#' @importFrom doFuture registerDoFuture
+#' @importFrom future.apply future_lapply
 #' @importFrom future sequential multiprocess
 #'
 #'
@@ -708,7 +707,7 @@ classify_topological_roles <- function(tRoles,g,spingB=NULL,plt=FALSE){
 #' calc_modularity(nullg)
 #' }
 #'
-calc_modularity <- function(ig,ncores=0){
+calc_modularity <- function(ig,ncores=0,weights=NA){
 
   if(inherits(ig,"igraph")) {
     ig <- list(ig)
@@ -726,11 +725,11 @@ calc_modularity <- function(ig,ncores=0){
   } else {
     future::plan(sequential)
   }
-  df <-  foreach(g=ig,.combine='rbind',.inorder=FALSE) %dopar%
+  df <-  future_lapply(ig, function(g)
     {
-      m<-cluster_spinglass(g,weights=NA)
+      m<-cluster_spinglass(g,weights=weights)
       modl <- m$modularity
       data.frame(Modularity=modl)
-    }
-  return(df)
+    }, future.seed=TRUE)
+  return(bind_rows(df))
 }
