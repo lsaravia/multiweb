@@ -40,6 +40,16 @@ gt <- readMultiplex(dn,types,"inst/extdata", skipColumn = 2)
 
 ```
 
+Calculate QSS (quasi-sign-stability) for multiple interactions networks (mgraph)
+
+```R
+
+calc_QSS(gt)
+
+
+```
+
+
 
 ## References
 
