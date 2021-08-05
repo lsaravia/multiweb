@@ -234,12 +234,12 @@ plotTrophLevel(gt[[3]],modules = T)
 #
 
 fileName <- c(system.file("extdata",  package = "multiweb"))
-dn <- list.files("inst/extdata",pattern = "^Kefi2015.*\\.txt$")
-g <- readNetwork(dn,"inst/extdata", skipColumn = 2)
+dn <- list.files(fileName,pattern = "^Kefi2015.*\\.txt$")
+g <- readNetwork(dn,fileName, skipColumn = 2)
 gt <- fromIgraphToMgraph(g,c("Negative","Positive","Antagonistic"))
 
 types <- c("Competitive","Mutualistic","Trophic")
-gt <- readMultiplex(dn,types,"inst/extdata", skipColumn = 2)
+gt <- readMultiplex(dn,types,fileName, skipColumn = 2)
 tp <- calc_topological_indices(gt)
 # how many interactions from each type
 #

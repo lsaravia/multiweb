@@ -31,11 +31,11 @@ a data.frame with the QSS, and MEing, the mean of the real part of the maximum e
 }
 \description{
 The proportion of matrices that are locally stable, these matrices are created by sampling the values of the community matrix
-(the Jacobian) from a uniform distribution, preserving the sign structure (the links) \link{1}. If the 'ig' parameter is
+(the Jacobian) from a uniform distribution, preserving the sign structure \link{1}. If the 'ig' parameter is
 an \code{mgraph} network it needs to have been built with the order \code{c("Competitive", "Mutualistic", "Trophic")}
 It also calculates the mean of the real part of the maximum eingenvalue, which is also a measure of stability \link{2}.
 It uses a uniform distribution between 0 and maximum values given by the parameters \code{negative}, \code{positive} and \code{selfDamping}
-corresponding to the sign of interactions and self-limitation effect\link{3}.
+corresponding to the sign of interactions and self-limitation effect\link{3,4}.
 If the values of these parameters are 0 then there is no interaction of that kind.
 }
 \examples{
@@ -45,6 +45,13 @@ g <- netData[[2]]
 
 tp <- calc_QSS(g)
 
+# Read Multiplex network and calculate QSS
+
+fileName <- c(system.file("extdata",  package = "multiweb"))
+dn <- list.files(fileName,pattern = "^Kefi2015.*\\\\.txt$")
+gt <- readMultiplex(dn,types,"inst/extdata", skipColumn = 2)
+calc_QSS(gt)
+
 }
 }
 \references{
@@ -53,5 +60,6 @@ tp <- calc_QSS(g)
 Theor. Ecol., 1, 55–64.
 \item Grilli, J., Rogers, T. & Allesina, S. (2016). Modularity and stability in ecological communities. Nat. Commun., 7, 12031
 \item Monteiro, A.B. & Del Bianco Faria, L. (2017). Causal relationships between population stability and food-web topology. Functional Ecology, 31, 1294–1300.
+\item Borrelli, J. J. 2015. Selection against instability: stable subgraphs are most frequent in empirical food webs. - Oikos 124: 1583–1588.
 }
 }

@@ -91,11 +91,11 @@ calcQuantitativeConnectance <- function(interM,d){
 #' Calc the Quasi Sign Stability measure for antagonistic (predator-prey) or mgraph networks
 #'
 #' The proportion of matrices that are locally stable, these matrices are created by sampling the values of the community matrix
-#' (the Jacobian) from a uniform distribution, preserving the sign structure (the links) [1]. If the 'ig' parameter is
+#' (the Jacobian) from a uniform distribution, preserving the sign structure [1]. If the 'ig' parameter is
 #' an `mgraph` network it needs to have been built with the order `c("Competitive", "Mutualistic", "Trophic")`
 #' It also calculates the mean of the real part of the maximum eingenvalue, which is also a measure of stability [2].
 #' It uses a uniform distribution between 0 and maximum values given by the parameters `negative`, `positive` and `selfDamping`
-#' corresponding to the sign of interactions and self-limitation effect[3].
+#' corresponding to the sign of interactions and self-limitation effect[3,4].
 #' If the values of these parameters are 0 then there is no interaction of that kind.
 #'
 #' @references
@@ -104,6 +104,8 @@ calcQuantitativeConnectance <- function(interM,d){
 #' Theor. Ecol., 1, 55–64.
 #' 2. Grilli, J., Rogers, T. & Allesina, S. (2016). Modularity and stability in ecological communities. Nat. Commun., 7, 12031
 #' 3. Monteiro, A.B. & Del Bianco Faria, L. (2017). Causal relationships between population stability and food-web topology. Functional Ecology, 31, 1294–1300.
+#' 4. Borrelli, J. J. 2015. Selection against instability: stable subgraphs are most frequent in empirical food webs. - Oikos 124: 1583–1588.
+
 
 #'
 #' @param ig  igraph or a list of igraph networks or mgraph network
@@ -128,6 +130,13 @@ calcQuantitativeConnectance <- function(interM,d){
 #' g <- netData[[2]]
 #'
 #' tp <- calc_QSS(g)
+#'
+#' # Read Multiplex network and calculate QSS
+#'
+#' fileName <- c(system.file("extdata",  package = "multiweb"))
+#' dn <- list.files(fileName,pattern = "^Kefi2015.*\\.txt$")
+#' gt <- readMultiplex(dn,types,"inst/extdata", skipColumn = 2)
+#' calc_QSS(gt)
 #'
 #' }
 calc_QSS <- function(ig,nsim=1000,ncores=0,negative=-10, positive=0.1, selfDamping=-1) {

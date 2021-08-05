@@ -26,17 +26,29 @@ g <- readNetwork(fileName)
 
 ```
 
-Read multiple interaction network in different layers
+Read multiple interaction network in different layers as a list
 
 ```R
 
 fileName <- c(system.file("extdata",  package = "multiweb"))
-dn <- list.files("inst/extdata",pattern = "^Kefi2015.*\\.txt$")
-g <- readNetwork(dn,"inst/extdata", skipColumn = 2)
+dn <- list.files(fileName,pattern = "^Kefi2015.*\\.txt$")
+g <- readNetwork(dn,fileName, skipColumn = 2)
+```
+
+Convert to mgraph type
+
+```R
+
 gt <- igraph2mgraph(g,c("Negative","Positive","Antagonistic"))
 
+```
+
+Read multiple interaction network with a function
+
+```R
+
 types <- c("Competitive","Mutualistic","Trophic")
-gt <- readMultiplex(dn,types,"inst/extdata", skipColumn = 2)
+gt <- readMultiplex(dn,types,fileName, skipColumn = 2)
 
 ```
 
@@ -55,6 +67,6 @@ calc_QSS(gt)
 
 1. Marina, T. I., Saravia, L. A., Cordone, G., Salinas, V., Doyle, S. R., & Momo, F. R. (2018). Architecture of marine food webs: To be or not be a ‘small-world.’ PLoS ONE, 13(5), 1–13. https://doi.org/10.1371/journal.pone.0198217
 
-2. Ecological Network assembly: how the regional metaweb influences local food webs
-Leonardo A. Saravia, Tomás I. Marina, Marleen De Troch, Fernando R. Momo
+2. Ecological network assembly: how the regional metaweb influences local food webs
+Leonardo A. Saravia, Tomás I. Marina, Nadiah P. Kristensen, Marleen De Troch, Fernando R. Momo
 bioRxiv 340430; doi: https://doi.org/10.1101/340430
