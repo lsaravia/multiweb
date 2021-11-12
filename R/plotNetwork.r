@@ -119,7 +119,6 @@ plot_troph_level <- function(g,vertexLabel=FALSE,vertexSizeFactor=5,vertexSizeMi
 
   } else {
     plot(g, edge.arrow.size=.4,
-         vertex.label.color="white",
          edge.curved=0.3, layout=lMat,...)
     maxnew <- max(tl$TL)
     minnew <- min(tl$TL)

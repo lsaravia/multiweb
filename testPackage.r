@@ -281,7 +281,7 @@ g <-   graph_from_literal( 2 -+ 1 +-3,4 -+ 1, 4-+4, 3+-3, 5-+5, 4-+6-+2, 2+-5-+3
 E(g)$type <- "Trophic"
 c <- cluster_infomap(as.undirected(g))
 plot_troph_level(g,vertexLabel = TRUE,vertexSizeFactor = 20,vertexSizeMin = 12, modules = TRUE, community_obj = c)
-plot_troph_level(g,vertexLabel = TRUE,vertexSizeFactor = 20,vertexSizeMin = 12, modules = TRUE)
+plot_troph_level(g,vertexLabel = TRUE,vertexSizeFactor = 20,vertexSizeMin = 12, modules = TRUE,vertex.label.color="white")
 
 g1 <-   graph_from_literal(1,2,3, 4 -+ 5, 5-+4,6, simplify = FALSE)
 E(g1)$type <- "Competitive"
