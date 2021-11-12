@@ -17,7 +17,6 @@ plot_troph_level(
   community_obj = NULL,
   bpal = NULL,
   maxTL = NULL,
-  edge.width = NULL,
   ...
 )
 }
@@ -43,9 +42,6 @@ if NA then the 'weight' attributte is not considered.}
 \item{bpal}{if NULL it uses the "RdYlGn" RColorBrewer palette, else must be a vector of colors of length 11.}
 
 \item{maxTL}{maximum trophic level to draw y-axis}
-
-\item{edge.width}{if NULL edge width is fixed in 0.3, if numberic takes into account edge weights multiplied by this value to draw edge widths,
-the parameter weights determine the behavior.}
 
 \item{...}{Addittional parameters to the plot function}
 

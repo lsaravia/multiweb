@@ -14,8 +14,7 @@
 #' @param community_obj Insteado of calculating modules/communities with cluster spinglass take a community object
 #' @param bpal if NULL it uses the "RdYlGn" RColorBrewer palette, else must be a vector of colors of length 11.
 #' @param maxTL maximum trophic level to draw y-axis
-#' @param edge.width if NULL edge width is fixed in 0.3, if numberic takes into account edge weights multiplied by this value to draw edge widths,
-#'                   the parameter weights determine the behavior.
+#'
 #' @param ... Addittional parameters to the plot function
 #'
 #' @return returns a plot and if tk==TRUE returns a layout matrix
@@ -32,7 +31,7 @@
 #'
 #' plot_troph_level(netData[[1]])
 plot_troph_level <- function(g,vertexLabel=FALSE,vertexSizeFactor=5,vertexSizeMin=5,tk=FALSE,modules=FALSE,lMat=NULL,weights=NA,community_obj=NULL, bpal= NULL,
-                             maxTL=NULL,edge.width=NULL,...){
+                             maxTL=NULL,...){
 
   deg <- degree(g, mode="all") # calculate the degree: the number of edges
   # or interactions
@@ -43,13 +42,13 @@ plot_troph_level <- function(g,vertexLabel=FALSE,vertexSizeFactor=5,vertexSizeMi
 
   V(g)$color <- "orange"         #
   E(g)$color <- "gray50"
-  E(g)$width <- .3
-  if( !is.null(edge.width )) {
-    if( is.null(weights) )
-        E(g)$width <- E(g)$weight* edge.width
-    else if( is.vector(weights, mode="numeric"))
-        E(g)$width <- weights* edge.width
-  }
+  #E(g)$width <- .3
+  # if( !is.null(edge.width )) {
+  #   if( is.null(weights) )
+  #       E(g)$width <- E(g)$width* edge.width
+  #   else if( is.vector(weights, mode="numeric"))
+  #       E(g)$width <- weights* edge.width
+  # }
 
   if(!vertexLabel)
     V(g)$label <- NA
