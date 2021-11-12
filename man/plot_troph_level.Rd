@@ -9,6 +9,7 @@ plot_troph_level(
   g,
   vertexLabel = FALSE,
   vertexSizeFactor = 5,
+  vertexSizeMin = 5,
   tk = FALSE,
   modules = FALSE,
   lMat = NULL,
@@ -23,6 +24,8 @@ plot_troph_level(
 \item{vertexLabel}{logical plot vertex labels}
 
 \item{vertexSizeFactor}{numeric factor to determine the size of the label with degree}
+
+\item{vertexSizeMin}{numeric determine the minimum size of the label}
 
 \item{tk}{TRUE generate an interactive plot using tkplot and returns a matrix with coordinates from \code{\link[igraph:tkplot]{igraph::tkplot.getcoords()}}}
 

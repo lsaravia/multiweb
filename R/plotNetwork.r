@@ -4,6 +4,7 @@
 #' @param ig igraph object
 #' @param vertexLabel logical plot vertex labels
 #' @param vertexSizeFactor numeric factor to determine the size of the label with degree
+#' @param vertexSizeMin    numeric determine the minimum size of the label
 #' @param tk TRUE generate an interactive plot using tkplot and returns a matrix with coordinates from [igraph::tkplot.getcoords()]
 #' @param modules if TRUE plot modules in the x axis, obtained with the cluster spinglass algorithm
 #' @param lMat Matrix of postions for the nodes
@@ -29,13 +30,13 @@
 #' @examples
 #'
 #' plot_troph_level(netData[[1]])
-plot_troph_level <- function(g,vertexLabel=FALSE,vertexSizeFactor=5,tk=FALSE,modules=FALSE,lMat=NULL,weights=NA, bpal= NULL,
+plot_troph_level <- function(g,vertexLabel=FALSE,vertexSizeFactor=5,vertexSizeMin=5,tk=FALSE,modules=FALSE,lMat=NULL,weights=NA, bpal= NULL,
                              maxTL=NULL,edge.width=NULL,...){
 
   deg <- degree(g, mode="all") # calculate the degree: the number of edges
   # or interactions
 
-  V(g)$size <- log10(deg)*vertexSizeFactor+vertexSizeFactor    # add node degrees to igraph object
+  V(g)$size <- log10(deg)*vertexSizeFactor+vertexSizeMin    # add node degrees to igraph object
 
   V(g)$frame.color <- "white"    # Specify plot options directly on the object
 
