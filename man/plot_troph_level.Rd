@@ -14,6 +14,7 @@ plot_troph_level(
   modules = FALSE,
   lMat = NULL,
   weights = NA,
+  community_obj = NULL,
   bpal = NULL,
   maxTL = NULL,
   edge.width = NULL,
@@ -36,6 +37,8 @@ plot_troph_level(
 \item{weights}{The weights of the edges for the \code{\link[igraph:cluster_spinglass]{igraph::cluster_spinglass()}} community detection, either a numeric vector, NULL, or NA.
 if NULL and the network has a 'weight' attribute then that will be used,
 if NA then the 'weight' attributte is not considered.}
+
+\item{community_obj}{Insteado of calculating modules/communities with cluster spinglass take a community object}
 
 \item{bpal}{if NULL it uses the "RdYlGn" RColorBrewer palette, else must be a vector of colors of length 11.}
 

@@ -6,11 +6,12 @@
 #' @param vertexSizeFactor numeric factor to determine the size of the label with degree
 #' @param vertexSizeMin    numeric determine the minimum size of the label
 #' @param tk TRUE generate an interactive plot using tkplot and returns a matrix with coordinates from [igraph::tkplot.getcoords()]
-#' @param modules if TRUE plot modules in the x axis, obtained with the cluster spinglass algorithm
 #' @param lMat Matrix of postions for the nodes
+#' @param modules if TRUE plot modules in the x axis, obtained with the cluster spinglass algorithm
 #' @param weights The weights of the edges for the [igraph::cluster_spinglass()] community detection, either a numeric vector, NULL, or NA.
 #'                if NULL and the network has a 'weight' attribute then that will be used,
 #'                if NA then the 'weight' attributte is not considered.
+#' @param community_obj Insteado of calculating modules/communities with cluster spinglass take a community object
 #' @param bpal if NULL it uses the "RdYlGn" RColorBrewer palette, else must be a vector of colors of length 11.
 #' @param maxTL maximum trophic level to draw y-axis
 #' @param edge.width if NULL edge width is fixed in 0.3, if numberic takes into account edge weights multiplied by this value to draw edge widths,
@@ -30,7 +31,7 @@
 #' @examples
 #'
 #' plot_troph_level(netData[[1]])
-plot_troph_level <- function(g,vertexLabel=FALSE,vertexSizeFactor=5,vertexSizeMin=5,tk=FALSE,modules=FALSE,lMat=NULL,weights=NA, bpal= NULL,
+plot_troph_level <- function(g,vertexLabel=FALSE,vertexSizeFactor=5,vertexSizeMin=5,tk=FALSE,modules=FALSE,lMat=NULL,weights=NA,community_obj=NULL, bpal= NULL,
                              maxTL=NULL,edge.width=NULL,...){
 
   deg <- degree(g, mode="all") # calculate the degree: the number of edges
@@ -71,23 +72,26 @@ plot_troph_level <- function(g,vertexLabel=FALSE,vertexSizeFactor=5,vertexSizeMi
     lMat[,2]<-jitter(tl$TL,0.1)              # y-axis value based on trophic level
 
     if(modules) {
-      if(count_components(g)>1){
-        if(!is.named(g)) V(g)$name <- (1:vcount(g))
-        dg <- components(g)
-        V(g)$membership = 0
-        for(comp in unique(dg$membership)) {
-          g1 <- induced_subgraph(g, which(dg$membership == comp))
-          m<-cluster_spinglass(g1,weights=weights)
-          if(length(m$membership)==0)
-            m$membership <- 1
-          V(g)[V(g1)$name]$membership <-  m$membership + max(V(g)$membership)
-        }
-        m$membership <- V(g)$membership
-
+      if(!is.null(community_obj)) {
+        m <- community_obj
       } else {
-        m<-cluster_spinglass(g,weights=weights)
-      }
+        if(count_components(g)>1){
+          if(!is.named(g)) V(g)$name <- (1:vcount(g))
+          dg <- components(g)
+          V(g)$membership = 0
+          for(comp in unique(dg$membership)) {
+            g1 <- induced_subgraph(g, which(dg$membership == comp))
+            m<-cluster_spinglass(g1,weights=weights)
+            if(length(m$membership)==0)
+              m$membership <- 1
+            V(g)[V(g1)$name]$membership <-  m$membership + max(V(g)$membership)
+          }
+          m$membership <- V(g)$membership
 
+        } else {
+          m<-cluster_spinglass(g,weights=weights)
+        }
+      }
       # Order groups in ascending trofic level
       #
       df <- data.frame(tl=tl$TL,m=m$membership)
