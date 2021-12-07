@@ -2,7 +2,7 @@
 % Please edit documentation in R/calcFunctionalIndices.r
 \name{calc_QSS}
 \alias{calc_QSS}
-\title{Calc the Quasi Sign Stability measure for antagonistic (predator-prey) or mgraph networks}
+\title{Calc the Quasi Sign Stability measure for antagonistic (predator-prey) or mgraph networks with multiple interactions.}
 \usage{
 calc_QSS(
   ig,
@@ -34,8 +34,10 @@ The proportion of matrices that are locally stable, these matrices are created b
 (the Jacobian) from a uniform distribution, preserving the sign structure \link{1}. If the 'ig' parameter is
 an \code{mgraph} network it needs to have been built with the order \code{c("Competitive", "Mutualistic", "Trophic")}
 It also calculates the mean of the real part of the maximum eingenvalue, which is also a measure of stability \link{2}.
-It uses a uniform distribution between 0 and maximum values given by the parameters \code{negative}, \code{positive} and \code{selfDamping}
+It uses a uniform distribution between 0 and maximum values given by the parameters \code{negative}, \code{positive} and \code{selfDamping},
 corresponding to the sign of interactions and self-limitation effect\link{3,4}.
+Ff the edges of the networks have a weigth attribute this will be used as interaction strength, then the limits of the uniform distribution
+will be \code{negative*-x}, \code{positive*x} where x is the value of the weigth for the edge.
 If the values of these parameters are 0 then there is no interaction of that kind.
 }
 \examples{

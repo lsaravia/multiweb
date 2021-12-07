@@ -301,7 +301,17 @@ mg <- fromIgraphToMgraph(list(g1,g2,g),c("Competitive", "Mutualistic", "Trophic"
 #
 calc_QSS(list(g,g1,g2))
 calc_QSS(mg)
-qss
+
+#
+# Add weights
+#
+set.seed(1231)
+E(g)$weight <- sample(c(.1,.2,.8,.9),gsize(g),replace=TRUE)
+E(g1)$weight <- sample(c(.1,.2,.8,.9),gsize(g1),replace=TRUE)
+E(g2)$weight <- sample(c(.1,.2,.8,.9),gsize(g2),replace=TRUE)
+calc_QSS(list(g,g1,g2))
+
+
 require(meweasmo)
 
 calcPropInteractionsGLVadjMat(glv, rep(1,times=nrow(glv)))

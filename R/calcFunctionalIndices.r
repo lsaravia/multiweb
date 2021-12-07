@@ -88,14 +88,16 @@ calcQuantitativeConnectance <- function(interM,d){
   calc_quantitative_connectance(interM,d)}
 
 
-#' Calc the Quasi Sign Stability measure for antagonistic (predator-prey) or mgraph networks
+#' Calc the Quasi Sign Stability measure for antagonistic (predator-prey) or mgraph networks with multiple interactions.
 #'
 #' The proportion of matrices that are locally stable, these matrices are created by sampling the values of the community matrix
 #' (the Jacobian) from a uniform distribution, preserving the sign structure [1]. If the 'ig' parameter is
 #' an `mgraph` network it needs to have been built with the order `c("Competitive", "Mutualistic", "Trophic")`
 #' It also calculates the mean of the real part of the maximum eingenvalue, which is also a measure of stability [2].
-#' It uses a uniform distribution between 0 and maximum values given by the parameters `negative`, `positive` and `selfDamping`
+#' It uses a uniform distribution between 0 and maximum values given by the parameters `negative`, `positive` and `selfDamping`,
 #' corresponding to the sign of interactions and self-limitation effect[3,4].
+#' Ff the edges of the networks have a weigth attribute this will be used as interaction strength, then the limits of the uniform distribution
+#' will be `negative*-x`, `positive*x` where x is the value of the weigth for the edge.
 #' If the values of these parameters are 0 then there is no interaction of that kind.
 #'
 #' @references
@@ -163,7 +165,7 @@ calc_QSS <- function(ig,nsim=1000,ncores=0,negative=-10, positive=0.1, selfDampi
     {
       lred <- fromIgraphToMgraph(list(make_empty_graph(n=vcount(red)),make_empty_graph(n=vcount(red)),red),
                                    c("empty","empty","Antagonistic"))
-      mat <- toGLVadjMat(lred,c("empty","empty","Antagonistic"),istrength = FALSE)   #
+      mat <- toGLVadjMat(lred,c("empty","empty","Antagonistic"),istrength = TRUE)   #
 
       df <- future_lapply(seq_len(nsim), function(i){
         ranmat <- ranUnif(mat,negative,positive,selfDamping)
@@ -173,7 +175,7 @@ calc_QSS <- function(ig,nsim=1000,ncores=0,negative=-10, positive=0.1, selfDampi
       data.frame(QSS=sum(df<0)/nsim,MEing=mean(df))
     })
   } else {
-    mat <- toGLVadjMat(ig,c("Competitive", "Mutualistic", "Trophic"),istrength = FALSE)   #
+    mat <- toGLVadjMat(ig,c("Competitive", "Mutualistic", "Trophic"),istrength = TRUE)   #
     df <- future_lapply(seq_len(nsim), function(i){
       ranmat <- ranUnif(mat,negative,positive,selfDamping)
       eigs <- maxRE(ranmat)
@@ -190,7 +192,8 @@ calc_QSS <- function(ig,nsim=1000,ncores=0,negative=-10, positive=0.1, selfDampi
 #
 ranUnif <- function(motmat, negative=-10,positive=0.1,selfDamping=-1){
   newmat <- apply(motmat, c(1,2), function(x){
-    if(x==1){runif(1, 0, positive)}else if(x==-1){runif(1, negative, 0)} else{0}
+    #if(x==1){runif(1, 0, positive)}else if(x==-1){runif(1, negative, 0)} else{0}
+    if(x>0){runif(1, 0, x*positive)}else if(x<0){runif(1,-x*negative, 0)} else{0}
   })
   diag(newmat) <- runif(nrow(motmat), selfDamping, 0)
   return(newmat)

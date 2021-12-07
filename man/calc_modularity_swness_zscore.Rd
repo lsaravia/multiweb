@@ -20,6 +20,10 @@ calc_modularity_swness_zscore(
 \item{sLevel}{significance level to calculate CI (two tails)}
 
 \item{ncores}{number of cores to use paralell computation, if 0 sequential processing is used.}
+
+\item{weights}{The weights of the edges. Either a numeric vector or NULL or NA. If it is null and the input graph has a ‘weight’ edge attribute
+then that will be used. If NULL and no such attribute is present then the edges will have equal weights.
+Set this to NA if the graph was a ‘weight’ edge attribute, but you don't want to use it for community detection.}
 }
 \value{
 a list with two data frames: one with indices z-scores and CI

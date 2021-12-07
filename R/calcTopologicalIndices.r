@@ -223,6 +223,9 @@ calcIncoherence <- function(ig,ncores=0){
 #' @param nullDist list of igraph object with the null model simulations
 #' @param sLevel significance level to calculate CI (two tails)
 #' @param ncores number of cores to use paralell computation, if 0 sequential processing is used.
+#' @param weights The weights of the edges. Either a numeric vector or NULL or NA. If it is null and the input graph has a ‘weight’ edge attribute
+#'                then that will be used. If NULL and no such attribute is present then the edges will have equal weights.
+#'                Set this to NA if the graph was a ‘weight’ edge attribute, but you don't want to use it for community detection.
 #'
 #'
 #' @return a list with two data frames: one with indices z-scores and CI
@@ -683,14 +686,15 @@ classify_topological_roles <- function(tRoles,g,spingB=NULL,plt=FALSE){
 #'
 #' The function calculates modularity of the list of networks in the nullDist parameter.
 #' Modularity is calculated using the [igraph::cluster_spinglass()]
-#' if the parameter weights is NULL the atribute "weigths" is used, or if it has the name of an network attribute,
-#' that is used as a weigth to build the modules, when this parameter is NA then no weigth is used.
 #' Only works for one component networks.
 #'
 #'
 #' @param ig list of igraph objects to calculate modularity
 #' @param ncores number of cores used to compute in parallel, if 0 sequential processing is used.
-#' @param weights weights
+#' @param weights The weights of the edges. Either a numeric vector or NULL or NA. If it is null and the input graph has a ‘weight’ edge attribute
+#'                then that will be used. If NULL and no such attribute is present then the edges will have equal weights.
+#'                Set this to NA if the graph was a ‘weight’ edge attribute, but you don't want to use it for community detection.
+
 #'
 #' @return a data.frame with the field Modularity
 #'
