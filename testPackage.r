@@ -131,8 +131,8 @@ m$membership
 #
 # Testing Curve Ball algorithm
 #
-g <-   graph_from_literal( 1 -+ 4 -+ 7,2 -+ 5 -+ 9, 4+-5,
-                           3 -+ 6 -+ 8,5 -+8, simplify = FALSE)
+g <-   graph_from_literal( 2 -+ 1 +-3,4 -+ 1, 4-+4, 3+-3, 5-+5, 4-+6-+2, 2+-5-+3, simplify = FALSE)
+
 plotTrophLevel(g,vertexLabel = TRUE,vertexSizeFactor = 20,modules = TRUE)
 gg <- curveBall(g,10)
 gg <- curve_ball(g,1000)
@@ -142,6 +142,17 @@ plotTrophLevel(gg[[1]],vertexLabel = TRUE,vertexSizeFactor = 20,modules = TRUE)
 plotTrophLevel(gg[[2]],vertexLabel = TRUE,vertexSizeFactor = 10,modules=TRUE)
 plotTrophLevel(gg[[3]],vertexLabel = TRUE,vertexSizeFactor = 10,modules = TRUE)
 plotTrophLevel(gg[[10]],vertexLabel = TRUE,vertexSizeFactor = 20,modules = TRUE)
+
+
+#
+# Add weight
+#
+E(g)$weight <- sample(c(.1,.2,.8,.9),gsize(g),replace=TRUE)
+m <- get.adjacency(g,sparse=FALSE,attr="weight")
+gg <- curveBall(g,2,istrength =TRUE)
+m1 <- get.adjacency(gg[[1]],sparse=FALSE)
+m
+m1
 
 # Test SW zscores
 #

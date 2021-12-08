@@ -6,7 +6,8 @@
 #' than the original network. The diagonals are not avoided so it can generate self-links or cannibalism in
 #' the context of food-webs. In the case that the network has multiple components (or disconnected networks)
 #' the algorithm simulates around the same number of components, if the original network has 1 component
-#' the algorithm enforces that the results have all 1 component.
+#' the algorithm enforces that the results have all 1 component. If the edge attribute weight is present
+#' and istrength=TRUE then the weigth is additionally randomized keeping the column sum equal to the original matrix.
 #'
 #' Based on:
 #'
@@ -16,6 +17,7 @@
 #' @aliases curveBall
 #' @param g igraph object to extract adjacency matrix
 #' @param nsim number of generated random networks
+#' @param istrength if TRUE the edge attribute weight is taken as interaction strength and randomized keeping the column sum equal to the original matrix.
 #'
 #' @return a list of randomized igraph objects
 #' @export
@@ -24,7 +26,7 @@
 #'
 #' curve_ball(netData[[1]])
 #'
-curve_ball<-function(g,nsim=1000){
+curve_ball<-function(g,nsim=1000,istrength=FALSE){
   stopifnot(class(g)=="igraph")
   m <- get.adjacency(g,sparse=FALSE)
 
@@ -98,10 +100,31 @@ curve_ball<-function(g,nsim=1000){
       return(g)
     })
   }
+  if(istrength){
+    m <- get.adjacency(g,sparse=FALSE,attr="weight")
+    r <- dim(m)[1]
+    c <- dim(m)[2]
+
+    wnets<- lapply(nets, function (x) {
+      m1 <- get.adjacency(x,sparse=FALSE)
+      for(i in seq_len(c) ){
+        ss <- sample(m[,i])
+        ss <- ss[ss>0]
+        k <- 1
+        for( j in seq_len(r)){
+          if(m1[j,i]>0 ) {
+            m1[j,i] <- ss[k]
+            k <- k+1
+          }
+        }
+      }
+      graph_from_adjacency_matrix(m1,mode="directed",weighted = "weight")
+    })
+  }
 }
 
 #' @export
-curveBall<-function(g,nsim=1000){curve_ball(g,nsim)}
+curveBall<-function(g,nsim=1000,istrength=FALSE){curve_ball(g,nsim,istrength)}
 
 
 

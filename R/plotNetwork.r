@@ -134,8 +134,11 @@ plot_troph_level <- function(g,vertexLabel=FALSE,vertexSizeFactor=5,vertexSizeMi
 
 
 #' @export
-plotTrophLevel <- function(g,vertexLabel=FALSE,vertexSizeFactor=5,tk=FALSE,modules=FALSE,lMat=NULL,weights=NA, bpal= NULL, ...){
-  plot_troph_level(g,vertexLabel,vertexSizeFactor,tk,modules,lMat,weights, bpal, ...)
+#'
+plotTrophLevel <- function(g,vertexLabel=FALSE,vertexSizeFactor=5,vertexSizeMin=5,tk=FALSE,modules=FALSE,lMat=NULL,weights=NA,community_obj=NULL, bpal= NULL,
+                           maxTL=NULL,...)
+  {
+  plot_troph_level(g,vertexLabel,vertexSizeFactor,vertexSizeMin,tk,modules,lMat,weights, community_obj,bpal,maxTL, ...)
 }
 
 
