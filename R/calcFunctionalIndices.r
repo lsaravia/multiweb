@@ -96,7 +96,7 @@ calcQuantitativeConnectance <- function(interM,d){
 #' It also calculates the mean of the real part of the maximum eingenvalue, which is also a measure of stability [2].
 #' It uses a uniform distribution between 0 and maximum values given by the parameters `negative`, `positive` and `selfDamping`,
 #' corresponding to the sign of interactions and self-limitation effect[3,4].
-#' Ff the edges of the networks have a weigth attribute this will be used as interaction strength, then the limits of the uniform distribution
+#' If the edges of the networks have a weigth attribute and `istrength` parameter is true, weigth will be used as interaction strength, then the limits of the uniform distribution
 #' will be `negative*-x`, `positive*x` where x is the value of the weigth for the edge.
 #' If the values of these parameters are 0 then there is no interaction of that kind.
 #'
@@ -116,6 +116,7 @@ calcQuantitativeConnectance <- function(interM,d){
 #' @param negative the maximum magnitude of the negative interaction (the effect of the predator on the prey) must be <= 0
 #' @param positive the maximum magnitude of the positive interaction (the effect of the prey on the predator) must be >= 0
 #' @param selfDamping the maximum magnitude of the self-limitation (the effect of the species on itself) must be <= 0
+#' @param istrength If TRUE takes the weigth attribute of the network as interaction strength.
 #'
 #' @return a data.frame with the QSS, and MEing, the mean of the real part of the maximum eingenvalue
 #'
@@ -141,7 +142,7 @@ calcQuantitativeConnectance <- function(interM,d){
 #' calc_QSS(gt)
 #'
 #' }
-calc_QSS <- function(ig,nsim=1000,ncores=0,negative=-10, positive=0.1, selfDamping=-1) {
+calc_QSS <- function(ig,nsim=1000,ncores=0,negative=-10, positive=0.1, selfDamping=-1,istrength=FALSE) {
   if(inherits(ig,"igraph")) {
     ig <- list(ig)
   } else if(class(ig[[1]])!="igraph") {
@@ -165,7 +166,7 @@ calc_QSS <- function(ig,nsim=1000,ncores=0,negative=-10, positive=0.1, selfDampi
     {
       lred <- fromIgraphToMgraph(list(make_empty_graph(n=vcount(red)),make_empty_graph(n=vcount(red)),red),
                                    c("empty","empty","Antagonistic"))
-      mat <- toGLVadjMat(lred,c("empty","empty","Antagonistic"),istrength = TRUE)   #
+      mat <- toGLVadjMat(lred,c("empty","empty","Antagonistic"),istrength = istrength)   #
 
       df <- future_lapply(seq_len(nsim), function(i){
         ranmat <- ranUnif(mat,negative,positive,selfDamping)
@@ -175,7 +176,7 @@ calc_QSS <- function(ig,nsim=1000,ncores=0,negative=-10, positive=0.1, selfDampi
       data.frame(QSS=sum(df<0)/nsim,MEing=mean(df))
     })
   } else {
-    mat <- toGLVadjMat(ig,c("Competitive", "Mutualistic", "Trophic"),istrength = TRUE)   #
+    mat <- toGLVadjMat(ig,c("Competitive", "Mutualistic", "Trophic"),istrength = istrength)   #
     df <- future_lapply(seq_len(nsim), function(i){
       ranmat <- ranUnif(mat,negative,positive,selfDamping)
       eigs <- maxRE(ranmat)

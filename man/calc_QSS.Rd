@@ -10,7 +10,8 @@ calc_QSS(
   ncores = 0,
   negative = -10,
   positive = 0.1,
-  selfDamping = -1
+  selfDamping = -1,
+  istrength = FALSE
 )
 }
 \arguments{
@@ -24,6 +25,8 @@ calc_QSS(
 
 \item{selfDamping}{the maximum magnitude of the self-limitation (the effect of the species on itself) must be <= 0}
 
+\item{istrength}{If TRUE takes the weigth attribute of the network as interaction strength.}
+
 \item{sims}{number of simulations to calculate QSS}
 }
 \value{
@@ -36,7 +39,7 @@ an \code{mgraph} network it needs to have been built with the order \code{c("Com
 It also calculates the mean of the real part of the maximum eingenvalue, which is also a measure of stability \link{2}.
 It uses a uniform distribution between 0 and maximum values given by the parameters \code{negative}, \code{positive} and \code{selfDamping},
 corresponding to the sign of interactions and self-limitation effect\link{3,4}.
-Ff the edges of the networks have a weigth attribute this will be used as interaction strength, then the limits of the uniform distribution
+If the edges of the networks have a weigth attribute and \code{istrength} parameter is true, weigth will be used as interaction strength, then the limits of the uniform distribution
 will be \code{negative*-x}, \code{positive*x} where x is the value of the weigth for the edge.
 If the values of these parameters are 0 then there is no interaction of that kind.
 }
