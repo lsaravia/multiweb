@@ -21,6 +21,10 @@
 #'  \item{TLmean:}{ mean trophic level}
 #'  \item{TLmax:}{ maximum trophic level}
 #'  \item{Components:}{ number of weakly connected components}
+#'  \item{Vulnerability:}{ mean of number of consumers per prey}
+#'  \item{VulSD:}{ the standard deviation of normalized Vulnerability}
+#'  \item{Generality:}{ mean number of prey per consumer}
+#'  \item{GenSD:}{ the standard deviation of normalized Generality}
 #'
 #'
 #' @export
@@ -65,7 +69,7 @@ calc_topological_indices <- function(ig,ncores=0){
   df <-  foreach(g=ig,.combine='rbind',.inorder=FALSE,.packages=c('igraph','NetIndices')) %dopar%
     {
 
-    deg <- degree(simplify(g), mode="out") # calculate the out-degree: the number of predators
+    deg <- degree(igraph::simplify(g), mode="out") # calculate the out-degree: the number of predators
 
     V(g)$outdegree <-  deg
 
@@ -93,12 +97,20 @@ calc_topological_indices <- function(ig,ncores=0){
 
     cannib <- sum(which_loop(g))
 
-    tl <- TrophInd(get.adjacency(g,sparse=F))  # Calculate the trophic level
+    a <- get.adjacency(g,sparse=F)
+
+    tl <- TrophInd(a)  # Calculate the trophic level
 
     omn <- sum(round(tl$OI,5)>0)/size        # Omnivory
 
+    vulnerability <- links / (size - nTop)    # l/(nb + ni)
+    generality    <- links / (size - nBasal)  # l/(nt + ni)
+    vulSD         <- sd(apply(a, 1, sum)*1/linkDen)
+    genSD         <- sd(apply(a, 2, sum)*1/linkDen)
+
     data.frame(Size=size,Top=nTop,Basal=nBasal,Omnivory=omn,Links=links, LD=linkDen,Connectance=conn,PathLength=pathLength,
-               Clustering=clusCoef, Cannib=cannib, TLmean=mean(tl$TL),TLmax=max(tl$TL),Components=components(g)$no)
+               Clustering=clusCoef, Cannib=cannib, TLmean=mean(tl$TL),TLmax=max(tl$TL),Components=components(g)$no,
+               Vulnerability=vulnerability,VulSD=vulSD,Generality=generality,GenSD=genSD)
   }
 return(df)
 }

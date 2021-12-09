@@ -28,6 +28,10 @@ a data.frame with the following fields:
 \item{TLmean:}{ mean trophic level}
 \item{TLmax:}{ maximum trophic level}
 \item{Components:}{ number of weakly connected components}
+\item{Vulnerability:}{ mean of number of consumers per prey}
+\item{VulSD:}{ the standard deviation of normalized Vulnerability}
+\item{Generality:}{ mean number of prey per consumer}
+\item{GenSD:}{ the standard deviation of normalized Generality}
 }
 \description{
 Calculate topological indices for ecological networks

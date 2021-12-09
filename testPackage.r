@@ -131,8 +131,8 @@ m$membership
 #
 # Testing Curve Ball algorithm
 #
-g <-   graph_from_literal( 2 -+ 1 +-3,4 -+ 1, 4-+4, 3+-3, 5-+5, 4-+6-+2, 2+-5-+3, simplify = FALSE)
-
+g <-   graph_from_literal( 2 -+ 1 +-3,4 -+ 1, 3+-3, 4-+6-+2, 2+-5-+3, simplify = FALSE)
+calcTopologicalIndices(g)
 plotTrophLevel(g,vertexLabel = TRUE,vertexSizeFactor = 20,modules = TRUE)
 gg <- curveBall(g,10)
 gg <- curve_ball(g,1000)
