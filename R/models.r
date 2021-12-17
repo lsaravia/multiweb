@@ -28,79 +28,81 @@
 #'
 curve_ball<-function(g,nsim=1000,istrength=FALSE){
   stopifnot(class(g)=="igraph")
-  m <- get.adjacency(g,sparse=FALSE)
+  if(!istrength){
 
-  if(components(g)$no>1) {
+    m <- get.adjacency(g,sparse=FALSE)
 
-    nets<- lapply(1:nsim, function (x) {
-      # repeat {
-      RC <- dim(m)
-      R  <- RC[1]
-      C  <- RC[2]
-      hp <- list()
-      for (row in 1:dim(m)[1]) {hp[[row]] <- (which(m[row,]==1))}
-      l_hp <- length(hp)
-      for (rep in 1:5*l_hp){
-        AB <- sample(1:l_hp,2)
-        a  <- hp[[AB[1]]]
-        b  <- hp[[AB[2]]]
-        ab <- intersect(a,b)
-        l_ab <- length(ab)
-        l_a <- length(a)
-        l_b <- length(b)
-        if ((l_ab %in% c(l_a,l_b))==FALSE){
-          tot <- setdiff(c(a,b),ab)
-          l_tot <- length(tot)
-          tot <- sample(tot, l_tot, replace = FALSE, prob = NULL)
-          L <- l_a-l_ab
-          hp[[AB[1]]]  <-  c(ab,tot[1:L])
-          hp[[AB[2]]]  <-  c(ab,tot[(L+1):l_tot])}
+    if(components(g)$no>1) {
 
-      }
-      rm <- matrix(0,R,C)
-      for (row in 1:R){rm[row,hp[[row]]] <- 1}
+      nets<- lapply(1:nsim, function (x) {
+        # repeat {
+        RC <- dim(m)
+        R  <- RC[1]
+        C  <- RC[2]
+        hp <- list()
+        for (row in 1:dim(m)[1]) {hp[[row]] <- (which(m[row,]==1))}
+        l_hp <- length(hp)
+        for (rep in 1:5*l_hp){
+          AB <- sample(1:l_hp,2)
+          a  <- hp[[AB[1]]]
+          b  <- hp[[AB[2]]]
+          ab <- intersect(a,b)
+          l_ab <- length(ab)
+          l_a <- length(a)
+          l_b <- length(b)
+          if ((l_ab %in% c(l_a,l_b))==FALSE){
+            tot <- setdiff(c(a,b),ab)
+            l_tot <- length(tot)
+            tot <- sample(tot, l_tot, replace = FALSE, prob = NULL)
+            L <- l_a-l_ab
+            hp[[AB[1]]]  <-  c(ab,tot[1:L])
+            hp[[AB[2]]]  <-  c(ab,tot[(L+1):l_tot])}
 
-      g <- graph_from_adjacency_matrix(rm,mode="directed")
-      return(g)
-    })
-  } else {   #if the the networks has only one component enforce that in the simulations
+        }
+        rm <- matrix(0,R,C)
+        for (row in 1:R){rm[row,hp[[row]]] <- 1}
 
-    nets<- lapply(1:nsim, function (x) {
-      repeat {
-      RC <- dim(m)
-      R  <- RC[1]
-      C  <- RC[2]
-      hp <- list()
-      for (row in 1:dim(m)[1]) {hp[[row]] <- (which(m[row,]==1))}
-      l_hp <- length(hp)
-      for (rep in 1:5*l_hp){
-        AB <- sample(1:l_hp,2)
-        a  <- hp[[AB[1]]]
-        b  <- hp[[AB[2]]]
-        ab <- intersect(a,b)
-        l_ab <- length(ab)
-        l_a <- length(a)
-        l_b <- length(b)
-        if ((l_ab %in% c(l_a,l_b))==FALSE){
-          tot <- setdiff(c(a,b),ab)
-          l_tot <- length(tot)
-          tot <- sample(tot, l_tot, replace = FALSE, prob = NULL)
-          L <- l_a-l_ab
-          hp[[AB[1]]]  <-  c(ab,tot[1:L])
-          hp[[AB[2]]]  <-  c(ab,tot[(L+1):l_tot])}
+        g <- graph_from_adjacency_matrix(rm,mode="directed")
+        return(g)
+      })
+    } else {   #if the the networks has only one component enforce that in the simulations
 
-      }
-      rm <- matrix(0,R,C)
-      for (row in 1:R){rm[row,hp[[row]]] <- 1}
+      nets<- lapply(1:nsim, function (x) {
+        repeat {
+        RC <- dim(m)
+        R  <- RC[1]
+        C  <- RC[2]
+        hp <- list()
+        for (row in 1:dim(m)[1]) {hp[[row]] <- (which(m[row,]==1))}
+        l_hp <- length(hp)
+        for (rep in 1:5*l_hp){
+          AB <- sample(1:l_hp,2)
+          a  <- hp[[AB[1]]]
+          b  <- hp[[AB[2]]]
+          ab <- intersect(a,b)
+          l_ab <- length(ab)
+          l_a <- length(a)
+          l_b <- length(b)
+          if ((l_ab %in% c(l_a,l_b))==FALSE){
+            tot <- setdiff(c(a,b),ab)
+            l_tot <- length(tot)
+            tot <- sample(tot, l_tot, replace = FALSE, prob = NULL)
+            L <- l_a-l_ab
+            hp[[AB[1]]]  <-  c(ab,tot[1:L])
+            hp[[AB[2]]]  <-  c(ab,tot[(L+1):l_tot])}
 
-      g <- graph_from_adjacency_matrix(rm,mode="directed")
-      if(components(g)$no==1)
-         break
-      }
-      return(g)
-    })
-  }
-  if(istrength){
+        }
+        rm <- matrix(0,R,C)
+        for (row in 1:R){rm[row,hp[[row]]] <- 1}
+
+        g <- graph_from_adjacency_matrix(rm,mode="directed")
+        if(components(g)$no==1)
+           break
+        }
+        return(g)
+      })
+    }
+  } else {
     m <- get.adjacency(g,sparse=FALSE,attr="weight")
     r <- dim(m)[1]
     c <- dim(m)[2]

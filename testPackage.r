@@ -349,6 +349,9 @@ as_adjacency_matrix(g,attr="weight",sparse = FALSE)
 
 edge_attr(g,"weight")
 
+#
+calc_QSS(g)
+
 glvI <- fromIgraphToMgraph(list(make_empty_graph(n=vcount(g)),make_empty_graph(n=vcount(g)),g) ,c("empty","empty","Antagonistic"))
 glv <- toGLVadjMat(glvI,c("empty","empty","Antagonistic"),istrength = TRUE)   #
 mean(glv[glv>0])
