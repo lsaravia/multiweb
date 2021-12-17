@@ -1,7 +1,8 @@
 
 
 
-#' Calculate topological indices for ecological networks
+#' Calculate topological indices for ecological networks. The mean trophic level
+#' and Omnivory and the Level of omnivory are calculated with the function [NetIndices::TrophInd()]
 #'
 #' @param ig vector of igraph objects
 #' @param ncores number of cores used to compute in parallel, if 0 sequential processing is used.
@@ -11,15 +12,16 @@
 #'  \item{Size:}{Number of species}
 #'  \item{Top:}{Number of top predator species}
 #'  \item{Basal:}{Number of basal especies}
-#'  \item{Omnivory:}{ Number of omnivory species, is the number }
+#'  \item{Omnivory:}{ Proportion of omnivorous species }
 #'  \item{Links:}{ number of interactions}
 #'  \item{LD:}{ linkage density}
-#'  \item{Connectance:}{ Connectance}
+#'  \item{Connectance:}{ directed Connectance}
 #'  \item{PathLength:}{ average path length}
 #'  \item{Clustering:}{ clustering coeficient}
 #'  \item{Cannib:}{ number of cannibalistic species}
 #'  \item{TLmean:}{ mean trophic level}
 #'  \item{TLmax:}{ maximum trophic level}
+#'  \item{LOmnivory:} { Level of omnivory, quantiﬁes mean of the variety in trophic levels of the preys of a consumer}
 #'  \item{Components:}{ number of weakly connected components}
 #'  \item{Vulnerability:}{ mean of number of consumers per prey}
 #'  \item{VulSD:}{ the standard deviation of normalized Vulnerability}
@@ -101,7 +103,9 @@ calc_topological_indices <- function(ig,ncores=0){
 
     tl <- TrophInd(a)  # Calculate the trophic level
 
-    omn <- sum(round(tl$OI,5)>0)/size        # Omnivory
+    omn <- sum(round(tl$OI,5)>0)/size        # Omnivory proportion
+
+    lomn <- mean(tl$OI)                      # Level of omnivory
 
     vulnerability <- links / (size - nTop)    # l/(nb + ni)
     generality    <- links / (size - nBasal)  # l/(nt + ni)
@@ -109,7 +113,7 @@ calc_topological_indices <- function(ig,ncores=0){
     genSD         <- sd(apply(a, 2, sum)*1/linkDen)
 
     data.frame(Size=size,Top=nTop,Basal=nBasal,Omnivory=omn,Links=links, LD=linkDen,Connectance=conn,PathLength=pathLength,
-               Clustering=clusCoef, Cannib=cannib, TLmean=mean(tl$TL),TLmax=max(tl$TL),Components=components(g)$no,
+               Clustering=clusCoef, Cannib=cannib, TLmean=mean(tl$TL),TLmax=max(tl$TL),LOmnivory=lomn,Components=components(g)$no,
                Vulnerability=vulnerability,VulSD=vulSD,Generality=generality,GenSD=genSD)
   }
 return(df)

@@ -17,6 +17,8 @@ calc_QSS(
 \arguments{
 \item{ig}{igraph or a list of igraph networks or mgraph network}
 
+\item{nsim}{number of simulations to calculate QSS}
+
 \item{ncores}{number of cores to use in parallel comutation if 0 it uses sequential processing}
 
 \item{negative}{the maximum magnitude of the negative interaction (the effect of the predator on the prey) must be <= 0}
@@ -26,8 +28,6 @@ calc_QSS(
 \item{selfDamping}{the maximum magnitude of the self-limitation (the effect of the species on itself) must be <= 0}
 
 \item{istrength}{If TRUE takes the weigth attribute of the network as interaction strength.}
-
-\item{sims}{number of simulations to calculate QSS}
 }
 \value{
 a data.frame with the QSS, and MEing, the mean of the real part of the maximum eingenvalue

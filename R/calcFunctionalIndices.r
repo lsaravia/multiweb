@@ -95,7 +95,7 @@ calcQuantitativeConnectance <- function(interM,d){
 #' an `mgraph` network it needs to have been built with the order `c("Competitive", "Mutualistic", "Trophic")`
 #' It also calculates the mean of the real part of the maximum eingenvalue, which is also a measure of stability [2].
 #' It uses a uniform distribution between 0 and maximum values given by the parameters `negative`, `positive` and `selfDamping`,
-#' corresponding to the sign of interactions and self-limitation effect[3,4].
+#' corresponding to the sign of interactions and self-limitation effect [3,4].
 #' If the edges of the networks have a weigth attribute and `istrength` parameter is true, weigth will be used as interaction strength, then the limits of the uniform distribution
 #' will be `negative*-x`, `positive*x` where x is the value of the weigth for the edge.
 #' If the values of these parameters are 0 then there is no interaction of that kind.
@@ -111,7 +111,7 @@ calcQuantitativeConnectance <- function(interM,d){
 
 #'
 #' @param ig  igraph or a list of igraph networks or mgraph network
-#' @param sims number of simulations to calculate QSS
+#' @param nsim number of simulations to calculate QSS
 #' @param ncores number of cores to use in parallel comutation if 0 it uses sequential processing
 #' @param negative the maximum magnitude of the negative interaction (the effect of the predator on the prey) must be <= 0
 #' @param positive the maximum magnitude of the positive interaction (the effect of the prey on the predator) must be >= 0
@@ -205,4 +205,154 @@ ranUnif <- function(motmat, negative=-10,positive=0.1,selfDamping=-1){
 maxRE <- function(rmat){
   lam.max <- max(Re(eigen(rmat)$values))
   return(lam.max)
+}
+
+
+#' Function to calculate weighted network indices
+#'
+#' The function calculates: weighted linkage density, connectance, generality and vulnerability and the SDs of the last two based on [1]
+#' and the level of omnivory, mean and maximum trophic level based on [2] using [NetIndices::TrophInd()] function.
+#' The igraph networks must have the weight attribute.
+#'
+#' @param ig An igraph object with the weight attribute representing fluxes
+#' @param ncores number of cores used to compute in parallel, if 0 sequential processing is used.
+#'
+#' @references
+#'
+#' 1. Bersier, LF. et al. (2002). Quantitative Descriptors Of Food-web Matrices. Ecology, 83(9), 2394–2407.
+#' 2. Kones, JK. et al. (2009). Are network indices robust indicators of food web functioning? A Monte Carlo approach.
+#'    Ecological Modelling, 220, 370–382.
+#'
+#'
+#' @return a data.frame with the following fields:
+#'
+#'  \item{LD:}{ linkage density}
+#'  \item{Connectance:}{ directed Connectance}
+#'  \item{TLmean:}{ mean trophic level}
+#'  \item{TLmax:}{ maximum trophic level}
+#'  \item{LOmnivory:} { Level of omnivory, quantiﬁes mean of the variety in trophic levels of the preys of a consumer}
+#'  \item{Vulnerability:}{ mean of number of consumers per prey}
+#'  \item{VulSD:}{ the standard deviation of normalized Vulnerability}
+#'  \item{Generality:}{ mean number of prey per consumer}
+#'  \item{GenSD:}{ the standard deviation of normalized Generality}
+#'
+#'
+#' @export
+#' @importFrom NetIndices TrophInd
+#' @import igraph
+#' @importFrom foreach foreach %dopar%
+#' @importFrom doFuture registerDoFuture
+#' @importFrom future sequential multiprocess
+#'
+#' @examples
+#'
+#' # Generate a test network
+#'
+#' g <-   graph_from_literal( 1 -+ 4 -+ 7,2 -+ 5 -+7, 3-+6-+7, 7-+7, 4+-3, simplify = FALSE)
+#'
+#' # Add weight
+#'
+#' E(g)$weight <- sample(c(.1,.2,.8,.9),gsize(g),replace=TRUE)
+#'
+#' calc_weighted_topological_indices(g)
+
+calc_weighted_topological_indices<- function(ig,ncores=0){
+
+  if(inherits(ig,"igraph")) {
+    ig <- list(ig)
+  } else if(class(ig[[1]])!="igraph") {
+    stop("parameter ig must be an igraph object")
+  }
+
+  registerDoFuture()
+  if(ncores) {
+    cn <- future::availableCores()
+    if(ncores>cn)
+      ncores <- cn
+    future::plan(multiprocess, workers=ncores)
+    on.exit(future::plan(sequential))
+  } else {
+    future::plan(sequential)
+  }
+
+
+  df <-  foreach(g=ig,.combine='rbind',.inorder=FALSE,.packages=c('igraph','NetIndices')) %do% {
+
+    W.net <- as_adjacency_matrix(g,sparse=FALSE,attr="weight")
+    res<-c()
+    # The flux matrix
+
+    ### Taxon-specific Shannon indices of inflows
+    # sum of k species inflows --> colsums
+    sum.in<-apply(W.net, 2, sum)
+
+    # Diversity of k species inflows
+    H.in.mat<- t(t(W.net)/sum.in)*t(log(t(W.net)/sum.in)) #columns divided by the total col sum
+    H.in.mat[!is.finite(H.in.mat)] <- 0 #converts NaN to 0's
+    H.in<- apply(H.in.mat, 2, sum)*-1
+
+    ### Taxon-specific Shannon indices of outflows
+    # sum of k speies outflows --> rowsums
+    sum.out<-apply(W.net, 1, sum)
+
+    # Diversity of k species outflows
+    H.out.mat<- (W.net/sum.out)*log(W.net/sum.out) #rows divided by the total row sum
+    H.out.mat[!is.finite(H.out.mat)] <- 0 #converts NaN to 0's
+    H.out<- apply(H.out.mat, 1, sum)*-1
+
+    # Effective number of prey or resources = N(R,k)
+    # The reciprocal of H(R,k) --> N (R,k) is the equivalent number of prey for species k
+    # N.res<-exp(H.in)
+    N.res<-ifelse(sum.in==0, H.in, exp(H.in))
+
+    # Effective number of predators or consumers = N(C,k)
+    # The reciprocal of H(C,k) --> N (C,k) is the equivalent number of predators for species k
+    # N.con<-exp(H.out)
+    N.con<-ifelse(sum.out==0, H.out, exp(H.out))
+
+    ### Quantitative Weighted and unweighted link density and weighted connectance
+    no.species<-ncol(W.net)
+
+    # The weighted link density (LDw) is:
+    # In the weighted version the effective number of predators for species i is weighted by i's
+    # contribution to the total outflow
+    # the same is the case for the inflows
+
+    tot.mat<- sum(W.net)
+    # LD.w <- (sum((sum.in/tot.mat)*N.res) + sum((sum.out/tot.mat)*N.con))/2
+    # equivalent to next formula, but next one is closer to manuscript
+    res$qLD.w <- 1/(2*tot.mat)*(sum(sum.in*N.res) + sum(sum.out*N.con))
+
+    # Weighted connectance
+    res$qC.w<- res$qLD.w/no.species
+
+    # defintion according to Bersier et al. 2002 top species = [0.99, 1]
+    # int.sp<- pos.ind[pos.ind>0&pos.ind<0.99]# intermediate are all species that are not basal nor top
+
+    # weighted quantitative Generality
+    res$qG.w<-sum(sum.in*N.res/sum(W.net))
+
+    # weighted quantitative Vulnerability
+    res$qV.w<-sum(sum.out*N.con/sum(W.net))
+
+    # Standard deviation of stanardized unweighted quantitative Generality
+    s<-no.species # length(pos.ind)
+
+    # Standard deviation of stanardized weighted quantitative Generality
+    res$qGsd.w<-sd(s*sum.in*N.res/sum(N.res*sum.in))
+
+    # Standard deviation of stanardized weighted quantitative Vulnerability
+    res$qVsd.w<-sd(s*sum.out*N.con/sum(N.con*sum.out))
+
+    # Weigthed trophic levels
+    #
+    wtl <- TrophInd(W.net)
+
+    wOmn <- mean(wtl$OI)        # Omnivory Level
+
+    data.frame( wLD=res$qLD.w, wConnectance=res$qC.w, wTLmean=mean(wtl$TL),wTLmax=max(wtl$TL),wLOmnivory=wOmn,
+                wVulnerability=res$qV.w,wVulSD=res$qVsd.w,wGenerality=res$qG.w,wGenSD=res$qGsd.w)
+  }
+  return(df)
+
 }
