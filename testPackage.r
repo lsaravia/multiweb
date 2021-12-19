@@ -359,6 +359,13 @@ glv[glv>0] <- glv[glv>0]*0.1
 plotTrophLevel(g,vertexLabel = TRUE,vertexSizeFactor = 5,modules = TRUE)
 
 null <- curveBall(g,100)
+calc_weighted_topological_indices(null[[1]])
+calc_topological_indices(null[[2]])
+
+null <- curveBall(g,100,istrength = TRUE)
+calc_weighted_topological_indices(null[[1]])
+calc_weighted_topological_indices(null[[2]])
+
 calc_modularity_swness_zscore(g,null)
 
 # Plot a network with two different components as modules
