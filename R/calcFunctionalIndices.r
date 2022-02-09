@@ -276,7 +276,7 @@ calc_weighted_topological_indices<- function(ig,ncores=0){
   }
 
 
-  df <-  foreach(g=ig,.combine='rbind',.inorder=FALSE,.packages=c('igraph','NetIndices')) %do% {
+  df <-  foreach(g=ig,.combine='rbind',.inorder=FALSE,.packages=c('igraph','NetIndices')) %dopar% {
 
     W.net <- as_adjacency_matrix(g,sparse=FALSE,attr="weight")
     res<-c()
