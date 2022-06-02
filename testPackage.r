@@ -350,6 +350,8 @@ as_adjacency_matrix(g,attr="weight",sparse = FALSE)
 edge_attr(g,"weight")
 
 #
+# Test calc_QSS
+#
 calc_QSS(g)
 
 glvI <- fromIgraphToMgraph(list(make_empty_graph(n=vcount(g)),make_empty_graph(n=vcount(g)),g) ,c("empty","empty","Antagonistic"))
@@ -375,6 +377,17 @@ g1 <-   graph_from_literal( 7 -+ 8 +-9,10 -+ 8, 10-+10, 9+-9, 11-+11, 10-+13-+12
 
 g2 <- g+g1
 plotTrophLevel(g2,vertexLabel = TRUE,vertexSizeFactor = 7,modules = TRUE)
+
+#
+# Test calc_weighted_topological_indices
+#
+
+E(g)$weight <- sample(c(0.001,.01,.1,.5,.9),gsize(g),replace=TRUE)
+calc_weighted_topological_indices(g)
+E(g)$weight <- rep(.01,times=gsize(g))
+calc_weighted_topological_indices(g)
+calc_topological_indices(g)
+
 
 # Test quantitative connectance
 #

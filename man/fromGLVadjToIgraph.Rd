@@ -18,6 +18,3 @@ an igraph object
 It counts predator-prey/Antagonistic interactions like 1 edge,
 competition and mutualisms are counted as is: two edges or one edge
 }
-\examples{
-
-}
