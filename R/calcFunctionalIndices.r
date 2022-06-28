@@ -117,6 +117,7 @@ calcQuantitativeConnectance <- function(interM,d){
 #' @param positive the maximum magnitude of the positive interaction (the effect of the prey on the predator) must be >= 0
 #' @param selfDamping the maximum magnitude of the self-limitation (the effect of the species on itself) must be <= 0
 #' @param istrength If TRUE takes the weigth attribute of the network as interaction strength.
+#' @param returnRaw if TRUE returns all the values of the maximum eingenvalues
 #'
 #' @return a data.frame with the QSS, and MEing, the mean of the real part of the maximum eingenvalue
 #'
@@ -142,7 +143,7 @@ calcQuantitativeConnectance <- function(interM,d){
 #' calc_QSS(gt)
 #'
 #' }
-calc_QSS <- function(ig,nsim=1000,ncores=0,negative=-10, positive=0.1, selfDamping=-1,istrength=FALSE) {
+calc_QSS <- function(ig,nsim=1000,ncores=0,negative=-10, positive=0.1, selfDamping=-1,istrength=FALSE,returnRaw=FALSE) {
   if(inherits(ig,"igraph")) {
     ig <- list(ig)
   } else if(class(ig[[1]])!="igraph") {
@@ -172,8 +173,11 @@ calc_QSS <- function(ig,nsim=1000,ncores=0,negative=-10, positive=0.1, selfDampi
         ranmat <- ranUnif(mat,negative,positive,selfDamping)
         eigs <- maxRE(ranmat)
       },future.seed = TRUE)
-      df <-   do.call(rbind,df)
-      data.frame(QSS=sum(df<0)/nsim,MEing=mean(df))
+      eing <- do.call(rbind,df)
+      if(returnRaw)
+        ret <- data.frame(maxre = eing)
+      else
+        ret <- data.frame(QSS=sum(eing<0)/nsim,MEing=mean(eing))
     })
   } else {
     mat <- toGLVadjMat(ig,c("Competitive", "Mutualistic", "Trophic"),istrength = istrength)   #
@@ -181,11 +185,15 @@ calc_QSS <- function(ig,nsim=1000,ncores=0,negative=-10, positive=0.1, selfDampi
       ranmat <- ranUnif(mat,negative,positive,selfDamping)
       eigs <- maxRE(ranmat)
     },future.seed = TRUE)
-    df <-   do.call(rbind,df)
-    df <- data.frame(QSS=sum(df<0)/nsim,MEing=mean(df))
-  }
 
-  bind_rows(df)
+    eing <- do.call(rbind,df)
+    if(returnRaw)
+      df <- data.frame(maxre = eing)
+    else
+      df <- data.frame(QSS=sum(eing<0)/nsim,MEing=mean(eing))
+
+  }
+  return(bind_rows(df))
 }
 
 

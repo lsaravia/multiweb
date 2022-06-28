@@ -11,7 +11,8 @@ calc_QSS(
   negative = -10,
   positive = 0.1,
   selfDamping = -1,
-  istrength = FALSE
+  istrength = FALSE,
+  returnRaw = FALSE
 )
 }
 \arguments{
@@ -28,6 +29,8 @@ calc_QSS(
 \item{selfDamping}{the maximum magnitude of the self-limitation (the effect of the species on itself) must be <= 0}
 
 \item{istrength}{If TRUE takes the weigth attribute of the network as interaction strength.}
+
+\item{returnRaw}{if TRUE returns all the values of the maximum eingenvalues}
 }
 \value{
 a data.frame with the QSS, and MEing, the mean of the real part of the maximum eingenvalue

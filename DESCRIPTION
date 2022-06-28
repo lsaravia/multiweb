@@ -1,7 +1,7 @@
 Package: multiweb
 Type: Package
 Title: Ecological network analysis includind multiplex networks
-Version: 0.4.40.0000
+Version: 0.4.50.0000
 Authors@R: c( 
         person("Leonardo A.", "Saravia", email = "lsaravia@campus.ungs.edu.ar", role ="cre"),
         person("Susanne", "Kortsch", email = "sko003@post.uit.no", role ="ctb"),

@@ -310,7 +310,11 @@ mg <- fromIgraphToMgraph(list(g1,g2,g),c("Competitive", "Mutualistic", "Trophic"
 # Automatically uses the function toGLVadjMat to calculate the Generalized Lotka-Volterra interaction matrix
 # and then calculates the QSS
 #
+set.seed(423)
 calc_QSS(list(g,g1,g2))
+set.seed(423)
+calc_QSS(list(g,g1,g2),returnRaw = TRUE)
+
 calc_QSS(mg)
 
 #
@@ -352,7 +356,10 @@ edge_attr(g,"weight")
 #
 # Test calc_QSS
 #
-calc_QSS(g)
+set.seed(342)
+calc_QSS(g,istrength = TRUE, nsim=10)
+set.seed(342)
+calc_QSS(g,istrength = TRUE, nsim=10,returnRaw = TRUE)
 
 glvI <- fromIgraphToMgraph(list(make_empty_graph(n=vcount(g)),make_empty_graph(n=vcount(g)),g) ,c("empty","empty","Antagonistic"))
 glv <- toGLVadjMat(glvI,c("empty","empty","Antagonistic"),istrength = TRUE)   #
@@ -453,7 +460,7 @@ sapply(netData,vcount)
 set.seed(342)
 g <- netData[[2]]
 g1 <- netData[[18]]
-tp <- calc_QSS(list(g,g1),nsim=1000,ncores=48)
+tp <- calc_QSS(list(g,g1),nsim=100,ncores=8)
 
 
 # with default values QSS is almost always 0
@@ -463,7 +470,7 @@ tp
 #2   0 2.052344
 
 set.seed(342)
-tp <- calc_QSS(list(g,g1),nsim=100,ncores=48,negative=-1,positive=1)
+tp <- calc_QSS(list(g,g1),nsim=100,ncores=8,negative=-1,positive=1)
 tp
 #      QSS      MEing
 # 1 0.0005 0.24024671
