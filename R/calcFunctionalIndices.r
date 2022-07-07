@@ -373,7 +373,8 @@ calc_weighted_topological_indices<- function(ig,ncores=0){
 #' The QSS determines the maximum eingenvalue of the community matrix (Jacobian) and characterizes
 #' the linear stability of the network. This uses the function [multiweb::calc_QSS()] so it can take
 #' into account the interaction strength if weigths are present. The comparison is made using the Anderson-Darling test with
-#' the function [kSamples::ad.test()] and the p-value is reported as a measure of strength of the diference.
+#' the function [kSamples::ad.test()] and the Kolmogorov-Smirnov test [stats::ks.test()], both the p-values are reported as a
+#' measure of strength of the diference.
 #'
 #' @param g        igraph network
 #' @param sp_list  list with the species/nodes we will delete for the comparison
@@ -382,7 +383,7 @@ calc_weighted_topological_indices<- function(ig,ncores=0){
 #' @param istrength if TRUE takes the weigth attribute of the network as interaction strength to
 #'                  calculate QSS.
 #'
-#' @return a data.frame with: the node deleted, Anderson-Darling p-value, median QSS of the complete network, median QSS of the network with deleted
+#' @return a data.frame with: the node deleted, Anderson-Darling p-value, Kolmogorov-Smirnov p-value,median QSS of the complete network, median QSS of the network with deleted
 #'         node, difference between them.
 #'
 #' @import igraph
@@ -422,8 +423,9 @@ calc_QSS_extinction_dif <- function(g, sp_list,nsim=1000, ncores=4, istrength = 
     QSS <- bind_rows(QSS_all, QSS_ext)
     # extract p-value for Anderson-Darling test comparing complete and deleted network
     ad_test <- kSamples::ad.test(maxre ~ Network, data = QSS)$ad[1,3]
+    ks_test <- ks.test(QSS_all$maxre,QSS_ext$maxre)$p.value
     # data frame
-    data.frame(Deleted = i, AdTest = ad_test, QSS_all=median(QSS_all$maxre), QSS_ext=median(QSS_ext$maxre), difQSS = median(QSS_all$maxre)-median(QSS_ext$maxre))
+    data.frame(Deleted = i, AdTest = ad_test, KStest=ks_test, QSS_all=median(QSS_all$maxre), QSS_ext=median(QSS_ext$maxre), difQSS = median(QSS_all$maxre)-median(QSS_ext$maxre))
 
   })
   bind_rows(comp_webs)
