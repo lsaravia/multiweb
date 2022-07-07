@@ -495,3 +495,12 @@ calc_modularity(g)
 V(g)$weight <-  runif(vcount(g))
 calc_modularity(g,weights = NULL)
 
+#
+# Test calc_QSS_extinction_dif
+#
+g <- netData[[1]]
+V(g)$weight <-  runif(vcount(g))
+
+calc_QSS_extinction_dif(g,V(g)$name[1:3],nsim=10,istrength = FALSE)
+
+calc_QSS_extinction_dif(g,V(g)$name[1:3],nsim=10,istrength = TRUE)

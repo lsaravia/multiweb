@@ -22,23 +22,27 @@ calculate QSS.}
 \value{
 a data.frame with: the node deleted, Anderson-Darling p-value, median QSS of the complete network, median QSS of the network with deleted
 node, difference between them.
-
-a data.frame with: the node deleted, Anderson-Darling p-value, median QSS of the complete network, median QSS of the network with deleted
-node, difference between them.
 }
 \description{
 The QSS determines the maximum eingenvalue of the community matrix (Jacobian) and characterizes
-the linear stability of the network. This uses the function \code{\link[=calc_QSS]{calc_QSS()}} so it takes
-into account the weights if present. The comparison is made using the Anderson-Darling test with
+the linear stability of the network. This uses the function \code{\link[=calc_QSS]{calc_QSS()}} so it can take
+into account the interaction strength if weigths are present. The comparison is made using the Anderson-Darling test with
 the function \code{\link[kSamples:ad.test]{kSamples::ad.test()}} and the p-value is reported as a measure of strength of the diference.
 }
 \examples{
-Calculates the QSS difference between the full network and the network minus
-one species
+\dontrun{
+g <- netData[[1]]
 
-The QSS determines the maximum eingenvalue of the community matrix (Jacobian) and characterizes
-the linear stability of the network. This uses the function [multiweb::calc_QSS()] so it can take
-into account the interaction strength if weigths are present. The comparison is made using the Anderson-Darling test with
-the function [kSamples::ad.test()] and the p-value is reported as a measure of strength of the diference.
+# Generate random weights
+#
+V(g)$weight <-  runif(vcount(g))
 
+# Without interaction strength
+#
+calc_QSS_extinction_dif(g,V(g)$name[1:3],nsim=10,istrength = FALSE)
+
+# With interaction strength
+#
+calc_QSS_extinction_dif(g,V(g)$name[1:3],nsim=10,istrength = TRUE)
+}
 }

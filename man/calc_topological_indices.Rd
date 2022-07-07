@@ -48,4 +48,5 @@ calc_topological_indices(netData)
 g <-   graph_from_literal( 1 -+ 4 -+ 7,2 -+ 5 -+7, 3-+6-+7, 7-+7, 4+-3, simplify = FALSE)
 
 calc_topological_indices(g)
+
 }
