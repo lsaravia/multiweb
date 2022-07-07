@@ -57,7 +57,10 @@ plot_troph_level <- function(g,vertexLabel=FALSE,vertexSizeFactor=5,vertexSizeMi
     tt <- subgraph.edges(g,E(g)[E(g)$type=="Trophic"])
     tl <- TrophInd(get.adjacency(tt,sparse=F))
   } else {
-    tl <- TrophInd(get.adjacency(g,sparse=F))  # Calculate the trophic level
+    adj <- get.adjacency(g,sparse=F)
+    colnames(adj) <- NULL
+    rownames(adj) <- NULL
+    tl <- TrophInd(adj)  # Calculate the trophic level
   }
   # Layout matrix to specify the position of each vertix
   # Rows equal to the number of vertices (species)

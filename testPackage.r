@@ -228,9 +228,9 @@ require(meweasmo)
 pin  <- calcPropInteractionsGLVadjMat(glv, rep(1,times=nrow(glv)))
 
 # Read the file directly
+mtm <- as.matrix(mtm[,2:92])
 #
 mtm <- read.delim("~/Dropbox/Projects/NetworksAsUnifyingPrinciple/Data/PotterCove_Multiplex.txt")
-mtm <- as.matrix(mtm[,2:92])
 pin1  <- calcPropInteractionsGLVadjMat(mtm, rep(1,times=nrow(glv)))
 
 # The proportion of types of interactions must be equal
