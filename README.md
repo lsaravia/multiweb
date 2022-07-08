@@ -67,6 +67,4 @@ calc_QSS(gt)
 
 1. Marina, T. I., Saravia, L. A., Cordone, G., Salinas, V., Doyle, S. R., & Momo, F. R. (2018). Architecture of marine food webs: To be or not be a ‘small-world.’ PLoS ONE, 13(5), 1–13. https://doi.org/10.1371/journal.pone.0198217
 
-2. Ecological network assembly: how the regional metaweb influences local food webs
-Leonardo A. Saravia, Tomás I. Marina, Nadiah P. Kristensen, Marleen De Troch, Fernando R. Momo
-bioRxiv 340430; doi: https://doi.org/10.1101/340430
+2. Saravia, L. A., Marina, T. I., Kristensen, N. P., De Troch, M., & Momo, F. R. (2022). Ecological network assembly: How the regional metaweb influences local food webs. Journal of Animal Ecology, 91(3), 630–642. https://doi.org/10.1111/1365-2656.13652

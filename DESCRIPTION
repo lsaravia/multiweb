@@ -1,13 +1,13 @@
 Package: multiweb
 Type: Package
-Title: Ecological network analysis includind multiplex networks
+Title: Ecological network analyses including multiplex networks
 Version: 0.4.60.0000
 Authors@R: c( 
-        person("Leonardo A.", "Saravia", email = "lsaravia@campus.ungs.edu.ar", role ="cre"),
+        person("Leonardo A.", "Saravia", email = "lsaravia@conicet.gov.ar", role ="cre"),
         person("Susanne", "Kortsch", email = "sko003@post.uit.no", role ="ctb"),
         person("Tomas I.", "Marina", email = "tomasimarina@gmail.com", role ="ctb"),
         person("Iara D.", "Rodriguez", email = "irodriguez@campus.ungs.edu.ar", role ="ctb"))
-Description: This package calculates indices for ecological network analysis.
+Description: This package calculates indices for ecological network analyses.
 Depends: R (>= 3.4.4)
 License: MIT + file LICENSE
 Encoding: UTF-8

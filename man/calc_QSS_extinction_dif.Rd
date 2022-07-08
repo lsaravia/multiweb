@@ -20,14 +20,15 @@ calc_QSS_extinction_dif(g, sp_list, nsim = 1000, ncores = 4, istrength = FALSE)
 calculate QSS.}
 }
 \value{
-a data.frame with: the node deleted, Anderson-Darling p-value, median QSS of the complete network, median QSS of the network with deleted
+a data.frame with: the node deleted, Anderson-Darling p-value, Kolmogorov-Smirnov p-value,median QSS of the complete network, median QSS of the network with deleted
 node, difference between them.
 }
 \description{
 The QSS determines the maximum eingenvalue of the community matrix (Jacobian) and characterizes
 the linear stability of the network. This uses the function \code{\link[=calc_QSS]{calc_QSS()}} so it can take
 into account the interaction strength if weigths are present. The comparison is made using the Anderson-Darling test with
-the function \code{\link[kSamples:ad.test]{kSamples::ad.test()}} and the p-value is reported as a measure of strength of the diference.
+the function \code{\link[kSamples:ad.test]{kSamples::ad.test()}} and the Kolmogorov-Smirnov test \code{\link[stats:ks.test]{stats::ks.test()}}, both the p-values are reported as a
+measure of strength of the diference.
 }
 \examples{
 \dontrun{

@@ -422,10 +422,10 @@ calc_QSS_extinction_dif <- function(g, sp_list,nsim=1000, ncores=4, istrength = 
       mutate(Network = "One sp less")
     QSS <- bind_rows(QSS_all, QSS_ext)
     # extract p-value for Anderson-Darling test comparing complete and deleted network
-    ad_test <- kSamples::ad.test(maxre ~ Network, data = QSS)$ad[1,3]
+    ad_test <- kSamples::ad.test(maxre ~ Network, data = QSS)
     ks_test <- ks.test(QSS_all$maxre,QSS_ext$maxre)$p.value
     # data frame
-    data.frame(Deleted = i, AdTest = ad_test, KStest=ks_test, QSS_all=median(QSS_all$maxre), QSS_ext=median(QSS_ext$maxre), difQSS = median(QSS_all$maxre)-median(QSS_ext$maxre))
+    data.frame(Deleted = i, Ad_stat = ad_test$ad[1,2], Ad_pvalue=ad_test$ad[1,3], KStest=ks_test, QSS_all=median(QSS_all$maxre), QSS_ext=median(QSS_ext$maxre), difQSS = median(QSS_all$maxre)-median(QSS_ext$maxre))
 
   })
   bind_rows(comp_webs)
