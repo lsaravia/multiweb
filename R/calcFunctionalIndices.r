@@ -383,8 +383,15 @@ calc_weighted_topological_indices<- function(ig,ncores=0){
 #' @param istrength if TRUE takes the weigth attribute of the network as interaction strength to
 #'                  calculate QSS.
 #'
-#' @return a data.frame with: the node deleted, Anderson-Darling p-value, Kolmogorov-Smirnov p-value,median QSS of the complete network, median QSS of the network with deleted
-#'         node, difference between them.
+#' @return a data.frame with:
+#'   * the node deleted
+#'   * the Anderson-Darling statistic
+#'   * the Anderson-Darling p-value
+#'   * Kolmogorov-Smirnov statistic
+#'   * Kolmogorov-Smirnov p-value
+#'   * median of QSS of the complete network
+#'   * median of QSS of the network with the deleted node
+#'   * difference between the two QSS
 #'
 #' @import igraph
 #' @importFrom dplyr bind_rows
@@ -423,9 +430,11 @@ calc_QSS_extinction_dif <- function(g, sp_list,nsim=1000, ncores=4, istrength = 
     QSS <- bind_rows(QSS_all, QSS_ext)
     # extract p-value for Anderson-Darling test comparing complete and deleted network
     ad_test <- kSamples::ad.test(maxre ~ Network, data = QSS)
-    ks_test <- ks.test(QSS_all$maxre,QSS_ext$maxre)$p.value
+    ks_test <- ks.test(QSS_all$maxre,QSS_ext$maxre)
     # data frame
-    data.frame(Deleted = i, Ad_stat = ad_test$ad[1,2], Ad_pvalue=ad_test$ad[1,3], KStest=ks_test, QSS_all=median(QSS_all$maxre), QSS_ext=median(QSS_ext$maxre), difQSS = median(QSS_all$maxre)-median(QSS_ext$maxre))
+    data.frame(Deleted = i, Ad_stat = ad_test$ad[1,2], Ad_pvalue=ad_test$ad[1,3],
+               KS_stat=ks_test$statistic,
+               KS_pvalue=ks_test$p.value, QSS_all=median(QSS_all$maxre), QSS_ext=median(QSS_ext$maxre), difQSS = median(QSS_all$maxre)-median(QSS_ext$maxre))
 
   })
   bind_rows(comp_webs)
