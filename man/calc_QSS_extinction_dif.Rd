@@ -20,8 +20,17 @@ calc_QSS_extinction_dif(g, sp_list, nsim = 1000, ncores = 4, istrength = FALSE)
 calculate QSS.}
 }
 \value{
-a data.frame with: the node deleted, Anderson-Darling p-value, Kolmogorov-Smirnov p-value,median QSS of the complete network, median QSS of the network with deleted
-node, difference between them.
+a data.frame with:
+\itemize{
+\item the node deleted
+\item the Anderson-Darling statistic
+\item the Anderson-Darling p-value
+\item Kolmogorov-Smirnov statistic
+\item Kolmogorov-Smirnov p-value
+\item median of QSS of the complete network
+\item median of QSS of the network with the deleted node
+\item difference between the two QSS
+}
 }
 \description{
 The QSS determines the maximum eingenvalue of the community matrix (Jacobian) and characterizes

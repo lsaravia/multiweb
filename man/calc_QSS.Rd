@@ -26,7 +26,7 @@ calc_QSS(
 
 \item{positive}{the maximum magnitude of the positive interaction (the effect of the prey on the predator) must be >= 0}
 
-\item{selfDamping}{the maximum magnitude of the self-limitation (the effect of the species on itself) must be <= 0}
+\item{selfDamping}{the maximum magnitude of the self-limitation (the effect of the species on itself) must be <= 0, only for species with links to itself.}
 
 \item{istrength}{If TRUE takes the weigth attribute of the network as interaction strength.}
 

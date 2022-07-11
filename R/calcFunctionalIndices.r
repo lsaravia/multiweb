@@ -115,7 +115,7 @@ calcQuantitativeConnectance <- function(interM,d){
 #' @param ncores number of cores to use in parallel comutation if 0 it uses sequential processing
 #' @param negative the maximum magnitude of the negative interaction (the effect of the predator on the prey) must be <= 0
 #' @param positive the maximum magnitude of the positive interaction (the effect of the prey on the predator) must be >= 0
-#' @param selfDamping the maximum magnitude of the self-limitation (the effect of the species on itself) must be <= 0
+#' @param selfDamping the maximum magnitude of the self-limitation (the effect of the species on itself) must be <= 0, only for species with links to itself.
 #' @param istrength If TRUE takes the weigth attribute of the network as interaction strength.
 #' @param returnRaw if TRUE returns all the values of the maximum eingenvalues
 #'
@@ -204,7 +204,9 @@ ranUnif <- function(motmat, negative=-10,positive=0.1,selfDamping=-1){
     #if(x==1){runif(1, 0, positive)}else if(x==-1){runif(1, negative, 0)} else{0}
     if(x>0){runif(1, 0, x*positive)}else if(x<0){runif(1,-x*negative, 0)} else{0}
   })
-  diag(newmat) <- runif(nrow(motmat), selfDamping, 0)
+  # diag(newmat) <- runif(nrow(motmat), selfDamping, 0)
+  diag(newmat) <- sapply(diag(motmat), function(x) ifelse(x>0, runif(1,x*selfDamping,0),0))
+  #
   return(newmat)
 }
 

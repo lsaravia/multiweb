@@ -214,6 +214,13 @@ sapply(gt,ecount)/sum(sapply(gt,ecount))
 # Connectivity
 sapply(gt,ecount)/(sapply(gt,vcount)*sapply(gt,vcount))
 
+# Multiplex QSS
+calc_QSS(gt)
+#   QSS    MEing
+#    0    25.87422
+calc_QSS(gt[[3]])
+#   QSS    MEing
+#    0    2.099394
 
 glv <- toGLVadjMat(gt)
 
@@ -267,11 +274,11 @@ sum(sapply(gt,ecount))/(106*106)
 #
 calc_QSS(gt)
 # QSS    MEing
-# 1   0 25.53313
+# 1   0 26.04826
 
 calc_QSS(g[[3]])               # QSS with trophic interactions only should be more stable
 #  QSS    MEing
-# 1   0 3.055153
+# 1   0 3.434581
 
 
 
@@ -315,26 +322,33 @@ calc_QSS(list(g,g1,g2))
 set.seed(423)
 calc_QSS(list(g,g1,g2),returnRaw = TRUE)
 
+
 calc_QSS(mg)
 
 #
 # Add weights
 #
 set.seed(1231)
-E(g)$weight <- sample(c(.1,.2,.8,.9),gsize(g),replace=TRUE)
+E(g)$weight <- sample(c(.1,.2,.3,.9),gsize(g),replace=TRUE)
 E(g1)$weight <- sample(c(.1,.2,.8,.9),gsize(g1),replace=TRUE)
 E(g2)$weight <- sample(c(.1,.2,.8,.9),gsize(g2),replace=TRUE)
 mg <- fromIgraphToMgraph(list(g1,g2,g),c("Competitive", "Mutualistic", "Trophic"))
-
+toGLVadjMat(mg,istrength=TRUE)
 calc_QSS(list(g,g1,g2))
 calc_QSS(list(g,g1,g2),istrength = TRUE)
 calc_QSS(mg)
 calc_QSS(mg,istrength = TRUE)
 
+# Calc QSS with maximum weigth
+#
+E(g)$weight <- max(E(g)$weight)
+calc_QSS(g,istrength = TRUE)
 
+#
 require(meweasmo)
 
 calcPropInteractionsGLVadjMat(glv, rep(1,times=nrow(glv)))
+
 
 
 #
