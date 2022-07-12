@@ -96,9 +96,10 @@ calcQuantitativeConnectance <- function(interM,d){
 #' It also calculates the mean of the real part of the maximum eingenvalue, which is also a measure of stability [2].
 #' It uses a uniform distribution between 0 and maximum values given by the parameters `negative`, `positive` and `selfDamping`,
 #' corresponding to the sign of interactions and self-limitation effect [3,4].
-#' If the edges of the networks have a weigth attribute and `istrength` parameter is true, weigth will be used as interaction strength, then the limits of the uniform distribution
-#' will be `negative*-x`, `positive*x` where x is the value of the weigth for the edge.
-#' If the values of these parameters are 0 then there is no interaction of that kind.
+#' If the edges of the networks have a weigth attribute and `istrength` parameter is true, weigth will be used as interaction strength,
+#' then the limits of the uniform distribution will be `negative*-x`, `positive*x`, `selfDamping*x`, where x is the value of the weigth for the edge.
+#' If the values of these parameters are 0 then there is no interaction of that kind. The default values for `negative`, `positive` and `selfDumping`
+#' assume an ecological transfer efficience of 1%.
 #'
 #' @references
 #'
@@ -119,7 +120,8 @@ calcQuantitativeConnectance <- function(interM,d){
 #' @param istrength If TRUE takes the weigth attribute of the network as interaction strength.
 #' @param returnRaw if TRUE returns all the values of the maximum eingenvalues
 #'
-#' @return a data.frame with the QSS, and MEing, the mean of the real part of the maximum eingenvalue
+#' @return if parameter `returnRaw` is `FALSE` returns a data.frame with the QSS, and MEing, the mean of the real part of the maximum eingenvalue.
+#'         If `returnRaw` is `TRUE` it returns the values of randomized real part of maximum eingenvalue (maxre)
 #'
 #' @export
 #'

@@ -33,7 +33,8 @@ calc_QSS(
 \item{returnRaw}{if TRUE returns all the values of the maximum eingenvalues}
 }
 \value{
-a data.frame with the QSS, and MEing, the mean of the real part of the maximum eingenvalue
+if parameter \code{returnRaw} is \code{FALSE} returns a data.frame with the QSS, and MEing, the mean of the real part of the maximum eingenvalue.
+If \code{returnRaw} is \code{TRUE} it returns the values of randomized real part of maximum eingenvalue (maxre)
 }
 \description{
 The proportion of matrices that are locally stable, these matrices are created by sampling the values of the community matrix
@@ -42,9 +43,10 @@ an \code{mgraph} network it needs to have been built with the order \code{c("Com
 It also calculates the mean of the real part of the maximum eingenvalue, which is also a measure of stability \link{2}.
 It uses a uniform distribution between 0 and maximum values given by the parameters \code{negative}, \code{positive} and \code{selfDamping},
 corresponding to the sign of interactions and self-limitation effect \link{3,4}.
-If the edges of the networks have a weigth attribute and \code{istrength} parameter is true, weigth will be used as interaction strength, then the limits of the uniform distribution
-will be \code{negative*-x}, \code{positive*x} where x is the value of the weigth for the edge.
-If the values of these parameters are 0 then there is no interaction of that kind.
+If the edges of the networks have a weigth attribute and \code{istrength} parameter is true, weigth will be used as interaction strength,
+then the limits of the uniform distribution will be \code{negative*-x}, \code{positive*x}, \code{selfDamping*x}, where x is the value of the weigth for the edge.
+If the values of these parameters are 0 then there is no interaction of that kind. The default values for \code{negative}, \code{positive} and \code{selfDumping}
+assume an ecological transfer efficience of 1\%.
 }
 \examples{
 \dontrun{
