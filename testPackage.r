@@ -518,3 +518,13 @@ V(g)$weight <-  runif(vcount(g))
 calc_QSS_extinction_dif(g,V(g)$name[1:3],nsim=10,istrength = FALSE)
 
 calc_QSS_extinction_dif(g,V(g)$name[1:3],nsim=10,istrength = TRUE)
+
+#
+# Test calc_QSS_extinction_dif
+#
+eseq <- calc_QSS_extinctions_seq(g,V(g)$name[1:5],nsim=10,istrength = FALSE)
+eseq
+
+eseq <- calc_QSS_extinctions_seq(g,V(g)$name,nsim=100,istrength = TRUE)
+eseq
+
