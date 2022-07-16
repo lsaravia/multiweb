@@ -9,24 +9,24 @@
 #'
 #' @return a data.frame with the following fields:
 #'
-#'  \item{Size:}{Number of species}
-#'  \item{Top:}{Number of top predator species}
-#'  \item{Basal:}{Number of basal especies}
-#'  \item{Omnivory:}{ Proportion of omnivorous species }
-#'  \item{Links:}{ number of interactions}
-#'  \item{LD:}{ linkage density}
-#'  \item{Connectance:}{ directed Connectance}
-#'  \item{PathLength:}{ average path length}
-#'  \item{Clustering:}{ clustering coeficient}
-#'  \item{Cannib:}{ number of cannibalistic species}
-#'  \item{TLmean:}{ mean trophic level}
-#'  \item{TLmax:}{ maximum trophic level}
-#'  \item{LOmnivory:} { Level of omnivory, quantiﬁes mean of the variety in trophic levels of the preys of a consumer}
-#'  \item{Components:}{ number of weakly connected components}
-#'  \item{Vulnerability:}{ mean of number of consumers per prey}
-#'  \item{VulSD:}{ the standard deviation of normalized Vulnerability}
-#'  \item{Generality:}{ mean number of prey per consumer}
-#'  \item{GenSD:}{ the standard deviation of normalized Generality}
+#'  * Size: Number of species
+#'  * Top: Number of top predator species
+#'  * Basal: Number of basal especies
+#'  * Omnivory:  Proportion of omnivorous species 
+#'  * Links:  number of interactions
+#'  * LD:     linkage density
+#'  * Connectance:  directed Connectance
+#'  * PathLength:   average path length
+#'  * Clustering:  clustering coeficient
+#'  * Cannib:  number of cannibalistic species
+#'  * TLmean:  mean trophic level
+#'  * TLmax:   maximum trophic level
+#'  * LOmnivory:  Level of omnivory, quantiﬁes mean of the variety in trophic levels of the preys of a consumer
+#'  * Components:  number of weakly connected components
+#'  * Vulnerability:  mean of number of consumers per prey
+#'  * VulSD:  the standard deviation of normalized Vulnerability
+#'  * Generality:  mean number of prey per consumer
+#'  * GenSD:  the standard deviation of normalized Generality
 #'
 #'
 #' @export

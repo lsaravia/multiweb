@@ -425,9 +425,14 @@ print(calc_topological_indices(g))
 plotTrophLevel(g,vertexLabel = T)
 # Unequal fluxes
 #
-m <- matrix(0,nrow=4,ncol=4)
+m <- matrix(0,nrow=5,ncol=5)
 m[1,2] <- m[1,3] <- m[3,4]<- .2
 m[2,1] <- m[3,1] <- m[4,3] <- -2
+m[5,4] <- m[4,5] <- 0.1          # Mutualistic
+m[1,1] <- -0.01                    # Cannibalistic
+g <- fromGLVadjToIgraph(m,c(1,1,1,1,0))
+g <- fromGLVadjToIgraph(m,c(0,1,1,1,1))
+
 calc_quantitative_connectance(m, c(1,1,1,1))
 
 # Examples from  Ulanowicz, R.E. & Wolff, W.F. (1991). Ecosystem flow networks: Loaded dice? Math. Biosci., 103, 45–68

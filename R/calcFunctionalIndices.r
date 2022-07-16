@@ -238,15 +238,15 @@ maxRE <- function(rmat){
 #'
 #' @return a data.frame with the following fields:
 #'
-#'  \item{LD:}{ linkage density}
-#'  \item{Connectance:}{ directed Connectance}
-#'  \item{TLmean:}{ mean trophic level}
-#'  \item{TLmax:}{ maximum trophic level}
-#'  \item{LOmnivory:} { Level of omnivory, quantiﬁes mean of the variety in trophic levels of the preys of a consumer}
-#'  \item{Vulnerability:}{ mean of number of consumers per prey}
-#'  \item{VulSD:}{ the standard deviation of normalized Vulnerability}
-#'  \item{Generality:}{ mean number of prey per consumer}
-#'  \item{GenSD:}{ the standard deviation of normalized Generality}
+#'  * LD:  linkage density
+#'  * Connectance:  directed Connectance
+#'  * TLmean:  mean trophic level
+#'  * TLmax:  maximum trophic level
+#'  * LOmnivory: Level of omnivory, quantiﬁes mean of the variety in trophic levels of the preys of a consumer
+#'  * Vulnerability:  mean of number of consumers per prey
+#'  * VulSD:  the standard deviation of normalized Vulnerability
+#'  * Generality:  mean number of prey per consumer
+#'  * GenSD:  the standard deviation of normalized Generality
 #'
 #'
 #' @export

@@ -349,7 +349,7 @@ fromIgraphToMgraph <- function(g,types){
   return(g)
 }
 
-#' From Generalized Lotka Volterra adjacency matrix to igraph object
+#' From Generalized Lotka Volterra adjacency matrix to igraph topological object
 #'
 #' It counts predator-prey/Antagonistic interactions like 1 edge,
 #' competition and mutualisms are counted as is: two edges or one edge
@@ -362,10 +362,23 @@ fromIgraphToMgraph <- function(g,types){
 #' @importFrom igraph     graph_from_adjacency_matrix V
 #'
 #' @examples
+#' # Build a matrix
+#'
+#' m <- matrix(0,nrow=5,ncol=5)
+#' m[1,2] <- m[1,3] <- m[3,4]<- .2
+#' m[2,1] <- m[3,1] <- m[4,3] <- -2
+#' m[5,4] <- m[4,5] <- 0.1            # Mutualistic
+#' m[1,1] <- -0.01                    # Cannibalistic
+#'
+#' g <- fromGLVadjToIgraph(m,c(1,1,1,1,0))
+#'
+#' g <- fromGLVadjToIgraph(m,c(0,1,1,1,1))
 #'
 fromGLVadjToIgraph<- function(glvAdj,spc){
 
   stopifnot(nrow(glvAdj)==ncol(glvAdj))
+  if(length(spc)!=nrow(glvAdj)) stop("length of species vector has to be equal to glvAdj dimensions")
+
   d <- spc!=0
   A <- glvAdj[d,d]
   for(i in seq_len(nrow(A)))
@@ -375,7 +388,7 @@ fromGLVadjToIgraph<- function(glvAdj,spc){
         A[j,i] <- 0
       }
     }
-  diag(A) <- 0
+  # diag(A) <- 0
   A[A>0] <- 1
   A[A<0] <- 1
   g <- graph_from_adjacency_matrix(A,mode="directed")
