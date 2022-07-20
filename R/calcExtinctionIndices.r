@@ -4,9 +4,10 @@
 #'
 #' The QSS determines the maximum eingenvalue of the community matrix (Jacobian) and characterizes
 #' the linear stability of the network. This uses the function [multiweb::calc_QSS()] so it can take
-#' into account the interaction strength if weigths are present. The comparison is made using the Anderson-Darling test with
+#' into account the interaction strength if weights are present. The comparison is made using the Anderson-Darling test with
 #' the function [kSamples::ad.test()] and the Kolmogorov-Smirnov test [stats::ks.test()], both the p-values are reported as a
-#' measure of strength of the diference.
+#' measure of strength of the diference. If istrength is TRUE it makes a comparison with a null model with the same species and links than the
+#' reduced network but with all interaction strengths equal to the mean interacion strength.
 #'
 #' @param g        igraph network
 #' @param sp_list  list with the species/nodes we will delete for the comparison
@@ -17,9 +18,7 @@
 #'
 #' @return a data.frame with:
 #'   * the node deleted
-#'   * the Anderson-Darling statistic
 #'   * the Anderson-Darling p-value
-#'   * Kolmogorov-Smirnov statistic
 #'   * Kolmogorov-Smirnov p-value
 #'   * median of QSS of the complete network
 #'   * median of QSS of the network with the deleted node
@@ -48,6 +47,7 @@
 
 calc_QSS_extinction_dif <- function(g, sp_list,nsim=1000, ncores=4, istrength = FALSE){
 
+
   # QSS for complete and deleted network
   QSS_all <- multiweb::calc_QSS(g, nsim = nsim, ncores = ncores, istrength = istrength, returnRaw = TRUE) %>%
     mutate(Network = "All spp")
@@ -62,12 +62,45 @@ calc_QSS_extinction_dif <- function(g, sp_list,nsim=1000, ncores=4, istrength = 
     QSS <- bind_rows(QSS_all, QSS_ext)
     # extract p-value for Anderson-Darling test comparing complete and deleted network
     ad_test <- kSamples::ad.test(maxre ~ Network, data = QSS)
-    ks_test <- ks.test(QSS_all$maxre,QSS_ext$maxre)
-    # data frame
-    data.frame(Deleted = i, Ad_stat = ad_test$ad[1,2], Ad_pvalue=ad_test$ad[1,3],
-               KS_stat=ks_test$statistic,
-               KS_pvalue=ks_test$p.value, QSS_all=median(QSS_all$maxre), QSS_ext=median(QSS_ext$maxre), difQSS = median(QSS_all$maxre)-median(QSS_ext$maxre))
+    ks_test <- ks.test(maxre ~ Network, data = QSS)
 
+    if( istrength ) {
+      if( length(edge_attr_names(g))==0 ) {
+        stop("Network must have weight attribute")
+      } else {
+        if( !any(edge_attr_names(g) %in% "weight") )
+          stop("Network must have weight attribute")
+      }
+      # Build Null model with equal mean interaction strength
+      #
+      mean_w <- mean(E(g_ext)$weight)
+      g1 <- g_ext
+      E(g1)$weight <- mean_w
+      QSS_null <- multiweb::calc_QSS(g1, nsim = nsim, ncores = ncores, istrength = istrength, returnRaw = TRUE) %>%
+        mutate(Network = "One sp less null")
+      QSS <- bind_rows(QSS_all, QSS_null)
+
+      ad_testn <- kSamples::ad.test(maxre ~ Network, data = QSS)
+      ks_testn <- ks.test(maxre ~ Network, data = QSS)
+
+      data.frame(Deleted = i,
+                 Ad_pvalue=ad_test$ad[1,3],
+                 KS_pvalue=ks_test$p.value,
+                 Ad_pvalue_null=ad_testn$ad[1,3],
+                 KS_pvalue_null=ks_testn$p.value,
+                 QSS_all=median(QSS_all$maxre), QSS_ext=median(QSS_ext$maxre), difQSS = median(QSS_all$maxre)-median(QSS_ext$maxre),
+                 QSS_null=median(QSS_null$maxre) ,difQSS_null = median(QSS_ext$maxre)-median(QSS_null$maxre)
+                 )
+
+    } else {
+    # data frame
+
+      data.frame(Deleted = i,
+               Ad_pvalue=ad_test$ad[1,3],
+               KS_pvalue=ks_test$p.value,
+               QSS_all=median(QSS_all$maxre), QSS_ext=median(QSS_ext$maxre), difQSS = median(QSS_all$maxre)-median(QSS_ext$maxre),
+        )
+    }
   })
   bind_rows(comp_webs)
 }

@@ -339,10 +339,14 @@ calc_QSS(list(g,g1,g2),istrength = TRUE)
 calc_QSS(mg)
 calc_QSS(mg,istrength = TRUE)
 
-# Calc QSS with maximum weigth
+# Calc QSS with mean & maximum weigth
 #
-E(g)$weight <- max(E(g)$weight)
 calc_QSS(g,istrength = TRUE)
+g1 <-  g
+E(g1)$weight <- max(E(g)$weight)
+calc_QSS(g1,istrength = TRUE)
+E(g1)$weight <- mean(E(g)$weight)
+calc_QSS(g1,istrength = TRUE)
 
 #
 require(meweasmo)
@@ -518,7 +522,10 @@ calc_modularity(g,weights = NULL)
 # Test calc_QSS_extinction_dif
 #
 g <- netData[[1]]
-V(g)$weight <-  runif(vcount(g))
+E(g)$weight <-  runif(vcount(g))
+E(g)$w <-  runif(vcount(g))
+
+edge_attr_names(g)
 
 calc_QSS_extinction_dif(g,V(g)$name[1:3],nsim=10,istrength = FALSE)
 
