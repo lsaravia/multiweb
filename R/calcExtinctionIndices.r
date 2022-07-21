@@ -89,7 +89,6 @@ calc_QSS_extinction_dif <- function(g, sp_list,nsim=1000, ncores=4, istrength = 
       QSS <- bind_rows(QSS_ext, QSS_null)
 
       ad_testn <- kSamples::ad.test(maxre ~ Network, data = QSS)
-      ks_testn <- ks.test(maxre ~ Network, data = QSS)
       ks_testn <- ks.test(QSS_ext$maxre,QSS_null$maxre)
 
       data.frame(Deleted = i,
