@@ -759,35 +759,4 @@ calc_modularity <- function(ig,ncores=0,weights=NA){
 }
 
 
-#' Set of 29 marine food webs
-#'
-#' A named list of igraph objects containing 29 curated and highly-resolved marine networks, updated from [1].
-#'
-#' @format a list of igraph objects
-#'
-#' @source \url{https://doi.org/10.1371/journal.pone.0198217}
-#'
-#' 1. Marina, T. I., Saravia, L. A., Cordone, G., Salinas, V., Doyle, S. R., & Momo, F. R. (2018). Architecture of marine food webs: To be or not be a ‘small-world.’ PLoS ONE, 13(5), 1–13. https://doi.org/10.1371/journal.pone.0198217
-#'
-"netData"
 
-#' Metadata for `netData`
-#'
-#' A data.frame with extended information about the 29 networks from [1], included in `netData`
-#'
-#' @format A data frame with 53940 rows and 10 variables
-#' \describe{
-#'   \item{Network}{Name of the network}
-#'   \item{Longitude}{Longitude of the geographical coordinates of the network}
-#'   \item{Latitude}{Latitude of the geographical coordinates of the network}
-#'   \item{Date}{Date range or approximate date when the data was collected}
-#'   \item{InteractionsSource}{Method used to determine the interactions}
-#'   \item{Reference}{Reference of the study from where data was obtained}
-#'   \item{ReferenceLink}{URL of the reference}
-#' }
-#'
-#' @source \url{https://doi.org/10.1371/journal.pone.0198217}
-#'
-#' 1. Marina, T. I., Saravia, L. A., Cordone, G., Salinas, V., Doyle, S. R., & Momo, F. R. (2018). Architecture of marine food webs: To be or not be a ‘small-world.’ PLoS ONE, 13(5), 1–13. https://doi.org/10.1371/journal.pone.0198217
-#'
-"metadata"
