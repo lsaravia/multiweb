@@ -16,6 +16,7 @@ calc_topological_indices(ig, ncores = 0)
 \value{
 a data.frame with the following fields:
 \itemize{
+\item Network: Name of the network if the list have names
 \item Size: Number of species
 \item Top: Number of top predator species
 \item Basal: Number of basal especies

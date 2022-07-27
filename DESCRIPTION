@@ -1,10 +1,10 @@
 Package: multiweb
 Type: Package
 Title: Ecological network analyses including multiplex networks
-Version: 0.5.00.0000
+Version: 0.5.10.0000
 Authors@R: c( 
         person("Leonardo A.", "Saravia", email = "lsaravia@conicet.gov.ar", role ="cre"),
-        person("Susanne", "Kortsch", email = "sko003@post.uit.no", role ="ctb"),
+        person("Susanne", "Kortsch", email = "susanne.kortsch@helsinki.fi", role ="ctb"),
         person("Tomas I.", "Marina", email = "tomasimarina@gmail.com", role ="ctb"),
         person("Iara D.", "Rodriguez", email = "irodriguez@campus.ungs.edu.ar", role ="ctb"))
 Description: This package calculates indices for ecological network analyses.

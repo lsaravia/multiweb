@@ -9,10 +9,11 @@
 #'
 #' @return a data.frame with the following fields:
 #'
+#'  * Network: Name of the network if the list have names
 #'  * Size: Number of species
 #'  * Top: Number of top predator species
 #'  * Basal: Number of basal especies
-#'  * Omnivory:  Proportion of omnivorous species 
+#'  * Omnivory:  Proportion of omnivorous species
 #'  * Links:  number of interactions
 #'  * LD:     linkage density
 #'  * Connectance:  directed Connectance
@@ -35,6 +36,7 @@
 #' @importFrom foreach foreach %dopar%
 #' @importFrom doFuture registerDoFuture
 #' @importFrom future sequential multiprocess
+#' @importFrom dplyr mutate %>% select
 #'
 #' @aliases calcTopologicalIndices
 #'
@@ -115,8 +117,10 @@ calc_topological_indices <- function(ig,ncores=0){
     data.frame(Size=size,Top=nTop,Basal=nBasal,Omnivory=omn,Links=links, LD=linkDen,Connectance=conn,PathLength=pathLength,
                Clustering=clusCoef, Cannib=cannib, TLmean=mean(tl$TL),TLmax=max(tl$TL),LOmnivory=lomn,Components=components(g)$no,
                Vulnerability=vulnerability,VulSD=vulSD,Generality=generality,GenSD=genSD)
-  }
-return(df)
+    }
+  if( !is.null(names(ig)) )
+    df <- df %>% mutate(Network = names(ig)) %>% dplyr::select(Network, everything())
+  return(df)
 }
 
 #' @export
@@ -753,3 +757,37 @@ calc_modularity <- function(ig,ncores=0,weights=NA){
     }, future.seed=TRUE)
   return(bind_rows(df))
 }
+
+
+#' Set of 29 marine food webs
+#'
+#' A named list of igraph objects containing 29 curated and highly-resolved marine networks, updated from [1].
+#'
+#' @format a list of igraph objects
+#'
+#' @source \url{https://doi.org/10.1371/journal.pone.0198217}
+#'
+#' 1. Marina, T. I., Saravia, L. A., Cordone, G., Salinas, V., Doyle, S. R., & Momo, F. R. (2018). Architecture of marine food webs: To be or not be a ‘small-world.’ PLoS ONE, 13(5), 1–13. https://doi.org/10.1371/journal.pone.0198217
+#'
+"netData"
+
+#' Metadata for `netData`
+#'
+#' A data.frame with extended information about the 29 networks from [1], included in `netData`
+#'
+#' @format A data frame with 53940 rows and 10 variables
+#' \describe{
+#'   \item{Network}{Name of the network}
+#'   \item{Longitude}{Longitude of the geographical coordinates of the network}
+#'   \item{Latitude}{Latitude of the geographical coordinates of the network}
+#'   \item{Date}{Date range or approximate date when the data was collected}
+#'   \item{InteractionsSource}{Method used to determine the interactions}
+#'   \item{Reference}{Reference of the study from where data was obtained}
+#'   \item{ReferenceLink}{URL of the reference}
+#' }
+#'
+#' @source \url{https://doi.org/10.1371/journal.pone.0198217}
+#'
+#' 1. Marina, T. I., Saravia, L. A., Cordone, G., Salinas, V., Doyle, S. R., & Momo, F. R. (2018). Architecture of marine food webs: To be or not be a ‘small-world.’ PLoS ONE, 13(5), 1–13. https://doi.org/10.1371/journal.pone.0198217
+#'
+"metadata"
