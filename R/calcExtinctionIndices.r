@@ -106,7 +106,7 @@ calc_QSS_extinction_dif <- function(g, sp_list,nsim=1000, ncores=4, istrength = 
       data.frame(Deleted = i,
                Ad_pvalue=ad_test$ad[1,3],
                KS_pvalue=ks_test$p.value,
-               QSS_all=median(QSS_all$maxre), QSS_ext=median(QSS_ext$maxre), difQSS = median(QSS_all$maxre)-median(QSS_ext$maxre),
+               QSS_all=median(QSS_all$maxre), QSS_ext=median(QSS_ext$maxre), difQSS = median(QSS_all$maxre)-median(QSS_ext$maxre)
         )
     }
   })

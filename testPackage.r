@@ -341,7 +341,9 @@ calc_QSS(mg,istrength = TRUE)
 
 # Calc QSS with mean & maximum weigth
 #
+calc_QSS(g,istrength = FALSE)
 calc_QSS(g,istrength = TRUE)
+
 g1 <-  g
 E(g1)$weight <- max(E(g)$weight)
 calc_QSS(g1,istrength = TRUE)
@@ -524,6 +526,8 @@ calc_modularity(g,weights = NULL)
 g <- netData[[1]]
 E(g)$weight <-  runif(vcount(g))
 E(g)$w <-  runif(vcount(g))
+calc_QSS(g,istrength = FALSE)
+calc_QSS(g,istrength = TRUE)
 
 edge_attr_names(g)
 
