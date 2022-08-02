@@ -334,19 +334,25 @@ E(g1)$weight <- sample(c(.1,.2,.8,.9),gsize(g1),replace=TRUE)
 E(g2)$weight <- sample(c(.1,.2,.8,.9),gsize(g2),replace=TRUE)
 mg <- fromIgraphToMgraph(list(g1,g2,g),c("Competitive", "Mutualistic", "Trophic"))
 toGLVadjMat(mg,istrength=TRUE)
-calc_QSS(list(g,g1,g2))
-calc_QSS(list(g,g1,g2),istrength = TRUE)
+calc_QSS(list(g,g1,g2))calc_QSS(list(g,g1,g2),istrength = TRUE)
 calc_QSS(mg)
 calc_QSS(mg,istrength = TRUE)
+calc_QSS(mg,istrength = TRUE,nsim=1)
+calc_QSS(mg,istrength = FALSE,nsim=1)
 
 # Calc QSS with mean & maximum weigth
 #
+set.seed(3231)
 calc_QSS(g,istrength = FALSE)
 calc_QSS(g,istrength = TRUE)
+calc_QSS(g,istrength = TRUE,nsim = 1)
+calc_QSS(g,istrength = FALSE,nsim = 1)
 
 g1 <-  g
 E(g1)$weight <- max(E(g)$weight)
 calc_QSS(g1,istrength = TRUE)
+calc_QSS(g1,istrength = TRUE,nsim=1)
+
 E(g1)$weight <- mean(E(g)$weight)
 calc_QSS(g1,istrength = TRUE)
 
@@ -515,14 +521,33 @@ calc_modularity(nullg)
 
 # with weigths
 g <- netData[[1]]
+names(netData)[1]
 calc_modularity(g)
 
 V(g)$weight <-  runif(vcount(g))
 calc_modularity(g,weights = NULL)
 
 #
+# test QSS
+#
+set.seed(5431)
+g <- netData[[1]]
+E(g)$weight <- runif(ecount(g))
+E(g)$weight <- rlnorm(ecount(g))
+
+calc_QSS(g,istrength = FALSE)                  # 1   0 3.075693
+calc_QSS(g,istrength = TRUE,ncores =4 )        # 1   0 1.637529
+calc_QSS(g,istrength = FALSE,nsim=1)           # 1   0 0.1823782
+calc_QSS(g,istrength = TRUE,nsim=1)            # 1   0 0.1666071
+
+raw <-  calc_QSS(g,istrength = TRUE,ncores =4 ,returnRaw = TRUE)        # 1   0 1.637529
+require(ggplot2)
+ggplot(raw, aes(maxre)) + geom_density() + theme_bw() + geom_vline(xintercept = calc_QSS(g,istrength = TRUE,nsim=1)$MEing, linetype="dashed")
+
+#
 # Test calc_QSS_extinction_dif
 #
+
 g <- netData[[1]]
 E(g)$weight <-  runif(vcount(g))
 E(g)$w <-  runif(vcount(g))

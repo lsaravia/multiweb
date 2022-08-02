@@ -112,7 +112,8 @@ calcQuantitativeConnectance <- function(interM,d){
 
 #'
 #' @param ig  igraph or a list of igraph networks or mgraph network
-#' @param nsim number of simulations to calculate QSS
+#' @param nsim number of simulations to calculate QSS, if the number of simulations is 1 then it calculates the maximum eingenvalue for the mean of interaction
+#'             strength, if `istrength==FALSE` the mean interaction strength are `negative/2`, `positive/2`, `selfDamping/2`.
 #' @param ncores number of cores to use in parallel comutation if 0 it uses sequential processing
 #' @param negative the maximum magnitude of the negative interaction (the effect of the predator on the prey) must be <= 0
 #' @param positive the maximum magnitude of the positive interaction (the effect of the prey on the predator) must be >= 0
@@ -171,24 +172,19 @@ calc_QSS <- function(ig,nsim=1000,ncores=0,negative=-10, positive=0.1, selfDampi
                                    c("empty","empty","Antagonistic"))
       mat <- toGLVadjMat(lred,c("empty","empty","Antagonistic"),istrength = istrength)   #
 
-      df <- future_lapply(seq_len(nsim), function(i){
-        ranmat <- ranUnif(mat,negative,positive,selfDamping)
-        eigs <- maxRE(ranmat)
-      },future.seed = TRUE)
-      eing <- do.call(rbind,df)
+      eing <- aux_calc_QSS(nsim,mat,negative,positive,selfDamping)
+
       if(returnRaw)
         ret <- data.frame(maxre = eing)
       else
         ret <- data.frame(QSS=sum(eing<0)/nsim,MEing=mean(eing))
+
     })
   } else {
     mat <- toGLVadjMat(ig,c("Competitive", "Mutualistic", "Trophic"),istrength = istrength)   #
-    df <- future_lapply(seq_len(nsim), function(i){
-      ranmat <- ranUnif(mat,negative,positive,selfDamping)
-      eigs <- maxRE(ranmat)
-    },future.seed = TRUE)
 
-    eing <- do.call(rbind,df)
+    eing <- aux_calc_QSS(nsim,mat,negative,positive,selfDamping)
+
     if(returnRaw)
       df <- data.frame(maxre = eing)
     else
@@ -198,15 +194,33 @@ calc_QSS <- function(ig,nsim=1000,ncores=0,negative=-10, positive=0.1, selfDampi
   return(bind_rows(df))
 }
 
+# Auxiliar function of calc_QSS to calculate max eingenvalue
+#
+# If the number of simulations nsim == 1 it calculates the eingenvalue of the matrix as is
+#
+aux_calc_QSS <- function(nsim,mat,negative,positive,selfDamping)
+{
+  if(nsim>1) {
+    df <- future_lapply(seq_len(nsim), function(i){
+      ranmat <- ranUnif(mat,negative,positive,selfDamping)
+      eigs <- maxRE(ranmat)
+    },future.seed = TRUE)
+    eing <- do.call(rbind,df)
+  } else {
+    newmat <- apply(mat, c(1,2), function(x){
+      if(x>0){ x*positive/2 } else if(x<0){-x*negative/2} else{0}})
+    diag(newmat) <- sapply(diag(mat), function(x) ifelse(x>0, x*selfDamping/2,0))
+    eing <- maxRE(newmat)
+
+  }
+}
 
 # Auxiliar function of calc_QSS, Calculates a random community mattrix with a fixed signed structure
 #
 ranUnif <- function(motmat, negative=-10,positive=0.1,selfDamping=-1){
   newmat <- apply(motmat, c(1,2), function(x){
-    #if(x==1){runif(1, 0, positive)}else if(x==-1){runif(1, negative, 0)} else{0}
     if(x>0){runif(1, 0, x*positive)}else if(x<0){runif(1,-x*negative, 0)} else{0}
   })
-  # diag(newmat) <- runif(nrow(motmat), selfDamping, 0)
   diag(newmat) <- sapply(diag(motmat), function(x) ifelse(x>0, runif(1,x*selfDamping,0),0))
   #
   return(newmat)

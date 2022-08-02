@@ -18,7 +18,8 @@ calc_QSS(
 \arguments{
 \item{ig}{igraph or a list of igraph networks or mgraph network}
 
-\item{nsim}{number of simulations to calculate QSS}
+\item{nsim}{number of simulations to calculate QSS, if the number of simulations is 1 then it calculates the maximum eingenvalue for the mean of interaction
+strength, if \code{istrength==FALSE} the mean interaction strength are \code{negative/2}, \code{positive/2}, \code{selfDamping/2}.}
 
 \item{ncores}{number of cores to use in parallel comutation if 0 it uses sequential processing}
 
