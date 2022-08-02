@@ -528,21 +528,33 @@ V(g)$weight <-  runif(vcount(g))
 calc_modularity(g,weights = NULL)
 
 #
-# test QSS
+# test QSS with 1 simulation vs mean of QSS with 1000 simulations
 #
 set.seed(5431)
 g <- netData[[1]]
 E(g)$weight <- runif(ecount(g))
-E(g)$weight <- rlnorm(ecount(g))
 
-calc_QSS(g,istrength = FALSE)                  # 1   0 3.075693
-calc_QSS(g,istrength = TRUE,ncores =4 )        # 1   0 1.637529
-calc_QSS(g,istrength = FALSE,nsim=1)           # 1   0 0.1823782
-calc_QSS(g,istrength = TRUE,nsim=1)            # 1   0 0.1666071
+calc_QSS(g,istrength = FALSE)                  # 1   0 3.106538
+calc_QSS(g,istrength = TRUE,ncores =4 )        # 1   0 1.575575
+calc_QSS(g,istrength = FALSE,nsim=1)           # 1   0 2.461278
+calc_QSS(g,istrength = TRUE,nsim=1)            # 1   0 1.421724
 
 raw <-  calc_QSS(g,istrength = TRUE,ncores =4 ,returnRaw = TRUE)        # 1   0 1.637529
 require(ggplot2)
 ggplot(raw, aes(maxre)) + geom_density() + theme_bw() + geom_vline(xintercept = calc_QSS(g,istrength = TRUE,nsim=1)$MEing, linetype="dashed")
+
+#
+# using lognormal interaction strengths
+#
+
+E(g)$weight <- rlnorm(ecount(g))
+calc_QSS(g,istrength = FALSE)                  # 1   0 3.093221
+calc_QSS(g,istrength = TRUE,ncores =4 )        # 1   0 4.577607
+calc_QSS(g,istrength = FALSE,nsim=1)           # 1   0 2.461278
+calc_QSS(g,istrength = TRUE,nsim=1)            # 1   0 4.01689
+raw <-  calc_QSS(g,istrength = TRUE,ncores =4 ,returnRaw = TRUE)
+ggplot(raw, aes(maxre)) + geom_density() + theme_bw() + geom_vline(xintercept = calc_QSS(g,istrength = TRUE,nsim=1)$MEing, linetype="dashed")
+
 
 #
 # Test calc_QSS_extinction_dif
