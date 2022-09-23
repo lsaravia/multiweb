@@ -47,20 +47,26 @@ calc_interaction_intensity <- function(da,res_mm,con_mm,int_dim) # alfa0 = alfa2
   # if( typeof(wedd_df$interaction_dim) != "character")
   #   stop("int_dim must be character type")
   #
+  # resource Mass vs consumer Mass Exponents (Sup Fig 2 )
+  pm2D = 0.67 # sd = 0.17
+  pm3D = 1.46 # sd = 0.12
+  int_pm2D = -2.6   # intercepts
+  int_pm3D = -2.96
+  #
   det <- da %>% filter(is.na({{int_dim}}))
   if( nrow(det) > 0 ) warning(paste("Interaction dimensionality is not defined for", nrow(det), "rows"))
   d2D <- filter(da, {{int_dim}}=="2D") %>%
-    mutate(mR=if_else({{res_mm}} < 0, 10^-2.6*{{con_mm}}^0.67 , {{res_mm}} ),
+    mutate(mR=if_else({{res_mm}} < 0, 10^int_pm2D*{{con_mm}}^pm2D , {{res_mm}} ),
            xR= 10^-2.67 * mR^-0.79,
            alfa=10^-3.08 *{{con_mm}}^0.68,
            qRC = alfa*xR*mR/{{con_mm}})
 
   d3D <- filter(da, {{int_dim}}=="3D") %>%
-    mutate(mR=if_else({{res_mm}} < 0, 10^-2.96*{{con_mm}}^1.46 , {{res_mm}} ),
+    mutate(mR=if_else({{res_mm}} < 0, 10^int_pm3D*{{con_mm}}^pm3D , {{res_mm}} ),
            xR= 10^-2.48 * mR^-0.86,
            alfa = 10^-1.77 * {{con_mm}}^1.05,
            qRC = alfa*xR*mR/{{con_mm}}
     )
   bind_rows(d2D,d3D)
-
+#
 }
