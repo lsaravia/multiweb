@@ -581,3 +581,13 @@ eseq
 eseq <- calc_QSS_extinctions_seq(g,V(g)$name,nsim=100,istrength = TRUE)
 eseq
 
+
+
+# Test calc_interaction_intensity
+#
+# get the data frame of interactions
+#
+g <- netData[[1]]
+require(dplyr)
+da <- as_long_data_frame(g) %>% dplyr::select(from:to) %>% mutate(con_mm=rlnorm(n(),5,2),res_mm=con_mm - 30 ,int_dim=sample(c("2D","3D"),n(),replace=TRUE))
+calc_interaction_intensity(da,res_mm,con_mm,int_dim)

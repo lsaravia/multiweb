@@ -20,7 +20,7 @@ Imports:
     doFuture (>= 0.6.0),
     future.apply (>= 1.2.0),
     dplyr (>= 0.8.0.1)
-RoxygenNote: 7.2.0
+RoxygenNote: 7.2.1
 Suggests: testthat
 Roxygen: list(markdown = TRUE)
 URL: https://github.com/lsaravia/multiweb

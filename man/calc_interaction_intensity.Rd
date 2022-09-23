@@ -17,13 +17,34 @@ calc_interaction_intensity(da, res_mm, con_mm, int_dim)
 \item{int_dim}{name of the column with the interaction dimensionality}
 }
 \value{
-a data.frame
+A data.frame based on \code{da} with the following fields added
+\itemize{
+\item mR:  if \code{res_mm<0} is the resource mass calculated with the equations from ref 1,
+if \code{res_mm>0} duplicates the value of \code{res_mm}
+\item xR: calculated resource density.
+\item alfa: calculated search rate.
+\item qRC: calculated trophic interaction strength as \code{alfa*xR*mR/mC} where \code{mC} is the consumer body mass.
+}
 }
 \description{
-It uses all the coeficients from \link{1}, taking into account the interaction dimensionality and body mass units in Kg.
-For detritus or sediment the resource mass mean \code{res_mm} is generally < 0 thus resource body mass is calculated using
-the equation S9 and supplementary figures 2c & d (kg) of the paper.
-The values for the resource density $Xr$ where estimated according the equation S18 and supplementary figures 2i & j (individuals/m2 - m3)
+It uses the body mass in Kg of predator/consumer and prey/resources and the dimensionality of the interaction as source data,
+then with all the coeficients from ref. 1.
+For detritus or sediment the resource mass mean \code{res_mm} is generally < 0 thus resource body mass (kg) is calculated using
+the equation S9 and supplementary figures 2c & d of the paper.
+The values for the resource density \emph{Xr} where estimated according the equation S18 and supplementary figures 2i & j (individuals/m2 - m3)
+}
+\examples{
+\dontrun{
+g <- netData[[1]]
+
+require(dplyr)
+
+# build the data.frame with random values
+
+da <- as_long_data_frame(g) \%>\% dplyr::select(from:to) \%>\% mutate(con_mm=rlnorm(n(),5,2),res_mm=con_mm - 30 ,int_dim=sample(c("2D","3D"),n(),replace=TRUE))
+
+calc_interaction_intensity(da,res_mm,con_mm,int_dim)
+}
 }
 \references{
 \enumerate{
