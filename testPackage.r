@@ -589,5 +589,16 @@ eseq
 #
 g <- netData[[1]]
 require(dplyr)
-da <- as_long_data_frame(g) %>% dplyr::select(from:to) %>% mutate(con_mm=rlnorm(n(),5,2),res_mm=con_mm - 30 ,int_dim=sample(c("2D","3D"),n(),replace=TRUE))
-calc_interaction_intensity(da,res_mm,con_mm,int_dim)
+require(igraph)
+set.seed(7815)
+da <- as_long_data_frame(g) %>% dplyr::select(from:to) %>% mutate(con_mm=rlnorm(n(),5,2),res_mm=con_mm - 30 ,int_dim=sample(c("2D","3D"),n(),replace=TRUE), res_den = -999)
+calc_interaction_intensity(da,res_mm,res_den,con_mm,int_dim)
+
+# Using values for res_den
+#
+da <- as_long_data_frame(g) %>% dplyr::select(from:to) %>%
+  mutate(con_mm=rlnorm(n(),5,2),res_mm=con_mm - 30 ,int_dim=sample(c("2D","3D"),n(),replace=TRUE), res_den = runif(n(),1e-5,1))
+
+calc_interaction_intensity(da,res_mm,res_den,con_mm,int_dim)
+
+

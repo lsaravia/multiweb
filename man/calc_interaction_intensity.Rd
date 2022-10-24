@@ -5,14 +5,17 @@
 \title{Calcultates the interaction intensity of a food web using the metabolic theory and
 the interaction dimensionality}
 \usage{
-calc_interaction_intensity(da, res_mm, con_mm, int_dim)
+calc_interaction_intensity(da, res_mm, res_den, con_mm, int_dim)
 }
 \arguments{
 \item{da}{data.frame with the interactions body mass and type of interaction dimensionality}
 
-\item{res_mm}{name of the column with the resource mass mean}
+\item{res_mm}{name of the column with the resource body mass mean}
 
-\item{con_mm}{name of the column with the consumer mass mean}
+\item{res_den}{name of the column with the resource density in Individuals/m^2 in 2D or m^3 in 3D. If lower than 0 it uses the previously mentioned
+estimation.}
+
+\item{con_mm}{name of the column with the consumer body mass mean}
 
 \item{int_dim}{name of the column with the interaction dimensionality}
 }
@@ -21,7 +24,7 @@ A data.frame based on \code{da} with the following fields added
 \itemize{
 \item mR:  if \code{res_mm<0} is the resource mass calculated with the equations from ref 1,
 if \code{res_mm>0} duplicates the value of \code{res_mm}
-\item xR: calculated resource density.
+\item xR: calculated resource density or the same value as in the input data.frame.
 \item alfa: calculated search rate.
 \item qRC: calculated trophic interaction strength as \code{alfa*xR*mR/mC} where \code{mC} is the consumer body mass.
 }
@@ -41,9 +44,10 @@ require(dplyr)
 
 # build the data.frame with random values
 
-da <- as_long_data_frame(g) \%>\% dplyr::select(from:to) \%>\% mutate(con_mm=rlnorm(n(),5,2),res_mm=con_mm - 30 ,int_dim=sample(c("2D","3D"),n(),replace=TRUE))
+set.seed(7815)
+da <- as_long_data_frame(g) \%>\% dplyr::select(from:to) \%>\% mutate(con_mm=rlnorm(n(),5,2),res_mm=con_mm - 30 ,int_dim=sample(c("2D","3D"),n(),replace=TRUE), res_den = -999)
 
-calc_interaction_intensity(da,res_mm,con_mm,int_dim)
+calc_interaction_intensity(da,res_mm,res_den,con_mm,int_dim)
 }
 }
 \references{
