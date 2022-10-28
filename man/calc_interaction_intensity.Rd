@@ -2,10 +2,10 @@
 % Please edit documentation in R/calcInteractionIntensity.r
 \name{calc_interaction_intensity}
 \alias{calc_interaction_intensity}
-\title{Calcultates the interaction intensity of a food web using the metabolic theory and
+\title{Calculates the interaction intensity of a food web using the metabolic theory and
 the interaction dimensionality}
 \usage{
-calc_interaction_intensity(da, res_mm, res_den, con_mm, int_dim)
+calc_interaction_intensity(da, res_mm, res_den, con_mm, int_dim, nsims = 1)
 }
 \arguments{
 \item{da}{data.frame with the interactions body mass and type of interaction dimensionality}
@@ -31,10 +31,16 @@ if \code{res_mm>0} duplicates the value of \code{res_mm}
 }
 \description{
 It uses the body mass in Kg of predator/consumer and prey/resources and the dimensionality of the interaction as source data,
-then with all the coeficients from ref. 1.
-For detritus or sediment the resource mass mean \code{res_mm} is generally < 0 thus resource body mass (kg) is calculated using
-the equation S9 and supplementary figures 2c & d of the paper.
-The values for the resource density \emph{Xr} where estimated according the equation S18 and supplementary figures 2i & j (individuals/m2 - m3)
+then with all the coeficients from ref. 1. If available the resource density \code{res_den} will provide a better estimation,
+if it is not known you must set the column to a less than 0 value. In that case,
+they will be estimated according to the equation S18 and supplementary figures 2i & j (individuals/m2 - m3)
+}
+\details{
+For detritus or sediment the resource mass mean is not known thus \code{res_mm} is generally < 0 accordingly resource body mass (kg)
+is calculated using the equation S9 and supplementary figures 2c & d of the paper.
+
+If the parameter 'nsims > 1 ' the function will estimate the variability on each interaction strength. It takes random values from a normal distribution
+with mean and standard deviation given by the Pawar's regressions for the slopes of allometric exponents.
 }
 \examples{
 \dontrun{
@@ -47,7 +53,7 @@ require(dplyr)
 set.seed(7815)
 da <- as_long_data_frame(g) \%>\% dplyr::select(from:to) \%>\% mutate(con_mm=rlnorm(n(),5,2),res_mm=con_mm - 30 ,int_dim=sample(c("2D","3D"),n(),replace=TRUE), res_den = -999)
 
-calc_interaction_intensity(da,res_mm,res_den,con_mm,int_dim)
+calc_interaction_intensity(da,res_mm,res_den,con_mm,int_dim, nsims=1)
 }
 }
 \references{

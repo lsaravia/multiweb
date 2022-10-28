@@ -592,7 +592,17 @@ require(dplyr)
 require(igraph)
 set.seed(7815)
 da <- as_long_data_frame(g) %>% dplyr::select(from:to) %>% mutate(con_mm=rlnorm(n(),5,2),res_mm=con_mm - 30 ,int_dim=sample(c("2D","3D"),n(),replace=TRUE), res_den = -999)
-calc_interaction_intensity(da,res_mm,res_den,con_mm,int_dim)
+calc_interaction_intensity(da,res_mm,res_den,con_mm,int_dim,10)
+#
+# Test the nsims parameter
+#
+i1 <- calc_interaction_intensity(da[1,],res_mm,res_den,con_mm,int_dim,1000)
+i <- calc_interaction_intensity(da[1,],res_mm,res_den,con_mm,int_dim,1)
+
+require(ggplot2)
+ggplot(i1,aes(qRC)) + geom_histogram()
+ggplot(i1,aes(qRC)) + geom_density() + scale_x_log10() + geom_vline(xintercept = i$qRC)
+
 
 # Using values for res_den
 #
