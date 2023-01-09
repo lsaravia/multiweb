@@ -150,7 +150,7 @@ plotTrophLevel(gg[[10]],vertexLabel = TRUE,vertexSizeFactor = 20,modules = TRUE)
 E(g)$weight <- sample(c(.1,.2,.8,.9),gsize(g),replace=TRUE)
 m <- get.adjacency(g,sparse=FALSE,attr="weight")
 gg <- curveBall(g,2,istrength =TRUE)
-m1 <- get.adjacency(gg[[1]],sparse=FALSE)
+m1 <- get.adjacency(gg[[1]],sparse=FALSE,attr="weight")
 m
 m1
 

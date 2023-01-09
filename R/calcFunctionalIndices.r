@@ -268,7 +268,7 @@ maxRE <- function(rmat){
 #' @import igraph
 #' @importFrom foreach foreach %dopar%
 #' @importFrom doFuture registerDoFuture
-#' @importFrom future sequential multiprocess
+#' @importFrom future sequential multisession
 #'
 #' @examples
 #'
@@ -295,7 +295,7 @@ calc_weighted_topological_indices<- function(ig,ncores=0){
     cn <- future::availableCores()
     if(ncores>cn)
       ncores <- cn
-    future::plan(multiprocess, workers=ncores)
+    future::plan(multisession, workers=ncores)
     on.exit(future::plan(sequential))
   } else {
     future::plan(sequential)

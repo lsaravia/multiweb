@@ -35,7 +35,7 @@
 #' @import igraph
 #' @importFrom foreach foreach %dopar%
 #' @importFrom doFuture registerDoFuture
-#' @importFrom future sequential multiprocess
+#' @importFrom future sequential multisession
 #' @importFrom dplyr mutate %>% select
 #'
 #' @aliases calcTopologicalIndices
@@ -63,7 +63,7 @@ calc_topological_indices <- function(ig,ncores=0){
     cn <- future::availableCores()
     if(ncores>cn)
       ncores <- cn
-    future::plan(multiprocess, workers=ncores)
+    future::plan(multisession, workers=ncores)
     on.exit(future::plan(sequential))
   } else {
     future::plan(sequential)
@@ -165,7 +165,7 @@ calcTopologicalIndices <- function(ig,ncores=0){
 #' @importFrom igraph     V degree get.adjacency vcount ecount
 #' @importFrom foreach foreach %dopar%
 #' @importFrom doFuture registerDoFuture
-#' @importFrom future sequential multiprocess
+#' @importFrom future sequential multisession
 
 calc_incoherence <- function(ig,ncores=0) {
 
@@ -180,7 +180,7 @@ calc_incoherence <- function(ig,ncores=0) {
     cn <- future::availableCores()
     if(ncores>cn)
       ncores <- cn
-    future::plan(multiprocess, workers=ncores)
+    future::plan(multisession, workers=ncores)
     on.exit(future::plan(sequential))
   } else {
     future::plan(sequential)
@@ -264,7 +264,7 @@ calcIncoherence <- function(ig,ncores=0){
 #'
 #' @importFrom igraph transitivity average.path.length cluster_spinglass
 #' @importFrom future.apply future_lapply
-#' @importFrom future sequential multiprocess
+#' @importFrom future sequential multisession
 #'
 #' @examples
 #' \dontrun{
@@ -300,7 +300,7 @@ calc_modularity_swness_zscore<- function(g, nullDist,sLevel=0.01,ncores=0,weight
     cn <- future::availableCores()
     if(ncores>cn)
       ncores <- cn
-    future::plan(multiprocess, workers=ncores)
+    future::plan(multisession, workers=ncores)
     on.exit(future::plan(sequential))
   } else {
     future::plan(sequential)
@@ -394,7 +394,7 @@ calcModularitySWnessZScore<- function(g, nullDist,sLevel=0.01,ncores=0){
 #' @importFrom igraph transitivity average.path.length
 #' @importFrom foreach foreach %dopar%
 #' @importFrom doFuture registerDoFuture
-#' @importFrom future sequential multiprocess
+#' @importFrom future sequential multisession
 #'
 #' @examples
 #' \dontrun{
@@ -417,7 +417,7 @@ calc_swness_zscore<- function(g, nullDist,sLevel=0.01,ncores=0,weights=NA){
     cn <- future::availableCores()
     if(ncores>cn)
       ncores <- cn
-    future::plan(multiprocess, workers=ncores)
+    future::plan(multisession, workers=ncores)
     on.exit(future::plan(sequential))
   } else {
     future::plan(sequential)
@@ -495,7 +495,7 @@ calc_swness_zscore<- function(g, nullDist,sLevel=0.01,ncores=0,weights=NA){
 #' @import igraph
 #' @importFrom foreach foreach %dopar%
 #' @importFrom doFuture registerDoFuture
-#' @importFrom future sequential multiprocess
+#' @importFrom future sequential multisession
 #'
 #' @examples
 #' #' \dontrun{
@@ -520,7 +520,7 @@ calc_topological_roles <- function(g,nsim=1000,ncores=0)
     cn <- future::availableCores()
     if(ncores>cn)
       ncores <- cn
-    future::plan(multiprocess, workers=ncores)
+    future::plan(multisession, workers=ncores)
     on.exit(future::plan(sequential))
   } else {
     future::plan(sequential)
@@ -722,7 +722,7 @@ classify_topological_roles <- function(tRoles,g,spingB=NULL,plt=FALSE){
 #'
 #' @import igraph
 #' @importFrom future.apply future_lapply
-#' @importFrom future sequential multiprocess
+#' @importFrom future sequential multisession
 #'
 #'
 #' @examples
@@ -744,7 +744,7 @@ calc_modularity <- function(ig,ncores=0,weights=NA){
     cn <- future::availableCores()
     if(ncores>cn)
       ncores <- cn
-    future::plan(multiprocess, workers=ncores)
+    future::plan(multisession, workers=ncores)
     on.exit(future::plan(sequential))
   } else {
     future::plan(sequential)
