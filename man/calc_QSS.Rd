@@ -9,7 +9,7 @@ calc_QSS(
   nsim = 1000,
   ncores = 0,
   negative = -10,
-  positive = 0.1,
+  positive = 1,
   selfDamping = -1,
   istrength = FALSE,
   returnRaw = FALSE
@@ -38,7 +38,7 @@ if parameter \code{returnRaw} is \code{FALSE} returns a data.frame with the QSS,
 If \code{returnRaw} is \code{TRUE} it returns the values of randomized real part of maximum eingenvalue (maxre)
 }
 \description{
-The proportion of matrices that are locally stable, these matrices are created by sampling the values of the community matrix
+The QSS measure is the proportion of matrices that are locally stable, these matrices are created by sampling the values of the community matrix
 (the Jacobian) from a uniform distribution, preserving the sign structure \link{1}. If the 'ig' parameter is
 an \code{mgraph} network it needs to have been built with the order \code{c("Competitive", "Mutualistic", "Trophic")}
 It also calculates the mean of the real part of the maximum eingenvalue, which is also a measure of stability \link{2}.
@@ -47,7 +47,7 @@ corresponding to the sign of interactions and self-limitation effect \link{3,4}.
 If the edges of the networks have a weigth attribute and \code{istrength} parameter is true, weigth will be used as interaction strength,
 then the limits of the uniform distribution will be \code{negative*-x}, \code{positive*x}, \code{selfDamping*x}, where x is the value of the weigth for the edge.
 If the values of these parameters are 0 then there is no interaction of that kind. The default values for \code{negative}, \code{positive} and \code{selfDumping}
-assume an ecological transfer efficience of 1\%.
+assume a maximum ecological transfer efficience of 10\%.
 }
 \examples{
 \dontrun{

@@ -90,7 +90,7 @@ calcQuantitativeConnectance <- function(interM,d){
 
 #' Calc the Quasi Sign Stability measure for antagonistic (predator-prey) or mgraph networks with multiple interactions.
 #'
-#' The proportion of matrices that are locally stable, these matrices are created by sampling the values of the community matrix
+#' The QSS measure is the proportion of matrices that are locally stable, these matrices are created by sampling the values of the community matrix
 #' (the Jacobian) from a uniform distribution, preserving the sign structure [1]. If the 'ig' parameter is
 #' an `mgraph` network it needs to have been built with the order `c("Competitive", "Mutualistic", "Trophic")`
 #' It also calculates the mean of the real part of the maximum eingenvalue, which is also a measure of stability [2].
@@ -99,7 +99,7 @@ calcQuantitativeConnectance <- function(interM,d){
 #' If the edges of the networks have a weigth attribute and `istrength` parameter is true, weigth will be used as interaction strength,
 #' then the limits of the uniform distribution will be `negative*-x`, `positive*x`, `selfDamping*x`, where x is the value of the weigth for the edge.
 #' If the values of these parameters are 0 then there is no interaction of that kind. The default values for `negative`, `positive` and `selfDumping`
-#' assume an ecological transfer efficience of 1%.
+#' assume a maximum ecological transfer efficience of 10%.
 #'
 #' @references
 #'
@@ -146,7 +146,7 @@ calcQuantitativeConnectance <- function(interM,d){
 #' calc_QSS(gt)
 #'
 #' }
-calc_QSS <- function(ig,nsim=1000,ncores=0,negative=-10, positive=0.1, selfDamping=-1,istrength=FALSE,returnRaw=FALSE) {
+calc_QSS <- function(ig,nsim=1000,ncores=0,negative=-10, positive=1, selfDamping=-1,istrength=FALSE,returnRaw=FALSE) {
   if(inherits(ig,"igraph")) {
     ig <- list(ig)
   } else if(class(ig[[1]])!="igraph") {

@@ -1,13 +1,14 @@
 #' Calculates the interaction intensity of a food web using the metabolic theory and
 #' the interaction dimensionality
 #'
-#' It uses the body mass in Kg of predator/consumer and prey/resources and the dimensionality of the interaction as source data,
-#' then with all the coeficients from ref. 1. If available the resource density `res_den` will provide a better estimation,
-#' if it is not known you must set the column to a less than 0 value. In that case,
-#' they will be estimated according to the equation S18 and supplementary figures 2i & j (individuals/m2 - m3)
+#' The function uses the body mass in Kg of predator/consumer and prey/resources and the dimensionality of the interaction as source data,
+#' then the interacion intensity is estimated with all the coeficients from [1] as `alfa*xR*mR/mC`, where `alpha` is the search rate `xR`
+#' the resource density, `mR` the resource body mass and `mC` the consumer body mass.
+#' If available the resource density is not known (parameter `res_den`) you must set the column to a less than 0 value; and it
+#' will be estimated according to the equation S18 and supplementary figures 2i & j (individuals/m2 - m3)
 #'
-#' For detritus or sediment the resource mass mean is not known thus `res_mm` is generally < 0 accordingly resource body mass (kg)
-#' is calculated using the equation S9 and supplementary figures 2c & d of the paper.
+#' For detritus or sediment the resource mass mean is not known (parameter `res_mm`) it must be set as negative;
+#' and the  resource body mass (kg) will be calculated using the equation S9 and supplementary figures 2c & d of the paper.
 #'
 #' If the parameter 'nsims > 1 ' the function will estimate the variability on each interaction strength. It takes random values from a normal distribution
 #' with mean and standard deviation given by the Pawar's regressions for the slopes of allometric exponents.
