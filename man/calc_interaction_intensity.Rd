@@ -32,11 +32,14 @@ if \code{res_mm>0} duplicates the value of \code{res_mm}
 \description{
 The function uses the body mass in Kg of predator/consumer and prey/resources and the dimensionality of the interaction as source data,
 then the interacion intensity is estimated with all the coeficients from \link{1} as \code{alfa*xR*mR/mC}, where \code{alpha} is the search rate \code{xR}
-the resource density, \code{mR} the resource body mass and \code{mC} the consumer body mass.
-If available the resource density is not known (parameter \code{res_den}) you must set the column to a less than 0 value; and it
-will be estimated according to the equation S18 and supplementary figures 2i & j (individuals/m2 - m3)
+the resource density, \code{mR} the resource body mass and \code{mC} the consumer body mass. This value of the interaction strength quantifies
+the effect of the predator on the prey. Assuming a Lotka-Volterra model is equivalent to the entry A(i,j) of the Jacobian, where i is the
+prey and j the predator.
 }
 \details{
+If the resource density is not known (parameter \code{res_den}) you must set the column to a less than 0 value; and it
+will be estimated according to the equation S18 and supplementary figures 2i & j (individuals/m2 - m3)
+
 For detritus or sediment the resource mass mean is not known (parameter \code{res_mm}) it must be set as negative;
 and the  resource body mass (kg) will be calculated using the equation S9 and supplementary figures 2c & d of the paper.
 

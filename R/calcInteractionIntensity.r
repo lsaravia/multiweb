@@ -3,8 +3,11 @@
 #'
 #' The function uses the body mass in Kg of predator/consumer and prey/resources and the dimensionality of the interaction as source data,
 #' then the interacion intensity is estimated with all the coeficients from [1] as `alfa*xR*mR/mC`, where `alpha` is the search rate `xR`
-#' the resource density, `mR` the resource body mass and `mC` the consumer body mass.
-#' If available the resource density is not known (parameter `res_den`) you must set the column to a less than 0 value; and it
+#' the resource density, `mR` the resource body mass and `mC` the consumer body mass. This value of the interaction strength quantifies
+#' the effect of the predator on the prey. Assuming a Lotka-Volterra model is equivalent to the entry A(i,j) of the Jacobian, where i is the
+#' prey and j the predator.
+#'
+#' If the resource density is not known (parameter `res_den`) you must set the column to a less than 0 value; and it
 #' will be estimated according to the equation S18 and supplementary figures 2i & j (individuals/m2 - m3)
 #'
 #' For detritus or sediment the resource mass mean is not known (parameter `res_mm`) it must be set as negative;
