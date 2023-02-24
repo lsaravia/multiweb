@@ -108,8 +108,6 @@ calcQuantitativeConnectance <- function(interM,d){
 #' 2. Grilli, J., Rogers, T. & Allesina, S. (2016). Modularity and stability in ecological communities. Nat. Commun., 7, 12031
 #' 3. Monteiro, A.B. & Del Bianco Faria, L. (2017). Causal relationships between population stability and food-web topology. Functional Ecology, 31, 1294–1300.
 #' 4. Borrelli, J. J. 2015. Selection against instability: stable subgraphs are most frequent in empirical food webs. - Oikos 124: 1583–1588.
-
-
 #'
 #' @param ig  igraph or a list of igraph networks or mgraph network
 #' @param nsim number of simulations to calculate QSS, if the number of simulations is 1 then it calculates the maximum eingenvalue for the mean of interaction
