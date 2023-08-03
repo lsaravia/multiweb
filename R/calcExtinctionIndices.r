@@ -32,6 +32,7 @@
 #'
 #' @import igraph
 #' @importFrom dplyr bind_rows
+#' @importFrom kSamples ad.test
 #' @export
 #'
 #' @examples

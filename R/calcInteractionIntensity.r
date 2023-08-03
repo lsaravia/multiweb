@@ -2,16 +2,17 @@
 #' the interaction dimensionality
 #'
 #' The function uses the body mass in Kg of predator/consumer and prey/resources and the dimensionality of the interaction as source data,
-#' then the interacion intensity is estimated with all the coeficients from [1] as `alfa*xR*mR/mC`, where `alpha` is the search rate `xR`
+#' then the interacion intensity is estimated with all the coeficients from Pawar (2012) as `alfa*xR*mR/mC`, where `alpha` is the search rate `xR`
 #' the resource density, `mR` the resource body mass and `mC` the consumer body mass. This value of the interaction strength quantifies
-#' the effect of the predator on the prey. Assuming a Lotka-Volterra model is equivalent to the entry A(i,j) of the Jacobian, where i is the
+#' the effect of the predator on the prey. Assuming a Lotka-Volterra model is equivalent to the entry A(i,j) of the community matrix, where i is the
 #' prey and j the predator.
 #'
-#' If the resource density is not known (parameter `res_den`) you must set the column to a less than 0 value; and it
+#' If the resource density is unknown (parameter `res_den`) you could set the column to a less than 0 value; and it
 #' will be estimated according to the equation S18 and supplementary figures 2i & j (individuals/m2 - m3)
 #'
-#' For detritus or sediment the resource mass mean is not known (parameter `res_mm`) it must be set as negative;
-#' and the  resource body mass (kg) will be calculated using the equation S9 and supplementary figures 2c & d of the paper.
+#' If the mean mass of the resource for detritus or sediment (parameter `res_mm`) is unknown, it can be designated as
+#' negative. This will result in the calculation of the resource body mass (in kilograms) using Equation S9 and
+#' Supplementary Figures 2c & d from the paper.
 #'
 #' If the parameter 'nsims > 1 ' the function will estimate the variability on each interaction strength. It takes random values from a normal distribution
 #' with mean and standard deviation given by the Pawar's regressions for the slopes of allometric exponents.
