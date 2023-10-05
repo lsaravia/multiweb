@@ -11,8 +11,15 @@
 #' will be estimated according to the equation S18 and supplementary figures 2i & j (individuals/m2 - m3)
 #'
 #' If the mean mass of the resource for detritus or sediment (parameter `res_mm`) is unknown, it can be designated as
-#' negative. This will result in the calculation of the resource body mass (in kilograms) using Equation S9 and
-#' Supplementary Figures 2c & d from the paper.
+#' negative. This will result in the calculation of the resource body mass (in kilograms) using allometric formulaes given
+#' in the Equation S9 and Supplementary Figures 2c & d from the paper. This is only valid when there is size ratios tend
+#' to be optimal.
+#'
+#' If the Biomass of the resource is known you should use it as `res_mm` and set `res_den` to 1. This is the best choice to
+#' avoid the previous allometric calculations of `res_den` and  `res_mm` when they are unknown.
+#'
+#' If resource size `res_mm` and resource density `res_den` are decoupled from consumer size you could assign 1 to both see
+#' pag 487 **Dimensionality and trophic interaction strengths** in Pawar's paper.
 #'
 #' If the parameter 'nsims > 1 ' the function will estimate the variability on each interaction strength. It takes random values from a normal distribution
 #' with mean and standard deviation given by the Pawar's regressions for the slopes of allometric exponents.
