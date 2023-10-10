@@ -1,3 +1,8 @@
+# Version  0.6.50.0000
+
+* Updated version of calc_interaction_intensity() with different sd for the normal distributions used
+  for simulations around the mean of the coeficients estimated by Pawar 2012.  
+
 # Version  0.6.30.0000
 
 * Updated defaults of calc_QSS(), now the parameters defaults are `negative=-10, positive=1, selfDamping=-1` 

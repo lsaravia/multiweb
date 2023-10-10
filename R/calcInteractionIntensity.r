@@ -66,8 +66,8 @@ calc_interaction_intensity <- function(da,res_mm,res_den,con_mm,int_dim, nsims=1
   #   stop("int_dim must be character type")
   #
   # resource Mass vs consumer Mass Exponents (Sup Fig 2 c&d)
-  pm2D = 0.67 # 95% CI 0.17 sd = SE * sqrt(n) / 1.96, n = 39 (total n overestimate SD)
-  pm3D = 1.46 # 95% CI 0.12
+  pm2D = 0.73 # 0.67 # 95% CI 0.17 sd = SE * sqrt(n) / 1.96, n = 39 (total n overestimate SD)
+  pm3D = 0.92 # 1.46 # 95% CI 0.12
   int_pm2D = -2.6   # intercepts
   int_pm3D = -2.96
   # Minimun Resource Density
@@ -104,12 +104,12 @@ calc_interaction_intensity <- function(da,res_mm,res_den,con_mm,int_dim, nsims=1
     #
     #
     da <- lapply(seq_len(nsims), function(x){
-      pm2D <- rnorm(1,0.67, 0.17*sqrt(19)/1.96)    # 95% CI 0.17 sd = SE * sqrt(n)/1.96, n = 19 (total n overestimate SD)
-      pm3D <- rnorm(1,1.46, 0.12*sqrt(20)/1.96)    # 95% CI 0.12
-      px2D <- rnorm(1,-0.79, 0.09*sqrt(123)/1.96)  # 95% CI ± 0.09            n = 123
-      px3D <- rnorm(1,-0.86, 0.06*sqrt(131)/1.96)  # 95% CI ± 0.06            n = 131
-      al2D <- rnorm(1,0.68, 0.12*sqrt(127)/1.96)   # CI 0.12 n = 127 (we use the total n=255 / 2 )
-      al3D <- rnorm(1,1.05, 0.08*sqrt(128)/1.96)   # CI 0.08 n = 128
+      pm2D <- rnorm(1,0.73, 0.10)    # We assume that the values reported are the SD or 95% CI, in that last case we may be overestimating the true sd
+      pm3D <- rnorm(1,0.92, 0.08)    # 95% CI 0.12
+      px2D <- rnorm(1,-0.79, 0.09)   # 95% CI ± 0.09            n = 123
+      px3D <- rnorm(1,-0.86, 0.06)   # 95% CI ± 0.06            n = 131
+      al2D <- rnorm(1,0.68, 0.12)    # CI 0.12 n = 127 (we use the total n=255 / 2 )
+      al3D <- rnorm(1,1.05, 0.08)    # CI 0.08 n = 128
       d2D <- filter(da, {{int_dim}}=="2D") %>%
         mutate(mR=if_else({{res_mm}} < 0, 10^int_pm2D*{{con_mm}}^pm2D , {{res_mm}} ),
                xR=if_else({{res_den}} < 0 , 10^x02D * mR^px2D,{{res_den}}),
