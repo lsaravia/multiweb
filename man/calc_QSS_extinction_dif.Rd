@@ -16,7 +16,7 @@ calc_QSS_extinction_dif(g, sp_list, nsim = 1000, ncores = 4, istrength = FALSE)
 
 \item{ncores}{number of cores used to perform the operation}
 
-\item{istrength}{if TRUE takes the weigth attribute of the network as interaction strength to
+\item{istrength}{if TRUE takes the weight attribute of the network as interaction strength to
 calculate QSS.}
 }
 \value{
@@ -36,12 +36,12 @@ and the null network.
 }
 }
 \description{
-The QSS determines the maximum eingenvalue of the community matrix (Jacobian) and characterizes
+The QSS determines the maximum eigenvalue of the community matrix (Jacobian) and characterizes
 the linear stability of the network. This uses the function \code{\link[=calc_QSS]{calc_QSS()}} so it can take
 into account the interaction strength if weights are present. The comparison is made using the Anderson-Darling test with
 the function \code{\link[kSamples:ad.test]{kSamples::ad.test()}} and the Kolmogorov-Smirnov test \code{\link[stats:ks.test]{stats::ks.test()}}, both the p-values are reported as a
-measure of strength of the diference. If istrength is TRUE it makes a comparison to a null model with the same species and links than the
-reduced network but with all interaction strengths equal to the mean interacion strength.
+measure of strength of the difference. If istrength is TRUE it makes a comparison to a null model with the same species and links than the
+reduced network but with all interaction strengths equal to the mean interaction strength.
 }
 \examples{
 \dontrun{

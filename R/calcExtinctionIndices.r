@@ -2,18 +2,18 @@
 #' Calculates the QSS difference between the full network and the network minus
 #' one species
 #'
-#' The QSS determines the maximum eingenvalue of the community matrix (Jacobian) and characterizes
+#' The QSS determines the maximum eigenvalue of the community matrix (Jacobian) and characterizes
 #' the linear stability of the network. This uses the function [multiweb::calc_QSS()] so it can take
 #' into account the interaction strength if weights are present. The comparison is made using the Anderson-Darling test with
 #' the function [kSamples::ad.test()] and the Kolmogorov-Smirnov test [stats::ks.test()], both the p-values are reported as a
-#' measure of strength of the diference. If istrength is TRUE it makes a comparison to a null model with the same species and links than the
-#' reduced network but with all interaction strengths equal to the mean interacion strength.
+#' measure of strength of the difference. If istrength is TRUE it makes a comparison to a null model with the same species and links than the
+#' reduced network but with all interaction strengths equal to the mean interaction strength.
 #'
 #' @param g        igraph network
 #' @param sp_list  list with the species/nodes we will delete for the comparison
 #' @param nsim     number of simulations to calculate QSS
 #' @param ncores   number of cores used to perform the operation
-#' @param istrength if TRUE takes the weigth attribute of the network as interaction strength to
+#' @param istrength if TRUE takes the weight attribute of the network as interaction strength to
 #'                  calculate QSS.
 #'
 #' @return a data.frame with:
@@ -120,7 +120,7 @@ calc_QSS_extinction_dif <- function(g, sp_list,nsim=1000, ncores=4, istrength = 
 #' Calculates the QSS for an extinction sequence
 #'
 #' This functions calculates the QSS [multiweb::calc_QSS()] for a sequence of incremental deletions of species (nodes)
-#' given by the vector `seq`, it does not produce secundary extinctions
+#' given by the vector `seq`, it does not produce secondary extinctions
 #'
 #' @param g_del igraph object for the deletion sequence
 #' @param seq   vector or list with the nodes for the extinction sequence, the

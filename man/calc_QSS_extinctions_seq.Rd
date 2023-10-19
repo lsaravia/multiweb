@@ -24,7 +24,7 @@ of the last deleted node. The first row are the values for the complete network.
 }
 \description{
 This functions calculates the QSS \code{\link[=calc_QSS]{calc_QSS()}} for a sequence of incremental deletions of species (nodes)
-given by the vector \code{seq}, it does not produce secundary extinctions
+given by the vector \code{seq}, it does not produce secondary extinctions
 }
 \examples{
 \dontrun{
