@@ -561,8 +561,8 @@ ggplot(raw, aes(maxre)) + geom_density() + theme_bw() + geom_vline(xintercept = 
 #
 
 g <- netData[[1]]
-E(g)$weight <-  runif(vcount(g))
-E(g)$w <-  runif(vcount(g))
+E(g)$weight <-  runif(ecount(g))
+E(g)$w <-  runif(ecount(g))
 calc_QSS(g,istrength = FALSE)
 calc_QSS(g,istrength = TRUE)
 
@@ -571,6 +571,8 @@ edge_attr_names(g)
 calc_QSS_extinction_dif(g,V(g)$name[1:3],nsim=10,istrength = FALSE)
 
 calc_QSS_extinction_dif(g,V(g)$name[1:3],nsim=10,istrength = TRUE)
+
+calc_QSS_extinction_dif_grp(g,V(g)$name[1:3],nsim=10,istrength = TRUE)
 
 #
 # Test calc_QSS_extinction_dif
@@ -581,6 +583,7 @@ eseq
 eseq <- calc_QSS_extinctions_seq(g,V(g)$name,nsim=100,istrength = TRUE)
 eseq
 
+g_del <- calc_QSS_extinction_dif_grp(g, bygroup,nsim,ncores,istrength)
 
 
 # Test calc_interaction_intensity

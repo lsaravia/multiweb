@@ -2,7 +2,7 @@
 #' Calculates the QSS difference between the full network and the network minus
 #' one species
 #'
-#' The QSS determines the maximum eigenvalue of the community matrix (Jacobian) and characterizes
+#' The Quasi-sign stability is estimated with of the community matrix (Jacobian) and characterizes
 #' the linear stability of the network. This uses the function [multiweb::calc_QSS()] so it can take
 #' into account the interaction strength if weights are present. The comparison is made using the Anderson-Darling test with
 #' the function [kSamples::ad.test()] and the Kolmogorov-Smirnov test [stats::ks.test()], both the p-values are reported as a
@@ -115,7 +115,90 @@ calc_QSS_extinction_dif <- function(g, sp_list,nsim=1000, ncores=4, istrength = 
 }
 
 
+#' Calculates the QSS difference between the full network and the network minus
+#' a group of species
+#'
+#' The Quasi-sign stability is estimated with the maximum eigenvalue of the community matrix (Jacobian) and characterizes
+#' the linear stability of the network. This uses the function [multiweb::calc_QSS()] so it can take
+#' into account the interaction strength if weights are present. The comparison is made using the Anderson-Darling test with
+#' the function [kSamples::ad.test()] and the Kolmogorov-Smirnov test [stats::ks.test()], both the p-values are reported as a
+#' measure of strength of the difference.
+#'
+#' @param g        igraph network
+#' @param sp_list  list with the group pf species/nodes we will delete for the comparison
+#' @param nsim     number of simulations to calculate QSS
+#' @param ncores   number of cores used to perform the operation
+#' @param istrength if TRUE takes the weight attribute of the network as interaction strength to
+#'                  calculate QSS.
+#'
+#' @return a data.frame with:
+#'   * the Anderson-Darling p-value of the comparison with the complete network
+#'   * Kolmogorov-Smirnov p-value of the comparison with the complete network
+#'   * If `istrength == TRUE` the Anderson-Darling p-value of the comparison with the null network
+#'   * If `istrength == TRUE` Kolmogorov-Smirnov p-value of the comparison with the null network
+#'   * median of QSS of the complete network
+#'   * median of QSS of the network with the deleted nodes
+#'   * difference between the two previous median QSS
+#'
+#' @import igraph
+#' @importFrom dplyr bind_rows
+#' @importFrom kSamples ad.test
+#' @export
+#'
+#' @examples
+#' \dontrun{
+#' g <- netData[[1]]
+#'
+#' # Generate random weights
+#' #
+#' V(g)$weight <-  runif(vcount(g))
+#'
+#' # Without interaction strength
+#' #
+#' calc_QSS_extinction_dif_grp(g,V(g)$name[1:3],nsim=10,istrength = FALSE)
+#'
+#' # With interaction strength
+#' #
+#' calc_QSS_extinction_dif_grp(g,V(g)$name[1:3],nsim=10,istrength = TRUE)
+#'}
 
+calc_QSS_extinction_dif_grp <- function(g, sp_list,nsim=1000, ncores=4, istrength = FALSE){
+
+  if( istrength ) {
+    if( length(edge_attr_names(g))==0 ) {
+      stop("Network must have weight attribute")
+    } else {
+      if( !any(edge_attr_names(g) %in% "weight") )
+        stop("Network must have weight attribute")
+    }
+  }
+
+  # QSS for complete and deleted network
+  QSS_all <- multiweb::calc_QSS(g, nsim = nsim, ncores = ncores, istrength = istrength, returnRaw = TRUE) %>%
+    mutate(Network = "All spp")
+
+  # delete one sp and create igraph object
+  g_ext <- delete_vertices(g, sp_list)
+  con <- multiweb::calc_topological_indices(g_ext)$Connectance
+  comp <- multiweb::calc_topological_indices(g_ext)$Components
+  size <- vcount(g_ext)
+  # Calculates the QSS
+  QSS_ext <- multiweb::calc_QSS(g_ext, nsim = nsim, ncores = ncores, istrength = istrength, returnRaw = TRUE) %>%
+    mutate(Network = "Minus Group")
+  QSS <- bind_rows(QSS_all, QSS_ext)
+  # extract p-value for Anderson-Darling test comparing complete and deleted network
+  ad_test <- kSamples::ad.test(maxre ~ Network, data = QSS)
+  ks_test <- ks.test(QSS_all$maxre,QSS_ext$maxre)
+
+  # result data frame
+
+  data.frame(Size = size, Connectance = con, Components = comp,
+               Ad_pvalue=ad_test$ad[1,3],
+               KS_pvalue=ks_test$p.value,
+               QSS_all=median(QSS_all$maxre), QSS_ext=median(QSS_ext$maxre), difQSS = median(QSS_all$maxre)-median(QSS_ext$maxre)
+    )
+
+}
 
 #' Calculates the QSS for an extinction sequence
 #'

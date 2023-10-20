@@ -1,3 +1,8 @@
+# Version  0.6.60.0000
+
+* Add function calc_QSS_extinction_dif_grp to calculate the difference in QSS with a group of species.  
+
+
 # Version  0.6.50.0000
 
 * Updated version of calc_interaction_intensity() with different sd for the normal distributions used
