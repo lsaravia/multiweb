@@ -478,6 +478,8 @@ g <- netData[[1]]
 
 tp <- calc_topological_roles(g,nsim=10,ncores=4)
 
+warnings()
+
 classify_topological_roles(tp,g,plt=TRUE)
 
 

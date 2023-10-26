@@ -494,6 +494,7 @@ calc_swness_zscore<- function(g, nullDist,sLevel=0.01,ncores=0,weights=NA){
 #'
 #' @import igraph
 #' @importFrom foreach foreach %dopar%
+#' @importFrom doRNG %dorng%
 #' @importFrom doFuture registerDoFuture
 #' @importFrom future sequential multisession
 #'
@@ -526,7 +527,7 @@ calc_topological_roles <- function(g,nsim=1000,ncores=0)
     future::plan(sequential)
   }
 
-  toRol <- foreach(idx=1:nsim,.combine='rbind',.inorder=FALSE,.packages='igraph') %dopar%
+  toRol <- foreach(idx=1:nsim,.combine='rbind',.inorder=FALSE,.packages='igraph') %dorng%
   {
     # within-module degree
     #
@@ -540,15 +541,15 @@ calc_topological_roles <- function(g,nsim=1000,ncores=0)
 
     for (i in 1:vcount(g)){
 
-      sp.in.deg <- V(g)[nei(i, "in")]
-      sp.out.deg<- V(g)[nei(i, "out")]
+      sp.in.deg <- V(g)[.nei(i, "in")]
+      sp.out.deg<- V(g)[.nei(i, "out")]
       mem.sp<-spingB.mem[i]
       k<- length(which(spingB.mem[c(sp.in.deg, sp.out.deg)]==mem.sp))
       mem<- which(spingB.mem==mem.sp)
 
       for (m in 1:length(mem)){
-        mem.in.deg <- V(g)[nei(mem[m], "in")]
-        mem.out.deg<- V(g)[nei(mem[m], "out")]
+        mem.in.deg <- V(g)[.nei(mem[m], "in")]
+        mem.out.deg<- V(g)[.nei(mem[m], "out")]
         memMod.id<- length(which(spingB.mem[c(mem.in.deg, mem.out.deg)]==mem.sp))
         memMod[m]<- memMod.id
       }
@@ -563,8 +564,8 @@ calc_topological_roles <- function(g,nsim=1000,ncores=0)
     for (i in 1:vcount(g)){
 
       d<-degree(g)[i]
-      sp.in.deg <- V(g)[nei(i, "in")]
-      sp.out.deg<- V(g)[nei(i, "out")]
+      sp.in.deg <- V(g)[.nei(i, "in")]
+      sp.out.deg<- V(g)[.nei(i, "out")]
       mod.sp<-table(spingB.mem[c(sp.in.deg, sp.out.deg)])
       mod.no<-as.numeric(names(mod.sp))
       mod<-rep(0, length(unique(spingB.mem)))

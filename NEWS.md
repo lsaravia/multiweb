@@ -1,3 +1,7 @@
+# Version  0.6.61.0000
+
+* Fixed warmings of function calc_topological_roles. 
+
 # Version  0.6.60.0000
 
 * Add function calc_QSS_extinction_dif_grp to calculate the difference in QSS with a group of species.  
