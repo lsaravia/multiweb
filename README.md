@@ -39,7 +39,7 @@ Convert to mgraph type
 
 ```R
 
-gt <- igraph2mgraph(g,c("Negative","Positive","Antagonistic"))
+gt <- fromIgraphToMgraph(g,c("Negative","Positive","Antagonistic"))
 
 ```
 

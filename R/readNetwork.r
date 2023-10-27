@@ -125,10 +125,10 @@ readNetwork <- function(fileName,filePath=NULL,fhead=TRUE,skipColumn=1,edgeListF
 #'
 #' fpath <- system.file("extdata", package = "multiweb")
 #' dn <- list.files(fpath,pattern = "^Kefi2015.*\\.txt$")
-#' netData <- readMultiplex(dn,c("Competitive","Mutualistic","Trophic"),fpath,skipColum=2)
+#' netData <- readMultiplex(dn,c("Negative","Positive","Antagonistic"),fpath,skipColum=2)
 #'}
 
-readMultiplex <- function(fileName,types=c("Competitive","Mutualistic","Trophic"),filePath=NULL,
+readMultiplex <- function(fileName,types=c("Negative","Positive","Antagonistic"),filePath=NULL,
                           fhead=TRUE,skipColumn=1,format="layers"){
 
   if( format=="layers"){
@@ -236,11 +236,11 @@ readMultiplex <- function(fileName,types=c("Competitive","Mutualistic","Trophic"
 #'
 #' fpath <- system.file("extdata", package = "multiweb")
 #' dn <- list.files(fpath,pattern = "^Kefi2015.*\\.txt$")
-#' netData <- readMultiplex(dn,c("Competitive","Mutualistic","Trophic"),fpath,skipColum=2)
+#' netData <- readMultiplex(dn,c("Negative","Positive","Antagonistic"),fpath,skipColum=2)
 #' toGLVadjMat(netData)
 #'}
 
-toGLVadjMat <- function(mg,types=c("Competitive","Mutualistic","Trophic"),istrength=FALSE){
+toGLVadjMat <- function(mg,types=c("Negative","Positive","Antagonistic"),istrength=FALSE){
 
   if( class(mg)!='mgraph')
     stop("parameter mg must be an mgraph object")

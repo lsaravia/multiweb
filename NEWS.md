@@ -1,3 +1,9 @@
+# Version  0.6.65.0000
+
+* Updated README with function fromIgraphToMgraph
+
+* Fixed calc_QSS for mgraph objects 
+
 # Version  0.6.61.0000
 
 * Fixed warmings of function calc_topological_roles. 

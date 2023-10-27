@@ -6,7 +6,7 @@
 \usage{
 toGLVadjMat(
   mg,
-  types = c("Competitive", "Mutualistic", "Trophic"),
+  types = c("Negative", "Positive", "Antagonistic"),
   istrength = FALSE
 )
 }
@@ -33,7 +33,7 @@ If 'istrength' is TRUE the attribute weight is assumed as the strength of the in
 
 fpath <- system.file("extdata", package = "multiweb")
 dn <- list.files(fpath,pattern = "^Kefi2015.*\\\\.txt$")
-netData <- readMultiplex(dn,c("Competitive","Mutualistic","Trophic"),fpath,skipColum=2)
+netData <- readMultiplex(dn,c("Negative","Positive","Antagonistic"),fpath,skipColum=2)
 toGLVadjMat(netData)
 }
 }
