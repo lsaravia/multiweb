@@ -20,7 +20,8 @@ Imports:
     doFuture (>= 0.6.0),
     future.apply (>= 1.2.0),
     dplyr (>= 0.8.0.1),
-    kSamples (>= 1.2-9)
+    kSamples (>= 1.2-9),
+    doRNG (>= 1.8)
 RoxygenNote: 7.2.3
 Suggests: 
     testthat (>= 3.0.0)
