@@ -47,7 +47,7 @@ Read multiple interaction network with a function
 
 ```R
 
-types <- c("Competitive","Mutualistic","Trophic")
+types <- c("Negative","Positive","Antagonistic")
 gt <- readMultiplex(dn,types,fileName, skipColumn = 2)
 
 ```

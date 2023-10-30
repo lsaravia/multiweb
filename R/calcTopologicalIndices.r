@@ -687,7 +687,9 @@ classify_topological_roles <- function(tRoles,g,spingB=NULL,plt=FALSE){
   if(is.null(modlbl))
     modlbl <- modhub
 
-  hub_conn <- rbind(hub_conn, data.frame(type="modspe",node=modhub,name=modlbl))
+  if(length(modhub)){
+    hub_conn <- rbind(hub_conn, data.frame(type="modspe",node=modhub,name=modlbl))
+  }
 
   # Which are the module connectors: Few links and between modules
   #
@@ -697,7 +699,9 @@ classify_topological_roles <- function(tRoles,g,spingB=NULL,plt=FALSE){
   if(is.null(modlbl))
     modlbl <- modhub
 
-  hub_conn <- rbind(hub_conn, data.frame(type="modcon",node=modhub,name=modlbl))
+  if(length(modhub)){
+    hub_conn <- rbind(hub_conn, data.frame(type="modcon",node=modhub,name=modlbl))
+  }
   hub_conn <- hub_conn %>% inner_join(tRoles)
   return(hub_conn)
 }

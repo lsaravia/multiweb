@@ -1,3 +1,8 @@
+# Version  0.6.66.0000
+
+* Updated function classify_topological_roles() when all species are module specialists 'modspe'
+
+
 # Version  0.6.65.0000
 
 * Updated README with function fromIgraphToMgraph
