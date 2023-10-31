@@ -473,14 +473,21 @@ sum(m>0)/(nrow(m)^2)
 #
 
 sapply(netData,igraph::vcount)
-
-g <- netData[[1]]
+g <- netData[[23]]
 
 tp <- calc_topological_roles(g,nsim=10,ncores=4)
-
-warnings()
-
 classify_topological_roles(tp,g,plt=TRUE)
+
+m <- igraph::cluster_infomap(g)
+length(m)
+m <- igraph::cluster_walktrap(g)
+length(m)
+igraph::membership(m)
+
+tp1 <- calc_topological_roles(g,nsim=10,ncores=4,community=m)
+tp1
+
+classify_topological_roles(tp1,g,community=m,plt=TRUE)
 
 
 

@@ -4,14 +4,14 @@
 \alias{classify_topological_roles}
 \title{Classify and plot topological roles}
 \usage{
-classify_topological_roles(tRoles, g, spingB = NULL, plt = FALSE)
+classify_topological_roles(tRoles, g, community = NULL, plt = FALSE)
 }
 \arguments{
 \item{tRoles}{Calculated topological roles with the function \code{\link[=calc_topological_roles]{calc_topological_roles()}}}
 
 \item{g}{Igraph network object}
 
-\item{spingB}{Igraph community object}
+\item{community}{Igraph community object used to calculate the topological roles}
 
 \item{plt}{logical whether a plot is generated}
 }

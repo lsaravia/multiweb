@@ -4,21 +4,24 @@
 \alias{calc_topological_roles}
 \title{Calc topological roles among network communities/modules}
 \usage{
-calc_topological_roles(g, nsim = 1000, ncores = 0)
+calc_topological_roles(g, nsim = 1000, ncores = 0, community = NULL)
 }
 \arguments{
 \item{g}{an Igraph object with the network}
 
-\item{nsim}{number of simulations with different community}
+\item{nsim}{number of simulations for \code{\link[igraph:cluster_spinglass]{igraph::cluster_spinglass()}} method}
 
 \item{ncores}{number of cores to use paralell computation, if 0 sequential processing is used.}
+
+\item{community}{a community object obtained with other method, if NULL the community is calculated with \code{\link[igraph:cluster_spinglass]{igraph::cluster_spinglass()}}}
 }
 \value{
 a  data frame with two numeric fields: within_module_degree, among_module_conn
 }
 \description{
 Topological roles characterize species as its roles between communities or modules, we calculate the modules using
-the \code{\link[igraph:cluster_spinglass]{igraph::cluster_spinglass()}} function.
+\code{\link[igraph:cluster_spinglass]{igraph::cluster_spinglass()}} function. Alternatively you can pass a community object obtained with other method using the
+parameter \code{community}.
 Topological roles are described by two parameters: the standardized within-module degree \eqn{dz} and the among-module
 connectivity participation coefficient \eqn{PC}.  The within-module degree is a z-score that measures how well a species is
 connected to other species within its own module compared with a random graph. The participation coefficient \eqn{PC}
@@ -32,6 +35,11 @@ g <- netData[[2]]
 
 tp <- calc_topological_roles(g,nsim=10)
 
+# using a community object
+
+m <- cluster_walktrap(g)
+
+tp <- calc_topological_roles(g,community=m)
 }
 }
 \references{

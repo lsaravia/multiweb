@@ -470,7 +470,8 @@ calc_swness_zscore<- function(g, nullDist,sLevel=0.01,ncores=0,weights=NA){
 #' Calc topological roles among network communities/modules
 #'
 #' Topological roles characterize species as its roles between communities or modules, we calculate the modules using
-#' the [igraph::cluster_spinglass()] function.
+#' [igraph::cluster_spinglass()] function. Alternatively you can pass a community object obtained with other method using the
+#' parameter `community`.
 #' Topological roles are described by two parameters: the standardized within-module degree \eqn{dz} and the among-module
 #' connectivity participation coefficient \eqn{PC}.  The within-module degree is a z-score that measures how well a species is
 #' connected to other species within its own module compared with a random graph. The participation coefficient \eqn{PC}
@@ -485,8 +486,9 @@ calc_swness_zscore<- function(g, nullDist,sLevel=0.01,ncores=0,weights=NA){
 
 #'
 #' @param g an Igraph object with the network
-#' @param nsim  number of simulations with different community
+#' @param nsim  number of simulations for [igraph::cluster_spinglass()] method
 #' @param ncores  number of cores to use paralell computation, if 0 sequential processing is used.
+#' @param community  a community object obtained with other method, if NULL the community is calculated with [igraph::cluster_spinglass()]
 #'
 #' @return a  data frame with two numeric fields: within_module_degree, among_module_conn
 #'
@@ -494,8 +496,7 @@ calc_swness_zscore<- function(g, nullDist,sLevel=0.01,ncores=0,weights=NA){
 #'
 #' @import igraph
 #' @importFrom foreach foreach %dopar%
-#' @importFrom doRNG %dorng%
-#' @importFrom doFuture registerDoFuture
+#' @importFrom future.apply future_lapply
 #' @importFrom future sequential multisession
 #'
 #' @examples
@@ -505,18 +506,29 @@ calc_swness_zscore<- function(g, nullDist,sLevel=0.01,ncores=0,weights=NA){
 #'
 #' tp <- calc_topological_roles(g,nsim=10)
 #'
+#' # using a community object
+#'
+#' m <- cluster_walktrap(g)
+#'
+#' tp <- calc_topological_roles(g,community=m)
 #' }
 
-calc_topological_roles <- function(g,nsim=1000,ncores=0)
+calc_topological_roles <- function(g,nsim=1000,ncores=0,community=NULL)
 {
   if(!is_igraph(g))
     stop("Parameter g must be an igraph object")
 
+  # Check if community object is provided and its class
+  if (!is.null(community) && class(community) != "communities") {
+    stop("Provided community object must be of class 'communities'")
+  } else {
+    nsim <- 1
+    ncores <- 0
+  }
 
   toRol <- data.frame()
 
 
-  registerDoFuture()
   if(ncores) {
     cn <- future::availableCores()
     if(ncores>cn)
@@ -526,15 +538,18 @@ calc_topological_roles <- function(g,nsim=1000,ncores=0)
   } else {
     future::plan(sequential)
   }
+  toRol <- do.call(rbind, future_lapply(seq_len(nsim), function(idx){
 
-  toRol <- foreach(idx=1:nsim,.combine='rbind',.inorder=FALSE,.packages='igraph') %dorng%
-  {
     # within-module degree
     #
     # Standarized Within module degree z-score
     #
-    m<-cluster_spinglass(g,weights = NA)
-    spingB.mem<- m$membership
+    if (is.null(community)) {
+      m <- cluster_spinglass(g, weights = NA)
+      spingB.mem <- m$membership
+    } else {
+      spingB.mem <- membership(community)
+    }
 
     l<-vector()
     memMod<-vector()
@@ -574,7 +589,7 @@ calc_topological_roles <- function(g,nsim=1000,ncores=0)
     }
     return(data.frame(node=1:vcount(g),within_module_degree=l, among_module_conn=r))
 
-  }
+  }, future.seed = TRUE ))
 
   return(toRol)
 }
@@ -591,18 +606,19 @@ calc_topological_roles <- function(g,nsim=1000,ncores=0)
 #'
 #' @references
 #'
-#'1. Kortsch, S., Primicerio, R., Fossheim, M., Dolgov, A. V & Aschan, M. (2015). Climate change alters the structure of arctic marine food webs due to poleward shifts of boreal generalists. Proc. R. Soc. B Biol. Sci., 282
+#' 1. Kortsch, S., Primicerio, R., Fossheim, M., Dolgov, A. V & Aschan, M. (2015). Climate change alters the structure of arctic marine food webs due to poleward shifts of boreal generalists. Proc. R. Soc. B Biol. Sci., 282
 #'
 #' 1. Saravia, L.A., Marina, T.I., De Troch, M. & Momo, F.R. (2018). Ecological Network assembly: how the regional meta web influence local food webs. bioRxiv, 340430, doi: https://doi.org/10.1101/340430
 #'
 #' @param tRoles Calculated topological roles with the function [calc_topological_roles()]
 #' @param g Igraph network object
-#' @param spingB Igraph community object
+#' @param community Igraph community object used to calculate the topological roles
 #' @param plt logical whether a plot is generated
 #'
 #' @return a data.frame with the classified topological roles
 #' @export
 #'
+#' @import igraph
 #' @importFrom RColorBrewer brewer.pal
 #' @importFrom dplyr %>% group_by summarise_all inner_join
 #'
@@ -615,19 +631,19 @@ calc_topological_roles <- function(g,nsim=1000,ncores=0)
 #'
 #' classify_topological_roles(tp,g,plt=TRUE)
 #' }
-classify_topological_roles <- function(tRoles,g,spingB=NULL,plt=FALSE){
+classify_topological_roles <- function(tRoles,g,community=NULL,plt=FALSE){
 
-  if(is.null(spingB))
-    spingB <- cluster_spinglass(g,weights=NA)
+  if(is.null(community))
+    community <- cluster_spinglass(g,weights=NA)
 
-  spingB.mem<- spingB$membership
+  spingB.mem<- community$membership
   tRoles <- tRoles %>% group_by(node) %>% summarise_all(mean)
   l <- tRoles$within_module_degree
   r <- tRoles$among_module_conn
   # Plot
   if(plt){
 
-    colbar.FG <- brewer.pal(length(spingB$csize),"Dark2")
+    colbar.FG <- brewer.pal(length(community),"Dark2")
 
     old_par <- par(mfrow=c(1,1))
     par(oma=c(2.7,1.3,0.7,1)) # change outer figure margins
