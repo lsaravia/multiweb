@@ -577,9 +577,15 @@ calc_QSS(g,istrength = TRUE)
 
 edge_attr_names(g)
 
-calc_QSS_extinction_dif(g,V(g)$name[1:3],nsim=10,istrength = FALSE)
+tic()
+dif <- calc_QSS_extinction_dif(g,V(g)$name[1:3],nsim=20,istrength = FALSE)
+toc()
 
-calc_QSS_extinction_dif(g,V(g)$name[1:3],nsim=10,istrength = TRUE)
+ggplot(dif, aes(difQSS,fill=Deleted)) + geom_density( alpha=0.3 ) + theme_bw() + geom_vline(xintercept = 0, linetype="dashed") +
+  facet_wrap(~Deleted, ncol = 1)
+
+dif1 <- calc_QSS_extinction_dif(g,V(g)$name[1:3],nsim=10,istrength = TRUE)
+
 
 calc_QSS_extinction_dif_grp(g,V(g)$name[1:3],nsim=10,istrength = TRUE)
 

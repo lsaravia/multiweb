@@ -20,28 +20,18 @@ calc_QSS_extinction_dif(g, sp_list, nsim = 1000, ncores = 4, istrength = FALSE)
 calculate QSS.}
 }
 \value{
-a data.frame with:
+a data.frame with nsim rows for each species deleted with:
 \itemize{
 \item the node deleted
-\item the Anderson-Darling p-value of the comparison with the complete network
-\item Kolmogorov-Smirnov p-value of the comparison with the complete network
-\item If \code{istrength == TRUE} the Anderson-Darling p-value of the comparison with the null network
-\item If \code{istrength == TRUE} Kolmogorov-Smirnov p-value of the comparison with the null network
-\item median of QSS of the complete network
-\item median of QSS of the network with the deleted node
-\item difference between the two previous median QSS
-\item If \code{istrength == TRUE} median of QSS of the null network
-\item If \code{istrength == TRUE} difference between the median QSS of the network with the deleted node
-and the null network.
+\item The QSS of the complete network for nsim simulations
+\item The QSS of the network with the deleted node for nsim simulations
+\item The difference between the two previous QSS
 }
 }
 \description{
 The Quasi-sign stability is estimated with of the community matrix (Jacobian) and characterizes
 the linear stability of the network. This uses the function \code{\link[=calc_QSS]{calc_QSS()}} so it can take
-into account the interaction strength if weights are present. The comparison is made using the Anderson-Darling test with
-the function \code{\link[kSamples:ad.test]{kSamples::ad.test()}} and the Kolmogorov-Smirnov test \code{\link[stats:ks.test]{stats::ks.test()}}, both the p-values are reported as a
-measure of strength of the difference. If istrength is TRUE it makes a comparison to a null model with the same species and links than the
-reduced network but with all interaction strengths equal to the mean interaction strength.
+into account the interaction strength if weights are present.
 }
 \examples{
 \dontrun{

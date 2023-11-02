@@ -4,10 +4,7 @@
 #'
 #' The Quasi-sign stability is estimated with of the community matrix (Jacobian) and characterizes
 #' the linear stability of the network. This uses the function [multiweb::calc_QSS()] so it can take
-#' into account the interaction strength if weights are present. The comparison is made using the Anderson-Darling test with
-#' the function [kSamples::ad.test()] and the Kolmogorov-Smirnov test [stats::ks.test()], both the p-values are reported as a
-#' measure of strength of the difference. If istrength is TRUE it makes a comparison to a null model with the same species and links than the
-#' reduced network but with all interaction strengths equal to the mean interaction strength.
+#' into account the interaction strength if weights are present.
 #'
 #' @param g        igraph network
 #' @param sp_list  list with the species/nodes we will delete for the comparison
@@ -16,23 +13,15 @@
 #' @param istrength if TRUE takes the weight attribute of the network as interaction strength to
 #'                  calculate QSS.
 #'
-#' @return a data.frame with:
+#' @return a data.frame with nsim rows for each species deleted with:
 #'   * the node deleted
-#'   * the Anderson-Darling p-value of the comparison with the complete network
-#'   * Kolmogorov-Smirnov p-value of the comparison with the complete network
-#'   * If `istrength == TRUE` the Anderson-Darling p-value of the comparison with the null network
-#'   * If `istrength == TRUE` Kolmogorov-Smirnov p-value of the comparison with the null network
-#'   * median of QSS of the complete network
-#'   * median of QSS of the network with the deleted node
-#'   * difference between the two previous median QSS
-#'   * If `istrength == TRUE` median of QSS of the null network
-#'   * If `istrength == TRUE` difference between the median QSS of the network with the deleted node
-#'     and the null network.
+#'   * The QSS of the complete network for nsim simulations
+#'   * The QSS of the network with the deleted node for nsim simulations
+#'   * The difference between the two previous QSS
 #'
 #'
 #' @import igraph
 #' @importFrom dplyr bind_rows
-#' @importFrom kSamples ad.test
 #' @export
 #'
 #' @examples
@@ -70,46 +59,15 @@ calc_QSS_extinction_dif <- function(g, sp_list,nsim=1000, ncores=4, istrength = 
   comp_webs <- lapply(sp_list, function(i){
     # delete one sp and create igraph object
     g_ext <- delete_vertices(g, i)
-    size <- vcount(g_ext)
+    # size <- vcount(g_ext)
     # subset mean strength for deleted sp
     QSS_ext <- multiweb::calc_QSS(g_ext, nsim = nsim, ncores = ncores, istrength = istrength, returnRaw = TRUE) %>%
       mutate(Network = "One sp less")
-    QSS <- bind_rows(QSS_all, QSS_ext)
-    # extract p-value for Anderson-Darling test comparing complete and deleted network
-    ad_test <- kSamples::ad.test(maxre ~ Network, data = QSS)
-    ks_test <- ks.test(QSS_all$maxre,QSS_ext$maxre)
+    #QSS <- bind_rows(QSS_all, QSS_ext)
 
-    if( istrength ) {
-      # Build Null model with equal mean interaction strength
-      #
-      mean_w <- mean(E(g_ext)$weight)
-      g1 <- g_ext
-      E(g1)$weight <- mean_w
-      QSS_null <- multiweb::calc_QSS(g1, nsim = nsim, ncores = ncores, istrength = istrength, returnRaw = TRUE) %>%
-        mutate(Network = "One sp less null")
-      QSS <- bind_rows(QSS_ext, QSS_null)
+    data.frame(Deleted = i,
+                 QSS_all=QSS_all$maxre, QSS_ext=QSS_ext$maxre, difQSS = QSS_all$maxre-QSS_ext$maxre)
 
-      ad_testn <- kSamples::ad.test(maxre ~ Network, data = QSS)
-      ks_testn <- ks.test(QSS_ext$maxre,QSS_null$maxre)
-
-      data.frame(Deleted = i,
-                 Ad_pvalue=ad_test$ad[1,3],
-                 KS_pvalue=ks_test$p.value,
-                 Ad_pvalue_null=ad_testn$ad[1,3],
-                 KS_pvalue_null=ks_testn$p.value,
-                 QSS_all=median(QSS_all$maxre), QSS_ext=median(QSS_ext$maxre), difQSS = median(QSS_all$maxre)-median(QSS_ext$maxre),
-                 QSS_null=median(QSS_null$maxre) ,difQSS_null = median(QSS_ext$maxre)-median(QSS_null$maxre)
-                 )
-
-    } else {
-    # data frame
-
-      data.frame(Deleted = i,
-               Ad_pvalue=ad_test$ad[1,3],
-               KS_pvalue=ks_test$p.value,
-               QSS_all=median(QSS_all$maxre), QSS_ext=median(QSS_ext$maxre), difQSS = median(QSS_all$maxre)-median(QSS_ext$maxre)
-        )
-    }
   })
   bind_rows(comp_webs)
 }

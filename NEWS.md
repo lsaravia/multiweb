@@ -1,3 +1,8 @@
+# Version  0.6.7.0000
+
+* Updated function calc_QSS_extinction_dif() to return the raw values of the QSS simulations and the difference between them, KA and AD test are not performed, the null model with mean IS is also deleted.
+
+
 # Version  0.6.67.0000
 
 * Updated function calc_topological_roles() to accept a community object
