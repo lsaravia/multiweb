@@ -1,3 +1,7 @@
+# Version  0.6.8.0000
+
+* Updated function calc_QSS_extinctions_seq() and calc_QSS_extinction_dif_grp() to return the raw values of the QSS simulations, KA and AD test are not performed.
+
 # Version  0.6.7.0000
 
 * Updated function calc_QSS_extinction_dif() to return the raw values of the QSS simulations and the difference between them, KA and AD test are not performed, the null model with mean IS is also deleted.

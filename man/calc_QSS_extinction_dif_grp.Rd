@@ -28,13 +28,14 @@ calculate QSS.}
 \value{
 a data.frame with:
 \itemize{
-\item the Anderson-Darling p-value of the comparison with the complete network
-\item Kolmogorov-Smirnov p-value of the comparison with the complete network
-\item If \code{istrength == TRUE} the Anderson-Darling p-value of the comparison with the null network
-\item If \code{istrength == TRUE} Kolmogorov-Smirnov p-value of the comparison with the null network
-\item median of QSS of the complete network
-\item median of QSS of the network with the deleted nodes
-\item difference between the two previous median QSS
+\item Size of the network with deleted nodes
+\item Connectance of the network with deleted nodes
+\item Number of components of the network with deleted nodes
+\itemize{
+\item QSS of the complete network
+\item QSS of the network with the deleted nodes
+\item difference between the two previous QSS
+}
 }
 }
 \description{

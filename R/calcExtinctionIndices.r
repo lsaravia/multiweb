@@ -90,17 +90,15 @@ calc_QSS_extinction_dif <- function(g, sp_list,nsim=1000, ncores=4, istrength = 
 #'                  calculate QSS.
 #'
 #' @return a data.frame with:
-#'   * the Anderson-Darling p-value of the comparison with the complete network
-#'   * Kolmogorov-Smirnov p-value of the comparison with the complete network
-#'   * If `istrength == TRUE` the Anderson-Darling p-value of the comparison with the null network
-#'   * If `istrength == TRUE` Kolmogorov-Smirnov p-value of the comparison with the null network
-#'   * median of QSS of the complete network
-#'   * median of QSS of the network with the deleted nodes
-#'   * difference between the two previous median QSS
+#' * Size of the network with deleted nodes
+#' * Connectance of the network with deleted nodes
+#' * Number of components of the network with deleted nodes
+#'   * QSS of the complete network
+#'   * QSS of the network with the deleted nodes
+#'   * difference between the two previous QSS
 #'
 #' @import igraph
 #' @importFrom dplyr bind_rows
-#' @importFrom kSamples ad.test
 #' @export
 #'
 #' @examples
@@ -143,18 +141,17 @@ calc_QSS_extinction_dif_grp <- function(g, sp_list,nsim=1000, ncores=4, istrengt
   # Calculates the QSS
   QSS_ext <- multiweb::calc_QSS(g_ext, nsim = nsim, ncores = ncores, istrength = istrength, returnRaw = TRUE) %>%
     mutate(Network = "Minus Group")
-  QSS <- bind_rows(QSS_all, QSS_ext)
+  # QSS <- bind_rows(QSS_all, QSS_ext)
   # extract p-value for Anderson-Darling test comparing complete and deleted network
-  ad_test <- kSamples::ad.test(maxre ~ Network, data = QSS)
-  ks_test <- ks.test(QSS_all$maxre,QSS_ext$maxre)
+  # ad_test <- kSamples::ad.test(maxre ~ Network, data = QSS)
+  # ks_test <- ks.test(QSS_all$maxre,QSS_ext$maxre)
 
   # result data frame
 
   data.frame(Size = size, Connectance = con, Components = comp,
-               Ad_pvalue=ad_test$ad[1,3],
-               KS_pvalue=ks_test$p.value,
-               QSS_all=median(QSS_all$maxre), QSS_ext=median(QSS_ext$maxre), difQSS = median(QSS_all$maxre)-median(QSS_ext$maxre)
-    )
+               #Ad_pvalue=ad_test$ad[1,3],
+               #KS_pvalue=ks_test$p.value,
+               QSS_all=QSS_all$maxre, QSS_ext=QSS_ext$maxre, difQSS = QSS_all$maxre-QSS_ext$maxre)
 
 }
 
@@ -171,10 +168,10 @@ calc_QSS_extinction_dif_grp <- function(g, sp_list,nsim=1000, ncores=4, istrengt
 #' @param istrength   parameter istrength for QSS function
 #'
 #' @return data frame with the number of remaining nodes, the connectance, the number unconnected of components, the median QSS, and the name
-#'         of the last deleted node. The first row are the values for the complete network.
+#'         of the last deleted node.
 #' @export
 #' @import igraph
-#' @importFrom dplyr %>% summarize mutate
+#' @importFrom dplyr %>% mutate
 #'
 #' @examples
 #' \dontrun{
@@ -193,14 +190,14 @@ calc_QSS_extinction_dif_grp <- function(g, sp_list,nsim=1000, ncores=4, istrengt
 #' calc_QSS_extinctions_seq(g,V(g)$name[1:3],nsim=10,istrength = TRUE)
 #'}
 
-calc_QSS_extinctions_seq <- function(g_del, seq, nsim=100, ncores=0, istrength=FALSE){
+calc_QSS_extinctions_seq <- function(g_del, seq, nsim=1000, ncores=4, istrength=FALSE){
   lseq <- length(seq)
   if(lseq ==vcount(g_del)){                   # if the secuence is equal to the number of nodes delete the last component
     seq <- seq[1:(lseq-1)]
   }
   con <- multiweb::calc_topological_indices(g_del)$Connectance
   comp <- multiweb::calc_topological_indices(g_del)$Components
-  totalqss <- multiweb::calc_QSS(g_del, nsim = nsim, ncores = ncores, istrength = istrength, returnRaw = TRUE) %>% summarize(QSS_median = median(maxre), QSS_prop = sum(maxre <0)/nsim) %>%
+  QSS_all <- multiweb::calc_QSS(g_del, nsim = nsim, ncores = ncores, istrength = istrength, returnRaw = TRUE) %>%
     mutate(Size = vcount(g_del), Connectance = con, Components = comp, Last_deleted = "Total")
 
   qdel <- lapply(seq, function(i){
@@ -208,9 +205,9 @@ calc_QSS_extinctions_seq <- function(g_del, seq, nsim=100, ncores=0, istrength=F
     size <- vcount(g_del)
     con <- multiweb::calc_topological_indices(g_del)$Connectance
     comp <- multiweb::calc_topological_indices(g_del)$Components
-    QSS <- multiweb::calc_QSS(g_del, nsim = nsim, ncores = ncores, istrength = istrength, returnRaw = TRUE) %>% summarize(QSS_median = median(maxre), QSS_prop = sum(maxre <0)/nsim) %>%
+    QSS <- multiweb::calc_QSS(g_del, nsim = nsim, ncores = ncores, istrength = istrength, returnRaw = TRUE) %>%
       mutate(Size = size, Connectance = con, Components = comp, Last_deleted = i)
   })
-  qdel <- bind_rows(totalqss,qdel)
+  qdel <- bind_rows(QSS_all,qdel)
 }
 

@@ -4,7 +4,13 @@
 \alias{calc_QSS_extinctions_seq}
 \title{Calculates the QSS for an extinction sequence}
 \usage{
-calc_QSS_extinctions_seq(g_del, seq, nsim = 100, ncores = 0, istrength = FALSE)
+calc_QSS_extinctions_seq(
+  g_del,
+  seq,
+  nsim = 1000,
+  ncores = 4,
+  istrength = FALSE
+)
 }
 \arguments{
 \item{g_del}{igraph object for the deletion sequence}
@@ -20,7 +26,7 @@ extinctions are incremental.}
 }
 \value{
 data frame with the number of remaining nodes, the connectance, the number unconnected of components, the median QSS, and the name
-of the last deleted node. The first row are the values for the complete network.
+of the last deleted node.
 }
 \description{
 This functions calculates the QSS \code{\link[=calc_QSS]{calc_QSS()}} for a sequence of incremental deletions of species (nodes)
