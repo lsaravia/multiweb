@@ -1,7 +1,7 @@
 Package: multiweb
 Type: Package
 Title: Ecological network analyses including multiplex networks
-Version: 0.6.80.0000
+Version: 0.6.90.0000
 Authors@R: c( 
         person("Leonardo A.", "Saravia", email = "lsaravia@conicet.gov.ar", role ="cre"),
         person("Susanne", "Kortsch", email = "susanne.kortsch@helsinki.fi", role ="ctb"),

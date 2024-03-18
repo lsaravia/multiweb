@@ -1,3 +1,8 @@
+# Version  0.6.9.0000
+
+* Updated function calc_interaction_intensity() with more error checking and warnings
+
+
 # Version  0.6.8.0000
 
 * Updated function calc_QSS_extinctions_seq() and calc_QSS_extinction_dif_grp() to return the raw values of the QSS simulations, KA and AD test are not performed.

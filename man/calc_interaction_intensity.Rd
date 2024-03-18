@@ -31,9 +31,9 @@ if \code{res_mm>0} duplicates the value of \code{res_mm}
 }
 \description{
 The function uses the body mass in Kg of predator/consumer and prey/resources and the dimensionality of the interaction as source data,
-then the interacion intensity is estimated with all the coeficients from Pawar (2012) as \code{alfa*xR*mR/mC}, where \code{alpha} is the search rate \code{xR}
+then the interaction intensity is estimated with all the coefficients from Pawar (2012) as \code{alfa*xR*mR/mC}, where \code{alpha} is the search rate \code{xR}
 the resource density, \code{mR} the resource body mass and \code{mC} the consumer body mass. This value of the interaction strength quantifies
-the effect of the predator on the prey. Assuming a Lotka-Volterra model is equivalent to the entry A(i,j) of the community matrix, where i is the
+the effect of the predator on the prey by biomass unit of the predator. Assuming a Lotka-Volterra model is equivalent to the entry A(i,j) of the community matrix, where i is the
 prey and j the predator.
 }
 \details{
@@ -41,8 +41,8 @@ If the resource density is unknown (parameter \code{res_den}) you could set the 
 will be estimated according to the equation S18 and supplementary figures 2i & j (individuals/m2 - m3)
 
 If the mean mass of the resource for detritus or sediment (parameter \code{res_mm}) is unknown, it can be designated as
-negative. This will result in the calculation of the resource body mass (in kilograms) using allometric formulaes given
-in the Equation S9 and Supplementary Figures 2c & d from the paper. This is only valid when there is size ratios tend
+negative. This will result in the calculation of the resource body mass (in kilograms) using allometric formulas given
+in the Equation S9 and Supplementary Figures 2c & d from the paper. This is only valid when the size ratios tend
 to be optimal.
 
 If the Biomass of the resource is known you should use it as \code{res_mm} and set \code{res_den} to 1. This is the best choice to

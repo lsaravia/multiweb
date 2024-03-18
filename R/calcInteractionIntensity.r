@@ -2,17 +2,17 @@
 #' the interaction dimensionality
 #'
 #' The function uses the body mass in Kg of predator/consumer and prey/resources and the dimensionality of the interaction as source data,
-#' then the interacion intensity is estimated with all the coeficients from Pawar (2012) as `alfa*xR*mR/mC`, where `alpha` is the search rate `xR`
+#' then the interaction intensity is estimated with all the coefficients from Pawar (2012) as `alfa*xR*mR/mC`, where `alpha` is the search rate `xR`
 #' the resource density, `mR` the resource body mass and `mC` the consumer body mass. This value of the interaction strength quantifies
-#' the effect of the predator on the prey. Assuming a Lotka-Volterra model is equivalent to the entry A(i,j) of the community matrix, where i is the
+#' the effect of the predator on the prey by biomass unit of the predator. Assuming a Lotka-Volterra model is equivalent to the entry A(i,j) of the community matrix, where i is the
 #' prey and j the predator.
 #'
 #' If the resource density is unknown (parameter `res_den`) you could set the column to a less than 0 value; and it
 #' will be estimated according to the equation S18 and supplementary figures 2i & j (individuals/m2 - m3)
 #'
 #' If the mean mass of the resource for detritus or sediment (parameter `res_mm`) is unknown, it can be designated as
-#' negative. This will result in the calculation of the resource body mass (in kilograms) using allometric formulaes given
-#' in the Equation S9 and Supplementary Figures 2c & d from the paper. This is only valid when there is size ratios tend
+#' negative. This will result in the calculation of the resource body mass (in kilograms) using allometric formulas given
+#' in the Equation S9 and Supplementary Figures 2c & d from the paper. This is only valid when the size ratios tend
 #' to be optimal.
 #'
 #' If the Biomass of the resource is known you should use it as `res_mm` and set `res_den` to 1. This is the best choice to
@@ -85,6 +85,14 @@ calc_interaction_intensity <- function(da,res_mm,res_den,con_mm,int_dim, nsims=1
 
   det <- da %>% filter(is.na({{int_dim}}))
   if( nrow(det) > 0 ) warning(paste("Interaction dimensionality is not defined for", nrow(det), "rows"))
+  det <- da %>% filter({{res_mm}}<0,{{res_den}}<0)
+  if( nrow(det) > 0 ) warning(paste("Resource size res_mm and resource density res_den are both < 0 for", nrow(det), "rows\n and the estimationc will be highly uncertain"))
+  det <- da %>% filter({{res_mm}}==0)
+  if( nrow(det) > 0 ) warning(paste("If resource size res_mm == 0 the interaction strength will be 0 for", nrow(det), "rows"))
+
+  det <- da %>% filter({{con_mm}}<0 )
+  if( nrow(det) > 0 ) stop(paste("Consumer size con_mm cannot be < 0 for", nrow(det), "rows"))
+
 
   if(nsims == 1 ){
   d2D <- filter(da, {{int_dim}}=="2D") %>%
