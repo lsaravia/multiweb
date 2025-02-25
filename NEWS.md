@@ -1,3 +1,8 @@
+# Version  0.7.0.0000
+
+* Added function calc_interaction_intensity2() with estimation of interaction strength using O'Gorman 2010 method
+
+
 # Version  0.6.9.0000
 
 * Updated function calc_interaction_intensity() with more error checking and warnings

@@ -27,7 +27,7 @@ plot_troph_level(
 
 \item{vertexSizeMin}{numeric determine the minimum size of the label}
 
-\item{tk}{TRUE generate an interactive plot using tkplot and returns a matrix with coordinates from \code{\link[igraph:tkplot]{igraph::tkplot.getcoords()}}}
+\item{tk}{TRUE generate an interactive plot using tkplot and returns a matrix with coordinates from \code{\link[igraph:tkplot.getcoords]{igraph::tkplot.getcoords()}}}
 
 \item{modules}{if TRUE plot modules in the x axis, obtained with the cluster spinglass algorithm}
 

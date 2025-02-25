@@ -630,3 +630,23 @@ da <- as_long_data_frame(g) %>% dplyr::select(from:to) %>%
 calc_interaction_intensity(da,res_mm,res_den,con_mm,int_dim)
 
 
+# Test calc_interaction_intensity2
+#
+# Define an edge list (consumer, resource, bodymass)
+edge_list <- tibble(
+  predator = c("A", "A", "B", "C"),
+  prey = c("B", "C", "D", "D"),
+  predator_mass = c(10, 10, 5, 3)  # Body mass for consumers
+)
+
+# Compute interaction strength as an edge list (predator effects only)
+interaction_strength_edgelist <- calc_interaction_intensity2(
+  edge_list, consumer_n = predator, resource_n = prey, bodymass_n = predator_mass, output_format = "edgelist"
+)
+print(interaction_strength_edgelist)
+
+# Compute interaction strength as an adjacency matrix
+interaction_strength_matrix <- calc_interaction_intensity2(
+  edge_list, predator,  prey, predator_mass, output_format = "matrix"
+)
+print(interaction_strength_matrix)
