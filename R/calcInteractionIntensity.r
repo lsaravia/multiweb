@@ -153,7 +153,7 @@ calc_interaction_intensity <- function(da,res_mm,res_den,con_mm,int_dim, nsims=1
 #' hence `a_ji = e * a_ij`
 #'
 #' The function provides two output formats: an edge list with only the **effect of predators on prey** or
-#' an adjacency matrix with both predator and prey effects.
+#' an adjacency matrix as a positive number.
 #'
 #' @references
 #' O’Gorman, E. J., Jacob, U., Jonsson, T., & Emmerson, M. C. (2010). Interaction strength, food web topology and the
@@ -164,12 +164,13 @@ calc_interaction_intensity <- function(da,res_mm,res_den,con_mm,int_dim, nsims=1
 #' @param resource_n The column name for resources (prey).
 #' @param bodymass_n The column name for body mass of the consumer.
 #' @param b Free parameter (default `0.01`).
-#' @param e Ecological efficiency (default `0.1`).
 #' @param output_format Output type: `"edgelist"` (default, containing only predator effects) or `"matrix"` (full adjacency matrix).
 #'
 #' @return A tibble (if `output_format = "edgelist"`) with interaction strengths **only for predators on prey**
-#'         or an adjacency matrix (if `output_format = "matrix"`) with both predator and prey effects (calculated using the parameter `e`.
-#' @import dplyr tidyr tibble rlang
+#'         on a column named `qRC`. If `output_format = "matrix"`, an adjacency matrix with interaction strengths.
+#'         If `output_format = "igraph" `, an igraph object where edge weights represent predator effects on prey.
+#'         Always the IS is a positive number.
+#' @import dplyr tidyr tibble
 #' @export
 #'
 #' @examples
@@ -195,10 +196,10 @@ calc_interaction_intensity <- function(da,res_mm,res_den,con_mm,int_dim, nsims=1
 #' print(interaction_strength_matrix)
 calc_interaction_intensity2 <- function(edge_list, consumer_n, resource_n, bodymass_n,
                                         b = 0.01, e = 0.1, output_format = "edgelist") {
-  library(dplyr)
-  library(tidyr)
-  library(tibble)
-  library(rlang)
+  # library(dplyr)
+  # library(tidyr)
+  # library(tibble)
+  # library(rlang)
 
   # Ensure input has correct columns
   col_names <- colnames(edge_list)
@@ -215,8 +216,7 @@ calc_interaction_intensity2 <- function(edge_list, consumer_n, resource_n, bodym
 
   # Select only the effect of predators on prey
   interaction_strength <- data %>%
-    mutate(IS_predator = qRC) %>%
-    select({{consumer_n}}, {{resource_n}}, IS_predator)
+    select({{consumer_n}}, {{resource_n}}, qRC)
 
   # Return edge list format (only predator effect)
   if (output_format == "edgelist") {
@@ -234,13 +234,20 @@ calc_interaction_intensity2 <- function(edge_list, consumer_n, resource_n, bodym
 
     # Populate matrix with interaction strengths
     for (i in 1:nrow(interaction_strength)) {
-      C[interaction_strength[[as_name(enquo(consumer_n))]][i],
-        interaction_strength[[as_name(enquo(resource_n))]][i]] <- e*interaction_strength$IS_predator[i]  # Predator effect
       C[interaction_strength[[as_name(enquo(resource_n))]][i],
-        interaction_strength[[as_name(enquo(consumer_n))]][i]] <- -interaction_strength$IS_predator[i]  # Prey effect
+        interaction_strength[[as_name(enquo(consumer_n))]][i]] <- interaction_strength$qRC[i]  # Prey effect
     }
 
     return(C)
+  }
+
+  # Convert to igraph format
+  if (output_format == "igraph") {
+    g <- graph_from_data_frame(
+      interaction_strength %>% rename(weight = qRC),
+      directed = TRUE
+    )
+    return(g)
   }
 
   stop("Invalid output_format. Choose 'edgelist' or 'matrix'.")

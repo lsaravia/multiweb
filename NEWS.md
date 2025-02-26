@@ -1,4 +1,9 @@
-# Version  0.7.0.0000
+# Version  0.7.01.0000
+
+* Added function plot_troph_level_ggplot() with improved network visualization
+
+
+# Version  0.7.00.0000
 
 * Added function calc_interaction_intensity2() with estimation of interaction strength using O'Gorman 2010 method
 
