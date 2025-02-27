@@ -244,7 +244,7 @@ calc_interaction_intensity2 <- function(edge_list, consumer_n, resource_n, bodym
   # Convert to igraph format
   if (output_format == "igraph") {
     g <- graph_from_data_frame(
-      interaction_strength %>% rename(weight = qRC),
+      interaction_strength %>% select({{resource_n}},{{consumer_n}}, qRC) %>% rename(weight = qRC),
       directed = TRUE
     )
     return(g)
