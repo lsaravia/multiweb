@@ -170,7 +170,7 @@ calc_interaction_intensity <- function(da,res_mm,res_den,con_mm,int_dim, nsims=1
 #'         on a column named `qRC`. If `output_format = "matrix"`, an adjacency matrix with interaction strengths.
 #'         If `output_format = "igraph" `, an igraph object where edge weights represent predator effects on prey.
 #'         Always the IS is a positive number.
-#' @import dplyr tidyr tibble
+#' @import dplyr tidyr tibble rlang
 #' @export
 #'
 #' @examples
