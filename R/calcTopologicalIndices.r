@@ -723,61 +723,76 @@ classify_topological_roles <- function(tRoles,g,community=NULL,plt=FALSE){
 }
 
 
-#' Calculation of Modularity for a list of igraph objects
+#' Calculation of Modularity for a List of igraph Objects
 #'
-#' The function calculates modularity of the list of networks in the nullDist parameter.
-#' Modularity is calculated using the [igraph::cluster_spinglass()]
-#' Only works for one component networks.
+#' This function calculates the modularity of a list of networks provided in the `ig` parameter.
+#' Modularity measures the strength of division of a network into modules (communities).
 #'
+#' The function allows the use of **only** `igraph::cluster_spinglass()` and `igraph::cluster_infomap()`,
+#' since these methods accept weighted edges.
 #'
-#' @param ig list of igraph objects to calculate modularity
-#' @param ncores number of cores used to compute in parallel, if 0 sequential processing is used.
-#' @param weights The weights of the edges. Either a numeric vector or NULL or NA. If it is null and the input graph has a ‘weight’ edge attribute
-#'                then that will be used. If NULL and no such attribute is present then the edges will have equal weights.
-#'                Set this to NA if the graph was a ‘weight’ edge attribute, but you don't want to use it for community detection.
-
+#' **Note:** `cluster_spinglass()` only works on networks with a single connected component.
 #'
-#' @return a data.frame with the field Modularity
+#' @param ig A list of igraph objects for which modularity will be calculated.
+#' @param ncores Number of cores used for parallel computation. If set to 0, sequential processing is used.
+#' @param weights Edge weights. Can be a numeric vector, `NULL`, or `NA`:
+#'   - If `NULL`, the function checks for a 'weight' edge attribute and uses it if present.
+#'   - If `NA`, weights are ignored even if the graph has a 'weight' edge attribute.
+#' @param cluster_function The **igraph** clustering function to use.
+#'   Must be either `cluster_spinglass` or `cluster_infomap`.
+#'
+#' @return A data frame with a column `Modularity` containing the modularity values for each network.
 #'
 #' @export
 #'
 #' @import igraph
 #' @importFrom future.apply future_lapply
 #' @importFrom future sequential multisession
-#'
+#' @importFrom dplyr bind_rows
 #'
 #' @examples
 #' \dontrun{
-#' nullg <- generateERbasal(netData[[1]],10)
-#' calc_modularity(nullg)
+#' nullg <- generateERbasal(netData[[1]], 10)
+#' calc_modularity(nullg, cluster_function = igraph::cluster_infomap)
 #' }
 #'
-calc_modularity <- function(ig,ncores=0,weights=NA){
+calc_modularity <- function(ig, ncores = 0, weights = NA, cluster_function = igraph::cluster_spinglass) {
 
-  if(inherits(ig,"igraph")) {
+  # Ensure input is a list of igraph objects
+  if (inherits(ig, "igraph")) {
     ig <- list(ig)
-  } else if(class(ig[[1]])!="igraph") {
-    stop("parameter ig must be an igraph object")
+  } else if (!inherits(ig[[1]], "igraph")) {
+    stop("The parameter 'ig' must be a list of igraph objects.")
   }
 
-  registerDoFuture()
-  if(ncores) {
+  # Restrict cluster_function to allowed methods
+  allowed_methods <- c("cluster_spinglass", "cluster_infomap")
+  if (!deparse(substitute(cluster_function)) %in% allowed_methods) {
+    stop("'cluster_function' must be either 'igraph::cluster_spinglass' or 'igraph::cluster_infomap'.")
+  }
+
+  # Register parallel backend
+  if (ncores > 0) {
     cn <- future::availableCores()
-    if(ncores>cn)
-      ncores <- cn
-    future::plan(multisession, workers=ncores)
+    if (ncores > cn) ncores <- cn
+    future::plan(multisession, workers = ncores)
     on.exit(future::plan(sequential))
   } else {
     future::plan(sequential)
   }
-  df <-  future_lapply(ig, function(g)
-    {
-      m<-cluster_spinglass(g,weights=weights)
-      modl <- m$modularity
-      data.frame(Modularity=modl)
-    }, future.seed=TRUE)
+
+  # Function to compute modularity (handling different weight parameter names)
+  compute_modularity <- function(g) {
+    if (identical(cluster_function, igraph::cluster_spinglass)) {
+      community <- cluster_function(g, weights = weights)
+    } else if (identical(cluster_function, igraph::cluster_infomap)) {
+      community <- cluster_function(g, e.weights = weights)
+    }
+    data.frame(Modularity = modularity(community))
+  }
+
+  # Compute modularity in parallel
+  df <- future_lapply(ig, compute_modularity, future.seed = TRUE)
+
   return(bind_rows(df))
 }
-
-
-
