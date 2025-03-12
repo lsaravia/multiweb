@@ -1,3 +1,8 @@
+# Version  0.7.10.0000
+
+* Added function generate_niche to generate a niche model with a given number of species and connectance
+
+
 # Version  0.7.01.0000
 
 * Added function plot_troph_level_ggplot() with improved network visualization

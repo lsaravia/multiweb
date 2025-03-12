@@ -171,3 +171,65 @@ generate_er_basal <- function(ig,nsim=1000){
 
 #' @export
 generateERbasal <- function(ig,nsim=1000){generate_er_basal(ig,nsim)}
+
+
+#' Generate Niche Model Food Web(s)
+#'
+#' This function generates one or multiple food webs using the **Niche Model** proposed by Williams & Martinez (2000).
+#' The model assumes that each species has a niche value and consumes resources within a defined range.
+#'
+#' @param S Integer. The number of species in the community. Must be `S > 1`.
+#' @param C Numeric. The connectance (fraction of realized links). Must be `0 < C ≤ 1`.
+#' @param nsim Integer. The number of networks to generate (`nsim ≥ 1`).
+#'
+#' @return If `nsim = 1`, returns a **binary adjacency matrix (`S × S`)**.
+#' If `nsim > 1`, returns a **list of `igraph` objects**, each representing a food web.
+#' @export
+#'
+#' @references
+#' Williams, R. J., and N. D. Martinez. 2000. Simple rules yield complex food webs. *Nature* 404:180–183.
+#'
+#' @examples
+#' generate_niche(20, 0.1)        # Single adjacency matrix
+#' generate_niche(20, 0.1, nsim=5) # List of 5 food webs as igraph objects
+generate_niche <- function(S, C, nsim = 1) {
+  # Validate inputs
+  if (!is.numeric(S) || S <= 1 || S %% 1 != 0) stop("S must be an integer greater than 1.")
+  if (!is.numeric(C) || C <= 0 || C > 1) stop("C must be a number between 0 and 1.")
+  if (!is.numeric(nsim) || nsim < 1 || nsim %% 1 != 0) stop("nsim must be a positive integer.")
+
+  generate_single_network <- function() {
+    connected <- FALSE
+    while (!connected) {
+      # Assign niche values
+      n.i <- sort(runif(S))  # Sorted niche values
+
+      # Determine feeding range
+      r.i <- rbeta(S, 1, ((1 / (2 * C)) - 1)) * n.i  # Feeding range
+      c.i <- runif(S, r.i / 2, n.i)  # Feeding center
+
+      # Initialize adjacency matrix
+      a <- matrix(0, nrow = S, ncol = S)
+
+      # Assign feeding relationships
+      for (i in 2:S) {  # Skip basal species
+        for (j in 1:S) {
+          if (n.i[j] > (c.i[i] - 0.5 * r.i[i]) && n.i[j] < (c.i[i] + 0.5 * r.i[i])) {
+            a[j, i] <- 1
+          }
+        }
+      }
+
+      # Check connectivity
+      g <- igraph::graph_from_adjacency_matrix(a, mode = "directed")
+      connected <- igraph::is_connected(g)
+    }
+    return(g)  # Return igraph
+  }
+
+  if (nsim == 1) {
+    return(generate_single_network())  # Return a single adjacency matrix
+  } else {
+    return(lapply(seq_len(nsim), function(x) generate_single_network()))  # Return list of igraph objects
+  }
+}

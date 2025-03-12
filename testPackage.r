@@ -650,3 +650,10 @@ interaction_strength_matrix <- calc_interaction_intensity2(
   edge_list, predator,  prey, predator_mass, output_format = "matrix"
 )
 print(interaction_strength_matrix)
+
+#
+# Niche Model
+#
+
+generate_niche(20, 0.1)        # Single adjacency matrix
+calc_topological_indices(generate_niche(20, 0.1, nsim=5))

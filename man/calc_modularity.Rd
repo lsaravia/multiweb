@@ -2,31 +2,46 @@
 % Please edit documentation in R/calcTopologicalIndices.r
 \name{calc_modularity}
 \alias{calc_modularity}
-\title{Calculation of Modularity for a list of igraph objects}
+\title{Calculation of Modularity for a List of igraph Objects}
 \usage{
-calc_modularity(ig, ncores = 0, weights = NA)
+calc_modularity(
+  ig,
+  ncores = 0,
+  weights = NA,
+  cluster_function = cluster_spinglass
+)
 }
 \arguments{
-\item{ig}{list of igraph objects to calculate modularity}
+\item{ig}{A list of igraph objects for which modularity will be calculated.}
 
-\item{ncores}{number of cores used to compute in parallel, if 0 sequential processing is used.}
+\item{ncores}{Number of cores used for parallel computation. If set to 0, sequential processing is used.}
 
-\item{weights}{The weights of the edges. Either a numeric vector or NULL or NA. If it is null and the input graph has a ‘weight’ edge attribute
-then that will be used. If NULL and no such attribute is present then the edges will have equal weights.
-Set this to NA if the graph was a ‘weight’ edge attribute, but you don't want to use it for community detection.}
+\item{weights}{Edge weights. Can be a numeric vector, \code{NULL}, or \code{NA}:
+\itemize{
+\item If \code{NULL}, the function checks for a 'weight' edge attribute and uses it if present.
+\item If \code{NA}, weights are ignored even if the graph has a 'weight' edge attribute.
+}}
+
+\item{cluster_function}{The \strong{igraph} clustering function to use.
+Must be either \code{cluster_spinglass} or \code{cluster_infomap}.}
 }
 \value{
-a data.frame with the field Modularity
+A data frame with a column \code{Modularity} containing the modularity values for each network.
 }
 \description{
-The function calculates modularity of the list of networks in the nullDist parameter.
-Modularity is calculated using the \code{\link[igraph:cluster_spinglass]{igraph::cluster_spinglass()}}
-Only works for one component networks.
+This function calculates the modularity of a list of networks provided in the \code{ig} parameter.
+Modularity measures the strength of division of a network into modules (communities).
+}
+\details{
+The function allows the use of \strong{only} \code{igraph::cluster_spinglass()} and \code{igraph::cluster_infomap()},
+since these methods accept weighted edges.
+
+\strong{Note:} \code{cluster_spinglass()} only works on networks with a single connected component.
 }
 \examples{
 \dontrun{
-nullg <- generateERbasal(netData[[1]],10)
-calc_modularity(nullg)
+nullg <- generateERbasal(netData[[1]], 10)
+calc_modularity(nullg, cluster_function = igraph::cluster_infomap)
 }
 
 }

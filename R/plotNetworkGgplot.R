@@ -114,7 +114,7 @@ plot_troph_level_ggplot <- function(g, vertexSizeFactor = 5, vertexSizeMin = 5, 
                  color = "gray50", alpha = 0.6, size = 0.4) +
     geom_point(data = nodes, aes(x = x, y = y, size = size, color = trophic_level), alpha = 0.9) +
     geom_text_repel(data = nodes, aes(x = x, y = y, label = .data[[label_column]]),
-                    linewidth = label_size, max.overlaps = 15) +
+                     max.overlaps = 15) +
     scale_color_viridis_c(option = "D") +
     theme_bw() +
     theme(

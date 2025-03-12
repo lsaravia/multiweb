@@ -101,7 +101,7 @@ calc_topological_indices <- function(ig,ncores=0){
 
     cannib <- sum(which_loop(g))
 
-    a <- get.adjacency(g,sparse=F)
+    a <- as_adjacency_matrix(g,sparse=F)
 
     tl <- TrophInd(a)  # Calculate the trophic level
 
@@ -175,7 +175,6 @@ calc_incoherence <- function(ig,ncores=0) {
     stop("parameter ig must be an igraph object")
   }
 
-  registerDoFuture()
   if(ncores) {
     cn <- future::availableCores()
     if(ncores>cn)
@@ -756,7 +755,7 @@ classify_topological_roles <- function(tRoles,g,community=NULL,plt=FALSE){
 #' calc_modularity(nullg, cluster_function = igraph::cluster_infomap)
 #' }
 #'
-calc_modularity <- function(ig, ncores = 0, weights = NA, cluster_function = igraph::cluster_spinglass) {
+calc_modularity <- function(ig, ncores = 0, weights = NA, cluster_function = cluster_spinglass) {
 
   # Ensure input is a list of igraph objects
   if (inherits(ig, "igraph")) {
