@@ -106,9 +106,9 @@ readNetwork <- function(fileName,filePath=NULL,fhead=TRUE,skipColumn=1,edgeListF
 #' @param filePath path of the files NULL by default
 #' @param fhead TRUE if the files have header fields, FALSE otherwise.
 #' @param skipColum integer, number of columns that are skiped 1 by default
-#' @param format string, "layers" is the default were diferent layers are coded as different files
+#' @param format string, "layers" is the default were different layers are coded as different files
 #'   there must be the same number of files as the length of the types vector as each type represent
-#'   a layer. "GLV" Represent multiple intarction types as pairs of entries in a matrix so competition
+#'   a layer. "GLV" Represent multiple interaction types as pairs of entries in a matrix so competition
 #'   is represented as a[i,j]= -1, a[j,i]=-1, predation a[i,j]=1,a[j,i]=-1 where species j is
 #'   the predator. Mutualism is a[i,j]=a[j,i]=1. Any negative or positive number works because intensity of interactions are not registered.
 #'

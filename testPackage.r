@@ -657,3 +657,20 @@ print(interaction_strength_matrix)
 
 generate_niche(20, 0.1)        # Single adjacency matrix
 calc_topological_indices(generate_niche(20, 0.1, nsim=5))
+
+
+#
+# Calculate centrality SVD
+#
+calc_svd_entropy_importance(generate_niche(20, 0.1))
+calc_svd_entropy_importance(netData[[29]])
+calc_eigencentrality(generate_niche(120, 0.1))
+calc_eigencentrality(netData[[29]])
+
+shuffle_network_deg_svd(netData[[19]], weighted = FALSE)
+A <- shuffle_network_deg(netData[[29]], weighted = FALSE)
+A <- shuffle_network_deg(netData[[29]], weighted = TRUE)
+shuffle_network_deg_svd(A)
+calc_svd_entropy(A)
+calc_svd_entropy(netData[[29]])
+calc_svd_entropy(netData[[19]])

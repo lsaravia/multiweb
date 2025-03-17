@@ -1,3 +1,7 @@
+# Version  0.7.30.0000
+
+* Added functions calc_svd_entropy shuffle_network_deg shuffle_network_deg_svd calc_eigencentrality calc_svd_entropy_importance
+
 # Version  0.7.10.0000
 
 * Added function generate_niche to generate a niche model with a given number of species and connectance

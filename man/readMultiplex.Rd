@@ -22,9 +22,9 @@ readMultiplex(
 
 \item{fhead}{TRUE if the files have header fields, FALSE otherwise.}
 
-\item{format}{string, "layers" is the default were diferent layers are coded as different files
+\item{format}{string, "layers" is the default were different layers are coded as different files
 there must be the same number of files as the length of the types vector as each type represent
-a layer. "GLV" Represent multiple intarction types as pairs of entries in a matrix so competition
+a layer. "GLV" Represent multiple interaction types as pairs of entries in a matrix so competition
 is represented as a\link{i,j}= -1, a\link{j,i}=-1, predation a\link{i,j}=1,a\link{j,i}=-1 where species j is
 the predator. Mutualism is a\link{i,j}=a\link{j,i}=1. Any negative or positive number works because intensity of interactions are not registered.}
 
