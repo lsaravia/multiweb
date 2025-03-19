@@ -26,9 +26,8 @@ This function performs Singular Value Decomposition (SVD) on a network adjacency
 It computes species importance based on the dominant singular values and returns entropy, rank, and key visualizations.
 }
 \examples{
-A <- netData[[1]]
 
-results <- analyze_predator_prey_svd(A)
+results <- calc_svd_entropy_importance(netData[[1]])
 print(results$Rank)
 print(results$Entropy)
 print(results$Plot_Singular_Values)

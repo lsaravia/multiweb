@@ -667,10 +667,28 @@ calc_svd_entropy_importance(netData[[29]])
 calc_eigencentrality(generate_niche(120, 0.1))
 calc_eigencentrality(netData[[29]])
 
-shuffle_network_deg_svd(netData[[19]], weighted = FALSE)
-A <- shuffle_network_deg(netData[[29]], weighted = FALSE)
-A <- shuffle_network_deg(netData[[29]], weighted = TRUE)
+shuffle_network_deg_svd(netData[[19]], weighted = FALSE, shuffle_func = shuffle_network_ws)
+shuffle_network_deg_svd(netData[[19]], weighted = FALSE, shuffle_func = shuffle_network_deg)
+
+A <- shuffle_network_deg_svd(netData[[29]], weighted = FALSE, shuffle_func = shuffle_network_ws)
+A$Metrics
+A <- shuffle_network_deg_svd(netData[[29]], weighted = TRUE)
+
 shuffle_network_deg_svd(A)
 calc_svd_entropy(A)
 calc_svd_entropy(netData[[29]])
+
 calc_svd_entropy(netData[[19]])
+B <- shuffle_network_ws(netData[[19]], weighted = FALSE,delta=10)
+gB <- graph_from_adjacency_matrix(B, mode = "directed",)
+plot_troph_level_ggplot(netData[[19]])
+plot_troph_level_ggplot(gB)
+calc_svd_entropy(B)
+
+generate_shuffled_seq(netData[[19]], shuffle_func = shuffle_network_ws, weighted = FALSE)
+shuffle_network_deg_svd(netData[[19]], weighted = FALSE, shuffle_func = shuffle_network_ws)
+
+g <- netData[[23]]
+E(g)$weight <-  1
+generate_shuffled_seq_tol(g, weighted = TRUE, shuffle_func = shuffle_network_ws)
+generate_shuffled_seq(g, shuffle_func = shuffle_network_ws, weighted = TRUE)
