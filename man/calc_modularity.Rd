@@ -4,26 +4,21 @@
 \alias{calc_modularity}
 \title{Calculation of Modularity for a List of igraph Objects}
 \usage{
-calc_modularity(
-  ig,
-  ncores = 0,
-  weights = NA,
-  cluster_function = cluster_spinglass
-)
+calc_modularity(ig, ncores = 0, cluster_function = cluster_spinglass)
 }
 \arguments{
 \item{ig}{A list of igraph objects for which modularity will be calculated.}
 
 \item{ncores}{Number of cores used for parallel computation. If set to 0, sequential processing is used.}
 
+\item{cluster_function}{The \strong{igraph} clustering function to use, or a function that returns modularity.
+default \code{cluster_spinglass}.}
+
 \item{weights}{Edge weights. Can be a numeric vector, \code{NULL}, or \code{NA}:
 \itemize{
 \item If \code{NULL}, the function checks for a 'weight' edge attribute and uses it if present.
 \item If \code{NA}, weights are ignored even if the graph has a 'weight' edge attribute.
 }}
-
-\item{cluster_function}{The \strong{igraph} clustering function to use.
-Must be either \code{cluster_spinglass} or \code{cluster_infomap}.}
 }
 \value{
 A data frame with a column \code{Modularity} containing the modularity values for each network.
@@ -33,9 +28,6 @@ This function calculates the modularity of a list of networks provided in the \c
 Modularity measures the strength of division of a network into modules (communities).
 }
 \details{
-The function allows the use of \strong{only} \code{igraph::cluster_spinglass()} and \code{igraph::cluster_infomap()},
-since these methods accept weighted edges.
-
 \strong{Note:} \code{cluster_spinglass()} only works on networks with a single connected component.
 }
 \examples{

@@ -727,9 +727,6 @@ classify_topological_roles <- function(tRoles,g,community=NULL,plt=FALSE){
 #' This function calculates the modularity of a list of networks provided in the `ig` parameter.
 #' Modularity measures the strength of division of a network into modules (communities).
 #'
-#' The function allows the use of **only** `igraph::cluster_spinglass()` and `igraph::cluster_infomap()`,
-#' since these methods accept weighted edges.
-#'
 #' **Note:** `cluster_spinglass()` only works on networks with a single connected component.
 #'
 #' @param ig A list of igraph objects for which modularity will be calculated.
@@ -737,8 +734,8 @@ classify_topological_roles <- function(tRoles,g,community=NULL,plt=FALSE){
 #' @param weights Edge weights. Can be a numeric vector, `NULL`, or `NA`:
 #'   - If `NULL`, the function checks for a 'weight' edge attribute and uses it if present.
 #'   - If `NA`, weights are ignored even if the graph has a 'weight' edge attribute.
-#' @param cluster_function The **igraph** clustering function to use.
-#'   Must be either `cluster_spinglass` or `cluster_infomap`.
+#' @param cluster_function The **igraph** clustering function to use, or a function that returns modularity.
+#'   default `cluster_spinglass`.
 #'
 #' @return A data frame with a column `Modularity` containing the modularity values for each network.
 #'
@@ -755,19 +752,13 @@ classify_topological_roles <- function(tRoles,g,community=NULL,plt=FALSE){
 #' calc_modularity(nullg, cluster_function = igraph::cluster_infomap)
 #' }
 #'
-calc_modularity <- function(ig, ncores = 0, weights = NA, cluster_function = cluster_spinglass) {
+calc_modularity <- function(ig, ncores = 0, cluster_function = cluster_spinglass) {
 
   # Ensure input is a list of igraph objects
   if (inherits(ig, "igraph")) {
     ig <- list(ig)
   } else if (!inherits(ig[[1]], "igraph")) {
     stop("The parameter 'ig' must be a list of igraph objects.")
-  }
-
-  # Restrict cluster_function to allowed methods
-  allowed_methods <- c("cluster_spinglass", "cluster_infomap")
-  if (!deparse(substitute(cluster_function)) %in% allowed_methods) {
-    stop("'cluster_function' must be either 'igraph::cluster_spinglass' or 'igraph::cluster_infomap'.")
   }
 
   # Register parallel backend
@@ -780,13 +771,10 @@ calc_modularity <- function(ig, ncores = 0, weights = NA, cluster_function = clu
     future::plan(sequential)
   }
 
-  # Function to compute modularity (handling different weight parameter names)
+  # Function to compute modularity (handling different weight parameter names) CHECK
   compute_modularity <- function(g) {
-    if (identical(cluster_function, igraph::cluster_spinglass)) {
-      community <- cluster_function(g, weights = weights)
-    } else if (identical(cluster_function, igraph::cluster_infomap)) {
-      community <- cluster_function(g, e.weights = weights)
-    }
+
+    community <- cluster_function(g)
     data.frame(Modularity = modularity(community))
   }
 

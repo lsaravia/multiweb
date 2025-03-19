@@ -686,7 +686,7 @@ plot_troph_level_ggplot(gB)
 calc_svd_entropy(B)
 
 generate_shuffled_seq(netData[[19]], shuffle_func = shuffle_network_ws, weighted = FALSE)
-shuffle_network_deg_svd(netData[[19]], weighted = FALSE, shuffle_func = shuffle_network_ws)
+generate_shuffled_seq_tol(netData[[19]], weighted = FALSE, shuffle_func = shuffle_network_ws)
 
 g <- netData[[23]]
 E(g)$weight <-  1
