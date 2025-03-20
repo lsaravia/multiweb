@@ -33,7 +33,7 @@ Modularity measures the strength of division of a network into modules (communit
 \examples{
 \dontrun{
 nullg <- generateERbasal(netData[[1]], 10)
-calc_modularity(nullg, cluster_function = igraph::cluster_infomap)
+calc_modularity(nullg, cluster_function = cluster_infomap)
 }
 
 }
