@@ -1,3 +1,10 @@
+# Version  0.7.40.0000
+
+* Added functions 
+  - run_infomap to run the python implementation of Infomap 
+  - calc_centrality instead of calc_eigencentrality to calculate the centrality of a network using any defined measure
+
+
 # Version  0.7.30.0000
 
 * Added functions calc_svd_entropy shuffle_network_deg shuffle_network_deg_svd calc_eigencentrality calc_svd_entropy_importance

@@ -665,7 +665,8 @@ calc_topological_indices(generate_niche(20, 0.1, nsim=5))
 calc_svd_entropy_importance(generate_niche(20, 0.1))
 calc_svd_entropy_importance(netData[[29]])
 calc_eigencentrality(generate_niche(120, 0.1))
-calc_eigencentrality(netData[[29]])
+calc_centrality(netData[[29]])
+calc_centrality(netData[[29]], centrality_func = page_rank)
 
 shuffle_network_deg_svd(netData[[19]], weighted = FALSE, shuffle_func = shuffle_network_ws)
 shuffle_network_deg_svd(netData[[19]], weighted = FALSE, shuffle_func = shuffle_network_deg)
@@ -692,3 +693,19 @@ g <- netData[[23]]
 E(g)$weight <-  1
 generate_shuffled_seq_tol(g, weighted = TRUE, shuffle_func = shuffle_network_ws)
 generate_shuffled_seq(g, shuffle_func = shuffle_network_ws, weighted = TRUE)
+
+#
+# InfoMap monolayer
+#
+
+g <- netData[[29]]
+run_infomap(g, output_dir = ".")
+py_infomap <- run_infomap(g)
+membership(py_infomap)
+E(g)$weight <-  runif(ecount(g),0.1,2)
+run_infomap(g)
+
+g <- netData[[23]]
+gl <- curve_ball(g)
+modl <- calc_modularity(gl,cluster_function = run_infomap)
+ggplot(modl,aes(x=Modularity)) + geom_density()

@@ -123,27 +123,29 @@ calc_svd_entropy_importance <- function(A, threshold_factor = 1e-6) {
   )
 }
 
-#' Compute Eigenvector Centrality for a weigthed/unweigthed Network
+#' Compute Centrality for a Weighted/Unweighted Network
 #'
-#' This function calculates the eigenvector centrality of species in a network
-#' based on an adjacency matrix and visualizes the top species contributing to network structure.
+#' This function calculates the centrality of species in a network
+#' based on an adjacency matrix or igraph object using a specified centrality measure.
 #'
 #' @param A An igraph object or an adjacency matrix.
 #'          The values represent interaction strengths.
+#' @param centrality_func A function to compute centrality. Default is `eigen_centrality`.
+#'        Other options: `page_rank`, `betweenness`, `degree`, etc.
 #'
 #' @return A list containing:
-#' \item{EigenCentrality}{A data frame with species names and their centrality scores.}
-#' \item{Plot_Centrality}{A ggplot object showing the top 10 species by eigenvector centrality.}
+#' \item{CentralityScores}{A data frame with species names and their centrality scores.}
+#' \item{Plot_Centrality}{A ggplot object showing the top 10 species by centrality.}
 #'
 #' @examples
 #' # Example usage with an adjacency matrix A
-#' results <- calculate_eigencentrality(A)
-#' print(results$EigenCentrality)
+#' results <- calc_centrality(A, centrality_func = page_rank)
+#' print(results$CentralityScores)
 #' print(results$Plot_Centrality)
 #'
 #' @import igraph ggplot2 viridis
 #' @export
-calc_eigencentrality <- function(A) {
+calc_centrality <- function(A, centrality_func = eigen_centrality) {
 
   if (inherits(A, "igraph")) {
     graph_A <- A
@@ -152,31 +154,36 @@ calc_eigencentrality <- function(A) {
     graph_A <- graph_from_adjacency_matrix(A, mode = "directed", weighted = TRUE)
   }
 
-  # Compute eigenvector centrality
-  eigencentrality_result <- eigen_centrality(graph_A, directed = TRUE)$vector
-  #eigencentrality_result <- page_rank(graph_A, directed = TRUE)$vector
+  # Compute centrality using the specified function
+  centrality_result <- centrality_func(graph_A, directed = TRUE)
 
-  # Create a data frame with species names and their centrality scores
-  if(is.null(names(eigencentrality_result))) {
-    names(eigencentrality_result) <- 1:vcount(A)
+  # Extract the vector if function returns a list
+  if (is.list(centrality_result) && "vector" %in% names(centrality_result)) {
+    centrality_result <- centrality_result$vector
   }
 
-  df_centrality <- tibble(Species = names(eigencentrality_result), Centrality = eigencentrality_result)
+  # Create a data frame with species names and their centrality scores
+  if (is.null(names(centrality_result))) {
+    names(centrality_result) <- 1:vcount(graph_A)
+  }
+
+  df_centrality <- tibble(Species = names(centrality_result), Centrality = centrality_result)
 
   # Sort by centrality
   df_centrality <- df_centrality[order(-df_centrality$Centrality), ]
 
-  # Plot top 10 species by eigencentrality
-  p <- ggplot(df_centrality[1:10,], aes(x = Centrality, y = reorder(Species, Centrality), fill = Centrality)) +
+  # Plot top 10 species by centrality
+  p <- ggplot(df_centrality[1:min(10, nrow(df_centrality)),],
+              aes(x = Centrality, y = reorder(Species, Centrality), fill = Centrality)) +
     geom_col() +
     scale_fill_viridis_c(option = "D", direction = -1) +
     labs(x = "Centrality Score", y = "Species") +
-    theme_minimal() +  guides(fill = FALSE) +
+    theme_minimal() + guides(fill = FALSE) +
     theme(axis.text.y = element_text(angle = 45, hjust = 1))
 
   # Return results
   list(
-    EigenCentrality = df_centrality,
+    CentralityScores = df_centrality,
     Plot_Centrality = p
   )
 }
