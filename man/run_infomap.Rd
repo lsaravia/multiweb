@@ -38,7 +38,7 @@ if the network has the weight attribute, it will be used as the weight of the ed
 \examples{
 # Example with the intermediate files in actual folder
 py_infomap <- run_infomap(netData[[1]],output_dir=".", weighted = FALSE)
-results <- calculate_eigencentrality(A)
+
 membership(py_infomap)
 modularity(py_infomap)
 

@@ -32,9 +32,9 @@ generate_shuffled_seq(
 \value{
 A list with:
 \item{Networks}{A list of igraph objects representing the shuffled networks at each step.}
-\item{Metrics}{A tibble containing the step number, SVD entropy, and modularity score.}
+\item{Metrics}{A tibble containing the step number, SVD entropy, SVD Rank, and modularity score.}
 }
 \description{
 This function generates a sequence of shuffled networks from an original graph, applying
-incremental shuffling steps while tracking modularity and SVD entropy.
+incremental shuffling steps while tracking modularity, SVD rank and entropy .
 }

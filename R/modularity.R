@@ -78,7 +78,7 @@ calc_modularity <- function(ig, ncores = 0, cluster_function = cluster_spinglass
 #' @examples
 #' # Example with the intermediate files in actual folder
 #' py_infomap <- run_infomap(netData[[1]],output_dir=".", weighted = FALSE)
-#' results <- calculate_eigencentrality(A)
+#'
 #' membership(py_infomap)
 #' modularity(py_infomap)
 #'
@@ -151,4 +151,197 @@ run_infomap <- function(graph, infomap_path = "infomap", output_dir = tempdir(),
   }
   return(community_obj)
 }
+
+#' Convert a List of igraph Objects to Intralayer Edge Format
+#'
+#' This function converts a multilayer network, represented as a list of igraph objects,
+#' into a standardized format suitable for Infomap and other multilayer network analyses.
+#'
+#' Each node is assigned a unique numeric ID, and edges across layers are recorded
+#' with layer-specific identifiers.
+#'
+#' @param igraph_list A list of `igraph` objects, each representing a network layer.
+#' @return A list with two data frames:
+#'   \item{vertices}{A data frame containing node_id and corresponding node names.}
+#'   \item{intra}{A data frame containing intra-layer edges with columns: `layer_id`, `node_id1`, `node_id2`, `weight`.}
+#'
+#' @examples
+#' \dontrun{
+#'   multi_format <- convert_to_intra_format(list(layer1, layer2))
+#'   print(multi_format$vertices)
+#'   print(multi_format$intra)
+#' }
+#'
+#' @import igraph
+#' @export
+convert_to_intra_format <- function(igraph_list) {
+  # Extract unique node names from all layers
+  all_nodes <- unique(unlist(lapply(igraph_list, function(g) V(g)$name)))
+  node_df <- data.frame(node_id = seq_along(all_nodes), name = all_nodes)
+
+  # Create a mapping from node name to numeric ID
+  node_map <- setNames(node_df$node_id, node_df$name)
+
+  # Collect edges across layers
+  edge_list <- do.call(rbind, lapply(seq_along(igraph_list), function(i) {
+    g <- igraph_list[[i]]
+    layer_id <- i
+    edges <- igraph::as_data_frame(g, what = "edges")
+
+    # Ensure weight column exists
+    if (!"weight" %in% colnames(edges)) {
+      edges$weight <- 1  # Default weight if none exists
+    }
+
+    # Map node names to numeric IDs
+    data.frame(
+      layer_id = layer_id,
+      node_id1 = node_map[edges$from],
+      node_id2 = node_map[edges$to],
+      weight = edges$weight
+    )
+  }))
+
+  return(list(vertices = node_df, intra = edge_list))
+}
+
+#' Write a Multilayer Network to a File in Infomap-Compatible Format
+#'
+#' This function writes a multilayer network (represented as a list of igraph objects)
+#' to a text file in Infomap's required *Intra format.
+#'
+#' The output file consists of:
+#' - A list of unique vertices with their numeric IDs.
+#' - Intra-layer edges with weights.
+#'
+#' @param igraph_list A list of `igraph` objects, each representing a layer.
+#' @param file_path A string specifying the path to the output file.
+#' @return A list with two data frames:
+#'   \item{vertices}{A data frame of node IDs and names.}
+#'   \item{intra}{A data frame of intra-layer edges with columns: `layer_id`, `node_id1`, `node_id2`, `weight`.}
+#'
+#' @examples
+#' \dontrun{
+#'   write_multilayer_network(list(layer1, layer2), "network.net")
+#' }
+#'
+#' @import igraph
+#' @export
+write_multilayer_network <- function(igraph_list, file_path) {
+  # Convert the igraph objects to a multilayer dataframe
+  multilayer_df <- convert_to_intra_format(igraph_list)
+  # Extract vertices and intra-layer edges correctly
+  vertices <- multilayer_df$vertices
+  intra_edges <- multilayer_df$intra
+
+  # Open the file for writing
+  con <- file(file_path, "w")
+
+  # Write header
+  writeLines("# A multilayer network using *Intra format", con)
+
+  # Write vertices
+  writeLines(paste0("*Vertices ", nrow(vertices)), con)
+  writeLines("# node_id name", con)
+  write.table(vertices, con, row.names = FALSE, col.names = FALSE, quote = TRUE)
+
+  # Write intra-layer edges
+  writeLines("*Intra", con)
+  writeLines("# layer_id node_id node_id weight", con)
+  write.table(intra_edges, con, row.names = FALSE, col.names = FALSE, quote = FALSE)
+
+  # Close the file
+  close(con)
+  return(multilayer_df)
+}
+
+#' Run Infomap on Multilayer Networks with Intralayer Links
+#'
+#' This function exports a multilayer network (as a list of igraph objects) into Infomap's required format,
+#' runs Infomap via an external binary, and imports the detected communities back into R as a data frame.
+#' It requires Infomap to be installed on the system from [Infomap](https://www.mapequation.org/infomap/#Install).
+#'
+#' If the network has the `weight` attribute, it will be used as the weight of the edges.
+#'
+#' @param igraph_list A list of `igraph` objects, each representing a network layer.
+#' @param layer_names A character vector with layer names corresponding to each igraph object, default NULL.
+#' @param infomap_path Path to the Infomap binary (default assumes it's in the system `PATH`).
+#' @param output_dir A temporary directory for Infomap results. Default is `tempdir()`.
+#' @param directed Logical: Treat the network as directed (default `TRUE`).
+#' @param two_level Logical: Use two-level Infomap (default `TRUE`).
+#' @param multilayer_relax_rate Numeric: Relaxation rate for multilayer links (default `0.15`).
+#' @param seed Numeric: Random seed for Infomap (default `123`).
+#' @return A data frame containing the detected modules with columns:
+#'   \item{module}{Module/community assignment from Infomap.}
+#'   \item{node}{The actual node name from the original igraph objects.}
+#'   \item{layer}{The corresponding layer name from `layer_names`.}
+#'   \item{flow}{The fraction of flow assigned to the module.}
+#'
+#' @examples
+#' \dontrun{
+#'   ig_list <- list(ig_p1, ig_p2, ig_p3)  # List of igraph objects
+#'   layer_names <- c("Pond 1", "Pond 2", "Pond 3")  # Corresponding layer names
+#'   result <- run_infomap_multi(ig_list, layer_names)
+#'   print(result)
+#' }
+#'
+#' @import igraph dplyr
+#' @export
+run_infomap_multi <- function(igraph_list, layer_names=NULL, infomap_path = "infomap", output_dir = tempdir(),
+                              directed = TRUE, two_level = TRUE, multilayer_relax_rate = 0.15, seed = 123) {
+
+  # Define file paths
+  net_file <- file.path(output_dir, "network.net")
+  clu_file <- file.path(output_dir, "network.clu")
+  clu_states_file <- file.path(output_dir, "network_states.clu")
+
+  # Export graph to Infomap's required format
+  ml_df <- write_multilayer_network(igraph_list, net_file)
+
+  # Construct Infomap command
+  options <- "--silent --clu"
+  if (directed) options <- paste(options, "-d")
+  if (two_level) options <- paste(options, "-2")
+  options <- paste(options, "--multilayer-relax-rate", multilayer_relax_rate)
+  options <- paste(options, "--seed", seed)
+
+  # Run Infomap
+  command <- sprintf('%s "%s" "%s" %s', infomap_path, net_file, output_dir, options)
+  system(command, intern = TRUE)
+
+  # Read Infomap output
+  clu_lines <- readLines(clu_file)
+
+  # Extract codelength from output
+  codelength_line <- clu_lines[grep("codelength", clu_lines)]
+  if (length(codelength_line) > 0) {
+    codelength_match <- regmatches(codelength_line, regexpr("[0-9]+\\.[0-9]+", codelength_line))
+    codelength <- as.numeric(codelength_match)
+  } else {
+    codelength <- NA  # Assign NA if no match is found
+  }
+
+  # Read the states.clu file
+  clu_data <- read.delim(clu_states_file, comment.char = "#", header = FALSE, sep = " ",
+                         col.names = c("state_id", "module", "flow", "node_id", "layer_id"))
+
+  # Ensure correct order
+  clu_data <- clu_data[order(clu_data$layer_id, clu_data$node_id), ]
+
+  # Use ml_df$vertices to replace numeric node_id with actual node names
+  clu_data <- clu_data %>%
+    left_join(ml_df$vertices, by = c("node_id")) %>%
+    rename(node = name) %>%
+    dplyr::select(-state_id, -node_id)
+
+  # Replace layer_id with layer_name if names are provided
+  if (!is.null(layer_names) && length(layer_names) >= max(clu_data$layer_id, na.rm = TRUE)) {
+    clu_data$layer <- layer_names[clu_data$layer_id]
+  } else {
+    clu_data <- clu_data %>% rename(layer = layer_id)  # Keep numeric ID if names are missing
+  }
+
+  return(clu_data %>% dplyr::select(module,  node, layer, flow))
+}
+
 

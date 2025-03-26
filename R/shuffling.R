@@ -162,7 +162,7 @@ shuffle_network_deg <- function(input_graph, delta = 100, directed = TRUE,weight
 #' Generate a Sequence of Shuffled Networks and Track Metric Evolution
 #'
 #' This function generates a sequence of shuffled networks from an original graph, applying
-#' incremental shuffling steps while tracking modularity and SVD entropy.
+#' incremental shuffling steps while tracking modularity, SVD rank and entropy .
 #'
 #' @param original_graph An igraph object representing the original network.
 #' @param max_delta Integer. Number of total shuffling steps to perform.
@@ -174,7 +174,7 @@ shuffle_network_deg <- function(input_graph, delta = 100, directed = TRUE,weight
 #'
 #' @return A list with:
 #' \item{Networks}{A list of igraph objects representing the shuffled networks at each step.}
-#' \item{Metrics}{A tibble containing the step number, SVD entropy, and modularity score.}
+#' \item{Metrics}{A tibble containing the step number, SVD entropy, SVD Rank, and modularity score.}
 #'
 #' @import igraph dplyr
 #' @export
@@ -190,10 +190,13 @@ generate_shuffled_seq <- function(original_graph, max_delta = 10, delta = 10,
   shuffled_networks[[1]] <- original_graph
 
 # Calculate metrics
-  entropy <- calc_svd_entropy(A_current)$Entropy
+  svd <- calc_svd_entropy(A_current)
+  entropy <- svd$Entropy
+  rank <- svd$Rank
   modularity_score <- modularity(modularity_func(original_graph))
 
-  results <- bind_rows(results, tibble(Step = 1, SVD_Entropy = entropy, Modularity = modularity_score))
+  results <- bind_rows(results, tibble(Step = 1, SVD_Entropy = entropy, SVD_Rank = rank,
+                                       Modularity = modularity_score))
 
   # Generate sequence of networks
   for (d in 1:max_delta) {
@@ -204,10 +207,15 @@ generate_shuffled_seq <- function(original_graph, max_delta = 10, delta = 10,
     shuffled_networks[[d + 1]] <- g_shuffled
 
     # Calculate metrics
-    entropy <- calc_svd_entropy(A_shuffled)$Entropy
+
+    svd <- calc_svd_entropy(A_shuffled)
+    entropy <- svd$Entropy
+    rank <- svd$Rank
+
     modularity_score <- modularity(modularity_func(g_shuffled))
 
-    results <- bind_rows(results, tibble(Step = d+1, SVD_Entropy = entropy, Modularity = modularity_score))
+    results <- bind_rows(results, tibble(Step = d+1, SVD_Entropy = entropy, SVD_Rank = rank,
+                                         Modularity = modularity_score))
 
     # Update A_current for next iteration
     A_current <- A_shuffled

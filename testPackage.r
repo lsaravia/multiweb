@@ -660,23 +660,18 @@ calc_topological_indices(generate_niche(20, 0.1, nsim=5))
 
 
 #
-# Calculate centrality SVD
+# Calculate centrality SVD and Shuffling - Niche model
 #
 calc_svd_entropy_importance(generate_niche(20, 0.1))
 calc_svd_entropy_importance(netData[[29]])
-calc_eigencentrality(generate_niche(120, 0.1))
 calc_centrality(netData[[29]])
 calc_centrality(netData[[29]], centrality_func = page_rank)
 
-shuffle_network_deg_svd(netData[[19]], weighted = FALSE, shuffle_func = shuffle_network_ws)
-shuffle_network_deg_svd(netData[[19]], weighted = FALSE, shuffle_func = shuffle_network_deg)
-
-A <- shuffle_network_deg_svd(netData[[29]], weighted = FALSE, shuffle_func = shuffle_network_ws)
+A <- generate_shuffled_seq_tol(netData[[29]], weighted = FALSE, shuffle_func = shuffle_network_ws)
 A$Metrics
-A <- shuffle_network_deg_svd(netData[[29]], weighted = TRUE)
+A <- generate_shuffled_seq_tol(netData[[29]], weighted = TRUE)
 
-shuffle_network_deg_svd(A)
-calc_svd_entropy(A)
+calc_svd_entropy(A$New_A)
 calc_svd_entropy(netData[[29]])
 
 calc_svd_entropy(netData[[19]])
@@ -709,3 +704,14 @@ g <- netData[[23]]
 gl <- curve_ball(g)
 modl <- calc_modularity(gl,cluster_function = run_infomap)
 ggplot(modl,aes(x=Modularity)) + geom_density()
+
+#
+# infomap multilayer
+#
+fileName <- c(system.file("extdata",  package = "multiweb"))
+dn <- list.files("inst/extdata",pattern = "^Kefi2015.*\\.txt$")
+g <- readNetwork(dn,"inst/extdata", skipColumn = 2)
+names(g) <- c("Negative","Positive","Trophic")
+run_infomap_multi(g,names(g))
+plot_troph_level_ggplot(g[[1]])
+plot_troph_level(g[[2]])
