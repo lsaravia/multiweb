@@ -4,27 +4,33 @@
 \alias{classify_topological_roles}
 \title{Classify and plot topological roles}
 \usage{
-classify_topological_roles(tRoles, g, community = NULL, plt = FALSE)
+classify_topological_roles(tRoles, g, community = NULL)
 }
 \arguments{
-\item{tRoles}{Calculated topological roles with the function \code{\link[=calc_topological_roles]{calc_topological_roles()}}}
+\item{tRoles}{A data frame of calculated topological roles obtained from \code{\link[=calc_topological_roles]{calc_topological_roles()}}.}
 
-\item{g}{Igraph network object}
+\item{g}{An igraph network object.}
 
-\item{community}{Igraph community object used to calculate the topological roles}
-
-\item{plt}{logical whether a plot is generated}
+\item{community}{An igraph community object used to determine module membership. If NULL, the function calculates community structure using \code{cluster_spinglass()}.}
 }
 \value{
-a data.frame with the classified topological roles
+A list containing:
+\itemize{
+\item \code{hub_conn}: A data frame with node classifications and topological role values.
+\item \code{gp}: A ggplot object visualizing the topological roles.
+}
 }
 \description{
-We use the topological roles calculated with \code{\link[=calc_topological_roles]{calc_topological_roles()}} and categorize them following the approach of
-Kortsch (2015), that defines species roles based in two thresholds \eqn{PC=0.625} and \eqn{dz=2.5}.
-If a species had at least 60\% of links within its own module then \eqn{PC<0.625}, and if it also had \eqn{dz\ge 2.5}, thus it was
-classified as a module hub, labeled \strong{modhub}. If a species had \eqn{PC<0.625} and \eqn{dz<2.5}, then it was called a peripheral
-or specialist, labeled \strong{modspe}. Species that had \eqn{PC\ge0.625} and \eqn{dz<2.5} were considered module connectors \strong{modcon}.
-Finally, if a species had \eqn{PC\ge0.625} and \eqn{dz\ge 2.5}, then it was classified as a super-generalist or hub-connector \strong{hubcon}.
+This function classifies species into four topological roles based on their within-module degree (dz) and among-module connectivity (PC), following the approach of Kortsch (2015). The classification is as follows:
+\itemize{
+\item \strong{modhub}: Species with high within-module degree (dz >= 2.5) and low among-module connectivity (PC < 0.625).
+\item \strong{hubcon}: Species with high within-module degree (dz >= 2.5) and high among-module connectivity (PC >= 0.625).
+\item \strong{modspe}: Species with low within-module degree (dz < 2.5) and low among-module connectivity (PC < 0.625).
+\item \strong{modcon}: Species with low within-module degree (dz < 2.5) and high among-module connectivity (PC >= 0.625).
+}
+}
+\details{
+The function also generates a ggplot visualization of the species' topological roles, with nodes colored according to their module membership.
 }
 \examples{
 \dontrun{
@@ -33,12 +39,14 @@ g <- netData[[2]]
 
 tp <- calc_topological_roles(g,nsim=10)
 
-classify_topological_roles(tp,g,plt=TRUE)
+classify_topological_roles(tp,g)
 }
 }
 \references{
 \enumerate{
-\item Kortsch, S., Primicerio, R., Fossheim, M., Dolgov, A. V & Aschan, M. (2015). Climate change alters the structure of arctic marine food webs due to poleward shifts of boreal generalists. Proc. R. Soc. B Biol. Sci., 282
-\item Saravia, L.A., Marina, T.I., De Troch, M. & Momo, F.R. (2018). Ecological Network assembly: how the regional meta web influence local food webs. bioRxiv, 340430, doi: https://doi.org/10.1101/340430
+\item Kortsch, S., Primicerio, R., Fossheim, M., Dolgov, A. V., & Aschan, M. (2015). Climate change alters the structure of arctic marine food webs due to poleward shifts of boreal generalists.
+Proceedings of the Royal Society B: Biological Sciences, 282(1814), 20151546. https://doi.org/10.1098/rspb.2015.1546
+\item Saravia, L. A., Marina, T. I., Kristensen, N. P., De Troch, M., & Momo, F. R. (2022). Ecological network assembly: How the regional metaweb influences local food webs.
+Journal of Animal Ecology, 91(3), 630–642. https://doi.org/10.1111/1365-2656.13652
 }
 }

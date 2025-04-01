@@ -13,7 +13,8 @@ plot_troph_level_ggplot(
   community_obj = NULL,
   maxTL = NULL,
   use_numbers = FALSE,
-  label_size = 4
+  label_size = 4,
+  arrow_size = 0.15
 )
 }
 \arguments{

@@ -407,9 +407,15 @@ calc_modularity_swness_zscore(g,null)
 #
 g <-   graph_from_literal( 2 -+ 1 +-3,4 -+ 1, 3+-3, 5-+5, 4-+6-+2, 2+-5-+3, simplify = FALSE)
 g1 <-   graph_from_literal( 7 -+ 8 +-9,10 -+ 8, 10-+10, 9+-9, 11-+11, 10-+13-+12, 12+-11-+9, simplify = FALSE)
+plotTrophLevel(g1,vertexLabel = TRUE,vertexSizeFactor = 7,modules = TRUE)
+plot_troph_level_ggplot(g,modules = TRUE, arrow_size = 0.05)
+plot_troph_level_ggplot(g1,modules = TRUE)
+g <- netData[[1]]
+plotTrophLevel(g2,vertexLabel = TRUE,vertexSizeFactor = 7,modules = TRUE)
 
 g2 <- g+g1
-plotTrophLevel(g2,vertexLabel = TRUE,vertexSizeFactor = 7,modules = TRUE)
+plotTrophLevel(g2,vertexLabel = TRUE,vertexSizeFactor = 10,modules = TRUE)
+plot_troph_level_ggplot(g2,modules = TRUE)
 
 #
 # Test calc_weighted_topological_indices
@@ -478,16 +484,16 @@ g <- netData[[23]]
 tp <- calc_topological_roles(g,nsim=10,ncores=4)
 classify_topological_roles(tp,g,plt=TRUE)
 
-m <- igraph::cluster_infomap(g)
+m <- run_infomap(g)
 length(m)
 m <- igraph::cluster_walktrap(g)
 length(m)
 igraph::membership(m)
+m <- igraph::cluster_spinglass(g)
 
-tp1 <- calc_topological_roles(g,nsim=10,ncores=4,community=m)
-tp1
+tp1 <- multiweb::calc_topological_roles(g,nsim=10,ncores=4,community=m)
 
-classify_topological_roles(tp1,g,community=m,plt=TRUE)
+multiweb::classify_topological_roles(tp1,g,community=m)
 
 
 
@@ -711,7 +717,8 @@ ggplot(modl,aes(x=Modularity)) + geom_density()
 fileName <- c(system.file("extdata",  package = "multiweb"))
 dn <- list.files("inst/extdata",pattern = "^Kefi2015.*\\.txt$")
 g <- readNetwork(dn,"inst/extdata", skipColumn = 2)
+class(g)
 names(g) <- c("Negative","Positive","Trophic")
-run_infomap_multi(g,names(g))
+run_infomap_multi(g)
 plot_troph_level_ggplot(g[[1]])
 plot_troph_level(g[[2]])

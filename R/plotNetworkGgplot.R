@@ -33,7 +33,7 @@
 #'
 plot_troph_level_ggplot <- function(g, vertexSizeFactor = 5, vertexSizeMin = 5, modules = FALSE,
                                     weights = NA, community_obj = NULL, maxTL = NULL,
-                                    use_numbers = FALSE, label_size = 4) {
+                                    use_numbers = FALSE, label_size = 4, arrow_size = 0.15) {
 
   # Compute node degree and trophic level
   deg <- degree(g, mode = "all")
@@ -90,13 +90,14 @@ plot_troph_level_ggplot <- function(g, vertexSizeFactor = 5, vertexSizeMin = 5, 
 
   nodes <- nodes %>% mutate(y = jitter(trophic_level, amount = 0.05))
 
-  # Convert edges to a tibble correctly
-  edges <- as_tibble(as_edgelist(g)) %>%
+  # Convert edges to a tibble
+  edges <- as.data.frame(as_edgelist(g)) %>%
     rename(from = V1, to = V2) %>%
     left_join(nodes, by = c("from" = "id")) %>%
-    rename(x_from = x, y_from = y) %>%
+    rename(x_from = x, y_from = y, size_from = size) %>%
     left_join(nodes, by = c("to" = "id")) %>%
-    rename(x_to = x, y_to = y)
+    rename(x_to = x, y_to = y, size_to = size)
+
 
   # Create vertical separator lines if modules are enabled
   module_lines <- NULL
@@ -108,21 +109,44 @@ plot_troph_level_ggplot <- function(g, vertexSizeFactor = 5, vertexSizeMin = 5, 
     }
   }
 
-  # Base ggplot network plot
+  # Check if the graph is directed
+  directed <- is_directed(g)
+
+  if (directed) {
+    # Adjust arrow placement by shortening the edges
+    shorten_factor <- 0.005  # Adjust this factor if needed
+    edges <- edges %>%
+      mutate(
+        dx = x_to - x_from,
+        dy = y_to - y_from,
+        length = sqrt(dx^2 + dy^2),
+        x_from = x_from + shorten_factor * dx / length * size_from,
+        y_from = y_from + shorten_factor * dy / length * size_from,
+        x_to = x_to - shorten_factor * dx / length * size_to,
+        y_to = y_to - shorten_factor * dy / length * size_to
+      )
+  }
+
+
+  # Define arrow style with adjustable arrow size
+  arrow_style <- if (directed) arrow(type = "closed", length = unit(arrow_size, "inches")) else NULL
+
+  # Create base ggplot network plot
   p <- ggplot() +
     geom_segment(data = edges, aes(x = x_from, y = y_from, xend = x_to, yend = y_to),
-                 color = "gray50", alpha = 0.6, size = 0.4) +
+                 color = "gray50", alpha = 0.6, size = 0.4, arrow = arrow_style) +
     geom_point(data = nodes, aes(x = x, y = y, size = size, color = trophic_level), alpha = 0.9) +
     geom_text_repel(data = nodes, aes(x = x, y = y, label = .data[[label_column]]),
-                     max.overlaps = 15) +
+                    max.overlaps = 15, size = label_size) +
     scale_color_viridis_c(option = "D") +
     theme_bw() +
     theme(
-      legend.position = "none",  # Remove legends
-      panel.grid.major = element_blank(),  # Remove major gridlines
-      panel.grid.minor = element_blank()   # Remove minor gridlines
+      legend.position = "none",
+      panel.grid.major = element_blank(),
+      panel.grid.minor = element_blank()
     ) +
     labs(y = "Trophic Level")
+
 
   # Add vertical separator lines **only between modules**
   if (!is.null(module_lines)) {

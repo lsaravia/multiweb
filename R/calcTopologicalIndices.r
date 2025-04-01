@@ -596,30 +596,32 @@ calc_topological_roles <- function(g,nsim=1000,ncores=0,community=NULL)
 
 #' Classify and plot topological roles
 #'
-#' We use the topological roles calculated with [calc_topological_roles()] and categorize them following the approach of
-#' Kortsch (2015), that defines species roles based in two thresholds \eqn{PC=0.625} and \eqn{dz=2.5}.
-#' If a species had at least 60% of links within its own module then \eqn{PC<0.625}, and if it also had \eqn{dz\ge 2.5}, thus it was
-#' classified as a module hub, labeled **modhub**. If a species had \eqn{PC<0.625} and \eqn{dz<2.5}, then it was called a peripheral
-#' or specialist, labeled **modspe**. Species that had \eqn{PC\ge0.625} and \eqn{dz<2.5} were considered module connectors **modcon**.
-#' Finally, if a species had \eqn{PC\ge0.625} and \eqn{dz\ge 2.5}, then it was classified as a super-generalist or hub-connector **hubcon**.
+#' This function classifies species into four topological roles based on their within-module degree (dz) and among-module connectivity (PC), following the approach of Kortsch (2015). The classification is as follows:
+#' - **modhub**: Species with high within-module degree (dz >= 2.5) and low among-module connectivity (PC < 0.625).
+#' - **hubcon**: Species with high within-module degree (dz >= 2.5) and high among-module connectivity (PC >= 0.625).
+#' - **modspe**: Species with low within-module degree (dz < 2.5) and low among-module connectivity (PC < 0.625).
+#' - **modcon**: Species with low within-module degree (dz < 2.5) and high among-module connectivity (PC >= 0.625).
+#'
+#' The function also generates a ggplot visualization of the species' topological roles, with nodes colored according to their module membership.
 #'
 #' @references
+#' 1. Kortsch, S., Primicerio, R., Fossheim, M., Dolgov, A. V., & Aschan, M. (2015). Climate change alters the structure of arctic marine food webs due to poleward shifts of boreal generalists.
+#'    Proceedings of the Royal Society B: Biological Sciences, 282(1814), 20151546. https://doi.org/10.1098/rspb.2015.1546
+#' 2. Saravia, L. A., Marina, T. I., Kristensen, N. P., De Troch, M., & Momo, F. R. (2022). Ecological network assembly: How the regional metaweb influences local food webs.
+#'    Journal of Animal Ecology, 91(3), 630–642. https://doi.org/10.1111/1365-2656.13652
 #'
-#' 1. Kortsch, S., Primicerio, R., Fossheim, M., Dolgov, A. V & Aschan, M. (2015). Climate change alters the structure of arctic marine food webs due to poleward shifts of boreal generalists. Proc. R. Soc. B Biol. Sci., 282
+#' @param tRoles A data frame of calculated topological roles obtained from [calc_topological_roles()].
+#' @param g An igraph network object.
+#' @param community An igraph community object used to determine module membership. If NULL, the function calculates community structure using `cluster_spinglass()`.
 #'
-#' 1. Saravia, L.A., Marina, T.I., De Troch, M. & Momo, F.R. (2018). Ecological Network assembly: how the regional meta web influence local food webs. bioRxiv, 340430, doi: https://doi.org/10.1101/340430
+#' @return A list containing:
+#' - `hub_conn`: A data frame with node classifications and topological role values.
+#' - `gp`: A ggplot object visualizing the topological roles.
 #'
-#' @param tRoles Calculated topological roles with the function [calc_topological_roles()]
-#' @param g Igraph network object
-#' @param community Igraph community object used to calculate the topological roles
-#' @param plt logical whether a plot is generated
-#'
-#' @return a data.frame with the classified topological roles
 #' @export
 #'
-#' @import igraph
-#' @importFrom RColorBrewer brewer.pal
-#' @importFrom dplyr %>% group_by summarise_all inner_join
+#' @import igraph ggplot2
+#' @importFrom dplyr %>% group_by summarise_all inner_join select mutate arrange
 #'
 #' @examples
 #' \dontrun{
@@ -628,97 +630,55 @@ calc_topological_roles <- function(g,nsim=1000,ncores=0,community=NULL)
 #'
 #' tp <- calc_topological_roles(g,nsim=10)
 #'
-#' classify_topological_roles(tp,g,plt=TRUE)
+#' classify_topological_roles(tp,g)
 #' }
-classify_topological_roles <- function(tRoles,g,community=NULL,plt=FALSE){
+classify_topological_roles <- function(tRoles, g, community = NULL) {
 
-  if(is.null(community))
-    community <- cluster_spinglass(g,weights=NA)
+  if (is.null(community)) {
+    community <- cluster_spinglass(g, weights = NA)
+  }
 
-  spingB.mem<- community$membership
+  spingB.mem <- community$membership
   tRoles <- tRoles %>% group_by(node) %>% summarise_all(mean)
+
   l <- tRoles$within_module_degree
   r <- tRoles$among_module_conn
-  # Plot
-  if(plt){
 
-    colbar.FG <- brewer.pal(length(community),"Dark2")
+  # Data for ggplot
+  plot_data <- data.frame(
+    node = tRoles$node,
+    node_name = vertex_attr(g, "name", index = tRoles$node),  # Include node names
+    within_module_degree = l,
+    among_module_conn = r,
+    module = factor(spingB.mem)
+  )
 
-    old_par <- par(mfrow=c(1,1))
-    par(oma=c(2.7,1.3,0.7,1)) # change outer figure margins
-    par(mai=c(1,1,0.7,0.7)) # size of figure margins
-    yran <- range(l,na.rm = TRUE,finite=TRUE)
-    xran <- range(r)
-    plot(l~r, type="n", axes=T ,tck=F, lwd=2, ann=F, cex.axis=1.2, xlim=xran, ylim=yran)
-    lines(c(0.625,0.625), yran, col="grey")
-    lines(xran, c(2.5, 2.5), col="grey")
-    points(r, l, col=colbar.FG[spingB.mem], pch=20, cex=2)
-    mtext(2, text="Within module degree", line=4,font=2, cex=1.2)
-    mtext(1, text="Among module connectivity",line=4, font=2, cex=1.2)
-    axis(1, tck=0.02, lwd=1,las=2,lty=1, labels=F, xlim=c(0,1))
-    axis(2,tck=0.02, labels=FALSE)
-  }
-  # Which are the module hubs: many links within its own module.
-  #
-  modhub <- which(l>2.5)
-  modhub <- modhub[which(l>2.5) %in% which(r<=0.625)]
-  modlbl <- vertex_attr(g, "name", index=modhub)
-  if(is.null(modlbl))
-    modlbl <- modhub
-  hub_conn <- data.frame()
+  gp <- ggplot(plot_data, aes(x = among_module_conn, y = within_module_degree, color = module)) +
+    geom_point(size = 4) +
+    geom_vline(xintercept = 0.625, linetype = "dashed", color = "gray") +
+    geom_hline(yintercept = 2.5, linetype = "dashed", color = "gray") +
+    scale_color_brewer(palette = "Dark2") +
+    labs(x = "Among module connectivity", y = "Within module degree", color = "Module") +
+    theme_bw() +
+    theme(text = element_text(size = 14))
 
-  if(length(modhub)) {
-    if(plt) text(r[modhub],l[modhub],labels = modlbl,cex=0.7,pos=3)
-    hub_conn <- data.frame(type="modhub",node=modhub,name=modlbl)
+
+  classify_nodes <- function(l, r) {
+    if (l > 2.5 & r <= 0.625) return("modhub")
+    if (l > 2.5 & r > 0.625) return("hubcon")
+    if (l <= 2.5 & r <= 0.625) return("modspe")
+    if (l <= 2.5 & r > 0.625) return("modcon")
+    return(NA)
   }
 
-  #points(r[modhub], l[modhub], cex=4, col="blue", pch=20)
+  plot_data$type <- mapply(classify_nodes, plot_data$within_module_degree, plot_data$among_module_conn)
 
-  # Which are the hub connectors: high within and between-module connectivity
-  #                              and are classified super-generalists
-  #
-  modhub <- which(l>2.5)
-  modhub <- modhub[which(l>2.5) %in% which(r>0.625)]
-  modlbl <- vertex_attr(g,"name",index=modhub)
-  if(is.null(modlbl))
-    modlbl <- modhub
-  if(length(modhub)) {
-    if(plt) {
-      text(r[modhub],l[modhub],labels = modlbl,cex=0.7,pos=3)
-      par(old_par)
-    }
-  }
+  hub_conn <- plot_data %>% select(node, node_name, type) %>%
+    inner_join(tRoles, by = "node") %>%
+    mutate(type = factor(type, levels = c("hubcon", "modhub", "modcon", "modspe"))) %>%
+    arrange(type)
 
-  #points(r[modhub], l[modhub], cex=4, col="blue", pch=20)
-  if(length(modhub)){
-    hub_conn <- rbind(hub_conn, data.frame(type="hubcon",node=modhub,name=modlbl))
-  }
-
-  # Which are the module specialist: Few links and most of them within its own module
-  #
-  modhub <- which(l<=2.5)
-  modhub <- modhub[which(l<=2.5) %in% which(r<=0.625)]
-  modlbl <- vertex_attr(g,"name",index=modhub)
-  if(is.null(modlbl))
-    modlbl <- modhub
-
-  if(length(modhub)){
-    hub_conn <- rbind(hub_conn, data.frame(type="modspe",node=modhub,name=modlbl))
-  }
-
-  # Which are the module connectors: Few links and between modules
-  #
-  modhub <- which(l<=2.5)
-  modhub <- modhub[which(l<=2.5) %in% which(r>0.625)]
-  modlbl <- vertex_attr(g,"name", index=modhub)
-  if(is.null(modlbl))
-    modlbl <- modhub
-
-  if(length(modhub)){
-    hub_conn <- rbind(hub_conn, data.frame(type="modcon",node=modhub,name=modlbl))
-  }
-  hub_conn <- hub_conn %>% inner_join(tRoles)
-  return(hub_conn)
+  return(list(hub_conn=hub_conn,gp=gp))
 }
 
 
