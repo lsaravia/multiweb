@@ -36,6 +36,8 @@ If \code{NULL}, the function uses the \code{weight} attribute of \code{g} if ava
 \item{use_numbers}{Logical; if \code{TRUE}, nodes are labeled with numeric IDs instead of species names to reduce label overlap in large networks (default: \code{FALSE}).}
 
 \item{label_size}{Numeric, font size for node labels (default: 4).}
+
+\item{arrow_size}{Numeric, size of the arrowheads for directed edges (default: 0.15).}
 }
 \value{
 A \code{ggplot} object visualizing the trophic structure of the network.

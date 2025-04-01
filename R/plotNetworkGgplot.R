@@ -13,6 +13,7 @@
 #' @param maxTL Numeric, maximum trophic level to display on the y-axis. If `NULL`, it is determined automatically (default: `NULL`).
 #' @param use_numbers Logical; if `TRUE`, nodes are labeled with numeric IDs instead of species names to reduce label overlap in large networks (default: `FALSE`).
 #' @param label_size Numeric, font size for node labels (default: 4).
+#' @param arrow_size Numeric, size of the arrowheads for directed edges (default: 0.15).
 #'
 #' @return A `ggplot` object visualizing the trophic structure of the network.
 #'   If `use_numbers = TRUE`, it also returns a `tibble` mapping numeric labels to species names.
