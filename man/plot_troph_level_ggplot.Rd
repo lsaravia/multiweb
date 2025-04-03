@@ -14,7 +14,8 @@ plot_troph_level_ggplot(
   maxTL = NULL,
   use_numbers = FALSE,
   label_size = 4,
-  arrow_size = 0.15
+  arrow_size = 0.15,
+  shorten_factor = 0.005
 )
 }
 \arguments{
@@ -38,6 +39,9 @@ If \code{NULL}, the function uses the \code{weight} attribute of \code{g} if ava
 \item{label_size}{Numeric, font size for node labels (default: 4).}
 
 \item{arrow_size}{Numeric, size of the arrowheads for directed edges (default: 0.15).}
+
+\item{shorten_factor}{Numeric, a small factor to adjust arrow placement by slightly shortening edges.
+This prevents arrowheads from overlapping with node centers. A small positive value (e.g., 0.005) works well (default: \code{0.005}).}
 }
 \value{
 A \code{ggplot} object visualizing the trophic structure of the network.

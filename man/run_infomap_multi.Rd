@@ -18,41 +18,52 @@ run_infomap_multi(
 \arguments{
 \item{igraph_list}{A list of \code{igraph} objects, each representing a network layer.}
 
-\item{layer_names}{A character vector with layer names corresponding to each igraph object, default NULL.}
+\item{layer_names}{A character vector with layer names corresponding to each igraph object (default: \code{NULL}).}
 
-\item{infomap_path}{Path to the Infomap binary (default assumes it's in the system \code{PATH}).}
+\item{infomap_path}{Character string specifying the path to the Infomap binary (default: \code{"infomap"}, assumes it is in the system \code{PATH}).}
 
-\item{output_dir}{A temporary directory for Infomap results. Default is \code{tempdir()}.}
+\item{output_dir}{Character string specifying the directory for Infomap results (default: \code{tempdir()}).}
 
-\item{directed}{Logical: Treat the network as directed (default \code{TRUE}).}
+\item{directed}{Logical; if \code{TRUE}, the network is treated as directed (default: \code{TRUE}).}
 
-\item{two_level}{Logical: Use two-level Infomap (default \code{TRUE}).}
+\item{two_level}{Logical; if \code{TRUE}, uses two-level Infomap instead of hierarchical Infomap (default: \code{TRUE}).}
 
-\item{multilayer_relax_rate}{Numeric: Relaxation rate for multilayer links (default \code{0.15}).}
+\item{multilayer_relax_rate}{Numeric; relaxation rate for multilayer links (default: \code{0.15}).}
 
-\item{seed}{Numeric: Random seed for Infomap (default \code{123}).}
+\item{seed}{Numeric; random seed for Infomap to ensure reproducibility (default: \code{123}).}
 }
 \value{
 A data frame containing the detected modules with columns:
+\describe{
 \item{module}{Module/community assignment from Infomap.}
-\item{node}{The actual node name from the original igraph objects.}
+\item{node}{The node name from the original igraph objects.}
 \item{layer}{The corresponding layer name from \code{layer_names}.}
 \item{flow}{The fraction of flow assigned to the module.}
+}
 }
 \description{
 This function exports a multilayer network (as a list of igraph objects) into Infomap's required format,
 runs Infomap via an external binary, and imports the detected communities back into R as a data frame.
-It requires Infomap to be installed on the system from \href{https://www.mapequation.org/infomap/#Install}{Infomap}.
+It requires Infomap to be installed on the system. See installation instructions at
+\href{https://www.mapequation.org/infomap/#Install}{Infomap}.
 }
 \details{
 If the network has the \code{weight} attribute, it will be used as the weight of the edges.
 }
 \examples{
 \dontrun{
-  ig_list <- list(ig_p1, ig_p2, ig_p3)  # List of igraph objects
-  layer_names <- c("Pond 1", "Pond 2", "Pond 3")  # Corresponding layer names
-  result <- run_infomap_multi(ig_list, layer_names)
-  print(result)
+# Load network data
+fileName <- system.file("extdata", package = "multiweb")
+dn <- list.files(fileName, pattern = "^Kefi2015.*\\\\.txt$")
+g <- readNetwork(dn, fileName, skipColumn = 2)
+class(g)
+names(g) <- c("Negative", "Positive", "Trophic")
+
+# Run Infomap
+run_infomap_multi(g)
 }
 
+}
+\references{
+D. Edler, A. Holmgren and M. Rosvall, \emph{The MapEquation software package}, available online at \url{https://www.mapequation.org}.
 }

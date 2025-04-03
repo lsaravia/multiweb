@@ -259,33 +259,47 @@ write_multilayer_network <- function(igraph_list, file_path) {
 #'
 #' This function exports a multilayer network (as a list of igraph objects) into Infomap's required format,
 #' runs Infomap via an external binary, and imports the detected communities back into R as a data frame.
-#' It requires Infomap to be installed on the system from [Infomap](https://www.mapequation.org/infomap/#Install).
+#' It requires Infomap to be installed on the system. See installation instructions at
+#' [Infomap](https://www.mapequation.org/infomap/#Install).
 #'
 #' If the network has the `weight` attribute, it will be used as the weight of the edges.
 #'
 #' @param igraph_list A list of `igraph` objects, each representing a network layer.
-#' @param layer_names A character vector with layer names corresponding to each igraph object, default NULL.
-#' @param infomap_path Path to the Infomap binary (default assumes it's in the system `PATH`).
-#' @param output_dir A temporary directory for Infomap results. Default is `tempdir()`.
-#' @param directed Logical: Treat the network as directed (default `TRUE`).
-#' @param two_level Logical: Use two-level Infomap (default `TRUE`).
-#' @param multilayer_relax_rate Numeric: Relaxation rate for multilayer links (default `0.15`).
-#' @param seed Numeric: Random seed for Infomap (default `123`).
+#' @param layer_names A character vector with layer names corresponding to each igraph object (default: `NULL`).
+#' @param infomap_path Character string specifying the path to the Infomap binary (default: `"infomap"`, assumes it is in the system `PATH`).
+#' @param output_dir Character string specifying the directory for Infomap results (default: `tempdir()`).
+#' @param directed Logical; if `TRUE`, the network is treated as directed (default: `TRUE`).
+#' @param two_level Logical; if `TRUE`, uses two-level Infomap instead of hierarchical Infomap (default: `TRUE`).
+#' @param multilayer_relax_rate Numeric; relaxation rate for multilayer links (default: `0.15`).
+#' @param seed Numeric; random seed for Infomap to ensure reproducibility (default: `123`).
+#'
 #' @return A data frame containing the detected modules with columns:
+#' \describe{
 #'   \item{module}{Module/community assignment from Infomap.}
-#'   \item{node}{The actual node name from the original igraph objects.}
+#'   \item{node}{The node name from the original igraph objects.}
 #'   \item{layer}{The corresponding layer name from `layer_names`.}
 #'   \item{flow}{The fraction of flow assigned to the module.}
+#' }
+#'
+#' @references
+#' D. Edler, A. Holmgren and M. Rosvall, *The MapEquation software package*, available online at \url{https://www.mapequation.org}.
+#'
+#' @importFrom igraph as_edgelist E V
+#' @importFrom dplyr mutate select rename left_join bind_rows
 #'
 #' @examples
 #' \dontrun{
-#'   ig_list <- list(ig_p1, ig_p2, ig_p3)  # List of igraph objects
-#'   layer_names <- c("Pond 1", "Pond 2", "Pond 3")  # Corresponding layer names
-#'   result <- run_infomap_multi(ig_list, layer_names)
-#'   print(result)
+#' # Load network data
+#' fileName <- system.file("extdata", package = "multiweb")
+#' dn <- list.files(fileName, pattern = "^Kefi2015.*\\.txt$")
+#' g <- readNetwork(dn, fileName, skipColumn = 2)
+#' class(g)
+#' names(g) <- c("Negative", "Positive", "Trophic")
+#'
+#' # Run Infomap
+#' run_infomap_multi(g)
 #' }
 #'
-#' @import igraph dplyr
 #' @export
 run_infomap_multi <- function(igraph_list, layer_names=NULL, infomap_path = "infomap", output_dir = tempdir(),
                               directed = TRUE, two_level = TRUE, multilayer_relax_rate = 0.15, seed = 123) {

@@ -14,16 +14,19 @@
 #' @param use_numbers Logical; if `TRUE`, nodes are labeled with numeric IDs instead of species names to reduce label overlap in large networks (default: `FALSE`).
 #' @param label_size Numeric, font size for node labels (default: 4).
 #' @param arrow_size Numeric, size of the arrowheads for directed edges (default: 0.15).
+#' @param shorten_factor Numeric, a small factor to adjust arrow placement by slightly shortening edges.
+#'   This prevents arrowheads from overlapping with node centers. A small positive value (e.g., 0.005) works well (default: `0.005`).
 #'
 #' @return A `ggplot` object visualizing the trophic structure of the network.
 #'   If `use_numbers = TRUE`, it also returns a `tibble` mapping numeric labels to species names.
 #'
-#' @importFrom igraph degree get.adjacency V count_components cluster_spinglass induced_subgraph components
+#' @importFrom igraph degree get.adjacency V count_components cluster_spinglass induced_subgraph components is_directed
 #' @importFrom NetIndices TrophInd
-#' @importFrom ggplot2 ggplot geom_segment geom_point theme_bw theme element_blank element_text labs
+#' @importFrom ggplot2 ggplot geom_segment geom_point theme_bw theme element_blank element_text labs scale_color_viridis_c geom_curve geom_vline
 #' @importFrom ggrepel geom_text_repel
-#' @importFrom dplyr mutate row_number select left_join
+#' @importFrom dplyr mutate row_number select left_join rename
 #' @importFrom tibble tibble as_tibble
+#' @importFrom grid unit
 #' @export
 #'
 #' @examples
@@ -34,7 +37,7 @@
 #'
 plot_troph_level_ggplot <- function(g, vertexSizeFactor = 5, vertexSizeMin = 5, modules = FALSE,
                                     weights = NA, community_obj = NULL, maxTL = NULL,
-                                    use_numbers = FALSE, label_size = 4, arrow_size = 0.15) {
+                                    use_numbers = FALSE, label_size = 4, arrow_size = 0.15,shorten_factor=0.005) {
 
   # Compute node degree and trophic level
   deg <- degree(g, mode = "all")
@@ -115,7 +118,6 @@ plot_troph_level_ggplot <- function(g, vertexSizeFactor = 5, vertexSizeMin = 5, 
 
   if (directed) {
     # Adjust arrow placement by shortening the edges
-    shorten_factor <- 0.005  # Adjust this factor if needed
     edges <- edges %>%
       mutate(
         dx = x_to - x_from,
