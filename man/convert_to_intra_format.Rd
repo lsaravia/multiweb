@@ -4,10 +4,12 @@
 \alias{convert_to_intra_format}
 \title{Convert a List of igraph Objects to Intralayer Edge Format}
 \usage{
-convert_to_intra_format(igraph_list)
+convert_to_intra_format(igraph_list, use_names = FALSE)
 }
 \arguments{
 \item{igraph_list}{A list of \code{igraph} objects, each representing a network layer.}
+
+\item{use_names}{Logical; if \code{TRUE}, edges will use node names instead of numeric IDs (default: \code{FALSE}).}
 }
 \value{
 A list with two data frames:

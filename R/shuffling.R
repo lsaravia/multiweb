@@ -99,9 +99,9 @@ shuffle_network_deg <- function(input_graph, delta = 100, directed = TRUE,weight
     w_attr <- NULL
   }
 
-  # check weighted graph
-  if(weighted && is.null(edge_attr(input_graph, "weight"))) {
-    stop( "Weighted graph must have 'weight' attribute on edges.")
+  # Check for weighted graphs
+  if (weighted && inherits(input_graph, "igraph") && is.null(edge_attr(input_graph, "weight"))) {
+    stop("Weighted graph must have 'weight' attribute on edges.")
   }
 
   # Convert igraph object to adjacency matrix if needed
@@ -243,6 +243,7 @@ generate_shuffled_seq <- function(original_graph, max_delta = 10, delta = 10,
 #'
 #' @import igraph
 #' @export
+#'
 shuffle_network_ws <- function(input_graph, delta = 100, directed = TRUE, weighted = TRUE) {
   if (weighted) {
     w_attr <- "weight"
@@ -257,43 +258,54 @@ shuffle_network_ws <- function(input_graph, delta = 100, directed = TRUE, weight
 
   # Convert igraph object to adjacency matrix if needed
   if (inherits(input_graph, "igraph")) {
-    A <- as.matrix(as_adjacency_matrix(input_graph, attr = w_attr, sparse = FALSE))
+    A_orig <- as.matrix(as_adjacency_matrix(input_graph, attr = w_attr, sparse = FALSE))
   } else {
-    A <- input_graph  # Assume it's already an adjacency matrix
+    A_orig <- input_graph
   }
 
   mode <- ifelse(directed, "directed", "undirected")
-  original_A <- A   # Save the original network
 
-  # Step 1: Get positions of existing links (1s) and absent links (0s)
-  ones_list <- which(A > 0, arr.ind = TRUE)  # List of (row, col) positions of existing links
-  zeros_list <- which(A == 0, arr.ind = TRUE) # List of (row, col) positions where no link exists
+  repeat {
+    A <- A_orig  # Start from original each time
 
-  for (iter in 1:delta) {
-    if (nrow(ones_list) == 0 || nrow(zeros_list) == 0) break  # No rewiring possible
+    # Step 1: Get positions of existing links (1s) and absent links (0s)
+    ones_list <- which(A > 0, arr.ind = TRUE)
+    zeros_list <- which(A == 0, arr.ind = TRUE)
 
-    # Step 3: Choose a random existing edge
-    selected_edge <- sample(1:nrow(ones_list), 1)
-    i <- ones_list[selected_edge, 1]
-    j <- ones_list[selected_edge, 2]
+    for (iter in seq_len(delta)) {
+      if (nrow(ones_list) == 0 || nrow(zeros_list) == 0) break
 
-    # Step 4: Check if the node has more than one neighbor
-    if (sum(A[i, ] > 0) > 1) {
+      # Step 3: Choose a random existing edge
+      selected_edge <- sample(nrow(ones_list), 1)
+      i <- ones_list[selected_edge, 1]
+      j <- ones_list[selected_edge, 2]
 
-      # Step 5: Choose a random absent link (to replace the existing one)
-      selected_zero <- sample(1:nrow(zeros_list), 1)
-      i_new <- zeros_list[selected_zero, 1]
-      j_new <- zeros_list[selected_zero, 2]
+      # Step 4: Check if the node has more than one neighbor
+      if (sum(A[i, ] > 0) > 1) {
 
-      # Step 6: Perform the swap in the adjacency matrix
-      A[i_new, j_new] <- A[i, j]  # Move weight (if weighted) or assign 1 (if unweighted)
-      A[i, j] <- 0  # Remove the original link
+        # Step 5: Choose a random absent link (to replace the existing one)
+        selected_zero <- sample(nrow(zeros_list), 1)
+        i_new <- zeros_list[selected_zero, 1]
+        j_new <- zeros_list[selected_zero, 2]
 
-      # Update ones_list and zeros_list accordingly
-      ones_list <- which(A > 0, arr.ind = TRUE)
-      zeros_list <- which(A == 0, arr.ind = TRUE)
+
+        # Step 6: Perform the swap in the adjacency matrix
+        A[i_new, j_new] <- A[i, j]  # Move weight (if weighted) or assign 1 (if unweighted)
+        A[i, j] <- 0  # Remove the original link
+
+        # Update ones_list and zeros_list accordingly
+        ones_list <- which(A > 0, arr.ind = TRUE)
+        zeros_list <- which(A == 0, arr.ind = TRUE)
+      }
     }
-  }
 
-  return(A)
+    # Check connectivity
+    g <- graph_from_adjacency_matrix(A, mode = mode, weighted = weighted)
+
+    if (components(g, mode = "weak")$no == 1) {
+      return(A)
+    }
+
+    # else: repeat again
+  }
 }

@@ -725,3 +725,33 @@ plot_troph_level_ggplot(g[[2]], arrow_size = 0.05, label_size = 2)
 plot_troph_level_ggplot(g[[3]], arrow_size = 0.05, label_size = 2,shorten_factor=0.001)
 
 plot_troph_level(g[[1]])
+convert_to_intra_format(g)
+names(g)
+
+(gs <- convert_to_supra_adjacency(g,interlayer_weight = 0.4, layer_names= names(g),use_names = TRUE))
+ig <- igraph::graph_from_adjacency_matrix(gs$supra_matrix, mode = "directed", weighted = TRUE)
+mo <- run_infomap(ig, output_dir = ".")
+plot_troph_level_ggplot(ig,modules=TRUE,community_obj=mo)
+
+calc_centrality(ig,centrality_func = igraph::page_rank)
+
+gs <- convert_to_supra_adjacency(g,interlayer_weight = 0.4, layer_names= names(g),use_names = TRUE,interlayer=FALSE)
+ig <- igraph::graph_from_adjacency_matrix(gs$supra_matrix, mode = "directed", weighted = TRUE)
+calc_centrality(ig,centrality_func = igraph::page_rank)
+
+calc_svd_entropy_importance(ig)
+
+#
+# Shuffling and infoMap
+#
+names(netData)
+generate_shuffled_seq(netData[[29]], modularity_func = run_infomap, shuffle_func = shuffle_network_deg)
+generate_shuffled_seq(netData[[29]], modularity_func = run_infomap)
+generate_shuffled_seq(netData[[23]], modularity_func = run_infomap, shuffle_func = shuffle_network_deg)
+generate_shuffled_seq(netData[[23]], modularity_func = run_infomap)
+
+generate_shuffled_seq(netData[[1]], modularity_func = run_infomap, shuffle_func = shuffle_network_deg)
+generate_shuffled_seq(netData[[1]], modularity_func = run_infomap)
+
+shuffle_network_deg(netData[[29]],weighted=FALSE)
+run_infomap(netData[[29]], output_dir = ".")

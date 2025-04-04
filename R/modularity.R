@@ -92,7 +92,7 @@ run_infomap <- function(graph, infomap_path = "infomap", output_dir = tempdir(),
   clu_file <- file.path(output_dir, "network.clu")
 
   # Export graph to Infomap's own format
-  edges <- as.data.frame(get.edgelist(graph))
+  edges <- as.data.frame(as_edgelist(graph))
   colnames(edges) <- c("source", "target")
 
   if(is.null(edge_attr(graph, "weight"))) {
@@ -161,6 +161,7 @@ run_infomap <- function(graph, infomap_path = "infomap", output_dir = tempdir(),
 #' with layer-specific identifiers.
 #'
 #' @param igraph_list A list of `igraph` objects, each representing a network layer.
+#' @param use_names Logical; if `TRUE`, edges will use node names instead of numeric IDs (default: `FALSE`).
 #' @return A list with two data frames:
 #'   \item{vertices}{A data frame containing node_id and corresponding node names.}
 #'   \item{intra}{A data frame containing intra-layer edges with columns: `layer_id`, `node_id1`, `node_id2`, `weight`.}
@@ -174,7 +175,7 @@ run_infomap <- function(graph, infomap_path = "infomap", output_dir = tempdir(),
 #'
 #' @import igraph
 #' @export
-convert_to_intra_format <- function(igraph_list) {
+convert_to_intra_format <- function(igraph_list, use_names = FALSE) {
   # Extract unique node names from all layers
   all_nodes <- unique(unlist(lapply(igraph_list, function(g) V(g)$name)))
   node_df <- data.frame(node_id = seq_along(all_nodes), name = all_nodes)
@@ -194,10 +195,10 @@ convert_to_intra_format <- function(igraph_list) {
     }
 
     # Map node names to numeric IDs
-    data.frame(
+    tibble(
       layer_id = layer_id,
-      node_id1 = node_map[edges$from],
-      node_id2 = node_map[edges$to],
+      node_id1 = if (use_names) edges$from else node_map[edges$from],
+      node_id2 = if (use_names) edges$to else node_map[edges$to],
       weight = edges$weight
     )
   }))
