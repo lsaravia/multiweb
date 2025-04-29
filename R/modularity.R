@@ -124,17 +124,14 @@ run_infomap <- function(graph, infomap_path = "infomap", output_dir = tempdir(),
   clu_lines <- readLines(clu_file)
 
   # Extract codelength from output
-  codelength_line <- clu_lines[grep("codelength", clu_lines)]
-  if (length(codelength_line) > 0) {
-    codelength_match <- regmatches(codelength_line, regexpr("[0-9]+\\.[0-9]+", codelength_line))
-    codelength <- as.numeric(codelength_match)
+  codelength_line <- clu_lines[grep("^# codelength", clu_lines)]
+  codelength <- if (length(codelength_line) > 0) {
+    as.numeric(sub(".*codelength ([0-9\\.]+) bits.*", "\\1", codelength_line))
   } else {
-    codelength <- NA  # Assign NA if no match is found
+    NA
   }
-  #codelength <- as.numeric(sub(".*codelength ([0-9.]+) bits.*", "\\1", codelength_line))[1]
 
   # Read the .clu file
-
   clu_data <- read.delim(clu_file, comment.char = "#", header = FALSE, sep = " ", col.names = c("node_id", "module", "flow"))
   # Ensure correct order by sorting by node_id
   clu_data <- clu_data[order(clu_data$node_id), ]
@@ -264,6 +261,15 @@ write_multilayer_network <- function(igraph_list, file_path) {
 #' [Infomap](https://www.mapequation.org/infomap/#Install).
 #'
 #' If the network has the `weight` attribute, it will be used as the weight of the edges.
+#' Since the exported multilayer network structure assumes only `*Intra` links (i.e., no explicit inter-layer links),
+#' Infomap internally constructs inter-layer connections for each physical node using the `--multilayer-relax-rate`
+#' parameter (default: 0.15). This creates inter-layer links between all instances of the same node across layers.
+#' The weights of these links are proportional to the weighted out-degree of the node in the target layer,
+#' resulting in non-uniform inter-layer transition probabilities.
+#'
+#' This implicit construction of inter-layer links enables Infomap to model node-aligned multiplex dynamics
+#' without requiring an explicit `*Inter` section in the input file.
+
 #'
 #' @param igraph_list A list of `igraph` objects, each representing a network layer.
 #' @param layer_names A character vector with layer names corresponding to each igraph object (default: `NULL`).
@@ -328,12 +334,11 @@ run_infomap_multi <- function(igraph_list, layer_names=NULL, infomap_path = "inf
   clu_lines <- readLines(clu_file)
 
   # Extract codelength from output
-  codelength_line <- clu_lines[grep("codelength", clu_lines)]
-  if (length(codelength_line) > 0) {
-    codelength_match <- regmatches(codelength_line, regexpr("[0-9]+\\.[0-9]+", codelength_line))
-    codelength <- as.numeric(codelength_match)
+  codelength_line <- clu_lines[grep("^# codelength", clu_lines)]
+  codelength <- if (length(codelength_line) > 0) {
+    as.numeric(sub(".*codelength ([0-9\\.]+) bits.*", "\\1", codelength_line))
   } else {
-    codelength <- NA  # Assign NA if no match is found
+    NA
   }
 
   # Read the states.clu file
@@ -356,7 +361,12 @@ run_infomap_multi <- function(igraph_list, layer_names=NULL, infomap_path = "inf
     clu_data <- clu_data %>% rename(layer = layer_id)  # Keep numeric ID if names are missing
   }
 
-  return(clu_data %>% dplyr::select(module,  node, layer, flow))
+
+  result <- list(
+    communities = clu_data %>% dplyr::select(module, node, layer, flow),
+    codelength = codelength
+  )
+  return(result)
 }
 
 

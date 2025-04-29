@@ -1,6 +1,12 @@
 # Version  0.7.40.0000
 
 * Added functions 
+  - run_infomap_multi to run the python implementation of Infomap for node aligned multiplex networks
+  - Other aux functions like write_multilayer_network() convert_to_intra_format()
+
+# Version  0.7.40.0000
+
+* Added functions 
   - run_infomap to run the python implementation of Infomap 
   - calc_centrality instead of calc_eigencentrality to calculate the centrality of a network using any defined measure
 

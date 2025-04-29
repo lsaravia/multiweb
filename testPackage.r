@@ -728,11 +728,45 @@ plot_troph_level(g[[1]])
 convert_to_intra_format(g)
 names(g)
 
-(gs <- convert_to_supra_adjacency(g,interlayer_weight = 0.4, layer_names= names(g),use_names = TRUE))
+(gs <- convert_to_supra_adjacency(g,interlayer_weight = 0.15, layer_names= names(g),use_names = TRUE))
 ig <- igraph::graph_from_adjacency_matrix(gs$supra_matrix, mode = "directed", weighted = TRUE)
 mo <- run_infomap(ig, output_dir = ".")
+membership(mo)
+mo$codelength
 plot_troph_level_ggplot(ig,modules=TRUE,community_obj=mo)
 
+# Result from multilayer Infomap
+
+res_multi <- run_infomap_multi(g, layer_names = names(g))$communities
+multi_modules <- paste0(res_multi$layer, "_", gsub("\\s+", "_", tolower(res_multi$node)))
+multi_membership <- setNames(res_multi$module, multi_modules)
+
+# Result from monolayer projection
+mono_membership <- membership(mo)
+# Clean names in mono_membership for fair comparison
+names(mono_membership) <- gsub("\\s+", "_", names(mono_membership))
+common_nodes <- intersect(names(multi_membership), names(mono_membership))
+
+comparison <- data.frame(
+  Node = common_nodes,
+  Multi = multi_membership[common_nodes],
+  Mono = mono_membership[common_nodes]
+)
+
+comparison$Same <- comparison$Multi == comparison$Mono
+print(comparison)
+table(comparison$Same)
+
+# To quantitatively compare clustering similarity, use mclust::adjustedRandIndex:
+
+if (!requireNamespace("mclust", quietly = TRUE)) install.packages("mclust")
+library(mclust)
+
+adjustedRandIndex(multi_membership[common_nodes], mono_membership[common_nodes])
+
+#
+# Centrality
+#
 calc_centrality(ig,centrality_func = igraph::page_rank)
 
 gs <- convert_to_supra_adjacency(g,interlayer_weight = 0.4, layer_names= names(g),use_names = TRUE,interlayer=FALSE)
@@ -755,3 +789,15 @@ generate_shuffled_seq(netData[[1]], modularity_func = run_infomap)
 
 shuffle_network_deg(netData[[29]],weighted=FALSE)
 run_infomap(netData[[29]], output_dir = ".")
+
+require(igraph)
+require(NetIndices)
+g <-   graph_from_literal( 1 -+ 4 -+ 7,2 -+ 5 -+7, 3-+6-+7, 7-+7, 4+-3, 2-+7, simplify = FALSE)
+g1 <-  graph_from_literal( 5 + 4 + 6,3 + 1 + 2, simplify = FALSE)
+calc_topological_indices(g)
+plot_troph_level_ggplot(g,modules = TRUE)
+gs <- convert_to_supra_adjacency(list(g,g1),interlayer_weight = 0.4, layer_names= c("Trophic","Competitive"),use_names = TRUE)
+ig <- igraph::graph_from_adjacency_matrix(gs$supra_matrix, mode = "directed", weighted = TRUE)
+calc_centrality(ig,centrality_func = igraph::page_rank)
+co <- run_infomap(ig)
+plot_troph_level_ggplot(ig,modules=TRUE,community_obj=co)

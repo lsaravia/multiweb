@@ -49,6 +49,14 @@ It requires Infomap to be installed on the system. See installation instructions
 }
 \details{
 If the network has the \code{weight} attribute, it will be used as the weight of the edges.
+Since the exported multilayer network structure assumes only \verb{*Intra} links (i.e., no explicit inter-layer links),
+Infomap internally constructs inter-layer connections for each physical node using the \code{--multilayer-relax-rate}
+parameter (default: 0.15). This creates inter-layer links between all instances of the same node across layers.
+The weights of these links are proportional to the weighted out-degree of the node in the target layer,
+resulting in non-uniform inter-layer transition probabilities.
+
+This implicit construction of inter-layer links enables Infomap to model node-aligned multiplex dynamics
+without requiring an explicit \verb{*Inter} section in the input file.
 }
 \examples{
 \dontrun{
