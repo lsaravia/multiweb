@@ -1,4 +1,8 @@
-# Version  0.7.40.0000
+# Version  0.7.90.0000
+
+* The function plot_troph_level_ggplot() was updated to use return the ggplot2 object.
+
+# Version  0.7.80.0000
 
 * Added functions 
   - run_infomap_multi to run the python implementation of Infomap for node aligned multiplex networks

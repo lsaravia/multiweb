@@ -792,10 +792,13 @@ run_infomap(netData[[29]], output_dir = ".")
 
 require(igraph)
 require(NetIndices)
+require(ggplot2)
 g <-   graph_from_literal( 1 -+ 4 -+ 7,2 -+ 5 -+7, 3-+6-+7, 7-+7, 4+-3, 2-+7, simplify = FALSE)
 g1 <-  graph_from_literal( 5 + 4 + 6,3 + 1 + 2, simplify = FALSE)
 calc_topological_indices(g)
-plot_troph_level_ggplot(g,modules = TRUE)
+
+plot_troph_level_ggplot(g,modules = TRUE) + ggtitle("Example title")
+
 gs <- convert_to_supra_adjacency(list(g,g1),interlayer_weight = 0.4, layer_names= c("Trophic","Competitive"),use_names = TRUE)
 ig <- igraph::graph_from_adjacency_matrix(gs$supra_matrix, mode = "directed", weighted = TRUE)
 calc_centrality(ig,centrality_func = igraph::page_rank)

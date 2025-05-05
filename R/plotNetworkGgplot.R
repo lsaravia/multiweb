@@ -164,10 +164,12 @@ plot_troph_level_ggplot <- function(g, vertexSizeFactor = 5, vertexSizeMin = 5, 
     p <- p + theme(axis.title.x = element_blank())  # Remove x-axis label
   }
 
-  print(p)
+  # print(p)
 
   # Return node mapping if using numbers
   if (use_numbers) {
     return(node_map)
+  } else {
+    return(p)
   }
 }
