@@ -73,7 +73,8 @@ calc_modularity <- function(ig, ncores = 0, cluster_function = cluster_spinglass
 #' @param directed Boolean: Treat the network as directed (default TRUE).
 #' @param two_level Boolean: Use two-level Infomap (default TRUE).
 #' @param seed Numeric: Random seed for Infomap (default 123).
-#' @return An igraph community object similar to igraph's cluster_infomap.
+#' @param return_df Boolean: If TRUE, return a data.frame with `node`, `module`, and `flow`; if FALSE, return a community object (default).
+#' @return Either an igraph community object or a list with a data.frame and codelength.
 #'
 #' @examples
 #' # Example with the intermediate files in actual folder
@@ -85,7 +86,8 @@ calc_modularity <- function(ig, ncores = 0, cluster_function = cluster_spinglass
 #' @import igraph
 #' @export
 run_infomap <- function(graph, infomap_path = "infomap", output_dir = tempdir(),
-                        directed = TRUE, two_level = TRUE, seed = 123) {
+                        directed = TRUE, two_level = TRUE, seed = 123,
+                        return_df = FALSE) {
 
   # Define file paths
   net_file <- file.path(output_dir, "network.net")
@@ -136,17 +138,27 @@ run_infomap <- function(graph, infomap_path = "infomap", output_dir = tempdir(),
   # Ensure correct order by sorting by node_id
   clu_data <- clu_data[order(clu_data$node_id), ]
 
-  # Assign communities to igraph object
-  membership <- clu_data$module
+  # Add original node names
+  node_names <- names(node_ids)
+  clu_data$node <- node_names[clu_data$node_id]
 
-  community_obj <- make_clusters(graph, membership = membership, algorithm = "infomap")
-  community_obj$codelength <- codelength
-
-  # Assign names if available
-  if (!is.null(V(graph)$name)) {
-    community_obj$names <- V(graph)$name
+  if (return_df) {
+    result <- list(
+      communities = clu_data %>% dplyr::select(module, node, flow),
+      codelength = codelength
+    )
+    return(result)
+  } else {
+    # Assign communities to igraph object
+    membership <- clu_data$module
+    community_obj <- make_clusters(graph, membership = membership, algorithm = "infomap")
+    community_obj$codelength <- codelength
+    # Assign names if available
+    if (!is.null(V(graph)$name)) {
+      community_obj$names <- V(graph)$name
+    }
+    return(community_obj)
   }
-  return(community_obj)
 }
 
 #' Convert a List of igraph Objects to Intralayer Edge Format

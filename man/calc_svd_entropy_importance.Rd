@@ -35,3 +35,6 @@ print(results$Plot_Prey_Importance)
 print(results$Plot_Predator_Importance)
 
 }
+\seealso{
+\code{\link{calc_svd_entropy}} for a lighter version returning only entropy and rank.
+}

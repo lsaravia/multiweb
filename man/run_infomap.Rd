@@ -10,7 +10,8 @@ run_infomap(
   output_dir = tempdir(),
   directed = TRUE,
   two_level = TRUE,
-  seed = 123
+  seed = 123,
+  return_df = FALSE
 )
 }
 \arguments{
@@ -25,9 +26,11 @@ run_infomap(
 \item{two_level}{Boolean: Use two-level Infomap (default TRUE).}
 
 \item{seed}{Numeric: Random seed for Infomap (default 123).}
+
+\item{return_df}{Boolean: If TRUE, return a data.frame with \code{node}, \code{module}, and \code{flow}; if FALSE, return a community object (default).}
 }
 \value{
-An igraph community object similar to igraph's cluster_infomap.
+Either an igraph community object or a list with a data.frame and codelength.
 }
 \description{
 This function exports an igraph network to Infomap's required format, runs Infomap,

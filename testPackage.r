@@ -699,17 +699,32 @@ generate_shuffled_seq(g, shuffle_func = shuffle_network_ws, weighted = TRUE)
 # InfoMap monolayer
 #
 
-g <- netData[[29]]
-run_infomap(g, output_dir = ".")
-py_infomap <- run_infomap(g)
+g <- netData[[23]]
+py_infomap0 <- run_infomap(g, output_dir = ".",return_df = TRUE)
+py_infomap0$codelength
+py_infomap0 <-py_infomap0$communities
+py_infomap0 %>% filter(module == 1)
+(py_infomap <- run_infomap(g))
 membership(py_infomap)
+py_infomap$codelength
+ig_infomap <- cluster_infomap(g)
+ig_infomap$codelength
+
 E(g)$weight <-  runif(ecount(g),0.1,2)
 run_infomap(g)
 
 g <- netData[[23]]
 gl <- curve_ball(g)
 modl <- calc_modularity(gl,cluster_function = run_infomap)
+
+
 ggplot(modl,aes(x=Modularity)) + geom_density()
+ggplot(modl, aes(x = Modularity)) +
+  geom_density(fill = "skyblue", alpha = 0.5) +
+  geom_vline(xintercept = py_infomap$modularity, color = "red", linetype = "dashed") +
+  labs(title = "Distribution of Modularity under Curveball Randomization",
+       x = "Modularity", y = "Density") + theme_bw()
+#ggsave("~/Downloads/modularity_density_plot.png", width=8,height=6,units="in",dpi=600)
 
 #
 # infomap multilayer
@@ -779,12 +794,31 @@ calc_svd_entropy_importance(ig)
 # Shuffling and infoMap
 #
 names(netData)
-generate_shuffled_seq(netData[[29]], modularity_func = run_infomap, shuffle_func = shuffle_network_deg)
+result <- generate_shuffled_seq(netData[[29]], modularity_func = run_infomap, shuffle_func = shuffle_network_deg)
+# # Extract modularity metrics
+# metrics_df <- result$Metrics
+#
+# # Add a column identifying the original vs shuffled
+# metrics_df$Type <- ifelse(metrics_df$Step == 1, "Original", "Shuffled")
+#
+# # Plot modularity over shuffle steps
+# ggplot(metrics_df, aes(x = Step, y = Modularity, color = Type)) +
+#   geom_line() +
+#   geom_point(size = 2) +
+#   labs(title = "Modularity over Network Shuffling",
+#        x = "Shuffle Step",
+#        y = "Modularity",
+#        color = "Network Type") +
+#   theme_bw()
+#
+# ggsave("~/Downloads/degree_shuffling_plot.png", width=8,height=6,units="in",dpi=600)
+
+
 generate_shuffled_seq(netData[[29]], modularity_func = run_infomap)
 generate_shuffled_seq(netData[[23]], modularity_func = run_infomap, shuffle_func = shuffle_network_deg)
 generate_shuffled_seq(netData[[23]], modularity_func = run_infomap)
 
-generate_shuffled_seq(netData[[1]], modularity_func = run_infomap, shuffle_func = shuffle_network_deg)
+generate_shuffled_seq(netData[[1]], modularity_func = run_infomap, shuffle_func = shuffle_network_ws)
 generate_shuffled_seq(netData[[1]], modularity_func = run_infomap)
 
 shuffle_network_deg(netData[[29]],weighted=FALSE)
@@ -796,6 +830,7 @@ require(ggplot2)
 g <-   graph_from_literal( 1 -+ 4 -+ 7,2 -+ 5 -+7, 3-+6-+7, 7-+7, 4+-3, 2-+7, simplify = FALSE)
 g1 <-  graph_from_literal( 5 + 4 + 6,3 + 1 + 2, simplify = FALSE)
 calc_topological_indices(g)
+generate_shuffled_seq(g, modularity_func = run_infomap, shuffle_func = shuffle_network_deg)
 
 plot_troph_level_ggplot(g,modules = TRUE) + ggtitle("Example title")
 

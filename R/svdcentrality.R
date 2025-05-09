@@ -16,6 +16,8 @@
 #' \item{Plot_Prey_Importance}{A ggplot object showing the top prey species contributing to the largest singular value.}
 #' \item{Plot_Predator_Importance}{A ggplot object showing the top predator species contributing to the largest singular value.}
 #'
+#' @seealso \code{\link{calc_svd_entropy}} for a lighter version returning only entropy and rank.
+#'
 #' @examples
 #'
 #' results <- calc_svd_entropy_importance(netData[[1]])

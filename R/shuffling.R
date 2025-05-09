@@ -81,14 +81,27 @@ generate_shuffled_seq_tol <- function(input_graph, delta = 10, max_iterations = 
 
 #' Degree-Preserving Network Shuffling via Edge Swaps
 #'
-#' This function shuffles a directed network while preserving node degrees.
+#' This function shuffles a directed network while preserving in-degree and out-degree.
 #' It follows a controlled randomization process by swapping edges iteratively.
+#' Similar to the `curve_ball()` function but more computationally demanding.
+#' This function is useful for generating increasingly randomized networks,
+#' to generate fully randomized networks, the `curbe_ball()` function is preferred.
 #'
 #' @param A A square adjacency matrix (directed, weighted or unweighted).
 #' @param delta Number of edge swaps to perform.
 #' @param max_attempts Number of times to attempt a valid swap before stopping.
 #'
 #' @return A shuffled adjacency matrix preserving in-degree and out-degree.
+#'
+#' @references
+#'
+#' Huaylla, C. A., Nacif, M. E., Coulin, C., Kuperman, M. N., & Garibaldi, L. A. (2021).
+#' Decoding information in multilayer ecological networks: The keystone species case.
+#' Ecological Modelling, 460, 109734. https://doi.org/10.1016/j.ecolmodel.2021.109734
+#'
+#' Strona, G., Nappo, D., Boccacci, F., Fattorini, S., & San-Miguel-Ayanz, J. (2014).
+#' A fast and unbiased procedure to randomize ecological binary matrices with fixed row and column totals.
+#' Nature Communications, 5, 4114. https://doi.org/10.1038/ncomms5114
 #'
 #' @import igraph
 #' @export
