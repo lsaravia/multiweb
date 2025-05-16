@@ -1,3 +1,15 @@
+# Version  0.8.10.0000
+
+* Improve plot_multi3D() and added harmonized_node_sets to add all the nodes to all layers, needed for plot_multi3D().
+
+# Version  0.8.00.0000
+
+* Added functions
+
+  - plot_multi3D() was adapted from package muxViz.
+  - convert_infomap_result_to_muxviz() to convert the output of `run_infomap_multi()` to 
+    muxViz-Compatible Format.
+
 # Version  0.7.90.0000
 
 * The function plot_troph_level_ggplot() was updated to use return the ggplot2 object.

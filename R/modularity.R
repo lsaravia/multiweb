@@ -104,6 +104,11 @@ run_infomap <- function(graph, infomap_path = "infomap", output_dir = tempdir(),
   }
 
   # Ensure node IDs are consecutive integers (Infomap requires this)
+  # and handle missing names
+  if (is.null(V(graph)$name)) {
+    V(graph)$name <- as.character(seq_along(V(graph)))
+  }
+  node_names <- V(graph)$name
   node_ids <- setNames(seq_along(V(graph)), V(graph)$name)
   edges$source <- node_ids[edges$source]
   edges$target <- node_ids[edges$target]
@@ -139,7 +144,6 @@ run_infomap <- function(graph, infomap_path = "infomap", output_dir = tempdir(),
   clu_data <- clu_data[order(clu_data$node_id), ]
 
   # Add original node names
-  node_names <- names(node_ids)
   clu_data$node <- node_names[clu_data$node_id]
 
   if (return_df) {

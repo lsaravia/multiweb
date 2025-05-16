@@ -730,11 +730,11 @@ ggplot(modl, aes(x = Modularity)) +
 # infomap multilayer
 #
 fileName <- c(system.file("extdata",  package = "multiweb"))
-dn <- list.files("inst/extdata",pattern = "^Kefi2015.*\\.txt$")
-g <- readNetwork(dn,"inst/extdata", skipColumn = 2)
+dn <- list.files(fileName,pattern = "^Kefi2015.*\\.txt$")
+g <- readNetwork(dn,fileName, skipColumn = 2)
 class(g)
 names(g) <- c("Negative","Positive","Trophic")
-run_infomap_multi(g)
+run_infomap_multi(g,names(g))
 plot_troph_level_ggplot(g[[1]], arrow_size = 0.05, label_size = 2)
 plot_troph_level_ggplot(g[[2]], arrow_size = 0.05, label_size = 2)
 plot_troph_level_ggplot(g[[3]], arrow_size = 0.05, label_size = 2,shorten_factor=0.001)
@@ -743,7 +743,7 @@ plot_troph_level(g[[1]])
 convert_to_intra_format(g)
 names(g)
 
-(gs <- convert_to_supra_adjacency(g,interlayer_weight = 0.15, layer_names= names(g),use_names = TRUE))
+(gs <- convert_to_supra_adjacency(g,interlayer_weight = 0.4, layer_names= names(g),use_names = TRUE))
 ig <- igraph::graph_from_adjacency_matrix(gs$supra_matrix, mode = "directed", weighted = TRUE)
 mo <- run_infomap(ig, output_dir = ".")
 membership(mo)
@@ -752,7 +752,7 @@ plot_troph_level_ggplot(ig,modules=TRUE,community_obj=mo)
 
 # Result from multilayer Infomap
 
-res_multi <- run_infomap_multi(g, layer_names = names(g))$communities
+res_multi <- run_infomap_multi(g, layer_names = names(g),multilayer_relax_rate = 0.4)$communities
 multi_modules <- paste0(res_multi$layer, "_", gsub("\\s+", "_", tolower(res_multi$node)))
 multi_membership <- setNames(res_multi$module, multi_modules)
 
