@@ -1,3 +1,7 @@
+# Version  0.8.20.0000
+
+* add plot_multiplex_modules() function to plot the modules of a multiplex network
+ 
 # Version  0.8.10.0000
 
 * Improve plot_multi3D() and added harmonized_node_sets to add all the nodes to all layers, needed for plot_multi3D().

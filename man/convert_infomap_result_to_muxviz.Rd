@@ -20,8 +20,7 @@ A named list with the following components:
 }
 \description{
 This function converts the community detection result from \code{run_infomap_multi()} (from the \code{multiweb} package)
-into a format compatible with \code{muxViz}, allowing direct use with visualization functions like \code{plot_multimodules()}
-and \code{plot_multi3D()}.
+into a format compatible with \code{muxViz}, allowing direct use with visualization function \code{plot_multimodules()}.
 }
 \details{
 It creates two key data frames:

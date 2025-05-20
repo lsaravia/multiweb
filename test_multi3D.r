@@ -13,6 +13,7 @@ dn <- list.files(fileName, pattern = "^Kefi2015.*\\.txt$")
 g_list <- readNetwork(dn, fileName, skipColumn = 2)
 names(g_list) <- c("Negative", "Positive", "Trophic")
 lapply(g_list, function(x){igraph::gorder(x)})
+
 # === Step 2: Detect communities using multiweb ===
 res <- run_infomap_multi(g_list, layer_names = names(g_list))
 communities <- res$communities

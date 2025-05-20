@@ -251,8 +251,7 @@ plot_multi3D <- function (g.list, layer.colors, as.undirected = T, layer.layout 
 #' Convert Infomap Community Output to muxViz-Compatible Format
 #'
 #' This function converts the community detection result from `run_infomap_multi()` (from the `multiweb` package)
-#' into a format compatible with `muxViz`, allowing direct use with visualization functions like `plot_multimodules()`
-#' and `plot_multi3D()`.
+#' into a format compatible with `muxViz`, allowing direct use with visualization function `plot_multimodules()`.
 #'
 #' It creates two key data frames:
 #' \itemize{
@@ -353,3 +352,91 @@ harmonize_node_sets <- function(g.list) {
 
   return(g.list)
 }
+
+#' Plot Modular Structure of a Multiplex Ecological Network
+#'
+#' This function visualizes each layer of a multiplex ecological network, with nodes colored
+#' by module membership and sized by Infomap flow values. It returns a list of `ggplot` objects.
+#'
+#' @param g_list A named list of `igraph` objects (e.g., from `readNetwork()`), each representing one layer.
+#' @param communities A data frame from `run_infomap_multi()$communities`, containing `node`, `module`, `layer`, `flow`.
+#' @param module_palette Optional named color palette for module IDs (default uses `RColorBrewer::Set2`).
+#' @param layout_graph Optional igraph object for layout (default is aggregate union of all layers).
+#' @param scale_factor Numeric multiplier for node size scaling by flow (default: 500).
+#'
+#' @return A named list of `ggplot` objects, one for each network layer.
+#'
+#' @examples
+#' fileName <- system.file("extdata", package = "multiweb")
+#' dn <- list.files(fileName, pattern = "^Kefi2015.*\\.txt$")
+#' g_list <- readNetwork(dn, fileName, skipColumn = 2)
+#' names(g_list) <- c("Negative", "Positive", "Trophic")
+#'
+#' res <- run_infomap_multi(g_list, layer_names = names(g_list))
+#' plots <- plot_multiplex_modules(g_list, res$communities)
+#' cowplot::plot_grid(plotlist = plots, ncol = 3)
+#'
+#' @import ggplot2 dplyr ggraph tidygraph igraph
+#' @export
+plot_multiplex_modules <- function(g_list,
+                                   communities,
+                                   module_palette = NULL,
+                                   layout_graph = NULL,
+                                   scale_factor = 500) {
+
+  if (is.null(names(g_list))) stop("g_list must be a named list of igraph objects.")
+
+  # Compute shared layout using union of all layers
+  if (is.null(layout_graph)) {
+    layout_graph <- GetAggregateNetworkFromNetworkList(g_list)
+  }
+  lay <- layout_with_fr(layout_graph)
+  layout_df <- data.frame(name = V(layout_graph)$name, x = lay[, 1], y = lay[, 2])
+
+  # Get module set and build palette
+  modules <- sort(unique(communities$module))
+  if (is.null(module_palette)) {
+    module_palette <- setNames(RColorBrewer::brewer.pal(min(length(modules), 8), "Set2"), modules)
+  }
+
+  # Generate plots per layer
+  plot_list <- lapply(names(g_list), function(lname) {
+    g_layer <- g_list[[lname]]
+    node_names <- V(g_layer)$name
+
+    # Get module + flow info
+    df_comm <- communities %>%
+      filter(layer == lname) %>%
+      group_by(node) %>%
+      slice_max(order_by = flow, n = 1, with_ties = FALSE) %>%
+      ungroup()
+
+    # Match layout
+    layout_layer <- layout_df %>% filter(name %in% node_names)
+
+    # Build tidygraph
+    g_tbl <- as_tbl_graph(g_layer) %>%
+      left_join(df_comm, by = c("name" = "node")) %>%
+      mutate(
+        module = factor(module),
+        size = ifelse(!is.na(flow), flow * scale_factor, 2)
+      )
+
+    # Return ggplot
+    ggraph(g_tbl, layout = "manual", x = layout_layer$x, y = layout_layer$y) +
+      geom_edge_link(color = "gray80", alpha = 0.4) +
+      geom_node_point(aes(color = module, size = size)) +
+      scale_color_manual(values = module_palette, na.translate = FALSE) +
+      scale_size_continuous(range = c(1, 8)) +
+      labs(title = lname) +
+      theme_void() +
+      theme(
+        plot.title = element_text(size = 14, face = "bold", hjust = 0.5),
+        legend.position = "none"
+      )
+  })
+
+  names(plot_list) <- names(g_list)
+  return(plot_list)
+}
+
