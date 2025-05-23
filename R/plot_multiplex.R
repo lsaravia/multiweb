@@ -77,8 +77,9 @@ plot_multi3D <- function (g.list, layer.colors, as.undirected = T, layer.layout 
   Layers <- length(g.list)
   Nodes <- igraph::vcount(g.list[[1]])
   if (!is.matrix(layer.layout) && layer.layout == "auto") {
-    lay <- layoutMultiplex(g.list, layout = layout, ggplot.format = F,
-                           box = T)
+    lay <- igraph::layout_with_fr(aggregate_multiplex_network(g.list))
+    #lay <- layoutMultiplex(g.list, layout = layout, ggplot.format = F,
+    #                       box = T)
   }
   else {
     lay <- layer.layout
@@ -190,7 +191,7 @@ plot_multi3D <- function (g.list, layer.colors, as.undirected = T, layer.layout 
     }
   }
   if (show.aggregate) {
-    g.aggr <- GetAggregateNetworkFromNetworkList(g.list)
+    g.aggr <- aggregate_multiplex_network(g.list)
     if (identical(node.size.values,"auto")) {
       igraph::V(g.aggr)$size <- 3 * node.size.scale[l] *
         sqrt(igraph::strength(g.aggr))
@@ -356,15 +357,15 @@ harmonize_node_sets <- function(g.list) {
 #' Plot Modular Structure of a Multiplex Ecological Network
 #'
 #' This function visualizes each layer of a multiplex ecological network, with nodes colored
-#' by module membership and sized by Infomap flow values. It returns a list of `ggplot` objects.
+#' by module membership and sized by Infomap flow values. It returns a list of ggplot objects.
 #'
-#' @param g_list A named list of `igraph` objects (e.g., from `readNetwork()`), each representing one layer.
-#' @param communities A data frame from `run_infomap_multi()$communities`, containing `node`, `module`, `layer`, `flow`.
-#' @param module_palette Optional named color palette for module IDs (default uses `RColorBrewer::Set2`).
+#' @param g_list A named list of igraph objects (e.g., from readNetwork()), each representing one layer.
+#' @param communities A data frame from run_infomap_multi()$communities, containing node, module, layer, flow.
+#' @param module_palette Optional named color palette for module IDs (default uses RColorBrewer::Set2).
 #' @param layout_graph Optional igraph object for layout (default is aggregate union of all layers).
 #' @param scale_factor Numeric multiplier for node size scaling by flow (default: 500).
 #'
-#' @return A named list of `ggplot` objects, one for each network layer.
+#' @return A named list of ggplot objects, one for each network layer.
 #'
 #' @examples
 #' fileName <- system.file("extdata", package = "multiweb")
@@ -384,48 +385,60 @@ plot_multiplex_modules <- function(g_list,
                                    layout_graph = NULL,
                                    scale_factor = 500) {
 
-  if (is.null(names(g_list))) stop("g_list must be a named list of igraph objects.")
-
-  # Compute shared layout using union of all layers
-  if (is.null(layout_graph)) {
-    layout_graph <- GetAggregateNetworkFromNetworkList(g_list)
+  if (!all(unique(communities$layer) %in% names(g_list))) {
+    if (all(unique(communities$layer) %in% as.character(seq_along(g_list)))) {
+      warning("Layer names in `communities$layer` are numeric. Converting to character.")
+      communities$layer <- names(g_list)[as.integer(communities$layer)]
+    } else {
+      stop("Layer names in `communities$layer` do not match names(g_list).")
+    }
   }
+
+  if (is.null(layout_graph)) {
+    layout_graph <- aggregate_multiplex_network(g_list)
+  }
+
   lay <- layout_with_fr(layout_graph)
   layout_df <- data.frame(name = V(layout_graph)$name, x = lay[, 1], y = lay[, 2])
 
-  # Get module set and build palette
   modules <- sort(unique(communities$module))
   if (is.null(module_palette)) {
-    module_palette <- setNames(RColorBrewer::brewer.pal(min(length(modules), 8), "Set2"), modules)
+    module_palette <- setNames(RColorBrewer::brewer.pal(min(length(modules), 8), "Set2"), as.character(modules))
   }
 
-  # Generate plots per layer
   plot_list <- lapply(names(g_list), function(lname) {
     g_layer <- g_list[[lname]]
     node_names <- V(g_layer)$name
 
-    # Get module + flow info
     df_comm <- communities %>%
       filter(layer == lname) %>%
       group_by(node) %>%
       slice_max(order_by = flow, n = 1, with_ties = FALSE) %>%
       ungroup()
 
-    # Match layout
     layout_layer <- layout_df %>% filter(name %in% node_names)
 
-    # Build tidygraph
     g_tbl <- as_tbl_graph(g_layer) %>%
       left_join(df_comm, by = c("name" = "node")) %>%
       mutate(
-        module = factor(module),
+        module = as.character(module),
         size = ifelse(!is.na(flow), flow * scale_factor, 2)
+      ) %>%
+      activate(edges) %>%
+      mutate(
+        from_mod = .N()$module[from],
+        to_mod = .N()$module[to],
+        intra = from_mod == to_mod,
+        edge_color = ifelse(intra, from_mod, "inter")
       )
-
-    # Return ggplot
+    module_palette <- c(module_palette, "inter" = "gray70")
     ggraph(g_tbl, layout = "manual", x = layout_layer$x, y = layout_layer$y) +
-      geom_edge_link(color = "gray80", alpha = 0.4) +
+      geom_edge_link(aes(color = edge_color), alpha = 0.7) +
       geom_node_point(aes(color = module, size = size)) +
+      scale_edge_color_manual(
+        values = module_palette,
+        guide = "none"  # remove edge legend if not needed
+      ) +
       scale_color_manual(values = module_palette, na.translate = FALSE) +
       scale_size_continuous(range = c(1, 8)) +
       labs(title = lname) +

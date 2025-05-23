@@ -1,3 +1,7 @@
+# Version  0.8.30.0000
+
+* add aggregate_multiplex_network() function to aggregate a multiplex network into a single layer network
+
 # Version  0.8.20.0000
 
 * add plot_multiplex_modules() function to plot the modules of a multiplex network

@@ -13,22 +13,22 @@ plot_multiplex_modules(
 )
 }
 \arguments{
-\item{g_list}{A named list of \code{igraph} objects (e.g., from \code{readNetwork()}), each representing one layer.}
+\item{g_list}{A named list of igraph objects (e.g., from readNetwork()), each representing one layer.}
 
-\item{communities}{A data frame from \code{run_infomap_multi()$communities}, containing \code{node}, \code{module}, \code{layer}, \code{flow}.}
+\item{communities}{A data frame from run_infomap_multi()$communities, containing node, module, layer, flow.}
 
-\item{module_palette}{Optional named color palette for module IDs (default uses \code{RColorBrewer::Set2}).}
+\item{module_palette}{Optional named color palette for module IDs (default uses RColorBrewer::Set2).}
 
 \item{layout_graph}{Optional igraph object for layout (default is aggregate union of all layers).}
 
 \item{scale_factor}{Numeric multiplier for node size scaling by flow (default: 500).}
 }
 \value{
-A named list of \code{ggplot} objects, one for each network layer.
+A named list of ggplot objects, one for each network layer.
 }
 \description{
 This function visualizes each layer of a multiplex ecological network, with nodes colored
-by module membership and sized by Infomap flow values. It returns a list of \code{ggplot} objects.
+by module membership and sized by Infomap flow values. It returns a list of ggplot objects.
 }
 \examples{
 fileName <- system.file("extdata", package = "multiweb")
