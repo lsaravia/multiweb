@@ -107,5 +107,5 @@ gplt <- plot_multimodules(commResult, module.colors = pal.mux, show.aggregate = 
 sam <- convert_to_supra_adjacency(g_list,use_names = TRUE)$supra_matrix
 
 pr <- GetMultiPageRankCentrality(sam, Layers,Nodes)
-deg <- GetMultiDegree(M, Layers,Nodes, isDirected=F)
+deg <- muxViz::GetMultiDegree(M, Layers,Nodes, isDirected=F)
 

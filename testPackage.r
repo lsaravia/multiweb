@@ -839,3 +839,9 @@ ig <- igraph::graph_from_adjacency_matrix(gs$supra_matrix, mode = "directed", we
 calc_centrality(ig,centrality_func = igraph::page_rank)
 co <- run_infomap(ig)
 plot_troph_level_ggplot(ig,modules=TRUE,community_obj=co)
+
+m_list <- list(g,g1)
+names(m_list) <- c("Trophic","Competitive")
+res <- run_infomap_multi(m_list, output_dir = ".", multilayer_relax_rate = 1 )
+plots <- plot_multiplex_modules(m_list, res$communities,y_by_trophic=TRUE, show_labels = TRUE)
+cowplot::plot_grid(plotlist = plots, ncol = 2)

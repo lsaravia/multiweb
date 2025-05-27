@@ -357,15 +357,17 @@ harmonize_node_sets <- function(g.list) {
 #' Plot Modular Structure of a Multiplex Ecological Network
 #'
 #' This function visualizes each layer of a multiplex ecological network, with nodes colored
-#' by module membership and sized by Infomap flow values. It returns a list of ggplot objects.
+#' by module membership and sized by Infomap flow values. It returns a list of `ggplot` objects.
 #'
-#' @param g_list A named list of igraph objects (e.g., from readNetwork()), each representing one layer.
-#' @param communities A data frame from run_infomap_multi()$communities, containing node, module, layer, flow.
-#' @param module_palette Optional named color palette for module IDs (default uses RColorBrewer::Set2).
+#' @param g_list A named list of `igraph` objects (e.g., from `readNetwork()`), each representing one layer.
+#' @param communities A data frame from `run_infomap_multi()$communities`, containing `node`, `module`, `layer`, `flow`.
+#' @param module_palette Optional named color palette for module IDs (default uses `viridis::viridis`).
 #' @param layout_graph Optional igraph object for layout (default is aggregate union of all layers).
 #' @param scale_factor Numeric multiplier for node size scaling by flow (default: 500).
+#' @param y_by_trophic Logical; if TRUE, adjusts vertical layout position using trophic level from "Trophic" layer (default: FALSE).
+#' @param show_labels Logical; if TRUE, show node names using ggrepel (default: FALSE).
 #'
-#' @return A named list of ggplot objects, one for each network layer.
+#' @return A named list of `ggplot` objects, one for each network layer.
 #'
 #' @examples
 #' fileName <- system.file("extdata", package = "multiweb")
@@ -374,23 +376,36 @@ harmonize_node_sets <- function(g.list) {
 #' names(g_list) <- c("Negative", "Positive", "Trophic")
 #'
 #' res <- run_infomap_multi(g_list, layer_names = names(g_list))
-#' plots <- plot_multiplex_modules(g_list, res$communities)
+#' plots <- plot_multiplex_modules(g_list, res$communities, y_by_trophic = TRUE)
 #' cowplot::plot_grid(plotlist = plots, ncol = 3)
 #'
+#' @importFrom NetIndices TrophInd
+#' @importFrom viridis viridis
 #' @import ggplot2 dplyr ggraph tidygraph igraph
 #' @export
 plot_multiplex_modules <- function(g_list,
                                    communities,
                                    module_palette = NULL,
                                    layout_graph = NULL,
-                                   scale_factor = 500) {
+                                   scale_factor = 500,
+                                   y_by_trophic = FALSE,
+                                   show_labels = FALSE) {
+  if (is.null(names(g_list))) {
+    # No layer names provided — assume numeric layer IDs match order
+    if (!all(communities$layer %in% as.character(seq_along(g_list)))) {
+      stop("`g_list` has no names, but `communities$layer` contains non-numeric or invalid layer IDs.")
+    }
+    names(g_list) <- as.character(seq_along(g_list))  # assign names based on order
+    message("`g_list` has no names. Assuming numeric order as layer identifiers.")
+  } else {
 
-  if (!all(unique(communities$layer) %in% names(g_list))) {
-    if (all(unique(communities$layer) %in% as.character(seq_along(g_list)))) {
-      warning("Layer names in `communities$layer` are numeric. Converting to character.")
-      communities$layer <- names(g_list)[as.integer(communities$layer)]
-    } else {
-      stop("Layer names in `communities$layer` do not match names(g_list).")
+    if (!all(unique(communities$layer) %in% names(g_list))) {
+      if (all(unique(communities$layer) %in% as.character(seq_along(g_list)))) {
+        warning("Layer names in `communities$layer` are numeric. Converting to character.")
+        communities$layer <- names(g_list)[as.integer(communities$layer)]
+      } else {
+        stop("Layer names in `communities$layer` do not match names(g_list).")
+      }
     }
   }
 
@@ -400,12 +415,22 @@ plot_multiplex_modules <- function(g_list,
 
   lay <- layout_with_fr(layout_graph)
   layout_df <- data.frame(name = V(layout_graph)$name, x = lay[, 1], y = lay[, 2])
+  xlims <- range(layout_df$x)
+  ylims <- range(layout_df$y)
+
+  if (y_by_trophic && "Trophic" %in% names(g_list)) {
+    try({
+      tlv <- NetIndices::TrophInd(as_adjacency_matrix( g_list[["Trophic"]],sparse=FALSE ))
+      layout_df <- left_join(layout_df, data.frame(name = rownames(tlv), TL = tlv$TL), by = "name")
+      layout_df$y <- jitter(layout_df$TL,amount=0.1)
+      layout_df$TL <- NULL
+    }, silent = TRUE)
+  }
 
   modules <- sort(unique(communities$module))
   if (is.null(module_palette)) {
-    module_palette <- setNames(RColorBrewer::brewer.pal(min(length(modules), 8), "Set2"), as.character(modules))
+      module_palette <- setNames(viridis::viridis(length(modules)), modules)
   }
-
   plot_list <- lapply(names(g_list), function(lname) {
     g_layer <- g_list[[lname]]
     node_names <- V(g_layer)$name
@@ -420,6 +445,7 @@ plot_multiplex_modules <- function(g_list,
 
     g_tbl <- as_tbl_graph(g_layer) %>%
       left_join(df_comm, by = c("name" = "node")) %>%
+      left_join(layout_df, by = "name")  %>%
       mutate(
         module = as.character(module),
         size = ifelse(!is.na(flow), flow * scale_factor, 2)
@@ -432,7 +458,7 @@ plot_multiplex_modules <- function(g_list,
         edge_color = ifelse(intra, from_mod, "inter")
       )
     module_palette <- c(module_palette, "inter" = "gray70")
-    ggraph(g_tbl, layout = "manual", x = layout_layer$x, y = layout_layer$y) +
+    p <- ggraph(g_tbl, layout = "manual", x = x, y = y) +
       geom_edge_link(aes(color = edge_color), alpha = 0.7) +
       geom_node_point(aes(color = module, size = size)) +
       scale_edge_color_manual(
@@ -441,15 +467,30 @@ plot_multiplex_modules <- function(g_list,
       ) +
       scale_color_manual(values = module_palette, na.translate = FALSE) +
       scale_size_continuous(range = c(1, 8)) +
+      coord_cartesian(xlim = xlims, ylim = ylims) +
       labs(title = lname) +
       theme_void() +
       theme(
         plot.title = element_text(size = 14, face = "bold", hjust = 0.5),
         legend.position = "none"
       )
+    if (show_labels) {
+      p <- p +
+        ggrepel::geom_text_repel(
+          aes(x = x, y = y,label = name),
+          size = 3,
+          color = "black",
+          max.overlaps = Inf,
+          box.padding = 0.3,
+          point.padding = 0.2,
+          segment.color = "gray70",
+          seed = 123
+        )
+    }
   })
 
   names(plot_list) <- names(g_list)
   return(plot_list)
 }
+
 

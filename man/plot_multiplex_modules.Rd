@@ -9,26 +9,32 @@ plot_multiplex_modules(
   communities,
   module_palette = NULL,
   layout_graph = NULL,
-  scale_factor = 500
+  scale_factor = 500,
+  y_by_trophic = FALSE,
+  show_labels = FALSE
 )
 }
 \arguments{
-\item{g_list}{A named list of igraph objects (e.g., from readNetwork()), each representing one layer.}
+\item{g_list}{A named list of \code{igraph} objects (e.g., from \code{readNetwork()}), each representing one layer.}
 
-\item{communities}{A data frame from run_infomap_multi()$communities, containing node, module, layer, flow.}
+\item{communities}{A data frame from \code{run_infomap_multi()$communities}, containing \code{node}, \code{module}, \code{layer}, \code{flow}.}
 
-\item{module_palette}{Optional named color palette for module IDs (default uses RColorBrewer::Set2).}
+\item{module_palette}{Optional named color palette for module IDs (default uses \code{viridis::viridis}).}
 
 \item{layout_graph}{Optional igraph object for layout (default is aggregate union of all layers).}
 
 \item{scale_factor}{Numeric multiplier for node size scaling by flow (default: 500).}
+
+\item{y_by_trophic}{Logical; if TRUE, adjusts vertical layout position using trophic level from "Trophic" layer (default: FALSE).}
+
+\item{show_labels}{Logical; if TRUE, show node names using ggrepel (default: FALSE).}
 }
 \value{
-A named list of ggplot objects, one for each network layer.
+A named list of \code{ggplot} objects, one for each network layer.
 }
 \description{
 This function visualizes each layer of a multiplex ecological network, with nodes colored
-by module membership and sized by Infomap flow values. It returns a list of ggplot objects.
+by module membership and sized by Infomap flow values. It returns a list of \code{ggplot} objects.
 }
 \examples{
 fileName <- system.file("extdata", package = "multiweb")
@@ -37,7 +43,7 @@ g_list <- readNetwork(dn, fileName, skipColumn = 2)
 names(g_list) <- c("Negative", "Positive", "Trophic")
 
 res <- run_infomap_multi(g_list, layer_names = names(g_list))
-plots <- plot_multiplex_modules(g_list, res$communities)
+plots <- plot_multiplex_modules(g_list, res$communities, y_by_trophic = TRUE)
 cowplot::plot_grid(plotlist = plots, ncol = 3)
 
 }
