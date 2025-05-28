@@ -381,7 +381,7 @@ harmonize_node_sets <- function(g.list) {
 #'
 #' @importFrom NetIndices TrophInd
 #' @importFrom viridis viridis
-#' @import ggplot2 dplyr ggraph tidygraph igraph
+#' @import ggplot2 dplyr ggraph tidygraph igraph ggrepel
 #' @export
 plot_multiplex_modules <- function(g_list,
                                    communities,
@@ -415,8 +415,6 @@ plot_multiplex_modules <- function(g_list,
 
   lay <- layout_with_fr(layout_graph)
   layout_df <- data.frame(name = V(layout_graph)$name, x = lay[, 1], y = lay[, 2])
-  xlims <- range(layout_df$x)
-  ylims <- range(layout_df$y)
 
   if (y_by_trophic && "Trophic" %in% names(g_list)) {
     try({
@@ -426,6 +424,9 @@ plot_multiplex_modules <- function(g_list,
       layout_df$TL <- NULL
     }, silent = TRUE)
   }
+
+  xlims <- range(layout_df$x)
+  ylims <- range(layout_df$y)
 
   modules <- sort(unique(communities$module))
   if (is.null(module_palette)) {
@@ -486,7 +487,7 @@ plot_multiplex_modules <- function(g_list,
           segment.color = "gray70",
           seed = 123
         )
-    }
+    } else { p }
   })
 
   names(plot_list) <- names(g_list)
