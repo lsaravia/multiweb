@@ -21,7 +21,8 @@ Imports:
     future.apply (>= 1.2.0),
     dplyr (>= 0.8.0.1),
     kSamples (>= 1.2-9),
-    doRNG (>= 1.8)
+    doRNG (>= 1.8),
+    ggraph (>= 2.2.1)
 RoxygenNote: 7.2.3
 Suggests: 
     testthat (>= 3.0.0)
