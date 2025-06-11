@@ -1,3 +1,11 @@
+# Version  0.8.40.0000
+
+* Updated calc_QSS to effectively use the parameter selfDamping, before this changes it was used only for positive values of 
+the diagonal of the adyacency matrix. Now the equivalent to the previous version is to set selfDamping=0.
+
+* Updated toGLVadjMat which does not take into account the names of the networks in the mgraph object, now it uses the position
+  the negative/positive/trophic.
+
 # Version  0.8.30.0000
 
 * add aggregate_multiplex_network() function to aggregate a multiplex network into a single layer network

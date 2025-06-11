@@ -249,20 +249,20 @@ toGLVadjMat <- function(mg,types=c("Negative","Positive","Antagonistic"),istreng
 
   stopifnot(length(types)==3)
 
-  if(is.null(edge_attr(mg[[types[3]]],"weight")))
-    pred <- as_adj(mg[[types[3]]],sparse = FALSE)
+  if(is.null(edge_attr(mg[[3]],"weight")))
+    pred <- as_adj(mg[[3]],sparse = FALSE)
   else
-    pred <- as_adj(mg[[types[3]]],sparse = FALSE,attr="weight")
+    pred <- as_adj(mg[[3]],sparse = FALSE,attr="weight")
 
-  if(is.null(edge_attr(mg[[types[1]]],"weight")))
-    comp <- as_adj(mg[[types[1]]],sparse = FALSE)
+  if(is.null(edge_attr(mg[[1]],"weight")))
+    comp <- as_adj(mg[[1]],sparse = FALSE)
   else
-    comp <- as_adj(mg[[types[1]]],sparse = FALSE,attr="weight")
+    comp <- as_adj(mg[[1]],sparse = FALSE,attr="weight")
 
-  if(is.null(edge_attr(mg[[types[2]]],"weight")))
-    mut <- as_adj(mg[[types[2]]],sparse = FALSE)
+  if(is.null(edge_attr(mg[[2]],"weight")))
+    mut <- as_adj(mg[[2]],sparse = FALSE)
   else
-    mut <- as_adj(mg[[types[2]]],sparse = FALSE,attr="weight")
+    mut <- as_adj(mg[[2]],sparse = FALSE,attr="weight")
 
   web  <- matrix(0,nrow = nrow(pred),ncol = nrow(pred))
 

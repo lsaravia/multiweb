@@ -218,9 +218,11 @@ sapply(gt,ecount)/(sapply(gt,vcount)*sapply(gt,vcount))
 calc_QSS(gt)
 #   QSS    MEing
 #    0    25.87422
-calc_QSS(gt[[3]])
+calc_QSS(gt[[3]],selfDamping = -10)
 #   QSS    MEing
 #    0    2.099394
+calc_QSS(gt[[3]],selfDamping = -2)
+calc_QSS(gt[[3]],selfDamping = 0)
 
 glv <- toGLVadjMat(gt)
 
@@ -272,11 +274,11 @@ sum(sapply(gt,ecount))/(106*106)
 
 # Calc multi type interaction QSS
 #
-calc_QSS(gt)
+calc_QSS(gt, selfDamping = 0)
 # QSS    MEing
 # 1   0 26.04826
 
-calc_QSS(g[[3]])               # QSS with trophic interactions only should be more stable
+calc_QSS(g[[3]],selfDamping = -10,nsim=10)               # QSS with trophic interactions only should be more stable
 #  QSS    MEing
 # 1   0 3.434581
 

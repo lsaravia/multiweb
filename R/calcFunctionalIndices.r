@@ -93,13 +93,13 @@ calcQuantitativeConnectance <- function(interM,d){
 #' The QSS measure is the proportion of matrices that are locally stable, these matrices are created by sampling the values of the community matrix
 #' (the Jacobian) from a uniform distribution, preserving the sign structure [1]. If the 'ig' parameter is
 #' an `mgraph` network it needs to have been built with the order `c("Competitive", "Mutualistic", "Trophic")`
-#' It also calculates the mean of the real part of the maximum eingenvalue, which is also a measure of stability [2].
+#' It also calculates the mean of the real part of the maximum eigenvalue, which is also a measure of stability [2].
 #' It uses a uniform distribution between 0 and maximum values given by the parameters `negative`, `positive` and `selfDamping`,
 #' corresponding to the sign of interactions and self-limitation effect [3,4].
-#' If the edges of the networks have a weigth attribute and `istrength` parameter is true, weigth will be used as interaction strength,
+#' If the edges of the networks have a weight attribute and `istrength` parameter is true, weight will be used as interaction strength,
 #' then the limits of the uniform distribution will be `negative*-x`, `positive*x`, `selfDamping*x`, where x is the value of the weigth for the edge.
 #' If the values of these parameters are 0 then there is no interaction of that kind. The default values for `negative`, `positive` and `selfDumping`
-#' assume a maximum ecological transfer efficience of 10%.
+#' assume a maximum ecological transfer efficiency of 10%.
 #'
 #' @references
 #'
@@ -115,7 +115,8 @@ calcQuantitativeConnectance <- function(interM,d){
 #' @param ncores number of cores to use in parallel comutation if 0 it uses sequential processing
 #' @param negative the maximum magnitude of the negative interaction (the effect of the predator on the prey) must be <= 0
 #' @param positive the maximum magnitude of the positive interaction (the effect of the prey on the predator) must be >= 0
-#' @param selfDamping the maximum magnitude of the self-limitation (the effect of the species on itself) must be <= 0, only for species with links to itself.
+#' @param selfDamping the maximum magnitude of the self-limitation (the effect of the species on itself) must be <= 0,
+#'                    if = 0 or > 0 then the value is a random number between 0 and `selfDamping`.
 #' @param istrength If TRUE takes the weigth attribute of the network as interaction strength.
 #' @param returnRaw if TRUE returns all the values of the maximum eingenvalues
 #'
@@ -207,20 +208,24 @@ aux_calc_QSS <- function(nsim,mat,negative,positive,selfDamping)
   } else {
     newmat <- apply(mat, c(1,2), function(x){
       if(x>0){ x*positive/2 } else if(x<0){-x*negative/2} else{0}})
-    diag(newmat) <- sapply(diag(mat), function(x) ifelse(x>0, x*selfDamping/2,0))
+    diag(newmat) <- sapply(diag(mat), function(x) {ifelse(x<0,-x*selfDamping/2,selfDamping)})
     eing <- maxRE(newmat)
 
   }
 }
 
-# Auxiliar function of calc_QSS, Calculates a random community mattrix with a fixed signed structure
+# Auxiliar function of calc_QSS, Calculates a random community matrix with a fixed signed structure
 #
+# If the diagonal is negative it multiplies by `selfDamping` and takes a random value between 0 and that value.
+# if the diagonal is positive or 0 it takes a random value between 0 and `selfDamping`.
+# if the interaction is positive it takes a random value between 0 and the interaction strength multiplied by `positive`.
+# if the interaction is negative it takes a random value between -interaction strength multiplied by `negative`` and 0.
 ranUnif <- function(motmat, negative=-10,positive=0.1,selfDamping=-1){
   newmat <- apply(motmat, c(1,2), function(x){
     if(x>0){runif(1, 0, x*positive)}else if(x<0){runif(1,-x*negative, 0)} else{0}
   })
-  diag(newmat) <- sapply(diag(motmat), function(x) ifelse(x>0, runif(1,x*selfDamping,0),0))
-  #
+  diag(newmat) <- sapply(diag(motmat), function(x) ifelse(x<0, runif(1,-x*selfDamping,0),runif(1,selfDamping,0)))
+
   return(newmat)
 }
 

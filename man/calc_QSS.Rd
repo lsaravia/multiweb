@@ -27,7 +27,8 @@ strength, if \code{istrength==FALSE} the mean interaction strength are \code{neg
 
 \item{positive}{the maximum magnitude of the positive interaction (the effect of the prey on the predator) must be >= 0}
 
-\item{selfDamping}{the maximum magnitude of the self-limitation (the effect of the species on itself) must be <= 0, only for species with links to itself.}
+\item{selfDamping}{the maximum magnitude of the self-limitation (the effect of the species on itself) must be <= 0,
+if = 0 or > 0 then the value is a random number between 0 and \code{selfDamping}.}
 
 \item{istrength}{If TRUE takes the weigth attribute of the network as interaction strength.}
 
@@ -41,13 +42,13 @@ If \code{returnRaw} is \code{TRUE} it returns the values of randomized real part
 The QSS measure is the proportion of matrices that are locally stable, these matrices are created by sampling the values of the community matrix
 (the Jacobian) from a uniform distribution, preserving the sign structure \link{1}. If the 'ig' parameter is
 an \code{mgraph} network it needs to have been built with the order \code{c("Competitive", "Mutualistic", "Trophic")}
-It also calculates the mean of the real part of the maximum eingenvalue, which is also a measure of stability \link{2}.
+It also calculates the mean of the real part of the maximum eigenvalue, which is also a measure of stability \link{2}.
 It uses a uniform distribution between 0 and maximum values given by the parameters \code{negative}, \code{positive} and \code{selfDamping},
 corresponding to the sign of interactions and self-limitation effect \link{3,4}.
-If the edges of the networks have a weigth attribute and \code{istrength} parameter is true, weigth will be used as interaction strength,
+If the edges of the networks have a weight attribute and \code{istrength} parameter is true, weight will be used as interaction strength,
 then the limits of the uniform distribution will be \code{negative*-x}, \code{positive*x}, \code{selfDamping*x}, where x is the value of the weigth for the edge.
 If the values of these parameters are 0 then there is no interaction of that kind. The default values for \code{negative}, \code{positive} and \code{selfDumping}
-assume a maximum ecological transfer efficience of 10\%.
+assume a maximum ecological transfer efficiency of 10\%.
 }
 \examples{
 \dontrun{
