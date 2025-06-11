@@ -21,7 +21,7 @@ calc_QSS(
 \item{nsim}{number of simulations to calculate QSS, if the number of simulations is 1 then it calculates the maximum eingenvalue for the mean of interaction
 strength, if \code{istrength==FALSE} the mean interaction strength are \code{negative/2}, \code{positive/2}, \code{selfDamping/2}.}
 
-\item{ncores}{number of cores to use in parallel comutation if 0 it uses sequential processing}
+\item{ncores}{number of cores to use in parallel computation if 0 do not set future strategy inside function}
 
 \item{negative}{the maximum magnitude of the negative interaction (the effect of the predator on the prey) must be <= 0}
 

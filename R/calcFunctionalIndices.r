@@ -112,7 +112,7 @@ calcQuantitativeConnectance <- function(interM,d){
 #' @param ig  igraph or a list of igraph networks or mgraph network
 #' @param nsim number of simulations to calculate QSS, if the number of simulations is 1 then it calculates the maximum eingenvalue for the mean of interaction
 #'             strength, if `istrength==FALSE` the mean interaction strength are `negative/2`, `positive/2`, `selfDamping/2`.
-#' @param ncores number of cores to use in parallel comutation if 0 it uses sequential processing
+#' @param ncores number of cores to use in parallel computation if 0 do not set future strategy inside function
 #' @param negative the maximum magnitude of the negative interaction (the effect of the predator on the prey) must be <= 0
 #' @param positive the maximum magnitude of the positive interaction (the effect of the prey on the predator) must be >= 0
 #' @param selfDamping the maximum magnitude of the self-limitation (the effect of the species on itself) must be <= 0,
@@ -161,7 +161,8 @@ calc_QSS <- function(ig,nsim=1000,ncores=0,negative=-10, positive=1, selfDamping
     future::plan(multisession, workers=ncores)
     on.exit(future::plan(sequential))
   } else {
-    future::plan(sequential)
+    # If ncores is 0, do not set future strategy inside function
+    #future::plan(sequential)
   }
 
   if(class(ig)!='mgraph') {
