@@ -1,0 +1,649 @@
+consumer	resource	c_bodymass	r_bodymass	r_density	r_biomass	D
+Gondogeneia antarctica	Adenocystis utricularis	0,0200			38,4127	2D
+Laevilacunaria antarctica	Adenocystis utricularis	0,0309			38,4127	2D
+Notothenia coriiceps	Adenocystis utricularis	848,4726			38,4127	2D
+Diplasterias brucei	Aequiyoldia eightsii	24,4183	1,7518	393,1111		2D
+Gobionotothen gibberifrons	Aequiyoldia eightsii	102,5000	1,7518	393,1111		2D
+Notothenia coriiceps	Aequiyoldia eightsii	848,4726	1,7518	393,1111		2D
+Odontaster validus	Aequiyoldia eightsii	11,3246	1,7518	393,1111		2D
+Ophionotus victoriae	Aequiyoldia eightsii	5,4182	1,7518	393,1111		2D
+Trematomus bernacchii	Aequiyoldia eightsii	124,5932	1,7518	393,1111		2D
+Trematomus newnesi	Aequiyoldia eightsii	82,7500	1,7518	393,1111		2D
+Aequiyoldia eightsii	Aged detritus	1,7518			27,8896	2D
+Aglaophamus trissophyllus	Aged detritus	5,9391			27,8896	2D
+Cheirimedon femoratus	Aged detritus	0,0053			27,8896	2D
+Cumacea	Aged detritus	0,0074			27,8896	2D
+Gammaridea	Aged detritus	0,0050			27,8896	2D
+Gitanopsis squamosa	Aged detritus	5,6769			27,8896	2D
+Gobionotothen gibberifrons	Aged detritus	102,5000			27,8896	2D
+Hippomedon kergueleni	Aged detritus	0,0912			27,8896	2D
+Laternula elliptica	Aged detritus	11,3304			27,8896	2D
+Nemertea	Aged detritus	1,1330			27,8896	2D
+Nereididae	Aged detritus	2,1133			27,8896	2D
+Notothenia coriiceps	Aged detritus	848,4726			27,8896	3D
+Notothenia rossii	Aged detritus	358,0462			27,8896	3D
+Odontaster validus	Aged detritus	11,3246			27,8896	2D
+Oligochaeta	Aged detritus	0,0006			27,8896	2D
+Ophionotus victoriae	Aged detritus	5,4182			27,8896	2D
+Orchomenella sp.	Aged detritus	0,0912			27,8896	2D
+Ostracoda	Aged detritus	0,0012			27,8896	3D
+Paradexamine fissicauda	Aged detritus	0,0912			27,8896	2D
+Polychaeta	Aged detritus	2,1133			27,8896	2D
+Polynoidae	Aged detritus	3,1574			27,8896	2D
+Salpidae	Aged detritus	0,8660			27,8896	3D
+Spionidae	Aged detritus	2,1133			27,8896	2D
+Sterechinus neumayeri	Aged detritus	48,5810			27,8896	2D
+Tanaidacea	Aged detritus	0,1470			27,8896	2D
+Terebellidae	Aged detritus	1,6583			27,8896	2D
+Ophionotus victoriae	Aglaophamus trissophyllus	5,4182	5,9391	54,3750		2D
+Trematomus bernacchii	Aglaophamus trissophyllus	124,5932	5,9391	54,3750		2D
+Trematomus newnesi	Aglaophamus trissophyllus	82,7500	5,9391	54,3750		2D
+Lindbergichthys nudifrons	Ascidiacea	20,9000	47,6721	10,0890		2D
+Notothenia coriiceps	Ascidiacea	848,4726	47,6721	10,0890		2D
+Notothenia rossii	Ascidiacea	358,0462	47,6721	10,0890		2D
+Ophionotus victoriae	Ascidiacea	5,4182	47,6721	10,0890		2D
+Trematomus bernacchii	Ascidiacea	124,5932	47,6721	10,0890		2D
+Nacella concinna	Ascoseira mirabilis	5,1582			285,8443	2D
+Notothenia coriiceps	Ascoseira mirabilis	848,4726			285,8443	2D
+Trematomus bernacchii	Barrukia cristata	124,5932	7,7665	243,6667		2D
+Aequiyoldia eightsii	Benthic Diatomea	1,7518	0,0000000000000153	2816993464052,2900		2D
+Aglaophamus trissophyllus	Benthic Diatomea	5,9391	0,0000000000000153	2816993464052,2900		2D
+Ascidiacea	Benthic Diatomea	47,6721	0,0000000000000153	2816993464052,2900		2D
+Bovallia gigantea	Benthic Diatomea	0,0520	0,0000000000000153	2816993464052,2900		2D
+Chalinidae	Benthic Diatomea	11,4133	0,0000000000000153	2816993464052,2900		2D
+Charcotia obesa	Benthic Diatomea	0,1945	0,0000000000000153	2816993464052,2900		2D
+Cumacea	Benthic Diatomea	0,0074	0,0000000000000153	2816993464052,2900		2D
+Dendrilla antarctica	Benthic Diatomea	4,7080	0,0000000000000153	2816993464052,2900		2D
+Djerboa furcipes	Benthic Diatomea	0,5650	0,0000000000000153	2816993464052,2900		2D
+Doris kerguelenensis	Benthic Diatomea	44,9900	0,0000000000000153	2816993464052,2900		2D
+Eurymera monticulosa	Benthic Diatomea	0,0140	0,0000000000000153	2816993464052,2900		2D
+Gammaridea	Benthic Diatomea	0,0050	0,0000000000000153	2816993464052,2900		2D
+Hemiarthrum setulosum	Benthic Diatomea	0,0565	0,0000000000000153	2816993464052,2900		2D
+Hydrozoa	Benthic Diatomea	0,0100	0,0000000000000153	2816993464052,2900		2D
+Laternula elliptica	Benthic Diatomea	11,3304	0,0000000000000153	2816993464052,2900		2D
+Margarella antarctica	Benthic Diatomea	0,3898	0,0000000000000153	2816993464052,2900		2D
+Mysida	Benthic Diatomea	1,0351	0,0000000000000153	2816993464052,2900		3D
+Nacella concinna	Benthic Diatomea	5,1582	0,0000000000000153	2816993464052,2900		2D
+Nereididae	Benthic Diatomea	2,1133	0,0000000000000153	2816993464052,2900		2D
+Odontaster validus	Benthic Diatomea	11,3246	0,0000000000000153	2816993464052,2900		2D
+Ophionotus victoriae	Benthic Diatomea	5,4182	0,0000000000000153	2816993464052,2900		2D
+Oradarea bidentata	Benthic Diatomea	0,0077	0,0000000000000153	2816993464052,2900		2D
+Orchomenella sp.	Benthic Diatomea	0,0912	0,0000000000000153	2816993464052,2900		2D
+Ostracoda	Benthic Diatomea	0,0012	0,0000000000000153	2816993464052,2900		3D
+Parborlasia corrugatus	Benthic Diatomea	73,0867	0,0000000000000153	2816993464052,2900		2D
+Polynoidae	Benthic Diatomea	3,1574	0,0000000000000153	2816993464052,2900		2D
+Polyplacophora	Benthic Diatomea	0,1167	0,0000000000000153	2816993464052,2900		2D
+Porifera	Benthic Diatomea	24,2579	0,0000000000000153	2816993464052,2900		2D
+Priapulida	Benthic Diatomea	0,0089	0,0000000000000153	2816993464052,2900		2D
+Rosella antartica	Benthic Diatomea	258,1000	0,0000000000000153	2816993464052,2900		2D
+Rossella sp.	Benthic Diatomea	258,1000	0,0000000000000153	2816993464052,2900		2D
+Spionidae	Benthic Diatomea	2,1133	0,0000000000000153	2816993464052,2900		2D
+Sterechinus neumayeri	Benthic Diatomea	48,5810	0,0000000000000153	2816993464052,2900		2D
+Stylo_Myca	Benthic Diatomea	258,1000	0,0000000000000153	2816993464052,2900		2D
+Tanaidacea	Benthic Diatomea	0,1470	0,0000000000000153	2816993464052,2900		2D
+Terebellidae	Benthic Diatomea	1,6583	0,0000000000000153	2816993464052,2900		2D
+Glyptonotus antarcticus	Bovallia gigantea	31,1650	0,0520	34,1987		2D
+Gobionotothen gibberifrons	Bovallia gigantea	102,5000	0,0520	34,1987		2D
+Harpagifer antarcticus	Bovallia gigantea	7,8000	0,0520	34,1987		2D
+Lindbergichthys nudifrons	Bovallia gigantea	20,9000	0,0520	34,1987		2D
+Notothenia coriiceps	Bovallia gigantea	848,4726	0,0520	34,1987		2D
+Notothenia rossii	Bovallia gigantea	358,0462	0,0520	34,1987		2D
+Sterechinus neumayeri	Bovallia gigantea	48,5810	0,0520	34,1987		2D
+Trematomus bernacchii	Bovallia gigantea	124,5932	0,0520	34,1987		2D
+Trematomus newnesi	Bovallia gigantea	82,7500	0,0520	34,1987		2D
+Eatoniella sp.	Bryozoa	0,0018	6,0195	18,9160		2D
+Hemiarthrum setulosum	Bryozoa	0,0565	6,0195	18,9160		2D
+Notothenia coriiceps	Bryozoa	848,4726	6,0195	18,9160		2D
+Odontaster validus	Bryozoa	11,3246	6,0195	18,9160		2D
+Ophionotus victoriae	Bryozoa	5,4182	6,0195	18,9160		2D
+Polynoidae	Bryozoa	3,1574	6,0195	18,9160		2D
+Polyplacophora	Bryozoa	0,1167	6,0195	18,9160		2D
+Sterechinus neumayeri	Bryozoa	48,5810	6,0195	18,9160		2D
+Trematomus bernacchii	Bryozoa	124,5932	6,0195	18,9160		2D
+Notothenia coriiceps	Callophyllis atrosanguinea 	848,4726			32,4734	2D
+Notothenia coriiceps	Cephalopoda	848,4726	151,0000			3D
+Salpidae	Cephalopoda	0,8660	151,0000			3D
+Doris kerguelenensis	Chalinidae	44,9900	11,4133	0,2825		2D
+Odontaster meridionalis	Chalinidae	20,3867	11,4133	0,2825		2D
+Odontaster validus	Chalinidae	11,3246	11,4133	0,2825		2D
+Ophionotus victoriae	Chalinidae	5,4182	11,4133	0,2825		2D
+Parborlasia corrugatus	Chalinidae	73,0867	11,4133	0,2825		2D
+Sterechinus neumayeri	Chalinidae	48,5810	11,4133	0,2825		2D
+Bovallia gigantea	Charcotia obesa	0,0520	0,1945	0,1028		2D
+Lindbergichthys nudifrons	Charcotia obesa	20,9000	0,1945	0,1028		2D
+Notothenia coriiceps	Charcotia obesa	848,4726	0,1945	0,1028		2D
+Notothenia rossii	Charcotia obesa	358,0462	0,1945	0,1028		2D
+Harpagifer antarcticus	Cheirimedon femoratus	7,8000	0,0053	9,4585		2D
+Notothenia coriiceps	Cheirimedon femoratus	848,4726	0,0053	9,4585		2D
+Notothenia rossii	Cheirimedon femoratus	358,0462	0,0053	9,4585		2D
+Trematomus newnesi	Cheirimedon femoratus	82,7500	0,0053	9,4585		2D
+Aglaophamus trissophyllus	Copepoda	5,9391	0,0056	4,5778		2D
+Barrukia cristata	Copepoda	7,7665	0,0056	4,5778		2D
+Bovallia gigantea	Copepoda	0,0520	0,0056	4,5778		3D
+Cephalopoda	Copepoda	151,0000	0,0056	4,5778		3D
+Cheirimedon femoratus	Copepoda	0,0053	0,0056	4,5778		3D
+Euphausia superba	Copepoda	0,5050	0,0056	4,5778		3D
+Gammaridea	Copepoda	0,0050	0,0056	4,5778		3D
+Gobionotothen gibberifrons	Copepoda	102,5000	0,0056	4,5778		3D
+Harpagifer antarcticus	Copepoda	7,8000	0,0056	4,5778		3D
+Hydrozoa	Copepoda	0,0100	0,0056	4,5778		3D
+Hyperiidea	Copepoda	0,0912	0,0056	4,5778		3D
+Lindbergichthys nudifrons	Copepoda	20,9000	0,0056	4,5778		3D
+Mysida	Copepoda	1,0351	0,0056	4,5778		3D
+Nemertea	Copepoda	1,1330	0,0056	4,5778		3D
+Notothenia coriiceps	Copepoda	848,4726	0,0056	4,5778		3D
+Notothenia rossii	Copepoda	358,0462	0,0056	4,5778		3D
+Ophionotus victoriae	Copepoda	5,4182	0,0056	4,5778		3D
+Orchomenella sp.	Copepoda	0,0912	0,0056	4,5778		3D
+Polychaeta	Copepoda	2,1133	0,0056	4,5778		3D
+Polynoidae	Copepoda	3,1574	0,0056	4,5778		3D
+Salpidae	Copepoda	0,8660	0,0056	4,5778		3D
+Trematomus bernacchii	Copepoda	124,5932	0,0056	4,5778		3D
+Trematomus newnesi	Copepoda	82,7500	0,0056	4,5778		3D
+Zooplankton	Copepoda	0,0012	0,0056	4,5778		3D
+Gobionotothen gibberifrons	Cumacea	102,5000	0,0074	4676,6842		2D
+Lindbergichthys nudifrons	Cumacea	20,9000	0,0074	4676,6842		2D
+Nereididae	Cumacea	2,1133	0,0074	4676,6842		2D
+Notothenia rossii	Cumacea	358,0462	0,0074	4676,6842		2D
+Ophionotus victoriae	Cumacea	5,4182	0,0074	4676,6842		2D
+Polychaeta	Cumacea	2,1133	0,0074	4676,6842		2D
+Trematomus bernacchii	Cumacea	124,5932	0,0074	4676,6842		2D
+Laevilacunaria antarctica	Curdiea racovitzae	0,0309			63,9466	2D
+Notothenia coriiceps	Curdiea racovitzae	848,4726			63,9466	2D
+Doris kerguelenensis	Dendrilla antarctica	44,9900	4,7080	0,6500		2D
+Gammaridea	Desmarestia anceps	0,0050			726,6284	2D
+Gondogeneia antarctica	Desmarestia anceps	0,0200			726,6284	2D
+Notothenia coriiceps	Desmarestia anceps	848,4726			726,6284	2D
+Notothenia rossii	Desmarestia anceps	358,0462			726,6284	2D
+Prostebbingia gracilis	Desmarestia anceps	0,0077			726,6284	2D
+Prostebbingia sp.	Desmarestia anceps	0,0077			726,6284	2D
+Gammaridea	Desmarestia antarctica	0,0050			122,1887	2D
+Gondogeneia antarctica	Desmarestia antarctica	0,0200			122,1887	2D
+Notothenia coriiceps	Desmarestia antarctica	848,4726			122,1887	2D
+Notothenia rossii	Desmarestia antarctica	358,0462			122,1887	2D
+Prostebbingia gracilis	Desmarestia antarctica	0,0077			122,1887	2D
+Prostebbingia sp.	Desmarestia antarctica	0,0077			122,1887	2D
+Gammaridea	Desmarestia menziesii	0,0050			1501,8092	2D
+Gondogeneia antarctica	Desmarestia menziesii	0,0200			1501,8092	2D
+Laevilacunaria antarctica	Desmarestia menziesii	0,0309			1501,8092	2D
+Notothenia coriiceps	Desmarestia menziesii	848,4726			1501,8092	2D
+Notothenia rossii	Desmarestia menziesii	358,0462			1501,8092	2D
+Prostebbingia gracilis	Desmarestia menziesii	0,0077			1501,8092	2D
+Prostebbingia sp.	Desmarestia menziesii	0,0077			1501,8092	2D
+Urticinopsis antarctica	Diplasterias brucei	48,2360	24,4183	11,5500		2D
+Harpagifer antarcticus	Djerboa furcipes	7,8000	0,5650			2D
+Notothenia coriiceps	Djerboa furcipes	848,4726	0,5650			2D
+Notothenia rossii	Djerboa furcipes	358,0462	0,5650			2D
+Trematomus bernacchii	Djerboa furcipes	124,5932	0,5650			2D
+Trematomus newnesi	Djerboa furcipes	82,7500	0,5650			2D
+Odontaster validus	Doris kerguelenensis	11,3246	44,9900			2D
+Harpagifer antarcticus	Eatoniella sp.	7,8000	0,0018			2D
+Notothenia coriiceps	Eatoniella sp.	848,4726	0,0018	125,0000		2D
+Urticinopsis antarctica	Eatoniella sp.	48,2360	0,0018	125,0000		2D
+Eatoniella sp.	Epiphytic Diatomea	0,0018	0,0000000000000153	2816993464052,2900		2D
+Eurymera monticulosa	Epiphytic Diatomea	0,0140	0,0000000000000153	2816993464052,2900		2D
+Gammaridea	Epiphytic Diatomea	0,0050	0,0000000000000153	2816993464052,2900		2D
+Hemiarthrum setulosum	Epiphytic Diatomea	0,0565	0,0000000000000153	2816993464052,2900		2D
+Nacella concinna	Epiphytic Diatomea	5,1582	0,0000000000000153	2816993464052,2900		2D
+Paradexamine fissicauda	Epiphytic Diatomea	0,0912	0,0000000000000153	2816993464052,2900		2D
+Polyplacophora	Epiphytic Diatomea	0,1167	0,0000000000000153	2816993464052,2900		2D
+Cephalopoda	Euphausia superba	151,0000	0,5050	1,4330		3D
+Chaenocephalus aceratus	Euphausia superba	396,1000	0,5050	1,4330		3D
+Glyptonotus antarcticus	Euphausia superba	31,1650	0,5050	1,4330		3D
+Harpagifer antarcticus	Euphausia superba	7,8000	0,5050	1,4330		3D
+Hydrozoa	Euphausia superba	0,0100	0,5050	1,4330		3D
+Hyperiidea	Euphausia superba	0,0912	0,5050	1,4330		3D
+Lindbergichthys nudifrons	Euphausia superba	20,9000	0,5050	1,4330		3D
+Notothenia coriiceps	Euphausia superba	848,4726	0,5050	1,4330		3D
+Notothenia rossii	Euphausia superba	358,0462	0,5050	1,4330		3D
+Ophionotus victoriae	Euphausia superba	5,4182	0,5050	1,4330		3D
+Parachaenichthys charcoti	Euphausia superba	624,6821	0,5050	1,4330		2D
+Trematomus bernacchii	Euphausia superba	124,5932	0,5050	1,4330		3D
+Trematomus newnesi	Euphausia superba	82,7500	0,5050	1,4330		3D
+Bovallia gigantea	Eurymera monticulosa	0,0520	0,0140	133,8890		2D
+Harpagifer antarcticus	Eurymera monticulosa	7,8000	0,0140	133,8890		2D
+Notothenia coriiceps	Eurymera monticulosa	848,4726	0,0140	133,8890		2D
+Notothenia rossii	Eurymera monticulosa	358,0462	0,0140	133,8890		2D
+Aequiyoldia eightsii	Fresh detritus	1,7518			0,2976	2D
+Aglaophamus trissophyllus	Fresh detritus	5,9391			0,2976	2D
+Ascidiacea	Fresh detritus	47,6721			0,2976	2D
+Barrukia cristata	Fresh detritus	7,7665			0,2976	2D
+Bovallia gigantea	Fresh detritus	0,0520			0,2976	3D
+Bryozoa	Fresh detritus	6,0195			0,2976	2D
+Chalinidae	Fresh detritus	11,4133			0,2976	2D
+Charcotia obesa	Fresh detritus	0,1945			0,2976	2D
+Cheirimedon femoratus	Fresh detritus	0,0053			0,2976	2D
+Copepoda	Fresh detritus	0,0056			0,2976	3D
+Dendrilla antarctica	Fresh detritus	4,7080			0,2976	2D
+Diplasterias brucei	Fresh detritus	24,4183			0,2976	2D
+Djerboa furcipes	Fresh detritus	0,5650			0,2976	2D
+Eatoniella sp.	Fresh detritus	0,0018			0,2976	2D
+Eurymera monticulosa	Fresh detritus	0,0140			0,2976	2D
+Gastropoda	Fresh detritus	0,6325			0,2976	2D
+Gitanopsis squamosa	Fresh detritus	5,6769			0,2976	2D
+Glyptonotus antarcticus	Fresh detritus	31,1650			0,2976	2D
+Hydrozoa	Fresh detritus	0,0100			0,2976	2D
+Mysida	Fresh detritus	1,0351			0,2976	3D
+Nereididae	Fresh detritus	2,1133			0,2976	2D
+Odontaster validus	Fresh detritus	11,3246			0,2976	2D
+Ophionotus victoriae	Fresh detritus	5,4182			0,2976	2D
+Oradarea bidentata	Fresh detritus	0,0077			0,2976	2D
+Orchomenella sp.	Fresh detritus	0,0912			0,2976	2D
+Ostracoda	Fresh detritus	0,0012			0,2976	3D
+Paradexamine fissicauda	Fresh detritus	0,0912			0,2976	2D
+Paradexamine sp.	Fresh detritus	0,0912			0,2976	2D
+Pariphimedia integricauda	Fresh detritus	0,0131			0,2976	2D
+Polychaeta	Fresh detritus	2,1133			0,2976	2D
+Polyplacophora	Fresh detritus	0,1167			0,2976	2D
+Porifera	Fresh detritus	24,2579			0,2976	2D
+Probolisca ovata	Fresh detritus	0,0912			0,2976	2D
+Prostebbingia gracilis	Fresh detritus	0,0077			0,2976	2D
+Prostebbingia sp.	Fresh detritus	0,0077			0,2976	2D
+Rosella antartica	Fresh detritus	258,1000			0,2976	2D
+Rossella sp.	Fresh detritus	258,1000			0,2976	2D
+Salpidae	Fresh detritus	0,8660			0,2976	3D
+Sterechinus neumayeri	Fresh detritus	48,5810			0,2976	2D
+Stylo_Myca	Fresh detritus	258,1000			0,2976	3D
+Tanaidacea	Fresh detritus	0,1470			0,2976	2D
+Terebellidae	Fresh detritus	1,6583			0,2976	2D
+Gobionotothen gibberifrons	Gammaridea	102,5000	0,0050			2D
+Hydrozoa	Gammaridea	0,0100	0,0050			2D
+Lindbergichthys nudifrons	Gammaridea	20,9000	0,0050			2D
+Nemertea	Gammaridea	1,1330	0,0050			2D
+Nereididae	Gammaridea	2,1133	0,0050			2D
+Notothenia coriiceps	Gammaridea	848,4726	0,0050			2D
+Notothenia rossii	Gammaridea	358,0462	0,0050			2D
+Ophionotus victoriae	Gammaridea	5,4182	0,0050			2D
+Polynoidae	Gammaridea	3,1574	0,0050			2D
+Trematomus bernacchii	Gammaridea	124,5932	0,0050			2D
+Trematomus newnesi	Gammaridea	82,7500	0,0050			2D
+Barrukia cristata	Gastropoda	7,7665	0,6325	116,9350		2D
+Diplasterias brucei	Gastropoda	24,4183	0,6325	116,9350		2D
+Glyptonotus antarcticus	Gastropoda	31,1650	0,6325	116,9350		2D
+Gobionotothen gibberifrons	Gastropoda	102,5000	0,6325	116,9350		2D
+Harpagifer antarcticus	Gastropoda	7,8000	0,6325	116,9350		2D
+Lindbergichthys nudifrons	Gastropoda	20,9000	0,6325	116,9350		2D
+Notothenia coriiceps	Gastropoda	848,4726	0,6325	116,9350		2D
+Notothenia rossii	Gastropoda	358,0462	0,6325	116,9350		2D
+Odontaster validus	Gastropoda	11,3246	0,6325	116,9350		2D
+Ophionotus victoriae	Gastropoda	5,4182	0,6325	116,9350		2D
+Polynoidae	Gastropoda	3,1574	0,6325	116,9350		2D
+Trematomus bernacchii	Gastropoda	124,5932	0,6325	116,9350		2D
+Trematomus newnesi	Gastropoda	82,7500	0,6325	116,9350		2D
+Urticinopsis antarctica	Gastropoda	48,2360	0,6325	116,9350		2D
+Paradexamine fissicauda	Geminocarpus geminatus	0,0912			35,7110	2D
+Laevilacunaria antarctica	Georgiella confluens 	0,0309			37,0120	2D
+Notothenia coriiceps	Georgiella confluens 	848,4726			37,0120	2D
+Notothenia rossii	Georgiella confluens 	358,0462			37,0120	2D
+Gondogeneia antarctica	Gigartina skottsbergii	0,0200			86,4410	2D
+Laevilacunaria antarctica	Gigartina skottsbergii	0,0309			86,4410	2D
+Nereididae	Gigartina skottsbergii	2,1133			86,4410	2D
+Notothenia coriiceps	Gigartina skottsbergii	848,4726			86,4410	2D
+Notothenia rossii	Gigartina skottsbergii	358,0462			86,4410	2D
+Odontaster validus	Gigartina skottsbergii	11,3246			86,4410	2D
+Prostebbingia gracilis	Gigartina skottsbergii	0,0077			86,4410	2D
+Prostebbingia sp.	Gigartina skottsbergii	0,0077			86,4410	2D
+Bovallia gigantea	Gitanopsis squamosa	0,0520	5,6769		0,0500	2D
+Notothenia coriiceps	Gitanopsis squamosa	848,4726	5,6769		0,0500	2D
+Notothenia rossii	Gitanopsis squamosa	358,0462	5,6769		0,0500	2D
+Trematomus newnesi	Gitanopsis squamosa	82,7500	5,6769		0,0500	2D
+Harpagifer antarcticus	Glyptonotus antarcticus	7,8000	31,1650	0,0040		2D
+Lindbergichthys nudifrons	Glyptonotus antarcticus	20,9000	31,1650	0,0040		2D
+Notothenia coriiceps	Glyptonotus antarcticus	848,4726	31,1650	0,0040		2D
+Octopoda	Glyptonotus antarcticus	130,0000	31,1650	0,0040		2D
+Odontaster validus	Glyptonotus antarcticus	11,3246	31,1650	0,0040		2D
+Parborlasia corrugatus	Glyptonotus antarcticus	73,0867	31,1650	0,0040		2D
+Trematomus bernacchii	Glyptonotus antarcticus	124,5932	31,1650	0,0040		2D
+Chaenocephalus aceratus	Gobionotothen gibberifrons	396,1000	102,5000			3D
+Bovallia gigantea	Gondogeneia antarctica	0,0520	0,0200	348,7850		2D
+Cheirimedon femoratus	Gondogeneia antarctica	0,0053	0,0200	348,7850		2D
+Glyptonotus antarcticus	Gondogeneia antarctica	31,1650	0,0200	348,7850		2D
+Gobionotothen gibberifrons	Gondogeneia antarctica	102,5000	0,0200	348,7850		2D
+Harpagifer antarcticus	Gondogeneia antarctica	7,8000	0,0200	348,7850		2D
+Lindbergichthys nudifrons	Gondogeneia antarctica	20,9000	0,0200	348,7850		2D
+Notothenia coriiceps	Gondogeneia antarctica	848,4726	0,0200	348,7850		2D
+Notothenia rossii	Gondogeneia antarctica	358,0462	0,0200	348,7850		2D
+Trematomus bernacchii	Gondogeneia antarctica	124,5932	0,0200	348,7850		3D
+Trematomus newnesi	Gondogeneia antarctica	82,7500	0,0200	348,7850		2D
+Chaenocephalus aceratus	Harpagifer antarcticus	396,1000	7,8000			3D
+Notothenia coriiceps	Hemiarthrum setulosum	848,4726	0,0565	2,5080		2D
+Notothenia coriiceps	Hippomedon kergueleni	848,4726	0,0912	0,5480		2D
+Notothenia rossii	Hippomedon kergueleni	358,0462	0,0912	0,5480		2D
+Octopoda	Hippomedon kergueleni	130,0000	0,0912	0,5480		2D
+Trematomus bernacchii	Hippomedon kergueleni	124,5932	0,0912	0,5480		2D
+Barrukia cristata	Hydrozoa	7,7665	0,0100			2D
+Nereididae	Hydrozoa	2,1133	0,0100			2D
+Notothenia coriiceps	Hydrozoa	848,4726	0,0100			2D
+Notothenia rossii	Hydrozoa	358,0462	0,0100			2D
+Odontaster validus	Hydrozoa	11,3246	0,0100			2D
+Ophionotus victoriae	Hydrozoa	5,4182	0,0100			2D
+Polynoidae	Hydrozoa	3,1574	0,0100			2D
+Sterechinus neumayeri	Hydrozoa	48,5810	0,0100			2D
+Trematomus bernacchii	Hydrozoa	124,5932	0,0100			2D
+Notothenia coriiceps	Hyperiidea	848,4726	0,0912			3D
+Notothenia rossii	Hyperiidea	358,0462	0,0912			3D
+Polychaeta	Hyperiidea	2,1133	0,0912			3D
+Salpidae	Hyperiidea	0,8660	0,0912			3D
+Trematomus bernacchii	Hyperiidea	124,5932	0,0912			3D
+Trematomus newnesi	Hyperiidea	82,7500	0,0912			3D
+Gondogeneia antarctica	Iridaea cordata	0,0200			47,2800	2D
+Laevilacunaria antarctica	Iridaea cordata	0,0309			47,2800	2D
+Notothenia coriiceps	Iridaea cordata	848,4726			47,2800	2D
+Notothenia rossii	Iridaea cordata	358,0462			47,2800	2D
+Prostebbingia gracilis	Iridaea cordata	0,0077			47,2800	2D
+Prostebbingia sp.	Iridaea cordata	0,0077			47,2800	2D
+Harpagifer antarcticus	Laevilacunaria antarctica	7,8000	0,0309	292,0000		2D
+Urticinopsis antarctica	Laevilacunaria antarctica	48,2360	0,0309	292,0000		2D
+Notothenia coriiceps	Lambia antarctica 	848,4726			25,5780	2D
+Neobuccinum eatoni	Laternula elliptica	18,6899	11,3304	159,4160		2D
+Notothenia coriiceps	Laternula elliptica	848,4726	11,3304	159,4160		2D
+Odontaster validus	Laternula elliptica	11,3246	11,3304	159,4160		2D
+Ophionotus victoriae	Laternula elliptica	5,4182	11,3304	159,4160		2D
+Parborlasia corrugatus	Laternula elliptica	73,0867	11,3304	159,4160		2D
+Trematomus bernacchii	Laternula elliptica	124,5932	11,3304	159,4160		2D
+Chaenocephalus aceratus	Lindbergichthys nudifrons	396,1000	20,9000			3D
+Notothenia rossii	Lindbergichthys nudifrons	358,0462	20,9000			3D
+Harpagifer antarcticus	Margarella antarctica	7,8000	0,3898	7,5760		2D
+Notothenia coriiceps	Margarella antarctica	848,4726	0,3898	7,5760		2D
+Trematomus bernacchii	Margarella antarctica	124,5932	0,3898	7,5760		2D
+Trematomus newnesi	Margarella antarctica	82,7500	0,3898	7,5760		2D
+Laevilacunaria antarctica	Monostroma hariotii	0,0309			64,7400	2D
+Notothenia coriiceps	Monostroma hariotii	848,4726			64,7400	2D
+Gondogeneia antarctica	Myriogramme manginii	0,0200			25,4670	2D
+Notothenia rossii	Myriogramme manginii	358,0462			25,4670	2D
+Prostebbingia gracilis	Myriogramme manginii	0,0077			25,4670	2D
+Prostebbingia sp.	Myriogramme manginii	0,0077			25,4670	2D
+Chaenocephalus aceratus	Mysida	396,1000	1,0351			3D
+Harpagifer antarcticus	Mysida	7,8000	1,0351			3D
+Notothenia coriiceps	Mysida	848,4726	1,0351			3D
+Ophionotus victoriae	Mysida	5,4182	1,0351			3D
+Parachaenichthys charcoti	Mysida	624,6821	1,0351			2D
+Polychaeta	Mysida	2,1133	1,0351			3D
+Trematomus bernacchii	Mysida	124,5932	1,0351			3D
+Trematomus newnesi	Mysida	82,7500	1,0351			3D
+Harpagifer antarcticus	Nacella concinna	7,8000	5,1582	18,6570		2D
+Notothenia coriiceps	Nacella concinna	848,4726	5,1582	18,6570		2D
+Notothenia rossii	Nacella concinna	358,0462	5,1582	18,6570		2D
+Parborlasia corrugatus	Nacella concinna	73,0867	5,1582	18,6570		2D
+Trematomus bernacchii	Nacella concinna	124,5932	5,1582	18,6570		2D
+Trematomus newnesi	Nacella concinna	82,7500	5,1582	18,6570		2D
+Charcotia obesa	Necromass	0,1945				2D
+Cheirimedon femoratus	Necromass	0,0053				2D
+Diplasterias brucei	Necromass	24,4183				2D
+Doris kerguelenensis	Necromass	44,9900				2D
+Eurymera monticulosa	Necromass	0,0140				2D
+Gitanopsis squamosa	Necromass	5,6769				2D
+Glyptonotus antarcticus	Necromass	31,1650				2D
+Hippomedon kergueleni	Necromass	0,0912				2D
+Mysida	Necromass	1,0351				3D
+Nemertea	Necromass	1,1330				2D
+Neobuccinum eatoni	Necromass	18,6899				2D
+Nereididae	Necromass	2,1133				2D
+Notothenia coriiceps	Necromass	848,4726				3D
+Odontaster validus	Necromass	11,3246				2D
+Ophionotus victoriae	Necromass	5,4182				2D
+Orchomenella sp.	Necromass	0,0912				2D
+Paradexamine fissicauda	Necromass	0,0912				2D
+Parborlasia corrugatus	Necromass	73,0867				2D
+Pariphimedia integricauda	Necromass	0,0131				2D
+Perknaster fuscus antarticus	Necromass	144,9222				2D
+Polychaeta	Necromass	2,1133				2D
+Polynoidae	Necromass	3,1574				2D
+Pseudorchomene plebs	Necromass	0,1360				2D
+Serolis sp.	Necromass	0,5629				2D
+Sterechinus neumayeri	Necromass	48,5810				2D
+Harpagifer antarcticus	Nemertea	7,8000	1,1330	0,2000		2D
+Hydrozoa	Nemertea	0,0100	1,1330	0,2000		2D
+Notothenia coriiceps	Nemertea	848,4726	1,1330	0,2000		2D
+Ophionotus victoriae	Nemertea	5,4182	1,1330	0,2000		2D
+Trematomus bernacchii	Nemertea	124,5932	1,1330	0,2000		2D
+Diplasterias brucei	Neobuccinum eatoni	24,4183	18,6899	0,5600		2D
+Harpagifer antarcticus	Neobuccinum eatoni	7,8000	18,6899	0,5600		2D
+Odontaster meridionalis	Neobuccinum eatoni	20,3867	18,6899	0,5600		2D
+Odontaster validus	Neobuccinum eatoni	11,3246	18,6899	0,5600		2D
+Ophionotus victoriae	Neobuccinum eatoni	5,4182	18,6899	0,5600		2D
+Trematomus bernacchii	Neobuccinum eatoni	124,5932	18,6899	0,5600		2D
+Trematomus newnesi	Neobuccinum eatoni	82,7500	18,6899	0,5600		2D
+Glyptonotus antarcticus	Nereididae	31,1650	2,1133	3,3670		2D
+Harpagifer antarcticus	Nereididae	7,8000	2,1133	3,3670		2D
+Lindbergichthys nudifrons	Nereididae	20,9000	2,1133	3,3670		2D
+Nemertea	Nereididae	1,1330	2,1133	3,3670		2D
+Notothenia coriiceps	Nereididae	848,4726	2,1133	3,3670		2D
+Notothenia rossii	Nereididae	358,0462	2,1133	3,3670		2D
+Odontaster validus	Nereididae	11,3246	2,1133	3,3670		2D
+Ophionotus victoriae	Nereididae	5,4182	2,1133	3,3670		2D
+Polynoidae	Nereididae	3,1574	2,1133	3,3670		2D
+Priapulida	Nereididae	0,0089	2,1133	3,3670		2D
+Trematomus bernacchii	Nereididae	124,5932	2,1133	3,3670		2D
+Notothenia coriiceps	Neuroglossum delesseriae	848,4726			52,0300	2D
+Chaenocephalus aceratus	Notothenia rossii	396,1000	358,0462			3D
+Chaenocephalus aceratus	Octopoda	396,1000	130,0000			3D
+Notothenia coriiceps	Octopoda	848,4726	130,0000			3D
+Notothenia rossii	Octopoda	358,0462	130,0000			3D
+Urticinopsis antarctica	Odontaster meridionalis	48,2360	20,3867			2D
+Urticinopsis antarctica	Odontaster validus	48,2360	11,3246	0,7900		2D
+Gammaridea	Oligochaeta	0,0050	0,0006	76,0000		2D
+Mysida	Oligochaeta	1,0351	0,0006	76,0000		3D
+Nemertea	Oligochaeta	1,1330	0,0006	76,0000		2D
+Nereididae	Oligochaeta	2,1133	0,0006	76,0000		2D
+Trematomus bernacchii	Oligochaeta	124,5932	0,0006	76,0000		2D
+Chaenocephalus aceratus	Ophionotus victoriae	396,1000	5,4182	5,0180		2D
+Notothenia coriiceps	Ophionotus victoriae	848,4726	5,4182	5,0180		2D
+Gobionotothen gibberifrons	Oradarea bidentata	102,5000	0,0077	44,0360		2D
+Notothenia coriiceps	Oradarea bidentata	848,4726	0,0077	44,0360		2D
+Notothenia rossii	Oradarea bidentata	358,0462	0,0077	44,0360		2D
+Trematomus newnesi	Oradarea bidentata	82,7500	0,0077	44,0360		2D
+Harpagifer antarcticus	Orchomenella sp.	7,8000	0,0912	0,3290		2D
+Notothenia coriiceps	Orchomenella sp.	848,4726	0,0912	0,3290		2D
+Notothenia rossii	Orchomenella sp.	358,0462	0,0912	0,3290		2D
+Trematomus bernacchii	Orchomenella sp.	124,5932	0,0912	0,3290		2D
+Trematomus newnesi	Orchomenella sp.	82,7500	0,0912	0,3290		2D
+Gammaridea	Ostracoda	0,0050	0,0012	24,8170		3D
+Gobionotothen gibberifrons	Ostracoda	102,5000	0,0012	24,8170		3D
+Hydrozoa	Ostracoda	0,0100	0,0012	24,8170		2D
+Hyperiidea	Ostracoda	0,0912	0,0012	24,8170		3D
+Lindbergichthys nudifrons	Ostracoda	20,9000	0,0012	24,8170		3D
+Mysida	Ostracoda	1,0351	0,0012	24,8170		3D
+Notothenia coriiceps	Ostracoda	848,4726	0,0012	24,8170		3D
+Notothenia rossii	Ostracoda	358,0462	0,0012	24,8170		2D
+Odontaster validus	Ostracoda	11,3246	0,0012	24,8170		2D
+Ophionotus victoriae	Ostracoda	5,4182	0,0012	24,8170		3D
+Polychaeta	Ostracoda	2,1133	0,0012	24,8170		3D
+Polynoidae	Ostracoda	3,1574	0,0012	24,8170		3D
+Salpidae	Ostracoda	0,8660	0,0012	24,8170		3D
+Trematomus bernacchii	Ostracoda	124,5932	0,0012	24,8170		3D
+Trematomus newnesi	Ostracoda	82,7500	0,0012	24,8170		3D
+Gammaridea	Palmaria decipiens	0,0050			69,3820	2D
+Gondogeneia antarctica	Palmaria decipiens	0,0200			69,3820	2D
+Laevilacunaria antarctica	Palmaria decipiens	0,0309			69,3820	2D
+Notothenia coriiceps	Palmaria decipiens	848,4726			69,3820	2D
+Notothenia rossii	Palmaria decipiens	358,0462			69,3820	2D
+Odontaster validus	Palmaria decipiens	11,3246			69,3820	2D
+Oradarea bidentata	Palmaria decipiens	0,0077			69,3820	2D
+Paradexamine fissicauda	Palmaria decipiens	0,0912			69,3820	2D
+Pariphimedia integricauda	Palmaria decipiens	0,0131			69,3820	2D
+Prostebbingia gracilis	Palmaria decipiens	0,0077			69,3820	2D
+Prostebbingia sp.	Palmaria decipiens	0,0077			69,3820	2D
+Notothenia coriiceps	Pantoneura plocamioides 	848,4726			25,8450	2D
+Chaenocephalus aceratus	Parachaenichthys charcoti	396,1000	624,6821			2D
+Harpagifer antarcticus	Paradexamine fissicauda	7,8000	0,0912	0,1100		2D
+Notothenia coriiceps	Paradexamine fissicauda	848,4726	0,0912	0,1100		2D
+Trematomus newnesi	Paradexamine fissicauda	82,7500	0,0912	0,1100		2D
+Bovallia gigantea	Paradexamine sp.	0,0520	0,0912	20,4060		2D
+Notothenia coriiceps	Paradexamine sp.	848,4726	0,0912	20,4060		2D
+Sterechinus neumayeri	Paradexamine sp.	48,5810	0,0912	20,4060		2D
+Bovallia gigantea	Pariphimedia integricauda	0,0520	0,0131	21,9170		2D
+Harpagifer antarcticus	Pariphimedia integricauda	7,8000	0,0131	21,9170		2D
+Notothenia coriiceps	Pariphimedia integricauda	848,4726	0,0131	21,9170		2D
+Notothenia rossii	Pariphimedia integricauda	358,0462	0,0131	21,9170		2D
+Trematomus newnesi	Pariphimedia integricauda	82,7500	0,0131	21,9170		2D
+Urticinopsis antarctica	Perknaster fuscus antarticus	48,2360	144,9222			2D
+Gondogeneia antarctica	Phaeurus antarcticus 	0,0200			74,1900	2D
+Notothenia coriiceps	Phaeurus antarcticus 	848,4726			74,1900	2D
+Aequiyoldia eightsii	Phytoplankton	1,7518	0,0000000000000344	4234,7930		2D
+Ascidiacea	Phytoplankton	47,6721	0,0000000000000344	4234,7930		2D
+Bryozoa	Phytoplankton	6,0195	0,0000000000000344	4234,7930		2D
+Cephalopoda	Phytoplankton	151,0000	0,0000000000000344	4234,7930		3D
+Charcotia obesa	Phytoplankton	0,1945	0,0000000000000344	4234,7930		2D
+Copepoda	Phytoplankton	0,0056	0,0000000000000344	4234,7930		3D
+Djerboa furcipes	Phytoplankton	0,5650	0,0000000000000344	4234,7930		2D
+Euphausia superba	Phytoplankton	0,5050	0,0000000000000344	4234,7930		3D
+Gammaridea	Phytoplankton	0,0050	0,0000000000000344	4234,7930		2D
+Gitanopsis squamosa	Phytoplankton	5,6769	0,0000000000000344	4234,7930		2D
+Hydrozoa	Phytoplankton	0,0100	0,0000000000000344	4234,7930		2D
+Laternula elliptica	Phytoplankton	11,3304	0,0000000000000344	4234,7930		2D
+Malacobelemnon daytoni	Phytoplankton	0,0070	0,0000000000000344	4234,7930		2D
+Mysida	Phytoplankton	1,0351	0,0000000000000344	4234,7930		3D
+Ostracoda	Phytoplankton	0,0012	0,0000000000000344	4234,7930		3D
+Paradexamine fissicauda	Phytoplankton	0,0912	0,0000000000000344	4234,7930		2D
+Polyplacophora	Phytoplankton	0,1167	0,0000000000000344	4234,7930		2D
+Prostebbingia gracilis	Phytoplankton	0,0077	0,0000000000000344	4234,7930		2D
+Prostebbingia sp.	Phytoplankton	0,0077	0,0000000000000344	4234,7930		2D
+Salpidae	Phytoplankton	0,8660	0,0000000000000344	4234,7930		3D
+Stylo_Myca	Phytoplankton	258,1000	0,0000000000000344	4234,7930		3D
+Tanaidacea	Phytoplankton	0,1470	0,0000000000000344	4234,7930		2D
+Zooplankton	Phytoplankton	0,0012	0,0000000000000344	4234,7930		3D
+Notothenia coriiceps	Picconiella plumosa 	848,4726			3,8350	2D
+Gondogeneia antarctica	Plocamium cartilagineum	0,0200			92,1680	2D
+Laevilacunaria antarctica	Plocamium cartilagineum	0,0309			92,1680	2D
+Notothenia coriiceps	Plocamium cartilagineum	848,4726			92,1680	2D
+Notothenia rossii	Plocamium cartilagineum	358,0462			92,1680	2D
+Prostebbingia gracilis	Plocamium cartilagineum	0,0077			92,1680	2D
+Prostebbingia sp.	Plocamium cartilagineum	0,0077			92,1680	2D
+Aequiyoldia eightsii	Polychaeta	1,7518	2,1133	818,9540		2D
+Aglaophamus trissophyllus	Polychaeta	5,9391	2,1133	818,9540		2D
+Barrukia cristata	Polychaeta	7,7665	2,1133	818,9540		2D
+Cephalopoda	Polychaeta	151,0000	2,1133	818,9540		3D
+Glyptonotus antarcticus	Polychaeta	31,1650	2,1133	818,9540		2D
+Gobionotothen gibberifrons	Polychaeta	102,5000	2,1133	818,9540		2D
+Harpagifer antarcticus	Polychaeta	7,8000	2,1133	818,9540		2D
+Lindbergichthys nudifrons	Polychaeta	20,9000	2,1133	818,9540		2D
+Notothenia coriiceps	Polychaeta	848,4726	2,1133	818,9540		2D
+Notothenia rossii	Polychaeta	358,0462	2,1133	818,9540		2D
+Octopoda	Polychaeta	130,0000	2,1133	818,9540		2D
+Odontaster validus	Polychaeta	11,3246	2,1133	818,9540		2D
+Ophionotus victoriae	Polychaeta	5,4182	2,1133	818,9540		2D
+Parborlasia corrugatus	Polychaeta	73,0867	2,1133	818,9540		2D
+Polynoidae	Polychaeta	3,1574	2,1133	818,9540		2D
+Priapulida	Polychaeta	0,0089	2,1133	818,9540		2D
+Serolis sp.	Polychaeta	0,5629	2,1133	818,9540		2D
+Sterechinus neumayeri	Polychaeta	48,5810	2,1133	818,9540		2D
+Trematomus newnesi	Polychaeta	82,7500	2,1133	818,9540		2D
+Aglaophamus trissophyllus	Polynoidae	5,9391	3,1574	130,3330		2D
+Harpagifer antarcticus	Polynoidae	7,8000	3,1574	130,3330		2D
+Hydrozoa	Polynoidae	0,0100	3,1574	130,3330		2D
+Nemertea	Polynoidae	1,1330	3,1574	130,3330		2D
+Ophionotus victoriae	Polynoidae	5,4182	3,1574	130,3330		2D
+Trematomus bernacchii	Polynoidae	124,5932	3,1574	130,3330		2D
+Gastropoda	Polyplacophora	0,6325	0,1167	0,5140		2D
+Harpagifer antarcticus	Polyplacophora	7,8000	0,1167	0,5140		2D
+Notothenia coriiceps	Polyplacophora	848,4726	0,1167	0,5140		2D
+Octopoda	Polyplacophora	130,0000	0,1167	0,5140		2D
+Barrukia cristata	Porifera	7,7665	24,2579	0,5302		2D
+Charcotia obesa	Porifera	0,1945	24,2579	0,5302		2D
+Diplasterias brucei	Porifera	24,4183	24,2579	0,5302		2D
+Doris kerguelenensis	Porifera	44,9900	24,2579	0,5302		2D
+Gastropoda	Porifera	0,6325	24,2579	0,5302		2D
+Hemiarthrum setulosum	Porifera	0,0565	24,2579	0,5302		2D
+Odontaster meridionalis	Porifera	20,3867	24,2579	0,5302		2D
+Odontaster validus	Porifera	11,3246	24,2579	0,5302		2D
+Ophionotus victoriae	Porifera	5,4182	24,2579	0,5302		2D
+Orchomenella sp.	Porifera	0,0912	24,2579	0,5302		2D
+Parborlasia corrugatus	Porifera	73,0867	24,2579	0,5302		2D
+Perknaster fuscus antarticus	Porifera	144,9222	24,2579	0,5302		2D
+Polynoidae	Porifera	3,1574	24,2579	0,5302		2D
+Polyplacophora	Porifera	0,1167	24,2579	0,5302		2D
+Sterechinus neumayeri	Porifera	48,5810	24,2579	0,5302		2D
+Trematomus bernacchii	Porifera	124,5932	24,2579	0,5302		2D
+Notothenia coriiceps	Porphyra plocamiestris 	848,4726			23,3090	2D
+Cephalopoda	Priapulida	151,0000	0,0089	115,0000		2D
+Trematomus bernacchii	Priapulida	124,5932	0,0089	115,0000		2D
+Gobionotothen gibberifrons	Probolisca ovata	102,5000	0,0912	6,1030		2D
+Harpagifer antarcticus	Probolisca ovata	7,8000	0,0912	6,1030		2D
+Notothenia coriiceps	Probolisca ovata	848,4726	0,0912	6,1030		2D
+Notothenia rossii	Probolisca ovata	358,0462	0,0912	6,1030		2D
+Trematomus newnesi	Probolisca ovata	82,7500	0,0912	6,1030		2D
+Bovallia gigantea	Prostebbingia gracilis	0,0520	0,0077	131,0860		2D
+Gobionotothen gibberifrons	Prostebbingia gracilis	102,5000	0,0077	131,0860		2D
+Harpagifer antarcticus	Prostebbingia gracilis	7,8000	0,0077	131,0860		2D
+Lindbergichthys nudifrons	Prostebbingia gracilis	20,9000	0,0077	131,0860		2D
+Notothenia coriiceps	Prostebbingia gracilis	848,4726	0,0077	131,0860		2D
+Notothenia rossii	Prostebbingia gracilis	358,0462	0,0077	131,0860		2D
+Trematomus newnesi	Prostebbingia gracilis	82,7500	0,0077	131,0860		2D
+Bovallia gigantea	Prostebbingia sp.	0,0520	0,0077	131,0860		2D
+Lindbergichthys nudifrons	Prostebbingia sp.	20,9000	0,0077	131,0860		2D
+Notothenia coriiceps	Prostebbingia sp.	848,4726	0,0077	131,0860		2D
+Notothenia rossii	Prostebbingia sp.	358,0462	0,0077	131,0860		2D
+Ophionotus victoriae	Prostebbingia sp.	5,4182	0,0077	131,0860		2D
+Parborlasia corrugatus	Prostebbingia sp.	73,0867	0,0077	131,0860		2D
+Sterechinus neumayeri	Prostebbingia sp.	48,5810	0,0077	131,0860		2D
+Lindbergichthys nudifrons	Pseudorchomene plebs	20,9000	0,1360			2D
+Notothenia coriiceps	Pseudorchomene plebs	848,4726	0,1360			2D
+Trematomus bernacchii	Pseudorchomene plebs	124,5932	0,1360			2D
+Doris kerguelenensis	Rosella antartica	44,9900	258,1000			2D
+Odontaster meridionalis	Rosella antartica	20,3867	258,1000			2D
+Odontaster validus	Rosella antartica	11,3246	258,1000			2D
+Ophionotus victoriae	Rosella antartica	5,4182	258,1000			2D
+Parborlasia corrugatus	Rosella antartica	73,0867	258,1000			2D
+Perknaster fuscus antarticus	Rosella antartica	144,9222	258,1000			2D
+Sterechinus neumayeri	Rosella antartica	48,5810	258,1000			2D
+Doris kerguelenensis	Rossella sp.	44,9900	258,1000			2D
+Odontaster meridionalis	Rossella sp.	20,3867	258,1000			2D
+Odontaster validus	Rossella sp.	11,3246	258,1000			2D
+Ophionotus victoriae	Rossella sp.	5,4182	258,1000			2D
+Parborlasia corrugatus	Rossella sp.	73,0867	258,1000			2D
+Sterechinus neumayeri	Rossella sp.	48,5810	258,1000			2D
+Euphausia superba	Salpidae	0,5050	0,8660	0,2280		3D
+Lindbergichthys nudifrons	Salpidae	20,9000	0,8660	0,2280		3D
+Notothenia coriiceps	Salpidae	848,4726	0,8660	0,2280		3D
+Notothenia rossii	Salpidae	358,0462	0,8660	0,2280		3D
+Trematomus newnesi	Salpidae	82,7500	0,8660	0,2280		3D
+Gobionotothen gibberifrons	Serolis sp.	102,5000	0,5629	44,3340		2D
+Harpagifer antarcticus	Serolis sp.	7,8000	0,5629	44,3340		2D
+Lindbergichthys nudifrons	Serolis sp.	20,9000	0,5629	44,3340		2D
+Notothenia coriiceps	Serolis sp.	848,4726	0,5629	44,3340		2D
+Parborlasia corrugatus	Serolis sp.	73,0867	0,5629	44,3340		2D
+Nemertea	Spionidae	1,1330	2,1133	116,0000		2D
+Nereididae	Spionidae	2,1133	2,1133	116,0000		2D
+Trematomus bernacchii	Spionidae	124,5932	2,1133	116,0000		2D
+Octopoda	Sterechinus neumayeri	130,0000	48,5810	1,3580		2D
+Odontaster validus	Sterechinus neumayeri	11,3246	48,5810	1,3580		2D
+Ophionotus victoriae	Sterechinus neumayeri	5,4182	48,5810	1,3580		2D
+Trematomus bernacchii	Sterechinus neumayeri	124,5932	48,5810	1,3580		2D
+Urticinopsis antarctica	Sterechinus neumayeri	48,2360	48,5810	1,3580		2D
+Doris kerguelenensis	Stylo_Myca	44,9900	527,9500	0,0200		2D
+Odontaster meridionalis	Stylo_Myca	20,3867	527,9500	0,0200		2D
+Odontaster validus	Stylo_Myca	11,3246	527,9500	0,0200		2D
+Ophionotus victoriae	Stylo_Myca	5,4182	527,9500	0,0200		2D
+Parborlasia corrugatus	Stylo_Myca	73,0867	527,9500	0,0200		2D
+Perknaster aurorae	Stylo_Myca	144,9222	527,9500	0,0200		2D
+Perknaster fuscus antarticus	Stylo_Myca	144,9222	527,9500	0,0200		2D
+Sterechinus neumayeri	Stylo_Myca	48,5810	527,9500	0,0200		2D
+Gastropoda	Tanaidacea	0,6325	0,1470	1,2466		2D
+Lindbergichthys nudifrons	Tanaidacea	20,9000	0,1470	1,2466		2D
+Notothenia coriiceps	Tanaidacea	848,4726	0,1470	1,2466		2D
+Ophionotus victoriae	Tanaidacea	5,4182	0,1470	1,2466		2D
+Trematomus bernacchii	Tanaidacea	124,5932	0,1470	1,2466		2D
+Nemertea	Terebellidae	1,1330	1,6583	87,2000		2D
+Trematomus bernacchii	Terebellidae	124,5932	1,6583	87,2000		2D
+Notothenia coriiceps	Trematocarpus antarcticus	848,4726			36,4730	2D
+Urticinopsis antarctica	Trematomus bernacchii	48,2360	124,5932			3D
+Urticinopsis antarctica	Trematomus newnesi	48,2360	82,7500			3D
+Nacella concinna	Ulothrix sp.	5,1582				2D
+Notothenia coriiceps	Urospora penicilliformis	848,4726				2D
+Ascidiacea	Zooplankton	47,6721	0,0012	49,7810		3D
+Cephalopoda	Zooplankton	151,0000	0,0012	49,7810		3D
+Copepoda	Zooplankton	0,0056	0,0012	49,7810		3D
+Euphausia superba	Zooplankton	0,5050	0,0012	49,7810		3D
+Hemiarthrum setulosum	Zooplankton	0,0565	0,0012	49,7810		3D
+Hydrozoa	Zooplankton	0,0100	0,0012	49,7810		3D
+Hyperiidea	Zooplankton	0,0912	0,0012	49,7810		3D
+Malacobelemnon daytoni	Zooplankton	0,0070	0,0012	49,7810		3D
+Mysida	Zooplankton	1,0351	0,0012	49,7810		3D
+Nereididae	Zooplankton	2,1133	0,0012	49,7810		3D
+Ostracoda	Zooplankton	0,0012	0,0012	49,7810		3D
+Salpidae	Zooplankton	0,8660	0,0012	49,7810		3D
+Sterechinus neumayeri	Zooplankton	48,5810	0,0012	49,7810		3D
+Terebellidae	Zooplankton	1,6583	0,0012	49,7810		3D
+Trematomus bernacchii	Zooplankton	124,5932	0,0012	49,7810		3D
+Zooplankton	Zooplankton	0,0012	0,0012	49,7810		3D

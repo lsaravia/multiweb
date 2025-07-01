@@ -10,8 +10,8 @@ plot_troph_level_ggplot(
   vertexSizeMin = 5,
   modules = FALSE,
   weights = NA,
+  node_weights = NULL,
   community_obj = NULL,
-  maxTL = NULL,
   use_numbers = FALSE,
   label_size = 4,
   arrow_size = 0.15,
@@ -21,40 +21,30 @@ plot_troph_level_ggplot(
 \arguments{
 \item{g}{An \code{igraph} object representing the ecological network.}
 
-\item{vertexSizeFactor}{Numeric factor to determine node size based on degree (default: 5).}
+\item{vertexSizeFactor}{Numeric factor to scale node size (default: 5).}
 
-\item{vertexSizeMin}{Numeric value for the minimum node size (default: 5).}
+\item{vertexSizeMin}{Minimum node size (default: 5).}
 
-\item{modules}{Logical; if \code{TRUE}, nodes are grouped by community modules detected using \code{cluster_spinglass()} (default: \code{FALSE}).}
+\item{modules}{Logical; if \code{TRUE}, nodes are grouped by community modules (default: \code{FALSE}).}
 
-\item{weights}{A numeric vector, \code{NULL}, or \code{NA}, specifying edge weights for community detection.
-If \code{NULL}, the function uses the \code{weight} attribute of \code{g} if available. If \code{NA}, weights are ignored (default: \code{NA}).}
+\item{weights}{Edge weights for community detection (default: \code{NA}).}
 
-\item{community_obj}{An optional community detection object. If \code{NULL}, the function calculates modules automatically (default: \code{NULL}).}
+\item{node_weights}{Optional numeric vector of node weights (e.g., biomass). If \code{NULL}, uses degree.}
 
-\item{maxTL}{Numeric, maximum trophic level to display on the y-axis. If \code{NULL}, it is determined automatically (default: \code{NULL}).}
+\item{community_obj}{Optional community detection object.}
 
-\item{use_numbers}{Logical; if \code{TRUE}, nodes are labeled with numeric IDs instead of species names to reduce label overlap in large networks (default: \code{FALSE}).}
+\item{use_numbers}{Logical; if \code{TRUE}, label nodes by numeric ID (default: \code{FALSE}).}
 
-\item{label_size}{Numeric, font size for node labels (default: 4).}
+\item{label_size}{Label font size (default: 4).}
 
-\item{arrow_size}{Numeric, size of the arrowheads for directed edges (default: 0.15).}
+\item{arrow_size}{Arrowhead size (default: 0.15).}
 
-\item{shorten_factor}{Numeric, a small factor to adjust arrow placement by slightly shortening edges.
-This prevents arrowheads from overlapping with node centers. A small positive value (e.g., 0.005) works well (default: \code{0.005}).}
+\item{shorten_factor}{Factor to shorten edges for arrows (default: 0.005).}
 }
 \value{
 A \code{ggplot} object visualizing the trophic structure of the network.
-If \code{use_numbers = TRUE}, it also returns a \code{tibble} mapping numeric labels to species names.
 }
 \description{
 This function visualizes a food web using \code{ggplot2}, where nodes represent species and edges represent interactions.
 Nodes are positioned by trophic level on the y-axis, and optionally, community modules on the x-axis.
-}
-\examples{
-
-g <- netData$Angola
-plot_troph_level_ggplot(g, modules = TRUE, use_numbers = TRUE)
-
-
 }

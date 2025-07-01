@@ -413,9 +413,9 @@ plotTrophLevel(g1,vertexLabel = TRUE,vertexSizeFactor = 7,modules = TRUE)
 plot_troph_level_ggplot(g,modules = TRUE, arrow_size = 0.08)
 plot_troph_level_ggplot(g1,modules = TRUE)
 g <- netData[[1]]
-plotTrophLevel(g2,vertexLabel = TRUE,vertexSizeFactor = 7,modules = TRUE)
 
 g2 <- g+g1
+plotTrophLevel(g2,vertexLabel = TRUE,vertexSizeFactor = 7,modules = TRUE)
 plotTrophLevel(g2,vertexLabel = TRUE,vertexSizeFactor = 10,modules = TRUE)
 plot_troph_level_ggplot(g2,modules = TRUE)
 
@@ -424,6 +424,8 @@ plot_troph_level_ggplot(g2,modules = TRUE)
 #
 
 E(g)$weight <- sample(c(0.001,.01,.1,.5,.9),gsize(g),replace=TRUE)
+plot_troph_level_ggplot(g,modules = TRUE)
+run_infomap(g, return_df = TRUE)
 calc_weighted_topological_indices(g)
 E(g)$weight <- rep(.01,times=gsize(g))
 calc_weighted_topological_indices(g)
@@ -847,3 +849,85 @@ names(m_list) <- c("Trophic","Competitive")
 res <- run_infomap_multi(m_list, output_dir = ".", multilayer_relax_rate = 1 )
 plots <- plot_multiplex_modules(m_list, res$communities,y_by_trophic=TRUE, show_labels = TRUE)
 cowplot::plot_grid(plotlist = plots, ncol = 2)
+
+
+# test plot
+
+g <- netData$"Potter Cove"  # example from multiweb
+
+# Run Infomap to get flow per node
+infomap_result <- run_infomap(g, return_df = TRUE)
+communities_df <- infomap_result$communities
+
+# Match flow to node order
+# Make sure V(g)$name matches 'node' in communities_df
+# If needed, assign names:
+if (is.null(V(g)$name)) {
+  V(g)$name <- as.character(1:vcount(g))
+}
+
+# Join flow vector: reorder to match igraph node order
+node_flow <- communities_df$flow[match(V(g)$name, communities_df$node)]
+
+icom <- run_infomap(g)
+
+# Now plot, using node_weights = Infomap flow
+(p <- plot_troph_level_ggraph(
+  g,
+  modules = TRUE,
+  #community_obj = icom,
+  #node_weights = node_flow*15,
+  vertexSizeFactor = 3,  # increase for visibility
+  vertexSizeMin = 1,
+  arrow_size = 0.1,
+  use_numbers = TRUE
+))
+
+(p <- plot_troph_level_ggplot(
+  g,
+  modules = TRUE,
+  community_obj = icom,
+  node_weights = NULL,
+  vertexSizeFactor = 3,  # increase for visibility
+  vertexSizeMin = 1,
+  arrow_size = 0.1,
+  use_numbers = TRUE
+))
+plot_troph_level_ggplot(g)
+plot_troph_level_ggraph(g)
+
+V(g)$weight <- node_flow*10
+(p <- plot_troph_level_ggraph(
+  g,
+  modules = TRUE,
+  community_obj = icom,
+  node_weights = NULL,
+  vertexSizeFactor = 3,  # increase for visibility
+  vertexSizeMin = 1,
+  arrow_size = 0.1,
+  use_numbers = TRUE
+))
+
+pc_i <- calc_interaction_intensity(PotterCove_bm,r_bodymass,r_density,c_bodymass,D)
+g <- graph_from_data_frame(pc_i %>% select(resource,consumer, qRC) %>% rename(weight=qRC), directed = TRUE)
+(p <- plot_troph_level_ggraph(
+  g,
+  modules = TRUE,
+  weights = NULL,
+  vertexSizeFactor = 3,  # increase for visibility
+  vertexSizeMin = 1,
+  arrow_size = 0.1,
+  use_numbers = TRUE
+))
+
+comi <- run_infomap(g)
+(p <- plot_troph_level_ggraph(
+  g,
+  modules = TRUE,
+  community_obj = comi,
+  vertexSizeFactor = 3,  # increase for visibility
+  vertexSizeMin = 1,
+  arrow_size = 0.1,
+  use_numbers = TRUE
+))
+V(g)$name[108]

@@ -47,16 +47,10 @@
 #'
 #' @examples
 #' \dontrun{
-#' g <- netData[[1]]
 #'
-#' require(dplyr)
+#' # Using PotterCove_bm dataset
 #'
-#' # build the data.frame with random values
-#'
-#' set.seed(7815)
-#' da <- as_long_data_frame(g) %>% dplyr::select(from:to) %>% mutate(con_mm=rlnorm(n(),5,2),res_mm=con_mm - 30 ,int_dim=sample(c("2D","3D"),n(),replace=TRUE), res_den = -999)
-#'
-#' calc_interaction_intensity(da,res_mm,res_den,con_mm,int_dim, nsims=1)
+#' pc_i <- calc_interaction_intensity(PotterCove_bm,r_bodymass,r_density,c_bodymass,D)
 #' }
 
 calc_interaction_intensity <- function(da,res_mm,res_den,con_mm,int_dim, nsims=1)

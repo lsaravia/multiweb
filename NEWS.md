@@ -1,3 +1,8 @@
+# Version  0.8.50.0000
+
+* New function plot_troph_level_ggraph and new dataset PotterCove_bm
+
+
 # Version  0.8.40.0000
 
 * Updated calc_QSS to effectively use the parameter selfDamping, before this changes it was used only for positive values of 

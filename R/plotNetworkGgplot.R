@@ -4,21 +4,18 @@
 #' Nodes are positioned by trophic level on the y-axis, and optionally, community modules on the x-axis.
 #'
 #' @param g An `igraph` object representing the ecological network.
-#' @param vertexSizeFactor Numeric factor to determine node size based on degree (default: 5).
-#' @param vertexSizeMin Numeric value for the minimum node size (default: 5).
-#' @param modules Logical; if `TRUE`, nodes are grouped by community modules detected using `cluster_spinglass()` (default: `FALSE`).
-#' @param weights A numeric vector, `NULL`, or `NA`, specifying edge weights for community detection.
-#'   If `NULL`, the function uses the `weight` attribute of `g` if available. If `NA`, weights are ignored (default: `NA`).
-#' @param community_obj An optional community detection object. If `NULL`, the function calculates modules automatically (default: `NULL`).
-#' @param maxTL Numeric, maximum trophic level to display on the y-axis. If `NULL`, it is determined automatically (default: `NULL`).
-#' @param use_numbers Logical; if `TRUE`, nodes are labeled with numeric IDs instead of species names to reduce label overlap in large networks (default: `FALSE`).
-#' @param label_size Numeric, font size for node labels (default: 4).
-#' @param arrow_size Numeric, size of the arrowheads for directed edges (default: 0.15).
-#' @param shorten_factor Numeric, a small factor to adjust arrow placement by slightly shortening edges.
-#'   This prevents arrowheads from overlapping with node centers. A small positive value (e.g., 0.005) works well (default: `0.005`).
+#' @param vertexSizeFactor Numeric factor to scale node size (default: 5).
+#' @param vertexSizeMin Minimum node size (default: 5).
+#' @param modules Logical; if `TRUE`, nodes are grouped by community modules (default: `FALSE`).
+#' @param weights Edge weights for community detection (default: `NA`).
+#' @param node_weights Optional numeric vector of node weights (e.g., biomass). If `NULL`, uses degree.
+#' @param community_obj Optional community detection object.
+#' @param use_numbers Logical; if `TRUE`, label nodes by numeric ID (default: `FALSE`).
+#' @param label_size Label font size (default: 4).
+#' @param arrow_size Arrowhead size (default: 0.15).
+#' @param shorten_factor Factor to shorten edges for arrows (default: 0.005).
 #'
 #' @return A `ggplot` object visualizing the trophic structure of the network.
-#'   If `use_numbers = TRUE`, it also returns a `tibble` mapping numeric labels to species names.
 #'
 #' @importFrom igraph degree get.adjacency V count_components cluster_spinglass induced_subgraph components is_directed
 #' @importFrom NetIndices TrophInd
@@ -28,45 +25,53 @@
 #' @importFrom tibble tibble as_tibble
 #' @importFrom grid unit
 #' @export
-#'
-#' @examples
-#'
-#' g <- netData$Angola
-#' plot_troph_level_ggplot(g, modules = TRUE, use_numbers = TRUE)
-#'
-#'
-plot_troph_level_ggplot <- function(g, vertexSizeFactor = 5, vertexSizeMin = 5, modules = FALSE,
-                                    weights = NA, community_obj = NULL, maxTL = NULL,
-                                    use_numbers = FALSE, label_size = 4, arrow_size = 0.15,shorten_factor=0.005) {
+plot_troph_level_ggplot <- function(
+    g,
+    vertexSizeFactor = 5,
+    vertexSizeMin = 5,
+    modules = FALSE,
+    weights = NA,
+    node_weights = NULL,
+    community_obj = NULL,
+    use_numbers = FALSE,
+    label_size = 4,
+    arrow_size = 0.15,
+    shorten_factor = 0.005
+) {
+  # --- Degree fallback if no custom weights ---
+  if (is.null(node_weights)) {
+    node_weights <- degree(g, mode = "all")
+  } else {
+    if (length(node_weights) != vcount(g)) {
+      stop("`node_weights` must have length equal to number of nodes in `g`.")
+    }
+  }
 
-  # Compute node degree and trophic level
-  deg <- degree(g, mode = "all")
   adj <- as_adjacency_matrix(g, sparse = FALSE)
   tl <- TrophInd(adj)
 
-  # Ensure node names exist, otherwise assign numeric IDs
   if (is.null(V(g)$name)) {
-    V(g)$name <- as.character(1:vcount(g))  # Assign numbers as names
+    V(g)$name <- as.character(1:vcount(g))
   }
-  # Create node tibble
+
+  # Node tibble
   nodes <- tibble(
     id = V(g)$name,
-    degree = deg,
-    size = log10(deg + 1) * vertexSizeFactor + vertexSizeMin,
+    weight = node_weights,
+    size = log10(node_weights) * vertexSizeFactor + vertexSizeMin,
     trophic_level = tl$TL
   )
 
-  # Assign numbers to nodes if `use_numbers = TRUE`
   if (use_numbers) {
     nodes <- nodes %>% mutate(numeric_id = row_number())
     label_column <- "numeric_id"
-    node_map <- nodes %>% select(numeric_id, id)  # Store mapping of numbers to names
+    node_map <- nodes %>% select(numeric_id, id)
   } else {
     label_column <- "id"
     node_map <- NULL
   }
 
-  # Compute layout (x = modularity, y = trophic level)
+  # X = modules or random
   if (modules) {
     if (!is.null(community_obj)) {
       m <- community_obj
@@ -94,7 +99,6 @@ plot_troph_level_ggplot <- function(g, vertexSizeFactor = 5, vertexSizeMin = 5, 
 
   nodes <- nodes %>% mutate(y = jitter(trophic_level, amount = 0.05))
 
-  # Convert edges to a tibble
   edges <- as.data.frame(as_edgelist(g)) %>%
     rename(from = V1, to = V2) %>%
     left_join(nodes, by = c("from" = "id")) %>%
@@ -102,22 +106,17 @@ plot_troph_level_ggplot <- function(g, vertexSizeFactor = 5, vertexSizeMin = 5, 
     left_join(nodes, by = c("to" = "id")) %>%
     rename(x_to = x, y_to = y, size_to = size)
 
-
-  # Create vertical separator lines if modules are enabled
   module_lines <- NULL
   if (modules) {
     module_positions <- sort(unique(as.numeric(nodes$module)))
     if (length(module_positions) > 1) {
-      line_positions <- head(module_positions, -1) + diff(module_positions) / 2  # Midpoints
+      line_positions <- head(module_positions, -1) + diff(module_positions) / 2
       module_lines <- tibble(x = line_positions)
     }
   }
 
-  # Check if the graph is directed
   directed <- is_directed(g)
-
   if (directed) {
-    # Adjust arrow placement by shortening the edges
     edges <- edges %>%
       mutate(
         dx = x_to - x_from,
@@ -130,11 +129,8 @@ plot_troph_level_ggplot <- function(g, vertexSizeFactor = 5, vertexSizeMin = 5, 
       )
   }
 
-
-  # Define arrow style with adjustable arrow size
   arrow_style <- if (directed) arrow(type = "closed", length = unit(arrow_size, "inches")) else NULL
 
-  # Create base ggplot network plot
   p <- ggplot() +
     geom_segment(data = edges, aes(x = x_from, y = y_from, xend = x_to, yend = y_to),
                  color = "gray50", alpha = 0.6, size = 0.4, arrow = arrow_style) +
@@ -150,26 +146,153 @@ plot_troph_level_ggplot <- function(g, vertexSizeFactor = 5, vertexSizeMin = 5, 
     ) +
     labs(y = "Trophic Level")
 
-
-  # Add vertical separator lines **only between modules**
   if (!is.null(module_lines)) {
     p <- p + geom_vline(data = module_lines, aes(xintercept = x), color = "black",
                         linetype = "dashed", alpha = 0.7)
   }
 
-  # Add x-axis label **only if modules are used**
   if (modules) {
     p <- p + labs(x = "Community Module")
   } else {
-    p <- p + theme(axis.title.x = element_blank())  # Remove x-axis label
+    p <- p + theme(axis.title.x = element_blank())
   }
 
-  # print(p)
 
-  # Return node mapping if using numbers
-  if (use_numbers) {
-    return(node_map)
-  } else {
-    return(p)
-  }
+  return(p)
 }
+
+
+#' Plot an Ecological Network Organized by Trophic Level using ggraph
+#'
+#' This function visualizes a food web using `ggplot2`, where nodes represent species and edges represent interactions.
+#' Nodes are positioned by trophic level on the y-axis, and optionally, community modules on the x-axis.
+#' Is similar to [plot_troph_level_ggplot()], but uses `ggraph` for layout and rendering, which make better arrows.
+#'
+#' @param g An `igraph` network.
+#' @param vertexSizeFactor Factor for node size scaling (default 5).
+#' @param vertexSizeMin Minimum node size (default 5).
+#' @param modules If TRUE, uses `cluster_spinglass` for community detection.
+#' @param weights Edge weights for clustering (default NA).
+#' @param community_obj Optional community detection object.
+#' @param use_numbers Label nodes by numeric ID.
+#' @param label_size Text size.
+#' @param arrow_size Arrowhead size.
+#' @param node_weights Optional numeric vector for node weights. If NA, uses degree.
+#'        If it is NULL and the input graph has a ‘weight’ vertex attribute, then that attribute will be used.
+#'
+#' @return A `ggraph` plot.
+#' @export
+#'
+#' @import igraph
+#' @import ggraph
+#' @import NetIndices
+#' @import dplyr
+#' @import ggrepel
+#' @importFrom tibble tibble
+#' @importFrom ggplot2 labs theme_bw theme element_blank element_text scale_color_viridis_c
+plot_troph_level_ggraph <- function(g,
+                                    vertexSizeFactor = 5,
+                                    vertexSizeMin = 5,
+                                    modules = FALSE,
+                                    weights = NA,
+                                    community_obj = NULL,
+                                    use_numbers = FALSE,
+                                    label_size = 4,
+                                    arrow_size = 0.1,
+                                    node_weights = NA) {
+  # Compute trophic level
+  adj <- as_adjacency_matrix(g, sparse = FALSE)
+  tl <- NetIndices::TrophInd(adj)
+
+  if (is.null(V(g)$name)) {
+    V(g)$name <- as.character(1:vcount(g))
+  }
+
+  # Node weights
+  if (any(is.na(node_weights))) {
+    V(g)$weight <- degree(g, mode = "all")
+  } else if (!is.null(node_weights)) {
+    V(g)$weight <- node_weights
+  } else if(is.null(V(g)$weight)){
+    stop("`node_weights` must be provided or `V(g)$weights` must exist.")
+  }
+
+  # Node sizes
+  V(g)$size<- V(g)$weight * vertexSizeFactor
+  V(g)$size<- ifelse(V(g)$size < vertexSizeMin, vertexSizeMin, V(g)$size)
+  V(g)$trophic_level <- tl$TL
+
+  # Modules
+  if (modules) {
+    if (!is.null(community_obj)) {
+      m <- community_obj
+    } else {
+      m <- cluster_spinglass(g, weights = weights)
+    }
+    V(g)$module <- factor(m$membership)
+  } else {
+    V(g)$module <- factor(1)  # dummy for layout
+  }
+
+  # Numeric labels if needed
+  if (use_numbers) {
+    V(g)$numeric_id <- seq_len(vcount(g))
+  }
+
+  # Layout coordinates: x = module, y = trophic level
+  if (modules) {
+    x_pos <- jitter(as.numeric(V(g)$module), amount = 0.5)
+  } else {
+    x_pos <- runif(vcount(g), -1, 1)
+  }
+  y_pos <- V(g)$trophic_level
+
+  layout_df <- tibble::tibble(x = x_pos, y = y_pos)
+
+  # Build plot
+  p <- ggraph(g, layout = "manual", x = layout_df$x, y = layout_df$y) +
+    geom_edge_link(
+      aes(),
+      arrow = arrow(type = "closed", length = unit(arrow_size, "inches")),
+      end_cap = circle(arrow_size, 'inches'),
+      start_cap = circle(arrow_size, 'inches'),
+      edge_colour = "grey50",
+      alpha = 0.6
+    ) +
+    geom_node_point(
+      aes(size = size, color = trophic_level),
+      alpha = 0.9
+    ) +
+    geom_text_repel(
+      aes(x = layout_df$x, y = layout_df$y,label = if (use_numbers) numeric_id else name),
+      size = label_size,
+      max.overlaps = 20
+    ) +
+    scale_color_viridis_c() +
+    theme_bw() +
+    labs(y = "Trophic Level") +
+    theme(
+      legend.position = "none",
+      panel.grid = element_blank()
+    )
+
+  # Add module lines
+  if (modules) {
+    module_positions <- sort(unique(as.numeric(V(g)$module)))
+    if (length(module_positions) > 1) {
+      line_positions <- head(module_positions, -1) + diff(module_positions) / 2
+      p <- p + geom_vline(
+        xintercept = line_positions,
+        linetype = "dashed",
+        color = "black",
+        alpha = 0.7
+      ) +
+        labs(x = "Community Module")
+    }
+  } else {
+    p <- p + theme(axis.title.x = element_blank())
+  }
+
+  return(p)
+}
+
