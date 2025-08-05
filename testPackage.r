@@ -6,12 +6,12 @@ g <- readNetwork(fileName)
 V(g)$weigth <-  runif(vcount(g))
 plotTrophLevel(g,vertexLabel = FALSE,vertexSizeFactor = 3,modules = TRUE,maxTL=4,weights=NULL, frame.color="black")
 tk <- plotTrophLevel(g,vertexLabel = FALSE,vertexSizeFactor = 3,modules = TRUE, tk=TRUE)
-plotTrophLevel(g,vertexLabel = FALSE,vertexSizeFactor = 3,modules = TRUE, lMat=tk)
+plotTrophLevel(g,vertexLabel = FALSE,vertexSizeFactor = 3,modules = TRUE, lMat=tk,tk=TRUE)
 
+#
 dn <- list.files("inst/extdata",pattern = "^.*\\.csv$")
 g<- readNetwork(dn,"inst/extdata")
 names(g)
-E(g[[1]])[which_loop(g[[1]])]
 
 plotTrophLevel(g[[1]])
 
@@ -24,16 +24,17 @@ plotTrophLevel(g,vertexLabel = TRUE,vertexSizeFactor = 20,modules = TRUE,maxTL=4
 
 # Test tk and use of lMat
 tk <- plotTrophLevel(g,vertexLabel = TRUE,vertexSizeFactor = 20,modules = TRUE, tk=TRUE,vertex.label.color="white")
-tk [,2] <- seq(0,100, length.out = 7)
-plotTrophLevel(g,vertexLabel = TRUE,vertexSizeFactor = 20,modules = TRUE, lMat=tk,maxTL=2)
+tk [1,2] <- 100 # seq(0,100, length.out = 7)
+plotTrophLevel(g,vertexLabel = TRUE,vertexSizeFactor = 20,modules = TRUE, lMat=tk,maxTL=3)
 
-
+V(g)$weight <- c(100,2.5,0.1,0.2,1,5,0.1)
+plot_troph_level_ggraph(g,node_weights=NA)
+plot_troph_level_ggplot(g,node_weights=NA)
 
 # add weights
 #
 E(g)$weight <- c(2,2.5,0.1,0.2,1,5,0.1,2)
 plotTrophLevel(g,vertexLabel = TRUE,vertexSizeFactor = 20,modules = TRUE,maxTL=4,weights=NA,edge.width=5)
-
 plotTrophLevel(g,vertexLabel = TRUE,vertexSizeFactor = 20,modules = TRUE,maxTL=4,weights=NULL,edge.width=5)
 
 
@@ -45,12 +46,17 @@ g <-   graph_from_literal( 1 -+ 4 -+ 7,2 -+ 5 -+7, 3-+6-+7, 4+-5, simplify = FAL
 calcTopologicalIndices(g)
 plotTrophLevel(g,vertexLabel = TRUE,vertexSizeFactor = 20, modules = TRUE)
 nullg <- generateERbasal(g,10)
+plotTrophLevel(nullg[[10]],vertexLabel = TRUE,vertexSizeFactor = 20, modules = TRUE)
+plot_troph_level_ggraph(nullg[[1]])
+calcIncoherence(g,ncores=0)
 calcIncoherence(nullg,ncores=0)
+
+nullg <- generate_niche(7,0.1428571,10)
 
 calcModularitySWnessZScore(g,nullg,0.1)
 calc_swness_zscore(g,nullg,0.1,ncores = 0)
 
-# test reading .csv files
+# test reading .csv files using a folder with multiple csv files
 #
 dn <- list.files("~/Academicos/GitProjects/MarineFoodWebsSmallWorld/Data/FoodWebs",pattern = "^.*\\.csv$")
 #
@@ -73,36 +79,14 @@ nets$Cuba_FW <- readNetwork(dn[11],"~/Academicos/GitProjects/MarineFoodWebsSmall
 
 calcTopologicalIndices(nets)
 calcIncoherence(nets)
-#netData <- nets
-#devtools::use_data(netData,overwrite = TRUE)
 
 
 # test reading .dat files from Johnson 2017
 #
-
 dn <- list.files("~/Dropbox/Projects/NetworksAsUnifyingPrinciple/Data",pattern = "^.*\\.dat$")
 nets <- readNetwork(dn,"~/Dropbox/Projects/NetworksAsUnifyingPrinciple/Data",fhead=FALSE)
 calcTopologicalIndices(list(netData$CaymanIs_FW,nets$cayman_islands))
-require(RColorBrewer)
-plotTrophLevel(nets$cayman_islands)
-plotTrophLevel(netData$CaymanIs_FW)
 
-
-#
-nets <- readNetwork("Meta.dat","~/Dropbox/Projects/StabilityConstraints/Data",edgeListFormat = 2)
-
-
-
-# The incoherence parameter seems not well calculated compared to Johnson 2017 Appendix Table S1
-#
-require(igraph)
-calcTopologicalIndices(nets)
-calcIncoherence(nets)
-mean(degree(nets$benguela,mode="out"))
-calcIncoherence(nets$bridge)
-
-mean(degree(nets$bridge))
-degree()
 
 # Test modularity & incoherence Q
 # 1 =Omnivory link 5+-4
@@ -124,9 +108,6 @@ plotTrophLevel(g,vertexLabel = TRUE,vertexSizeFactor = 20,modules = TRUE)
 calcTopologicalIndices(g)
 calcIncoherence(g)
 calcModularitySWnessZScore(g,generateERbasal(g,100),0.1,ncores = 0)
-dg <- components(g)
-m<-cluster_spinglass(g)
-m$membership
 
 #
 # Testing Curve Ball algorithm
@@ -149,7 +130,7 @@ plotTrophLevel(gg[[10]],vertexLabel = TRUE,vertexSizeFactor = 20,modules = TRUE)
 #
 E(g)$weight <- sample(c(.1,.2,.8,.9),gsize(g),replace=TRUE)
 m <- get.adjacency(g,sparse=FALSE,attr="weight")
-gg <- curveBall(g,2,istrength =TRUE)
+gg <- curveBall(g,10,istrength =TRUE)
 m1 <- get.adjacency(gg[[1]],sparse=FALSE,attr="weight")
 m
 m1
@@ -177,32 +158,13 @@ tp <- calcIncoherence(gg)
 tp1 <- calcIncoherence(gg,ncores=4)
 any(tp!=tp1)
 
+
+
+# Test reading multiple interaction networks
 #
-# Duplicate the same network to test the function
-#
-gg <- rep(list(netData[[1]]),100)
-p <- calcIncoherence(gg)
-p1 <- calcIncoherence(gg,ncores=4)
-any(p!=p1)
-
-
-require(ggplot2)
-ggplot(tp, aes(Omnivory)) + geom_density() + theme_bw()
-
-require(ggplot2)
-ggplot(tp, aes(Q)) + geom_density() + theme_bw()
-ggplot(tp, aes(mTI)) + geom_density() + theme_bw()
-
-tp1<- calcIncoherence(netData[[1]])
-tp1$y <- 0
-ggplot(tp, aes(Q)) + geom_density() + theme_bw() + geom_point(data=tp1,aes(Q,y))
-
-
-# generalization = in degree
-# vulnerability  = out degree
-
-dn <- list.files("~/Academicos/InconclusedProjects/NetworksAsUnifyingPrinciple/Data",pattern = "^PotterCove.*\\.txt$")
-gt <- readMultiplex("~/Academicos/InconclusedProjects/NetworksAsUnifyingPrinciple/Data/PotterCove_Multiplex.txt",format="GLV")
+fileName <- c(system.file("extdata",  package = "multiweb"))
+dn <- list.files(fileName,pattern = "^Kefi2015.*\\.txt$")
+gt <- readMultiplex(dn,types,"inst/extdata", skipColumn = 2)
 
 # Number of interaction by type
 sapply(gt,ecount)
@@ -214,41 +176,21 @@ sapply(gt,ecount)/sum(sapply(gt,ecount))
 # Connectivity
 sapply(gt,ecount)/(sapply(gt,vcount)*sapply(gt,vcount))
 
+calc_centrality(gt)
 # Multiplex QSS
 calc_QSS(gt)
 #   QSS    MEing
 #    0    25.87422
 calc_QSS(gt[[3]],selfDamping = -10)
-#   QSS    MEing
-#    0    2.099394
-calc_QSS(gt[[3]],selfDamping = -2)
-calc_QSS(gt[[3]],selfDamping = 0)
-
-glv <- toGLVadjMat(gt)
-
-sum(glv==-1)   # Competitive + trophic
+#   QSS            MEing
+# 0.7 - 0.6     -0.04,-0.03
 
 
 # Meta-web assembly models package
 #
 require(meweasmo)
 
-
 pin  <- calcPropInteractionsGLVadjMat(glv, rep(1,times=nrow(glv)))
-
-# Read the file directly
-mtm <- as.matrix(mtm[,2:92])
-#
-mtm <- read.delim("~/Dropbox/Projects/NetworksAsUnifyingPrinciple/Data/PotterCove_Multiplex.txt")
-pin1  <- calcPropInteractionsGLVadjMat(mtm, rep(1,times=nrow(glv)))
-
-# The proportion of types of interactions must be equal
-#
-pin == pin1
-
-
-plotTrophLevel(gt[[3]],modules = T)
-
 
 # Read multiple interaction network in different layers
 #
@@ -646,7 +588,7 @@ calc_interaction_intensity(da,res_mm,res_den,con_mm,int_dim)
 edge_list <- tibble(
   predator = c("A", "A", "B", "C"),
   prey = c("B", "C", "D", "D"),
-  predator_mass = c(10, 10, 5, 3)  # Body mass for consumers
+  predator_mass = c(100, 10, 1, .1)  # Body mass for consumers
 )
 
 # Compute interaction strength as an edge list (predator effects only)
@@ -919,8 +861,11 @@ g <- graph_from_data_frame(pc_i %>% select(resource,consumer, qRC) %>% rename(we
   arrow_size = 0.1,
   use_numbers = TRUE
 ))
+coms <- cluster_spinglass(g)
+tr <- calc_topological_roles(g,community = coms)
+classify_topological_roles(tr,g)
 
-comi <- run_infomap(g)
+comi <- run_infomap(g, two_level = FALSE)
 (p <- plot_troph_level_ggraph(
   g,
   modules = TRUE,
@@ -930,4 +875,7 @@ comi <- run_infomap(g)
   arrow_size = 0.1,
   use_numbers = TRUE
 ))
-V(g)$name[108]
+tr <- calc_topological_roles(g,community = comi)
+classify_topological_roles(tr,g)
+
+comi <- cluster_walktrap(g)

@@ -25,7 +25,7 @@
 #' @examples
 #' \dontrun{
 #' nullg <- generateERbasal(netData[[1]], 10)
-#' calc_modularity(nullg, cluster_function = cluster_infomap)
+#' calc_modularity(nullg)
 #' }
 #'
 calc_modularity <- function(ig, ncores = 0, cluster_function = cluster_spinglass) {
@@ -66,6 +66,7 @@ calc_modularity <- function(ig, ncores = 0, cluster_function = cluster_spinglass
 #' and imports the detected communities back into R as an igraph-compatible cluster object.
 #' It requires the installation of infomap in the system from https://www.mapequation.org/infomap/#Install
 #' if the network has the weight attribute, it will be used as the weight of the edges.
+#' It works for networks with more than 1 connected component, but not for networks with isolated nodes.
 #'
 #' @param graph An igraph object.
 #' @param infomap_path Path to the Infomap binary (default assumes it's in system PATH).

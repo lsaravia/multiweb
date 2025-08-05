@@ -8,7 +8,7 @@
 #' @param vertexSizeMin Minimum node size (default: 5).
 #' @param modules Logical; if `TRUE`, nodes are grouped by community modules (default: `FALSE`).
 #' @param weights Edge weights for community detection (default: `NA`).
-#' @param node_weights Optional numeric vector of node weights (e.g., biomass). If `NULL`, uses degree.
+#' @param node_weights Optional numeric vector for node weights. If `NULL` and the graph has a vertex attribute called `weight`, that attribute is used. If not, node degree is used as fallback.
 #' @param community_obj Optional community detection object.
 #' @param use_numbers Logical; if `TRUE`, label nodes by numeric ID (default: `FALSE`).
 #' @param label_size Label font size (default: 4).
@@ -17,13 +17,6 @@
 #'
 #' @return A `ggplot` object visualizing the trophic structure of the network.
 #'
-#' @importFrom igraph degree get.adjacency V count_components cluster_spinglass induced_subgraph components is_directed
-#' @importFrom NetIndices TrophInd
-#' @importFrom ggplot2 ggplot geom_segment geom_point theme_bw theme element_blank element_text labs scale_color_viridis_c geom_curve geom_vline
-#' @importFrom ggrepel geom_text_repel
-#' @importFrom dplyr mutate row_number select left_join rename
-#' @importFrom tibble tibble as_tibble
-#' @importFrom grid unit
 #' @export
 plot_troph_level_ggplot <- function(
     g,
@@ -31,30 +24,32 @@ plot_troph_level_ggplot <- function(
     vertexSizeMin = 5,
     modules = FALSE,
     weights = NA,
-    node_weights = NULL,
+    node_weights = NA,
     community_obj = NULL,
     use_numbers = FALSE,
     label_size = 4,
     arrow_size = 0.15,
     shorten_factor = 0.005
 ) {
-  # --- Degree fallback if no custom weights ---
-  if (is.null(node_weights)) {
+  # --- Determine node weights ---
+  # Node weights
+  if (any(is.na(node_weights))) {
     node_weights <- degree(g, mode = "all")
-  } else {
-    if (length(node_weights) != vcount(g)) {
-      stop("`node_weights` must have length equal to number of nodes in `g`.")
+  } else if (is.null(node_weights)) {
+    if(!is.null(V(g)$weight)) {
+       node_weights <- V(g)$weight
+    } else {
+      stop("`node_weights` must be provided or `V(g)$weights` must exist.")
     }
   }
 
   adj <- as_adjacency_matrix(g, sparse = FALSE)
-  tl <- TrophInd(adj)
+  tl <- NetIndices::TrophInd(adj)
 
   if (is.null(V(g)$name)) {
     V(g)$name <- as.character(1:vcount(g))
   }
 
-  # Node tibble
   nodes <- tibble(
     id = V(g)$name,
     weight = node_weights,
@@ -71,7 +66,7 @@ plot_troph_level_ggplot <- function(
     node_map <- NULL
   }
 
-  # X = modules or random
+  # X positions
   if (modules) {
     if (!is.null(community_obj)) {
       m <- community_obj
@@ -156,7 +151,6 @@ plot_troph_level_ggplot <- function(
   } else {
     p <- p + theme(axis.title.x = element_blank())
   }
-
 
   return(p)
 }

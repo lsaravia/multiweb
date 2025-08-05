@@ -11,7 +11,7 @@ classify_topological_roles(tRoles, g, community = NULL)
 
 \item{g}{An igraph network object.}
 
-\item{community}{An igraph community object used to determine module membership. If NULL, the function calculates community structure using \code{cluster_spinglass()}.}
+\item{community}{An igraph community object used to determine module membership for plotting. If NULL, the function calculates community structure using \code{cluster_spinglass()}.}
 }
 \value{
 A list containing:

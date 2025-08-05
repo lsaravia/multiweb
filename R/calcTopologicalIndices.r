@@ -381,7 +381,7 @@ calcModularitySWnessZScore<- function(g, nullDist,sLevel=0.01,ncores=0){
 #'  \item{Clustering}{ Clustering coefficient, measures the average fraction of pairs of neighbors of a node that are also neighbors of each other}
 #'  \item{PathLength}{ Mean of the shortest paths between all pair of vertices }
 #'  \item{Modularity}{ modularity measures how separated are different groups from each other, the algorithm \code{cluster_spinglass} was used to obtain the groups}
-#'  \item{zCC,zCP,zMO}{Z-scores of Clustering,PathLength and Modularity with respect to a random Erdos-Renyi null model}
+#'  \item{zCC,zCP,zMO}{Z-scores of Clustering,PathLength and Modularity with respect to `nullDist` models}
 #'  \item{CClow,CChigh,CPlow,CPhigh,MOlow,MOhigh}{sLevel confidence intervals}
 #'  \item{SWness,SWnessCI}{ Small-world-ness and it CI value}
 #'  \item{isSW,isSWness}{ Logical variable signalling if the network is Small-world by the method of Marina 2018 or the method of Humprhies & Gurney 2008 }
@@ -466,30 +466,36 @@ calc_swness_zscore<- function(g, nullDist,sLevel=0.01,ncores=0,weights=NA){
 
 
 
-#' Calc topological roles among network communities/modules
+#' Calculate Topological Roles Within Network Modules
 #'
-#' Topological roles characterize species as its roles between communities or modules, we calculate the modules using
-#' [igraph::cluster_spinglass()] function. Alternatively you can pass a community object obtained with other method using the
-#' parameter `community`.
-#' Topological roles are described by two parameters: the standardized within-module degree \eqn{dz} and the among-module
-#' connectivity participation coefficient \eqn{PC}.  The within-module degree is a z-score that measures how well a species is
-#' connected to other species within its own module compared with a random graph. The participation coefficient \eqn{PC}
-#' estimates the distribution of the links of species among modules. As the community algorithm is stochastic we run it several
-#' times and return the repeated runs for both parameters.
+#' This function identifies the topological roles of nodes (e.g., species) in an ecological or interaction network based on their position within and among modules.
+#' Modules (or communities) are detected using the \code{\link[igraph]{cluster_spinglass}} algorithm by default, unless an alternative community object is provided.
+#'
+#' Topological roles are quantified using two parameters:
+#' \itemize{
+#'   \item \eqn{z} (within-module degree z-score): quantifies how well-connected a node is to others within its own module, relative to other members of the same module.
+#'   \item \eqn{PC} (participation coefficient): quantifies how evenly a node’s links are distributed across different modules.
+#' }
+#'
+#' When using the Spinglass algorithm, which is stochastic, multiple runs can be performed by setting the \code{nsim} parameter to repeat the procedure.
+#'
+#' @param g An \code{igraph} object representing the network.
+#' @param nsim Integer. Number of independent runs of the Spinglass community detection algorithm (default is 1).
+#' @param ncores Integer. Number of cores to use for parallel computation. Set to 0 for sequential processing.
+#' @param community Optional. A community detection object (class \code{communities}) from an alternative algorithm. If \code{NULL}, \code{\link[igraph]{cluster_spinglass}} is used.
+#'
+#' @return A data frame with the following columns:
+#' \describe{
+#'   \item{node}{Node ID.}
+#'   \item{within_module_degree}{Within-module degree z-score (\eqn{z}).}
+#'   \item{among_module_conn}{Participation coefficient (\eqn{PC}).}
+#' }
 #'
 #' @references
-#'
-#' 1. Guimerà, R. & Nunes Amaral, L.A. (2005). Functional cartography of complex metabolic networks. Nature, 433, 895–900
-#'
-#' 1. Kortsch, S. et al. 2015. Climate change alters the structure of arctic marine food webs due to poleward shifts of boreal generalists. - Proceedings of the Royal Society B: Biological Sciences 282: 20151546. https://doi.org/10.1098/rspb.2015.1546
-
-#'
-#' @param g an Igraph object with the network
-#' @param nsim  number of simulations for [igraph::cluster_spinglass()] method
-#' @param ncores  number of cores to use paralell computation, if 0 sequential processing is used.
-#' @param community  a community object obtained with other method, if NULL the community is calculated with [igraph::cluster_spinglass()]
-#'
-#' @return a  data frame with two numeric fields: within_module_degree, among_module_conn
+#' \enumerate{
+#'   \item Guimerà, R. & Nunes Amaral, L.A. (2005). Functional cartography of complex metabolic networks. \emph{Nature}, 433, 895–900.
+#'   \item Kortsch, S., Primicerio, R., Fossheim, M., Dolgov, A.V., & Aschan, M. (2015). Climate change alters the structure of Arctic marine food webs due to poleward shifts of boreal generalists. \emph{Proceedings of the Royal Society B: Biological Sciences}, 282(1814), 20151546. \doi{10.1098/rspb.2015.1546}
+#' }
 #'
 #' @export
 #'
@@ -512,19 +518,20 @@ calc_swness_zscore<- function(g, nullDist,sLevel=0.01,ncores=0,weights=NA){
 #' tp <- calc_topological_roles(g,community=m)
 #' }
 
-calc_topological_roles <- function(g,nsim=1000,ncores=0,community=NULL)
+calc_topological_roles <- function(g,nsim=1,ncores=0,community=NULL)
 {
   if(!is_igraph(g))
     stop("Parameter g must be an igraph object")
 
   # Check if community object is provided and its class
-  if (!is.null(community) && class(community) != "communities") {
-    stop("Provided community object must be of class 'communities'")
-  } else {
-    nsim <- 1
-    ncores <- 0
+  if (!is.null(community)){
+    if (class(community) != "communities") {
+      stop("Provided community object must be of class 'communities'")
+    } else {
+      nsim <- 1
+      ncores <- 0
+    }
   }
-
   toRol <- data.frame()
 
 
@@ -570,7 +577,7 @@ calc_topological_roles <- function(g,nsim=1000,ncores=0,community=NULL)
 
       k.ave<- mean(memMod)
       k.sd<- sd(memMod)
-      l[i]<- (k-k.ave)/k.sd
+      l[i]<- ifelse(k.sd == 0, 0, (k-k.ave)/k.sd)
     }
 
     # among module connectivity
@@ -612,7 +619,7 @@ calc_topological_roles <- function(g,nsim=1000,ncores=0,community=NULL)
 #'
 #' @param tRoles A data frame of calculated topological roles obtained from [calc_topological_roles()].
 #' @param g An igraph network object.
-#' @param community An igraph community object used to determine module membership. If NULL, the function calculates community structure using `cluster_spinglass()`.
+#' @param community An igraph community object used to determine module membership for plotting. If NULL, the function calculates community structure using `cluster_spinglass()`.
 #'
 #' @return A list containing:
 #' - `hub_conn`: A data frame with node classifications and topological role values.
@@ -621,6 +628,7 @@ calc_topological_roles <- function(g,nsim=1000,ncores=0,community=NULL)
 #' @export
 #'
 #' @import igraph ggplot2
+#' @import ggrepel
 #' @importFrom dplyr %>% group_by summarise_all inner_join select mutate arrange
 #'
 #' @examples
@@ -654,12 +662,14 @@ classify_topological_roles <- function(tRoles, g, community = NULL) {
   )
 
   gp <- ggplot(plot_data, aes(x = among_module_conn, y = within_module_degree, color = module)) +
-    geom_point(size = 4) +
+    geom_point(size = 4, alpha=0.9) +
     geom_vline(xintercept = 0.625, linetype = "dashed", color = "gray") +
     geom_hline(yintercept = 2.5, linetype = "dashed", color = "gray") +
-    scale_color_brewer(palette = "Dark2") +
+    #scale_color_brewer(palette = "Dark2") +
+    scale_color_viridis_d(option = "D") +  # <- 🔑
     labs(x = "Among module connectivity", y = "Within module degree", color = "Module") +
     theme_bw() +
+    geom_text_repel(aes(label=node_name))+
     theme(text = element_text(size = 14))
 
 

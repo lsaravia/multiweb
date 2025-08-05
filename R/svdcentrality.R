@@ -97,7 +97,7 @@ calc_svd_entropy_importance <- function(A, threshold_factor = 1e-6) {
                                               y = Importance, fill=Importance)) +
     geom_col() +
     scale_fill_viridis_c(option = "D", direction = -1) +
-    guides(fill = FALSE) +
+    guides(fill = "none") +
     coord_flip() +
     labs(x = "Prey", y = "Contribution") +
     theme_bw()

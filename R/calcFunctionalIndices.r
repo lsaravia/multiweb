@@ -240,7 +240,8 @@ maxRE <- function(rmat){
 
 #' Function to calculate weighted network indices
 #'
-#' The function calculates: weighted linkage density, connectance, generality and vulnerability and the SDs of the last two based on [1]
+#' This function calculates weighted topological indices for ecological networks, including:
+#' weighted linkage density, connectance, generality and vulnerability and the SDs of the last two based on [1]
 #' and the level of omnivory, mean and maximum trophic level based on [2] using [NetIndices::TrophInd()] function.
 #' The igraph networks must have the weight attribute.
 #'
@@ -292,6 +293,12 @@ calc_weighted_topological_indices<- function(ig,ncores=0){
     ig <- list(ig)
   } else if(class(ig[[1]])!="igraph") {
     stop("parameter ig must be an igraph object")
+  }
+
+  # Check that all graphs have the 'weight' edge attribute
+  missing_weights <- any(sapply(ig, function(g) is.null(E(g)$weight)))
+  if (missing_weights) {
+    stop("All networks must have a `weight` edge attribute.")
   }
 
   registerDoFuture()

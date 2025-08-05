@@ -2,31 +2,39 @@
 % Please edit documentation in R/calcTopologicalIndices.r
 \name{calc_topological_roles}
 \alias{calc_topological_roles}
-\title{Calc topological roles among network communities/modules}
+\title{Calculate Topological Roles Within Network Modules}
 \usage{
-calc_topological_roles(g, nsim = 1000, ncores = 0, community = NULL)
+calc_topological_roles(g, nsim = 1, ncores = 0, community = NULL)
 }
 \arguments{
-\item{g}{an Igraph object with the network}
+\item{g}{An \code{igraph} object representing the network.}
 
-\item{nsim}{number of simulations for \code{\link[igraph:cluster_spinglass]{igraph::cluster_spinglass()}} method}
+\item{nsim}{Integer. Number of independent runs of the Spinglass community detection algorithm (default is 1).}
 
-\item{ncores}{number of cores to use paralell computation, if 0 sequential processing is used.}
+\item{ncores}{Integer. Number of cores to use for parallel computation. Set to 0 for sequential processing.}
 
-\item{community}{a community object obtained with other method, if NULL the community is calculated with \code{\link[igraph:cluster_spinglass]{igraph::cluster_spinglass()}}}
+\item{community}{Optional. A community detection object (class \code{communities}) from an alternative algorithm. If \code{NULL}, \code{\link[igraph]{cluster_spinglass}} is used.}
 }
 \value{
-a  data frame with two numeric fields: within_module_degree, among_module_conn
+A data frame with the following columns:
+\describe{
+\item{node}{Node ID.}
+\item{within_module_degree}{Within-module degree z-score (\eqn{z}).}
+\item{among_module_conn}{Participation coefficient (\eqn{PC}).}
+}
 }
 \description{
-Topological roles characterize species as its roles between communities or modules, we calculate the modules using
-\code{\link[igraph:cluster_spinglass]{igraph::cluster_spinglass()}} function. Alternatively you can pass a community object obtained with other method using the
-parameter \code{community}.
-Topological roles are described by two parameters: the standardized within-module degree \eqn{dz} and the among-module
-connectivity participation coefficient \eqn{PC}.  The within-module degree is a z-score that measures how well a species is
-connected to other species within its own module compared with a random graph. The participation coefficient \eqn{PC}
-estimates the distribution of the links of species among modules. As the community algorithm is stochastic we run it several
-times and return the repeated runs for both parameters.
+This function identifies the topological roles of nodes (e.g., species) in an ecological or interaction network based on their position within and among modules.
+Modules (or communities) are detected using the \code{\link[igraph]{cluster_spinglass}} algorithm by default, unless an alternative community object is provided.
+}
+\details{
+Topological roles are quantified using two parameters:
+\itemize{
+\item \eqn{z} (within-module degree z-score): quantifies how well-connected a node is to others within its own module, relative to other members of the same module.
+\item \eqn{PC} (participation coefficient): quantifies how evenly a node’s links are distributed across different modules.
+}
+
+When using the Spinglass algorithm, which is stochastic, multiple runs can be performed by setting the \code{nsim} parameter to repeat the procedure.
 }
 \examples{
 #' \dontrun{
@@ -44,7 +52,7 @@ tp <- calc_topological_roles(g,community=m)
 }
 \references{
 \enumerate{
-\item Guimerà, R. & Nunes Amaral, L.A. (2005). Functional cartography of complex metabolic networks. Nature, 433, 895–900
-\item Kortsch, S. et al. 2015. Climate change alters the structure of arctic marine food webs due to poleward shifts of boreal generalists. - Proceedings of the Royal Society B: Biological Sciences 282: 20151546. https://doi.org/10.1098/rspb.2015.1546
+\item Guimerà, R. & Nunes Amaral, L.A. (2005). Functional cartography of complex metabolic networks. \emph{Nature}, 433, 895–900.
+\item Kortsch, S., Primicerio, R., Fossheim, M., Dolgov, A.V., & Aschan, M. (2015). Climate change alters the structure of Arctic marine food webs due to poleward shifts of boreal generalists. \emph{Proceedings of the Royal Society B: Biological Sciences}, 282(1814), 20151546. \doi{10.1098/rspb.2015.1546}
 }
 }

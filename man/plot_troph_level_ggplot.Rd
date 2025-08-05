@@ -10,7 +10,7 @@ plot_troph_level_ggplot(
   vertexSizeMin = 5,
   modules = FALSE,
   weights = NA,
-  node_weights = NULL,
+  node_weights = NA,
   community_obj = NULL,
   use_numbers = FALSE,
   label_size = 4,
@@ -29,7 +29,7 @@ plot_troph_level_ggplot(
 
 \item{weights}{Edge weights for community detection (default: \code{NA}).}
 
-\item{node_weights}{Optional numeric vector of node weights (e.g., biomass). If \code{NULL}, uses degree.}
+\item{node_weights}{Optional numeric vector for node weights. If \code{NULL} and the graph has a vertex attribute called \code{weight}, that attribute is used. If not, node degree is used as fallback.}
 
 \item{community_obj}{Optional community detection object.}
 

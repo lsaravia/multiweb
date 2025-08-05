@@ -136,8 +136,9 @@ curveBall<-function(g,nsim=1000,istrength=FALSE){curve_ball(g,nsim,istrength)}
 #'
 #' This uses the igraph's function sample_gnm to generate nsim random networks with the same number of nodes
 #' and links than the parameter ig and two restrictions:
-#' 1) at least one basal species/node, that is a species that has no prey, 2) 1 connected component so there is no
-#' disconnected species or sub-community.
+#'
+#' 1. at least one basal species/node, that is a species that has no prey.
+#' 2. only 1 connected component so there is no disconnected species or sub-community.
 #'
 #' @param ig igraph object with parameters to use in the random network simulations: number of species/nodes
 #'           and number of links/edges

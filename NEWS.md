@@ -1,3 +1,12 @@
+# Version  0.8.70.0000
+
+* Updated netData[26] "Simon Bay" deleting isolated vertex "Terrestrial POM".
+* Added a vignette with examples of the package.
+
+# Version  0.8.51.0000
+
+* Updated clasify_topological_roles() to plot with names.
+
 # Version  0.8.50.0000
 
 * New function plot_troph_level_ggraph and new dataset PotterCove_bm

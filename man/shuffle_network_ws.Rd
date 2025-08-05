@@ -20,10 +20,19 @@ A shuffled adjacency matrix preserving the number of links but not degree distri
 }
 \description{
 This function randomly rewires a directed network while preserving
-the total number of links but NOT the degree distribution. This is based
-on an approach described by Watts and Strogatz (1998) for small-world networks.
+the total number of links but NOT the degree distribution, this procedure is adapted from
+Huaylla et al. (2024) and is based on an approach described by Watts and Strogatz (1998) for small-world networks.
+}
+\details{
+The procedure is: we select a single pair of connected nodes and disconnect one of the nodes at one end of the link.
+We then connect the free end to another node that is randomly selected.
 }
 \references{
 Watts, D. J., & Strogatz, S. H. (1998). Collective dynamics of 'small-world' networks.
 Nature, 393(6684), 440-442. \doi{10.1038/30918}
+
+Huaylla, C. A., Kuperman, M. N., & Garibaldi, L. A. (2024). Comparison of two statistical
+measures of complexity applied to ecological bipartite networks.
+Physica A: Statistical Mechanics and Its Applications, 642, 129764.
+https://doi.org/10.1016/j.physa.2024.129764
 }

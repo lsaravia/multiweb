@@ -19,9 +19,11 @@ a list with igraph objects
 \description{
 This uses the igraph's function sample_gnm to generate nsim random networks with the same number of nodes
 and links than the parameter ig and two restrictions:
+}
+\details{
 \enumerate{
-\item at least one basal species/node, that is a species that has no prey, 2) 1 connected component so there is no
-disconnected species or sub-community.
+\item at least one basal species/node, that is a species that has no prey.
+\item only 1 connected component so there is no disconnected species or sub-community.
 }
 }
 \examples{

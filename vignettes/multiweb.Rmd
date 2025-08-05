@@ -1,0 +1,186 @@
+---
+title: "Multiweb"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Multiweb}
+  %\VignetteEncoding{UTF-8}
+  %\VignetteEngine{knitr::rmarkdown}
+editor_options: 
+  chunk_output_type: console
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+```{r setup}
+library(multiweb)
+```
+
+# Overview
+
+The `multiweb` package provides tools for analyzing and comparing ecological networks, particularly food webs and multiplex networks, through a set of reproducible and customizable functions. It allows for the computation of structural and dynamic properties, module detection, species roles, trophic positions, and entropy-based metrics.
+
+This vignette introduces the general structure of the package and showcases typical usage patterns.
+
+# Data Structure
+
+The `multiweb` package works with an individual network and many functions accept **lists of network objects**, where each network is typically a food web represented by a directed graph. The preferred format is a list of `igraph` objects, where each node is a species and directed edges represent trophic links.
+
+```{r example-net}
+data("netData")  # A list of food web networks included in the package
+net <- netData[[23]]
+plot_troph_level_ggplot(net)
+```
+
+# Basic Metrics
+
+## Global metrics
+
+You can calculate a set of **global network metrics** such as number of species (S), connectance (C), mean trophic level using:
+
+```{r multiple-metrics}
+metrics_all <- calc_topological_indices(netData)
+head(metrics_all)
+```
+
+## Modularity and Communities
+
+Detect modules for a list of networks using any of the algorithms in igraph or **Infomap** (requires the installation of infomap in the system from https://www.mapequation.org/infomap/#Install). By default it uses the cluster_spinglass algorithm from igraph.
+
+
+```{r modularity}
+mod <- calc_modularity(netData,cluster_function = run_infomap)
+mod$network_name <- names(netData)
+head(mod) 
+```
+
+You can visualize the modular structure using:
+
+```{r module-plot, fig.width=7}
+mod  <- run_infomap(net)
+plot_troph_level_ggplot(net, modules = TRUE, community_obj = mod)
+```
+
+# Topological Roles
+
+You can compute species' **topological roles** and plot them: 
+
+```{r roles}
+mod  <- run_infomap(net)
+roles <- calc_topological_roles(net, community = mod)
+classify_topological_roles(roles, net, community = mod)
+```
+
+# Entropy and Complexity
+
+Quantify network complexity with **singular value decomposition (SVD) entropy**:
+
+```{r entropy}
+svd_ent <- calc_svd_entropy(net)
+svd_ent
+```
+
+This metric is useful for comparing structural complexity across multiple networks.
+
+
+# Randomizations and Null Models
+
+The package includes tools for generating **null models** maintaining the degree distribution (Curbe ball algorithm):
+
+```{r nullmodel}
+rand_net <- curve_ball(net)
+rand_metrics <- calc_modularity(rand_net, cluster_function = cluster_walktrap)
+
+# Example: show distribution of connectance (C) and empirical value
+library(ggplot2)
+empirical_m <- calc_modularity(net, cluster_function = cluster_walktrap)$Modularity
+ggplot(rand_metrics, aes(x = Modularity)) +
+  geom_density(fill = "grey", color = "black") +
+  geom_vline(xintercept = empirical_m, color = "salmon", linetype = "dashed", linewidth = 1) +
+  theme_bw() +
+  labs(title = "Distribution of Modularity in Randomized Networks",
+       x = "Modularity")
+```
+
+or using the **niche model** to generate random networks with the same size and connectance:
+
+```{r nullmodel1}
+
+S <- metrics_all[23,"Size"]
+C <- metrics_all[23,"Connectance"]
+rand_net <- generate_niche(S,C,nsim=1000)
+rand_metrics <- calc_modularity(rand_net, cluster_function = cluster_walktrap)
+
+# Example: show distribution of connectance (C) and empirical value
+library(ggplot2)
+empirical_m <- calc_modularity(net, cluster_function = cluster_walktrap)$Modularity
+ggplot(rand_metrics, aes(x = Modularity)) +
+  geom_density(fill = "grey", color = "black") +
+  geom_vline(xintercept = empirical_m, color = "salmon", linetype = "dashed", linewidth = 1) +
+  theme_bw() +
+  labs(title = "Distribution of Modularity in Randomized Networks",
+       x = "Modularity")
+```
+
+You can then use these null models to assess the significance of observed metrics.
+
+
+## Calculation of interaction intensity and weighted metrics
+
+Here we calculate interaction intensity using body mass and density data from the Potter Cove food web (data included in the package) and estimate weighted topological indices.
+
+```{r interIntensity}
+pc_i <- calc_interaction_intensity(
+  PotterCove_bm,
+  res_mm = r_bodymass,
+  res_den = r_density,
+  con_mm = c_bodymass,
+  int_dim = D
+)
+
+# Build igraph object with weights from interaction strengths
+g <- graph_from_data_frame(
+  d = pc_i %>% dplyr::select(resource, consumer, weight = qRC),
+  directed = TRUE
+)
+
+# Now compute weighted indices
+calc_weighted_topological_indices(g)
+  
+```
+  
+# Using multiplex networks
+
+The package also supports **multiplex networks**, where multiple types of interactions are represented as layers. You can create a multiplex object and compute metrics across layers. 
+
+```{r multiplex}
+
+fpath <- system.file("extdata", package = "multiweb")
+dn <- list.files(fpath,pattern = "^Kefi2015.*\\.txt$")
+mnet <- readMultiplex(dn,c("Negative","Positive","Antagonistic"),fpath,skipColum=2)
+
+```
+
+You can then compute metrics like modularity for the entire multiplex structure, .
+
+```{r multiplex-metrics}
+
+mod_multi <- run_infomap_multi(mnet)
+head(mod_multi$communities)
+
+plots <- plot_multiplex_modules(mnet, mod_multi$communities)
+cowplot::plot_grid(plotlist = plots, ncol = 3)
+```
+
+
+# Conclusion
+
+The `multiweb` package is designed for comparative food web analysis across multiple ecosystems or scenarios. It provides a consistent and extensible set of tools to calculate key ecological and topological descriptors.
+
+For more details on the functions and their parameters, please refer to the package documentation.
+
+Or visit the [GitHub repository](https://github.com/lsaravia/multiweb) for updates and examples.
