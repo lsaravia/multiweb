@@ -12,7 +12,8 @@ editor_options:
 ```{r, include = FALSE}
 knitr::opts_chunk$set(
   collapse = TRUE,
-  comment = "#>"
+  comment = "#>",
+  warning = FALSE
 )
 ```
 
@@ -30,11 +31,12 @@ This vignette introduces the general structure of the package and showcases typi
 
 The `multiweb` package works with an individual network and many functions accept **lists of network objects**, where each network is typically a food web represented by a directed graph. The preferred format is a list of `igraph` objects, where each node is a species and directed edges represent trophic links.
 
-```{r example-net}
+  ```{r example-net, fig.width=7, fig.height=5}
 data("netData")  # A list of food web networks included in the package
 net <- netData[[23]]
 plot_troph_level_ggplot(net)
 ```
+<!-- warning=FALSE is set globally, no change needed here -->
 
 # Basic Metrics
 
@@ -60,7 +62,7 @@ head(mod)
 
 You can visualize the modular structure using:
 
-```{r module-plot, fig.width=7}
+```{r module-plot, fig.width=7, fig.height=5}
 mod  <- run_infomap(net)
 plot_troph_level_ggplot(net, modules = TRUE, community_obj = mod)
 ```
@@ -69,10 +71,12 @@ plot_troph_level_ggplot(net, modules = TRUE, community_obj = mod)
 
 You can compute species' **topological roles** and plot them: 
 
-```{r roles}
+```{r roles, fig.width=7, fig.height=5}
 mod  <- run_infomap(net)
 roles <- calc_topological_roles(net, community = mod)
-classify_topological_roles(roles, net, community = mod)
+roles_class <- classify_topological_roles(roles, net, community = mod)
+head(roles_class$hub_conn)
+roles_class$gp
 ```
 
 # Entropy and Complexity
@@ -91,7 +95,7 @@ This metric is useful for comparing structural complexity across multiple networ
 
 The package includes tools for generating **null models** maintaining the degree distribution (Curbe ball algorithm):
 
-```{r nullmodel}
+```{r nullmodel, fig.width=7, fig.height=5}
 rand_net <- curve_ball(net)
 rand_metrics <- calc_modularity(rand_net, cluster_function = cluster_walktrap)
 
@@ -108,7 +112,7 @@ ggplot(rand_metrics, aes(x = Modularity)) +
 
 or using the **niche model** to generate random networks with the same size and connectance:
 
-```{r nullmodel1}
+```{r nullmodel1, fig.width=7, fig.height=5}
 
 S <- metrics_all[23,"Size"]
 C <- metrics_all[23,"Connectance"]
@@ -167,7 +171,7 @@ mnet <- readMultiplex(dn,c("Negative","Positive","Antagonistic"),fpath,skipColum
 
 You can then compute metrics like modularity for the entire multiplex structure, .
 
-```{r multiplex-metrics}
+```{r multiplex-metrics, fig.width=7, fig.height=5}
 
 mod_multi <- run_infomap_multi(mnet)
 head(mod_multi$communities)

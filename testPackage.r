@@ -879,3 +879,15 @@ tr <- calc_topological_roles(g,community = comi)
 classify_topological_roles(tr,g)
 
 comi <- cluster_walktrap(g)
+
+#
+# Test calc_stability_threshold
+#
+g <- generate_niche(40, 0.1)
+result <- calc_stability_threshold(g, nsim = 500)
+plot_stability_curve(result)
+g <- netData[[2]]
+calc_topological_indices(g)
+result <- calc_stability_threshold(g, nsim = 500)
+plot_stability_curve(result)
+mean(result$qss_raw_interp[result$qss_raw_interp < 0])

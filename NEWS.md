@@ -1,3 +1,6 @@
+# Version  0.8.80.0000
+* Added a new function calc_stability_threshold() and plot_stability_curve()
+
 # Version  0.8.70.0000
 
 * Updated netData[26] "Simon Bay" deleting isolated vertex "Terrestrial POM".
