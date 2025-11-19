@@ -31,7 +31,7 @@ This vignette introduces the general structure of the package and showcases typi
 
 The `multiweb` package works with an individual network and many functions accept **lists of network objects**, where each network is typically a food web represented by a directed graph. The preferred format is a list of `igraph` objects, where each node is a species and directed edges represent trophic links.
 
-  ```{r example-net, fig.width=7, fig.height=5}
+```{r example-net, fig.width=7, fig.height=5}
 data("netData")  # A list of food web networks included in the package
 net <- netData[[23]]
 plot_troph_level_ggplot(net)
