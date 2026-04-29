@@ -57,7 +57,7 @@
 #' @param sd_step Numeric. Increment used to decrease \code{selfDamping}
 #'   (default = -0.1).
 #' @param sd_min Numeric. Minimum (most negative) value allowed during search.
-#' @param parallel Logical. Whether to run QSS simulations in parallel.
+#' @param ncores Logical. If > 0 run QSS simulations in parallel.
 #' @param verbose Logical. Print diagnostic messages.
 #'
 #' ## Returns
@@ -108,7 +108,7 @@ calc_stability_threshold <- function(
     sd_start = -1,
     sd_step = -0.1,
     sd_min = -20,
-    parallel = FALSE,
+    ncores = 0 ,
     verbose = TRUE
 ) {
 
@@ -118,29 +118,17 @@ calc_stability_threshold <- function(
   sd_current <- sd_start
   last_below <- NULL
 
-  if (parallel) {
-    library(future.apply)
-    plan(multisession)
-  }
-
   repeat {
-    if (verbose) cat("Testing selfDamping =", sd_current, "...\n")
+    if (verbose) cat("Testing selfDamping =",  sd_current, "...\n")
 
     # run QSS with or without parallel backend
-    if (parallel) {
-      qss_raw <- unlist(
-        future_lapply(1:nsim, function(i)
-          calc_QSS(g, nsim = 1, returnRaw = TRUE, selfDamping = sd_current)
-        )
-      )
-    } else {
-      qss_raw <- calc_QSS(
+    qss_raw <- calc_QSS(
         g,
         nsim = nsim,
         returnRaw = TRUE,
-        selfDamping = sd_current
-      )
-    }
+        selfDamping = sd_current,
+        ncores = ncores
+    )
 
     prop_neg <- mean(qss_raw < 0)
     if (verbose) cat("  Proportion of negative values:", round(prop_neg, 3), "\n")
@@ -165,7 +153,7 @@ calc_stability_threshold <- function(
 
         if (verbose) {
           cat("Threshold crossed between", sd1, "and", sd2, "\n")
-          cat("Interpolated selfDamping =", round(sd_interp, 4), "\n")
+          cat("Interpolated selfDamping =", sd_interp, "\n")
         }
 
         # NEW: compute QSS distribution at interpolated threshold

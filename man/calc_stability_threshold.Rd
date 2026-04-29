@@ -11,7 +11,7 @@ calc_stability_threshold(
   sd_start = -1,
   sd_step = -0.1,
   sd_min = -20,
-  parallel = FALSE,
+  ncores = 0,
   verbose = TRUE
 )
 }
@@ -30,7 +30,7 @@ calc_stability_threshold(
 
 \item{sd_min}{Numeric. Minimum (most negative) value allowed during search.}
 
-\item{parallel}{Logical. Whether to run QSS simulations in parallel.}
+\item{ncores}{Logical. If > 0 run QSS simulations in parallel.}
 
 \item{verbose}{Logical. Print diagnostic messages.
 \subsection{Returns}{

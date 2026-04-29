@@ -66,7 +66,7 @@ calc_svd_entropy_importance <- function(A, threshold_factor = 1e-6) {
   rank_approx <- sum(svd_result$d > threshold)
 
   # Compute SVD entropy
-  svd_entropy <- -log(rank_approx) *sum(p[p > 0] * log(p[p > 0]))
+  svd_entropy <- -1/log(rank_approx) *sum(p[p > 0] * log(p[p > 0]))
 
   # Find species contributing to the largest singular value
   first_singular_vector_prey <- abs(svd_result$u[, 1])  # Prey contributions

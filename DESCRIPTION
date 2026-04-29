@@ -30,7 +30,7 @@ Suggests:
     rmarkdown,
     testthat (>= 3.0.0)
 Roxygen: list(markdown = TRUE)
-URL: https://github.com/lsaravia/multiweb
+URL: https://github.com/lsaravia/multiweb, https://lsaravia.github.io/multiweb/
 BugReports: https://github.com/lsaravia/multiweb/issues
 Config/testthat/edition: 3
 VignetteBuilder: knitr

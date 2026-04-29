@@ -169,7 +169,7 @@ mnet <- readMultiplex(dn,c("Negative","Positive","Antagonistic"),fpath,skipColum
 
 ```
 
-You can then compute metrics like modularity for the entire multiplex structure, .
+You can then compute metrics like modularity for the entire multiplex structure, in this case using the interface to info_map algorithm.
 
 ```{r multiplex-metrics, fig.width=7, fig.height=5}
 
