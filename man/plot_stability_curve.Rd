@@ -6,6 +6,9 @@
 \usage{
 plot_stability_curve(result)
 }
+\arguments{
+\item{result}{Output list from \code{\link[=calc_stability_threshold]{calc_stability_threshold()}}.}
+}
 \description{
 Plot stability threshold search curve
 }

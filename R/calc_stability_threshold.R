@@ -188,7 +188,7 @@ calc_stability_threshold <- function(
 
 #' Plot stability threshold search curve
 #'
-#' @param result Output list from [calc_stability_threshold()]}.
+#' @param result Output list from [calc_stability_threshold()].
 #'
 #' @export
 plot_stability_curve <- function(result) {

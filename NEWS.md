@@ -1,3 +1,7 @@
+# Version  0.8.90.0000
+* Added a new function plot_troph_level_visNetwork()
+
+
 # Version  0.8.80.0000
 * Added a new function calc_stability_threshold() and plot_stability_curve()
 

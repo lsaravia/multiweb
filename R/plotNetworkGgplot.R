@@ -243,6 +243,11 @@ plot_troph_level_ggraph <- function(g,
 
   layout_df <- tibble::tibble(x = x_pos, y = y_pos)
 
+  # Default labels
+  if (is.null(V(g)$label)) {
+    V(g)$label <- V(g)$name
+  }
+
   # Build plot
   p <- ggraph(g, layout = "manual", x = layout_df$x, y = layout_df$y) +
     geom_edge_link(
@@ -258,7 +263,11 @@ plot_troph_level_ggraph <- function(g,
       alpha = 0.9
     ) +
     geom_text_repel(
-      aes(x = layout_df$x, y = layout_df$y,label = if (use_numbers) numeric_id else name),
+      aes(
+        x = layout_df$x,
+        y = layout_df$y,
+        label = if (use_numbers) numeric_id else label
+      ),
       size = label_size,
       max.overlaps = 20
     ) +
