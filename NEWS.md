@@ -1,3 +1,7 @@
+# Version  0.8.91.0000
+* Added a new function plot_troph_level_visNet_multi()
+* Change name of plot_troph_level_visNetwork() to plot_troph_level_visNet()
+
 # Version  0.8.90.0000
 * Added a new function plot_troph_level_visNetwork()
 
