@@ -57,7 +57,10 @@ according to their combined role across interaction types.}
 (default: 350).}
 
 \item{physics}{Layout mode, \code{"x"} (default) or \code{"full"} — see
-\code{\link[=plot_troph_level_visNet]{plot_troph_level_visNet()}} for details.}
+\code{\link[=plot_troph_level_visNet]{plot_troph_level_visNet()}} for details. In both modes, physics is disabled and
+node positions are unlocked once stabilization finishes, so the trophic-level
+ordering (\code{"x"}) or force-directed layout (\code{"full"}) is only the starting point;
+afterwards any node can be freely dragged in any direction.}
 
 \item{highlight}{Logical; hover-highlight nearest neighbors (default: \code{TRUE}).}
 

@@ -42,13 +42,17 @@ range scaled by \code{module_spacing * 1.5}.}
 
 \item{physics}{Layout mode, one of \code{"x"} or \code{"full"} (default: \code{"x"}).
 \itemize{
-\item \code{"x"}: nodes can move horizontally but their vertical position stays fixed at their
-trophic level; physics remains active continuously to allow ongoing horizontal reflow.
+\item \code{"x"}: during the simulation, nodes can move horizontally but their
+vertical position stays fixed at their trophic level, so the layout settles
+into trophic bands.
 \item \code{"full"}: nodes move freely in both x and y under a force-directed layout
-(\code{forceAtlas2Based}). A small \code{centralGravity} anchors the system to prevent unbounded drift,
-and physics is automatically disabled once stabilization finishes to avoid continuous
-rotation/jitter of the final layout.
-}}
+(\code{forceAtlas2Based}), anchored by a small \code{centralGravity} to prevent
+unbounded drift.
+}
+In both modes, once stabilization finishes, physics is disabled and every node's
+\code{fixed.x}/\code{fixed.y} is unlocked, so the trophic-level ordering (in \code{"x"}) or the
+force-directed layout (in \code{"full"}) is just the starting point — afterwards any
+node can be freely dragged in any direction.}
 
 \item{highlight}{Logical; if \code{TRUE}, hovering over a node highlights its nearest neighbors (default: \code{TRUE}).}
 

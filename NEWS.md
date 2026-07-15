@@ -1,3 +1,8 @@
+# Version  0.8.92.0000
+* Change functions plot_troph_level_visNet_multi() and plot_troph_level_visNet()
+  parameter physic="x" order by trophic level in the y axes but you can change 
+  the position of the nodes. 
+
 # Version  0.8.91.0000
 * Added a new function plot_troph_level_visNet_multi()
 * Change name of plot_troph_level_visNetwork() to plot_troph_level_visNet()

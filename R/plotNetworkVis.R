@@ -19,13 +19,17 @@
 #'   range scaled by `module_spacing * 1.5`.
 #' @param physics Layout mode, one of `"x"` or `"full"` (default: `"x"`).
 #'   \itemize{
-#'     \item `"x"`: nodes can move horizontally but their vertical position stays fixed at their
-#'       trophic level; physics remains active continuously to allow ongoing horizontal reflow.
+#'     \item `"x"`: during the simulation, nodes can move horizontally but their
+#'       vertical position stays fixed at their trophic level, so the layout settles
+#'       into trophic bands.
 #'     \item `"full"`: nodes move freely in both x and y under a force-directed layout
-#'       (`forceAtlas2Based`). A small `centralGravity` anchors the system to prevent unbounded drift,
-#'       and physics is automatically disabled once stabilization finishes to avoid continuous
-#'       rotation/jitter of the final layout.
+#'       (`forceAtlas2Based`), anchored by a small `centralGravity` to prevent
+#'       unbounded drift.
 #'   }
+#'   In both modes, once stabilization finishes, physics is disabled and every node's
+#'   `fixed.x`/`fixed.y` is unlocked, so the trophic-level ordering (in `"x"`) or the
+#'   force-directed layout (in `"full"`) is just the starting point — afterwards any
+#'   node can be freely dragged in any direction.
 #' @param highlight Logical; if `TRUE`, hovering over a node highlights its nearest neighbors (default: `TRUE`).
 #' @param search Logical; if `TRUE`, adds a node-search dropdown to the widget (default: `TRUE`).
 #' @param label_size Font size, in pixels, used for node labels (default: 16). Apparent label size can
@@ -34,6 +38,20 @@
 #'   look too large or too small for a given mode.
 #'
 #' @return A `visNetwork` HTML widget visualizing the trophic structure of the network.
+#'
+#' @examples
+#' #
+#' # Example using the Kefi 2015 multiplex dataset shipped with the
+#' # 'multiweb' package (trophic + positive + negative interaction layers)
+#' #
+#' fileName <- system.file("extdata", package = "multiweb")
+#' dn <- list.files(fileName, pattern = "^Kefi2015.*\\.txt$")
+#' g <- readNetwork(dn, fileName, skipColumn = 2)
+#' names(g) <- c("Negative", "Positive", "Trophic")
+#'
+#' plot_troph_level_visNet_multi(g, physics = "full")
+#'
+#'
 #'
 #' @export
 #'
@@ -317,16 +335,29 @@ plot_troph_level_visNet <- function(
 
     )
 
+  ## Tras estabilizar, apagamos la fisica y desbloqueamos fixed.x/fixed.y en
+  ## todos los nodos. Esto es necesario en ambos modos: en "full" ya estaban
+  ## desbloqueados, pero en "x" el eje Y quedaba fijado al nivel trofico durante
+  ## la simulacion (fixed.y = TRUE), y en vis.js eso tambien bloquea el arrastre
+  ## manual del usuario, no solo la fisica. Al desbloquear aca, el orden vertical
+  ## por nivel trofico queda como punto de partida, pero despues se puede mover
+  ## cualquier nodo libremente en cualquier direccion.
   p <- p |>
     visEvents(
       stabilizationIterationsDone = "function () {
         this.setOptions({ physics: false });
+        var ids = this.body.data.nodes.getIds();
+        var updates = ids.map(function(id) {
+          return { id: id, fixed: { x: false, y: false } };
+        });
+        this.body.data.nodes.update(updates);
       }"
     )
 
   return(p)
 
 }
+
 
 
 #' Plot a Multiplex Ecological Network Organized by Trophic Level using visNetwork
@@ -361,7 +392,10 @@ plot_troph_level_visNet <- function(
 #' @param module_spacing Horizontal spacing multiplier between community modules
 #'   (default: 350).
 #' @param physics Layout mode, `"x"` (default) or `"full"` — see
-#'   [plot_troph_level_visNet()] for details.
+#'   [plot_troph_level_visNet()] for details. In both modes, physics is disabled and
+#'   node positions are unlocked once stabilization finishes, so the trophic-level
+#'   ordering (`"x"`) or force-directed layout (`"full"`) is only the starting point;
+#'   afterwards any node can be freely dragged in any direction.
 #' @param highlight Logical; hover-highlight nearest neighbors (default: `TRUE`).
 #' @param search Logical; add node-search dropdown (default: `TRUE`).
 #' @param label_size Node label font size in pixels (default: 16).
@@ -773,16 +807,21 @@ plot_troph_level_visNet_multi <- function(
 
     )
 
-  if(physics == "full"){
-
-    p <- p |>
-      visEvents(
-        stabilizationIterationsDone = "function () {
-          this.setOptions({ physics: false });
-        }"
-      )
-
-  }
+  ## Tras estabilizar, apagamos la fisica y desbloqueamos fixed.x/fixed.y en todos
+  ## los nodos (ver nota en plot_troph_level_visNet() para el detalle de por que
+  ## esto es necesario en modo "x", donde el eje Y queda fijado al nivel trofico
+  ## durante la simulacion).
+  p <- p |>
+    visEvents(
+      stabilizationIterationsDone = "function () {
+        this.setOptions({ physics: false });
+        var ids = this.body.data.nodes.getIds();
+        var updates = ids.map(function(id) {
+          return { id: id, fixed: { x: false, y: false } };
+        });
+        this.body.data.nodes.update(updates);
+      }"
+    )
 
   return(p)
 
