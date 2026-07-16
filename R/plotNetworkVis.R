@@ -723,6 +723,9 @@ plot_troph_level_visNet_multi <- function(
     label = layer_names_all,
     color = unname(layer_colors[layer_names_all]),
     dashes = layer_names_all %in% layer_dashed,
+    font.align = "top",
+    font.size = label_size,
+    font.color = "black",
     stringsAsFactors = FALSE
   )
 

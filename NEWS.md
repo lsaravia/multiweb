@@ -1,3 +1,7 @@
+# Version  0.8.93.0000
+* Change function plot_troph_level_visNet_multi() 
+  legend of layer above line of layer
+
 # Version  0.8.92.0000
 * Change functions plot_troph_level_visNet_multi() and plot_troph_level_visNet()
   parameter physic="x" order by trophic level in the y axes but you can change 

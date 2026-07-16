@@ -72,3 +72,18 @@ Nodes are positioned by trophic level on the y-axis, and optionally, community m
 Unlike \code{\link[=plot_troph_level_ggplot]{plot_troph_level_ggplot()}} and \code{\link[=plot_troph_level_ggraph]{plot_troph_level_ggraph()}}, this produces an interactive HTML widget
 that supports dragging, zooming, hovering for details, and node search.
 }
+\examples{
+#
+# Example using the Kefi 2015 multiplex dataset shipped with the
+# 'multiweb' package (trophic + positive + negative interaction layers)
+#
+fileName <- system.file("extdata", package = "multiweb")
+dn <- list.files(fileName, pattern = "^Kefi2015.*\\\\.txt$")
+g <- readNetwork(dn, fileName, skipColumn = 2)
+names(g) <- c("Negative", "Positive", "Trophic")
+
+plot_troph_level_visNet_multi(g, physics = "full")
+
+
+
+}
