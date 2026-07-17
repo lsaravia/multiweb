@@ -36,6 +36,12 @@
 #'   differ between `physics` modes even at the same value, since `"full"` typically stabilizes into a
 #'   more spread-out layout that is zoomed further out to fit the view; adjust this parameter if labels
 #'   look too large or too small for a given mode.
+#' @param width Width of the `visNetwork` widget, passed through to `visNetwork::visNetwork()`
+#'   (default: `"100%"`). Accepts any CSS width string (e.g. `"600px"`, `"100%"`).
+#' @param height Height of the `visNetwork` widget, passed through to `visNetwork::visNetwork()`
+#'   (default: `"850px"`). Accepts any CSS height string. When embedding in slide frameworks like
+#'   `xaringan`, set an explicit pixel height small enough to fit the slide (e.g. `"400px"`) — the
+#'   widget does not shrink to fit its container automatically.
 #'
 #' @return A `visNetwork` HTML widget visualizing the trophic structure of the network.
 #'
@@ -73,7 +79,9 @@ plot_troph_level_visNet <- function(
     physics = c("x","full"),
     highlight = TRUE,
     search = TRUE,
-    label_size = 16
+    label_size = 16,
+    width = "100%",
+    height = "850px"
 ){
 
   physics <- match.arg(physics)
@@ -264,8 +272,8 @@ plot_troph_level_visNet <- function(
   p <- visNetwork(
     nodes,
     edges,
-    width = "100%",
-    height = "850px"
+    width = width,
+    height = height
   ) |>
 
     visNodes(
@@ -406,6 +414,12 @@ plot_troph_level_visNet <- function(
 #'   used to mark non-trophic layers, e.g. `layer_dashed = c("facilitation","competition")`).
 #' @param layer_filter Logical; if `TRUE` (default), adds an interactive dropdown to
 #'   filter/isolate edges by layer.
+#' @param width Width of the `visNetwork` widget (default: `"100%"`). Accepts any CSS
+#'   width string.
+#' @param height Height of the `visNetwork` widget (default: `"850px"`). Accepts any CSS
+#'   height string. When embedding in slide frameworks like `xaringan`, set an explicit
+#'   pixel height small enough to fit the slide (e.g. `"400px"`) — the widget does not
+#'   shrink to fit its container automatically.
 #'
 #' @return A `visNetwork` HTML widget.
 #'
@@ -435,7 +449,9 @@ plot_troph_level_visNet_multi <- function(
     label_size = 16,
     layer_colors = NULL,
     layer_dashed = NULL,
-    layer_filter = TRUE
+    layer_filter = TRUE,
+    width = "100%",
+    height = "850px"
 ){
 
   physics <- match.arg(physics)
@@ -736,8 +752,8 @@ plot_troph_level_visNet_multi <- function(
   p <- visNetwork(
     nodes,
     edges,
-    width = "100%",
-    height = "850px"
+    width = width,
+    height = height
   ) |>
 
     visNodes(

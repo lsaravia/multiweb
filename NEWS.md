@@ -1,6 +1,6 @@
 # Version  0.8.93.0000
-* Change function plot_troph_level_visNet_multi() 
-  legend of layer above line of layer
+* Change function plot_troph_level_visNet_multi() and plot_troph_level_visNet()
+  legend of layer above line of layer and width = "100%", height = "400px"
 
 # Version  0.8.92.0000
 * Change functions plot_troph_level_visNet_multi() and plot_troph_level_visNet()

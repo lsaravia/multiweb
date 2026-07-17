@@ -21,7 +21,9 @@ plot_troph_level_visNet_multi(
   label_size = 16,
   layer_colors = NULL,
   layer_dashed = NULL,
-  layer_filter = TRUE
+  layer_filter = TRUE,
+  width = "100\%",
+  height = "850px"
 )
 }
 \arguments{
@@ -77,6 +79,14 @@ used to mark non-trophic layers, e.g. \code{layer_dashed = c("facilitation","com
 
 \item{layer_filter}{Logical; if \code{TRUE} (default), adds an interactive dropdown to
 filter/isolate edges by layer.}
+
+\item{width}{Width of the \code{visNetwork} widget (default: \code{"100\%"}). Accepts any CSS
+width string.}
+
+\item{height}{Height of the \code{visNetwork} widget (default: \code{"850px"}). Accepts any CSS
+height string. When embedding in slide frameworks like \code{xaringan}, set an explicit
+pixel height small enough to fit the slide (e.g. \code{"400px"}) — the widget does not
+shrink to fit its container automatically.}
 }
 \value{
 A \code{visNetwork} HTML widget.

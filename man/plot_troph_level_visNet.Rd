@@ -16,7 +16,9 @@ plot_troph_level_visNet(
   physics = c("x", "full"),
   highlight = TRUE,
   search = TRUE,
-  label_size = 16
+  label_size = 16,
+  width = "100\%",
+  height = "850px"
 )
 }
 \arguments{
@@ -62,6 +64,14 @@ node can be freely dragged in any direction.}
 differ between \code{physics} modes even at the same value, since \code{"full"} typically stabilizes into a
 more spread-out layout that is zoomed further out to fit the view; adjust this parameter if labels
 look too large or too small for a given mode.}
+
+\item{width}{Width of the \code{visNetwork} widget, passed through to \code{visNetwork::visNetwork()}
+(default: \code{"100\%"}). Accepts any CSS width string (e.g. \code{"600px"}, \code{"100\%"}).}
+
+\item{height}{Height of the \code{visNetwork} widget, passed through to \code{visNetwork::visNetwork()}
+(default: \code{"850px"}). Accepts any CSS height string. When embedding in slide frameworks like
+\code{xaringan}, set an explicit pixel height small enough to fit the slide (e.g. \code{"400px"}) — the
+widget does not shrink to fit its container automatically.}
 }
 \value{
 A \code{visNetwork} HTML widget visualizing the trophic structure of the network.
