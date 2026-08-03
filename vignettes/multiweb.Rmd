@@ -23,7 +23,7 @@ library(multiweb)
 
 # Overview
 
-The `multiweb` package provides tools for analyzing and comparing ecological networks, particularly food webs and multiplex networks, through a set of reproducible and customizable functions. It allows for the computation of structural and dynamic properties, module detection, species roles, trophic positions, and entropy-based metrics.
+The `multiweb` package provides tools for analyzing and comparing ecological networks, particularly food webs and multiplex networks, through a set of reproducible and customizable functions. It allows for the computation of structural and dynamic properties, module detection, species roles, trophic positions, entropy- and centrality-based metrics, structural stability thresholds, and extinction simulations. Multiplex (multilayer) networks are supported throughout, including aggregation, interactive visualization, and 3D layer rendering.
 
 This vignette introduces the general structure of the package and showcases typical usage patterns.
 
@@ -89,6 +89,26 @@ svd_ent
 ```
 
 This metric is useful for comparing structural complexity across multiple networks.
+
+## Centrality measures
+
+`calc_centrality()` generalizes centrality calculation to any centrality function available in `igraph` (eigenvector centrality, PageRank, betweenness, degree, etc.), returning both a ranked table and a plot of the top species:
+
+```{r centrality, fig.width=6, fig.height=4}
+cent <- calc_centrality(net, centrality_func = igraph::page_rank)
+head(cent$CentralityScores)
+cent$Plot_Centrality
+```
+
+## Detailed SVD importance
+
+A more detailed decomposition of network complexity is available through `calc_svd_entropy_importance()`, which — in addition to entropy and rank — reports each species' contribution to the dominant singular value (i.e. its structural importance as prey and as predator):
+
+```{r svd-importance, fig.width=6, fig.height=4}
+svd_imp <- calc_svd_entropy_importance(net)
+svd_imp$Entropy
+svd_imp$Plot_Prey_Importance
+```
 
 
 # Randomizations and Null Models
@@ -156,7 +176,27 @@ g <- graph_from_data_frame(
 calc_weighted_topological_indices(g)
   
 ```
-  
+
+## Alternative interaction intensity estimation (O'Gorman 2010)
+
+As an alternative to the body-mass/density approach above — useful when resource density data are unavailable — `calc_interaction_intensity2()` estimates interaction strength from predator body mass and the number of resources per consumer, following O'Gorman et al. (2010):
+
+```{r interIntensity2}
+edge_list <- tibble::tibble(
+  predator = c("A", "A", "B", "C"),
+  prey = c("B", "C", "D", "D"),
+  predator_mass = c(10, 10, 5, 3)
+)
+
+calc_interaction_intensity2(
+  edge_list,
+  consumer_n = predator,
+  resource_n = prey,
+  bodymass_n = predator_mass,
+  output_format = "edgelist"
+)
+```
+
 # Using multiplex networks
 
 The package also supports **multiplex networks**, where multiple types of interactions are represented as layers. You can create a multiplex object and compute metrics across layers. 
@@ -180,11 +220,84 @@ plots <- plot_multiplex_modules(mnet, mod_multi$communities)
 cowplot::plot_grid(plotlist = plots, ncol = 3)
 ```
 
+Layers sharing the same node set can be combined into a single aggregate network — summing edge weights where interactions coincide across layers — which is useful as a common backbone for layout or as an approximation of overall interaction load. `harmonize_node_sets()` first ensures every layer shares the same set of nodes (adding isolated nodes where needed) before aggregating:
 
-# Conclusion
+```{r multiplex-aggregate}
+mnet_named <- mnet
+names(mnet_named) <- c("Negative", "Positive", "Trophic")
+mnet_named <- harmonize_node_sets(mnet_named)
+agg_net <- aggregate_multiplex_network(mnet_named)
+agg_net
+```
 
-The `multiweb` package is designed for comparative food web analysis across multiple ecosystems or scenarios. It provides a consistent and extensible set of tools to calculate key ecological and topological descriptors.
+For a 3D view of all layers stacked together, `plot_multi3D()` (adapted from the `muxViz` project) renders each layer as a semi-transparent plane using `rgl`, optionally with an aggregate layer on top. This opens an interactive OpenGL device, so it is best explored in an active R session rather than rendered here:
 
-For more details on the functions and their parameters, please refer to the package documentation.
+```{r multiplex-3d, eval=FALSE}
+plot_multi3D(
+  g.list = mnet_named,
+  layer.colors = RColorBrewer::brewer.pal(3, "Set2"),
+  node.colors = "auto",
+  node.size.scale = 0.5,
+  show.aggregate = TRUE
+)
+```
 
-Or visit the [GitHub repository](https://github.com/lsaravia/multiweb) for updates and examples.
+
+# Structural Stability (QSS)
+
+## Estimating the stability threshold
+
+Real food webs must be dynamically stable, which requires some minimal level of intraspecific self-regulation (self-damping). Because the true amount of self-regulation is rarely known, `calc_stability_threshold()` searches for the `selfDamping` value at which a target proportion of simulated community matrices (Jacobians) become unstable — by default, 5% negative-eigenvalue crossings — using [calc_QSS()] internally. Lower (more negative) thresholds indicate networks that require less self-regulation to remain stable:
+
+```{r stability-threshold}
+stab <- calc_stability_threshold(net, nsim = 200, ncores = 1, verbose = FALSE)
+stab$threshold
+```
+
+The search trajectory can be visualized directly:
+
+```{r stability-curve, fig.width=6, fig.height=4}
+plot_stability_curve(stab)
+```
+
+## Extinction simulations
+
+`multiweb` also provides tools to evaluate how the loss of one or more species affects structural stability, by comparing QSS distributions before and after deletion — useful for identifying keystone species or estimating robustness to targeted or random extinctions.
+
+To compare the whole network against the network without a given set of species:
+
+```{r extinction-grp}
+sp_sample <- V(net)$name[1:3]
+ext_grp <- calc_QSS_extinction_dif_grp(net, sp_sample, nsim = 100, ncores = 1)
+head(ext_grp)
+```
+
+To simulate an incremental extinction sequence (species removed one at a time, without secondary extinctions):
+
+```{r extinction-seq}
+ext_seq <- calc_QSS_extinctions_seq(net, sp_sample, nsim = 100, ncores = 1)
+head(ext_seq)
+```
+
+Note: `nsim` and `ncores` are set low here for a fast-running vignette; for actual analyses, larger `nsim` (e.g. 1000) and more cores are recommended for stable estimates.
+
+
+# Interactive Visualization
+
+For exploratory work, `multiweb` provides interactive, draggable network visualizations built on `visNetwork`, as an alternative to the static `ggplot2`/`ggraph` plots shown above. Nodes are still organized by trophic level on the y-axis, but can be dragged, zoomed, searched, and hovered for details.
+
+```{r visnet}
+plot_troph_level_visNet(net, modules = TRUE)
+```
+
+For multiplex networks, `plot_troph_level_visNet_multi()` overlays all interaction layers on the same trophic-level plot, computing trophic level only from the designated trophic layer, with distinguishable edge colors/styles per layer, an interactive layer filter, and a legend:
+
+```{r visnet-multi}
+plot_troph_level_visNet_multi(
+  mnet_named,
+  trophic_layer = "Trophic",
+  layer_dashed = c("Negative", "Positive")
+)
+```
+
+Note: when knitting to HTML these render as interactive embedded widgets; if the vignette is exported to PDF for external documentation (e.g. as supporting material), interactivity will be lost and a static screenshot may be preferable.

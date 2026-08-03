@@ -179,7 +179,7 @@ plot_troph_level_visNet <- function(
   ## Node colours
   ##------------------------------------------------------------
 
-  cols <- viridisLite::viridis(100)
+  cols <- rev(viridisLite::viridis(100))
 
   colour <- cols[
     cut(
@@ -306,7 +306,7 @@ plot_troph_level_visNet <- function(
       dragNodes = TRUE,
       dragView = TRUE,
       zoomView = TRUE,
-      navigationButtons = TRUE
+      navigationButtons = FALSE
     ) |>
 
     visPhysics(
@@ -414,12 +414,16 @@ plot_troph_level_visNet <- function(
 #'   used to mark non-trophic layers, e.g. `layer_dashed = c("facilitation","competition")`).
 #' @param layer_filter Logical; if `TRUE` (default), adds an interactive dropdown to
 #'   filter/isolate edges by layer.
+#' @param legend Logical; if `TRUE` (default), displays the layer-type legend.
 #' @param width Width of the `visNetwork` widget (default: `"100%"`). Accepts any CSS
 #'   width string.
 #' @param height Height of the `visNetwork` widget (default: `"850px"`). Accepts any CSS
 #'   height string. When embedding in slide frameworks like `xaringan`, set an explicit
 #'   pixel height small enough to fit the slide (e.g. `"400px"`) — the widget does not
 #'   shrink to fit its container automatically.
+#'
+#' @details When present, existing `igraph` visual attributes are respected: vertex
+#'   `color` and `size`, and edge `color` and `width`.
 #'
 #' @return A `visNetwork` HTML widget.
 #'
@@ -450,6 +454,7 @@ plot_troph_level_visNet_multi <- function(
     layer_colors = NULL,
     layer_dashed = NULL,
     layer_filter = TRUE,
+    legend = TRUE,
     width = "100%",
     height = "850px"
 ){
@@ -621,11 +626,15 @@ plot_troph_level_visNet_multi <- function(
   ## Node colours (by trophic level, as in the base function)
   ##------------------------------------------------------------
 
-  cols <- viridisLite::viridis(100)
+  cols <- rev(viridisLite::viridis(100))
 
-  colour <- cols[
+  colour_default <- cols[
     cut(V(g_full)$trophic_level, breaks = 100, labels = FALSE)
   ]
+
+  colour <- if("color" %in% vertex_attr_names(g_full)) V(g_full)$color else colour_default
+
+  node_size <- if("size" %in% vertex_attr_names(g_full)) V(g_full)$size else s
 
   ##------------------------------------------------------------
   ## Nodes
@@ -646,7 +655,7 @@ plot_troph_level_visNet_multi <- function(
       "Module: ",V(g_full)$module
     ),
 
-    size = s,
+    size = node_size,
 
     color.background = colour,
     color.border = "black",
@@ -710,6 +719,14 @@ plot_troph_level_visNet_multi <- function(
 
   layer_idx <- match(edge_df$layer, layer_names_all)
 
+  edge_colour <- if("color" %in% edge_attr_names(g_full)) {
+    edge_attr(g_full, "color")
+  } else {
+    layer_colors[edge_df$layer]
+  }
+
+  edge_width <- if("width" %in% edge_attr_names(g_full)) edge_attr(g_full, "width") else 1
+
   edges <- data.frame(
 
     from = id_map[edge_df$from],
@@ -717,7 +734,8 @@ plot_troph_level_visNet_multi <- function(
 
     arrows = "to",
 
-    color = layer_colors[edge_df$layer],
+    color = edge_colour,
+    width = edge_width,
     dashes = edge_df$layer %in% layer_dashed,
 
     title = paste0("<b>",edge_df$layer,"</b>"),
@@ -779,17 +797,11 @@ plot_troph_level_visNet_multi <- function(
       selectedBy = if(layer_filter) list(variable = "group", multiple = TRUE) else NULL
     ) |>
 
-    visLegend(
-      addEdges = legend_edges,
-      useGroups = FALSE,
-      position = "right"
-    ) |>
-
     visInteraction(
       dragNodes = TRUE,
       dragView = TRUE,
       zoomView = TRUE,
-      navigationButtons = TRUE
+      navigationButtons = FALSE
     ) |>
 
     visPhysics(
@@ -825,6 +837,17 @@ plot_troph_level_visNet_multi <- function(
       )
 
     )
+
+  if(legend){
+
+    p <- p |>
+      visLegend(
+        addEdges = legend_edges,
+        useGroups = FALSE,
+        position = "right"
+      )
+
+  }
 
   ## Tras estabilizar, apagamos la fisica y desbloqueamos fixed.x/fixed.y en todos
   ## los nodos (ver nota en plot_troph_level_visNet() para el detalle de por que

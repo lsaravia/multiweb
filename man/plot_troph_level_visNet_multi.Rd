@@ -22,6 +22,7 @@ plot_troph_level_visNet_multi(
   layer_colors = NULL,
   layer_dashed = NULL,
   layer_filter = TRUE,
+  legend = TRUE,
   width = "100\%",
   height = "850px"
 )
@@ -80,6 +81,8 @@ used to mark non-trophic layers, e.g. \code{layer_dashed = c("facilitation","com
 \item{layer_filter}{Logical; if \code{TRUE} (default), adds an interactive dropdown to
 filter/isolate edges by layer.}
 
+\item{legend}{Logical; if \code{TRUE} (default), displays the layer-type legend.}
+
 \item{width}{Width of the \code{visNetwork} widget (default: \code{"100\%"}). Accepts any CSS
 width string.}
 
@@ -98,4 +101,8 @@ non-trophic: facilitation, competition, commensalism, amensalism) represented as
 separate "layers" sharing the same set of nodes. Trophic level is computed using
 only the trophic layer, while all layers are drawn together with distinguishable
 edge colors/styles and an interactive layer filter.
+}
+\details{
+When present, existing \code{igraph} visual attributes are respected: vertex
+\code{color} and \code{size}, and edge \code{color} and \code{width}.
 }
