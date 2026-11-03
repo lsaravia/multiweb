@@ -41,7 +41,7 @@ It works for networks with more than 1 connected component, but not for networks
 }
 \examples{
 # Example with the intermediate files in actual folder
-py_infomap <- run_infomap(netData[[1]],output_dir=".", weighted = FALSE)
+py_infomap <- run_infomap(netData[[1]], output_dir = ".")
 
 membership(py_infomap)
 modularity(py_infomap)

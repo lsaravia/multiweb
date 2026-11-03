@@ -5,7 +5,7 @@
 #' if all the species have the same flux is equal to the directed connectance.
 #' The mean or effective number of flows impinging upon or emanating from a tipical node (LDq) is based the average flow diversity, and when all flows are equal is similar to linkage density. Both measures are based in Shannon information theory.
 #' The total interaction flux is measured
-#' as ```T[i,j] <- d[i] * d[j] * interM[i,j]```. The effective Cq is calculated following the formulas in appendix 2 of [1], LDq follows [2]
+#' as ```T[i,j] <- d[i] * d[j] * interM[i,j]```. The effective Cq is calculated following the formulas in appendix 2 of \[1\], LDq follows \[2\]
 #'
 #' @references
 #' 1. Fahimipour, A.K. & Hein, A.M. (2014). The dynamics of assembling food webs. Ecol. Lett., 17, 606–613
@@ -91,11 +91,11 @@ calcQuantitativeConnectance <- function(interM,d){
 #' Calc the Quasi Sign Stability measure for antagonistic (predator-prey) or mgraph networks with multiple interactions.
 #'
 #' The QSS measure is the proportion of matrices that are locally stable, these matrices are created by sampling the values of the community matrix
-#' (the Jacobian) from a uniform distribution, preserving the sign structure [1]. If the 'ig' parameter is
+#' (the Jacobian) from a uniform distribution, preserving the sign structure \[1\]. If the 'ig' parameter is
 #' an `mgraph` network it needs to have been built with the order `c("Competitive", "Mutualistic", "Trophic")`
-#' It also calculates the mean of the real part of the maximum eigenvalue, which is also a measure of stability [2].
+#' It also calculates the mean of the real part of the maximum eigenvalue, which is also a measure of stability \[2\].
 #' It uses a uniform distribution between 0 and maximum values given by the parameters `negative`, `positive` and `selfDamping`,
-#' corresponding to the sign of interactions and self-limitation effect [3,4].
+#' corresponding to the sign of interactions and self-limitation effect \[3,4\].
 #' If the edges of the networks have a weight attribute and `istrength` parameter is true, weight will be used as interaction strength,
 #' then the limits of the uniform distribution will be `negative*-x`, `positive*x`, `selfDamping*x`, where x is the value of the weigth for the edge.
 #' If the values of these parameters are 0 then there is no interaction of that kind. The default values for `negative`, `positive` and `selfDumping`
@@ -241,8 +241,8 @@ maxRE <- function(rmat){
 #' Function to calculate weighted network indices
 #'
 #' This function calculates weighted topological indices for ecological networks, including:
-#' weighted linkage density, connectance, generality and vulnerability and the SDs of the last two based on [1]
-#' and the level of omnivory, mean and maximum trophic level based on [2] using [NetIndices::TrophInd()] function.
+#' weighted linkage density, connectance, generality and vulnerability and the SDs of the last two based on \[1\]
+#' and the level of omnivory, mean and maximum trophic level based on \[2\] using [NetIndices::TrophInd()] function.
 #' The igraph networks must have the weight attribute.
 #'
 #' @param ig An igraph object with the weight attribute representing fluxes

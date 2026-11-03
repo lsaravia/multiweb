@@ -21,7 +21,7 @@ among species in the web and the distribution of species’ abundances and quant
 if all the species have the same flux is equal to the directed connectance.
 The mean or effective number of flows impinging upon or emanating from a tipical node (LDq) is based the average flow diversity, and when all flows are equal is similar to linkage density. Both measures are based in Shannon information theory.
 The total interaction flux is measured
-as \code{T[i,j] <- d[i] * d[j] * interM[i,j]}. The effective Cq is calculated following the formulas in appendix 2 of \link{1}, LDq follows \link{2}
+as \code{T[i,j] <- d[i] * d[j] * interM[i,j]}. The effective Cq is calculated following the formulas in appendix 2 of [1], LDq follows [2]
 }
 \examples{
 

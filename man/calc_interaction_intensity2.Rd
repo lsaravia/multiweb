@@ -36,7 +36,7 @@ Always the IS is a positive number.
 }
 \description{
 The function uses the body mass of predator/consumer and the number of prey/resources as source data,
-then the interaction intensity is estimated based on O'Gorman (2010) as \code{a_ij = -b*(M_jˆ0.25 / s_j)}, where \code{M_j} is the body mass of predator j,
+then the interaction intensity is estimated based on O'Gorman (2010) as \verb{a_ij = -b*(M_jˆ0.25 / s_j)}, where \code{M_j} is the body mass of predator j,
 \code{s_j} is the number of preys, \code{b} is a free parameter assumed 0.01. This value of the interaction strength quantifies
 the effect of the predator on the prey per unit of biomass. Assuming a Lotka-Volterra model is equivalent
 to the entry A(i,j) of the community matrix, where i is the

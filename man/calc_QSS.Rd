@@ -40,11 +40,11 @@ If \code{returnRaw} is \code{TRUE} it returns the values of randomized real part
 }
 \description{
 The QSS measure is the proportion of matrices that are locally stable, these matrices are created by sampling the values of the community matrix
-(the Jacobian) from a uniform distribution, preserving the sign structure \link{1}. If the 'ig' parameter is
+(the Jacobian) from a uniform distribution, preserving the sign structure [1]. If the 'ig' parameter is
 an \code{mgraph} network it needs to have been built with the order \code{c("Competitive", "Mutualistic", "Trophic")}
-It also calculates the mean of the real part of the maximum eigenvalue, which is also a measure of stability \link{2}.
+It also calculates the mean of the real part of the maximum eigenvalue, which is also a measure of stability [2].
 It uses a uniform distribution between 0 and maximum values given by the parameters \code{negative}, \code{positive} and \code{selfDamping},
-corresponding to the sign of interactions and self-limitation effect \link{3,4}.
+corresponding to the sign of interactions and self-limitation effect [3,4].
 If the edges of the networks have a weight attribute and \code{istrength} parameter is true, weight will be used as interaction strength,
 then the limits of the uniform distribution will be \code{negative*-x}, \code{positive*x}, \code{selfDamping*x}, where x is the value of the weigth for the edge.
 If the values of these parameters are 0 then there is no interaction of that kind. The default values for \code{negative}, \code{positive} and \code{selfDumping}

@@ -14,6 +14,7 @@ export(calc_interaction_intensity)
 export(calc_interaction_intensity2)
 export(calc_modularity)
 export(calc_modularity_swness_zscore)
+export(calc_pagerank_ap)
 export(calc_quantitative_connectance)
 export(calc_stability_threshold)
 export(calc_svd_entropy)
@@ -69,61 +70,73 @@ import(viridis)
 importFrom(NetIndices,TrophInd)
 importFrom(RColorBrewer,brewer.pal)
 importFrom(doFuture,registerDoFuture)
-importFrom(dplyr,"%>%")
-importFrom(dplyr,arrange)
-importFrom(dplyr,bind_rows)
-importFrom(dplyr,dense_rank)
-importFrom(dplyr,filter)
-importFrom(dplyr,group_by)
-importFrom(dplyr,if_else)
-importFrom(dplyr,inner_join)
-importFrom(dplyr,left_join)
-importFrom(dplyr,mutate)
-importFrom(dplyr,rename)
-importFrom(dplyr,select)
-importFrom(dplyr,summarise_all)
-importFrom(foreach,"%dopar%")
-importFrom(foreach,foreach)
-importFrom(future,multisession)
-importFrom(future,sequential)
+importFrom(dplyr,
+  "%>%",
+  arrange,
+  bind_rows,
+  dense_rank,
+  filter,
+  group_by,
+  if_else,
+  inner_join,
+  left_join,
+  mutate,
+  rename,
+  select,
+  summarise_all
+)
+importFrom(foreach,
+  "%dopar%",
+  foreach
+)
+importFrom(future,
+  multisession,
+  sequential
+)
 importFrom(future.apply,future_lapply)
-importFrom(ggplot2,element_blank)
-importFrom(ggplot2,element_text)
-importFrom(ggplot2,labs)
-importFrom(ggplot2,scale_color_viridis_c)
-importFrom(ggplot2,theme)
-importFrom(ggplot2,theme_bw)
-importFrom(igraph,"E<-")
-importFrom(igraph,E)
-importFrom(igraph,V)
-importFrom(igraph,as_adjacency_matrix)
-importFrom(igraph,as_data_frame)
-importFrom(igraph,as_edgelist)
-importFrom(igraph,average.path.length)
-importFrom(igraph,cluster_spinglass)
-importFrom(igraph,degree)
-importFrom(igraph,ecount)
-importFrom(igraph,edge_attr)
-importFrom(igraph,edge_attr_names)
-importFrom(igraph,ends)
-importFrom(igraph,get.adjacency)
-importFrom(igraph,graph_from_adjacency_matrix)
-importFrom(igraph,graph_from_data_frame)
-importFrom(igraph,is_directed)
-importFrom(igraph,is_igraph)
-importFrom(igraph,membership)
-importFrom(igraph,subgraph_from_edges)
-importFrom(igraph,transitivity)
-importFrom(igraph,vcount)
-importFrom(igraph,vertex_attr_names)
+importFrom(ggplot2,
+  element_blank,
+  element_text,
+  labs,
+  scale_color_viridis_c,
+  theme,
+  theme_bw
+)
+importFrom(igraph,
+  "E<-",
+  E,
+  V,
+  as_adjacency_matrix,
+  as_data_frame,
+  as_edgelist,
+  average.path.length,
+  cluster_spinglass,
+  degree,
+  ecount,
+  edge_attr,
+  edge_attr_names,
+  ends,
+  get.adjacency,
+  graph_from_adjacency_matrix,
+  graph_from_data_frame,
+  is_directed,
+  is_igraph,
+  membership,
+  subgraph_from_edges,
+  transitivity,
+  vcount,
+  vertex_attr_names
+)
 importFrom(tibble,tibble)
 importFrom(viridis,viridis)
 importFrom(viridisLite,viridis)
-importFrom(visNetwork,visEdges)
-importFrom(visNetwork,visEvents)
-importFrom(visNetwork,visInteraction)
-importFrom(visNetwork,visLegend)
-importFrom(visNetwork,visNetwork)
-importFrom(visNetwork,visNodes)
-importFrom(visNetwork,visOptions)
-importFrom(visNetwork,visPhysics)
+importFrom(visNetwork,
+  visEdges,
+  visEvents,
+  visInteraction,
+  visLegend,
+  visNetwork,
+  visNodes,
+  visOptions,
+  visPhysics
+)

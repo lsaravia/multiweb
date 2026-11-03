@@ -7,11 +7,11 @@
 #'
 #' @param ig A list of igraph objects for which modularity will be calculated.
 #' @param ncores Number of cores used for parallel computation. If set to 0, sequential processing is used.
-#' @param weights Edge weights. Can be a numeric vector, `NULL`, or `NA`:
-#'   - If `NULL`, the function checks for a 'weight' edge attribute and uses it if present.
-#'   - If `NA`, weights are ignored even if the graph has a 'weight' edge attribute.
 #' @param cluster_function The **igraph** clustering function to use, or a function that returns modularity.
 #'   default `cluster_spinglass`.
+#'
+#' If a network has a 'weight' edge attribute it is used both by the clustering function and
+#' to compute the (weighted) modularity of the resulting partition.
 #'
 #' @return A data frame with a column `Modularity` containing the modularity values for each network.
 #'
@@ -47,11 +47,14 @@ calc_modularity <- function(ig, ncores = 0, cluster_function = cluster_spinglass
     future::plan(sequential)
   }
 
-  # Function to compute modularity (handling different weight parameter names) CHECK
+  # The modularity stored in some igraph communities objects (e.g. cluster_spinglass)
+  # is not the weighted modularity of the partition, so it is recomputed from the
+  # membership using the 'weight' edge attribute when present
   compute_modularity <- function(g) {
 
     community <- cluster_function(g)
-    data.frame(Modularity = modularity(community))
+    w <- if ("weight" %in% edge_attr_names(g)) E(g)$weight else NULL
+    data.frame(Modularity = modularity(g, membership(community), weights = w))
   }
 
   # Compute modularity in parallel
@@ -79,7 +82,7 @@ calc_modularity <- function(ig, ncores = 0, cluster_function = cluster_spinglass
 #'
 #' @examples
 #' # Example with the intermediate files in actual folder
-#' py_infomap <- run_infomap(netData[[1]],output_dir=".", weighted = FALSE)
+#' py_infomap <- run_infomap(netData[[1]], output_dir = ".")
 #'
 #' membership(py_infomap)
 #' modularity(py_infomap)

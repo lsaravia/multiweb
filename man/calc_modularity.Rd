@@ -12,13 +12,10 @@ calc_modularity(ig, ncores = 0, cluster_function = cluster_spinglass)
 \item{ncores}{Number of cores used for parallel computation. If set to 0, sequential processing is used.}
 
 \item{cluster_function}{The \strong{igraph} clustering function to use, or a function that returns modularity.
-default \code{cluster_spinglass}.}
+default \code{cluster_spinglass}.
 
-\item{weights}{Edge weights. Can be a numeric vector, \code{NULL}, or \code{NA}:
-\itemize{
-\item If \code{NULL}, the function checks for a 'weight' edge attribute and uses it if present.
-\item If \code{NA}, weights are ignored even if the graph has a 'weight' edge attribute.
-}}
+If a network has a 'weight' edge attribute it is used both by the clustering function and
+to compute the (weighted) modularity of the resulting partition.}
 }
 \value{
 A data frame with a column \code{Modularity} containing the modularity values for each network.

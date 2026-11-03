@@ -27,8 +27,8 @@ a data.frame with the following fields:
 }
 \description{
 This function calculates weighted topological indices for ecological networks, including:
-weighted linkage density, connectance, generality and vulnerability and the SDs of the last two based on \link{1}
-and the level of omnivory, mean and maximum trophic level based on \link{2} using \code{\link[NetIndices:TrophInd]{NetIndices::TrophInd()}} function.
+weighted linkage density, connectance, generality and vulnerability and the SDs of the last two based on [1]
+and the level of omnivory, mean and maximum trophic level based on [2] using \code{\link[NetIndices:TrophInd]{NetIndices::TrophInd()}} function.
 The igraph networks must have the weight attribute.
 }
 \examples{

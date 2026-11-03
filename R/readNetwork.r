@@ -109,8 +109,8 @@ readNetwork <- function(fileName,filePath=NULL,fhead=TRUE,skipColumn=1,edgeListF
 #' @param format string, "layers" is the default were different layers are coded as different files
 #'   there must be the same number of files as the length of the types vector as each type represent
 #'   a layer. "GLV" Represent multiple interaction types as pairs of entries in a matrix so competition
-#'   is represented as a[i,j]= -1, a[j,i]=-1, predation a[i,j]=1,a[j,i]=-1 where species j is
-#'   the predator. Mutualism is a[i,j]=a[j,i]=1. Any negative or positive number works because intensity of interactions are not registered.
+#'   is represented as `a[i,j] = -1, a[j,i] = -1`, predation `a[i,j] = 1, a[j,i] = -1` where species j is
+#'   the predator. Mutualism is `a[i,j] = a[j,i] = 1`. Any negative or positive number works because intensity of interactions are not registered.
 #'
 #' @return an mgraph object that is a list of igraph objects with the type attribute set to each kind of layer or interaction
 #' @export
