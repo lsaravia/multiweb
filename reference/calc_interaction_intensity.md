@@ -1,0 +1,100 @@
+# Calculates the interaction intensity of a food web using the metabolic theory and the interaction dimensionality
+
+The function uses the body mass in Kg of predator/consumer and
+prey/resources and the dimensionality of the interaction as source data,
+then the interaction intensity is estimated with all the coefficients
+from Pawar (2012) as `alfa*xR*mR/mC`, where `alpha` is the search rate
+`xR` the resource density, `mR` the resource body mass and `mC` the
+consumer body mass. This value of the interaction strength quantifies
+the effect of the predator on the prey by biomass unit of the predator.
+Assuming a Lotka-Volterra model is equivalent to the entry A(i,j) of the
+community matrix, where i is the prey and j the predator.
+
+## Usage
+
+``` r
+calc_interaction_intensity(da, res_mm, res_den, con_mm, int_dim, nsims = 1)
+```
+
+## Arguments
+
+- da:
+
+  data.frame with the interactions body mass and type of interaction
+  dimensionality
+
+- res_mm:
+
+  name of the column with the resource body mass mean
+
+- res_den:
+
+  name of the column with the resource density in Individuals/m^2 in 2D
+  or m^3 in 3D. If lower than 0 it uses the previously mentioned
+  estimation.
+
+- con_mm:
+
+  name of the column with the consumer body mass mean
+
+- int_dim:
+
+  name of the column with the interaction dimensionality
+
+## Value
+
+A data.frame based on `da` with the following fields added
+
+- mR: if `res_mm<0` is the resource mass calculated with the equations
+  from ref 1, if `res_mm>0` duplicates the value of `res_mm`
+
+- xR: calculated resource density or the same value as in the input
+  data.frame.
+
+- alfa: calculated search rate.
+
+- qRC: calculated trophic interaction strength as `alfa*xR*mR/mC` where
+  `mC` is the consumer body mass.
+
+## Details
+
+If the resource density is unknown (parameter `res_den`) you could set
+the column to a less than 0 value; and it will be estimated according to
+the equation S18 and supplementary figures 2i & j (individuals/m2 - m3)
+
+If the mean mass of the resource for detritus or sediment (parameter
+`res_mm`) is unknown, it can be designated as negative. This will result
+in the calculation of the resource body mass (in kilograms) using
+allometric formulas given in the Equation S9 and Supplementary Figures
+2c & d from the paper. This is only valid when the size ratios tend to
+be optimal.
+
+If the Biomass of the resource is known you should use it as `res_mm`
+and set `res_den` to 1. This is the best choice to avoid the previous
+allometric calculations of `res_den` and `res_mm` when they are unknown.
+
+If resource size `res_mm` and resource density `res_den` are decoupled
+from consumer size you could assign 1 to both see pag 487
+**Dimensionality and trophic interaction strengths** in Pawar's paper.
+
+If the parameter 'nsims \> 1 ' the function will estimate the
+variability on each interaction strength. It takes random values from a
+normal distribution with mean and standard deviation given by the
+Pawar's regressions for the slopes of allometric exponents.
+
+## References
+
+1.  Pawar, S., Dell, A. I., & Van M. Savage. (2012). Dimensionality of
+    consumer search space drives trophic interaction strengths. Nature,
+    486, 485. https://doi.org/10.1038/nature11131
+
+## Examples
+
+``` r
+if (FALSE) { # \dontrun{
+
+# Using PotterCove_bm dataset
+
+pc_i <- calc_interaction_intensity(PotterCove_bm,r_bodymass,r_density,c_bodymass,D)
+} # }
+```

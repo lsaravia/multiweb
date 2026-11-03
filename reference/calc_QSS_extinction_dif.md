@@ -1,0 +1,69 @@
+# Calculates the QSS difference between the full network and the network minus one species
+
+The Quasi-sign stability is estimated with of the community matrix
+(Jacobian) and characterizes the linear stability of the network. This
+uses the function
+[`calc_QSS()`](https://lsaravia.github.io/multiweb/reference/calc_QSS.md)
+so it can take into account the interaction strength if weights are
+present.
+
+## Usage
+
+``` r
+calc_QSS_extinction_dif(g, sp_list, nsim = 1000, ncores = 4, istrength = FALSE)
+```
+
+## Arguments
+
+- g:
+
+  igraph network
+
+- sp_list:
+
+  list with the species/nodes we will delete for the comparison
+
+- nsim:
+
+  number of simulations to calculate QSS
+
+- ncores:
+
+  number of cores used to perform the operation
+
+- istrength:
+
+  if TRUE takes the weight attribute of the network as interaction
+  strength to calculate QSS.
+
+## Value
+
+a data.frame with nsim rows for each species deleted with:
+
+- the node deleted
+
+- The QSS of the complete network for nsim simulations
+
+- The QSS of the network with the deleted node for nsim simulations
+
+- The difference between the two previous QSS
+
+## Examples
+
+``` r
+if (FALSE) { # \dontrun{
+g <- netData[[1]]
+
+# Generate random weights
+#
+V(g)$weight <-  runif(vcount(g))
+
+# Without interaction strength
+#
+calc_QSS_extinction_dif(g,V(g)$name[1:3],nsim=10,istrength = FALSE)
+
+# With interaction strength
+#
+calc_QSS_extinction_dif(g,V(g)$name[1:3],nsim=10,istrength = TRUE)
+} # }
+```
