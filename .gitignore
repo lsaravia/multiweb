@@ -8,3 +8,11 @@ inst/doc
 /doc/
 /Meta/
 docs
+
+# Generated files (infomap example outputs, manual build, scratch)
+network.net
+network.clu
+network_states.clu
+test.html
+test.png
+multiweb.pdf

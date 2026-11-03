@@ -8,3 +8,9 @@
 ^docs$
 ^pkgdown$
 ^\.github$
+^network\.net$
+^network\.clu$
+^network_states\.clu$
+^test\.html$
+^test\.png$
+^multiweb\.pdf$
