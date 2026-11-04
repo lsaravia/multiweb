@@ -21,7 +21,7 @@ This function shuffles a directed network while preserving in-degree and out-deg
 It follows a controlled randomization process by swapping edges iteratively.
 Similar to the \code{curve_ball()} function but more computationally demanding.
 This function is useful for generating increasingly randomized networks,
-to generate fully randomized networks, the \code{curbe_ball()} function is preferred.
+to generate fully randomized networks, the \code{curve_ball()} function is preferred.
 }
 \references{
 Huaylla, C. A., Nacif, M. E., Coulin, C., Kuperman, M. N., & Garibaldi, L. A. (2021).

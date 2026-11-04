@@ -85,7 +85,7 @@ generate_shuffled_seq_tol <- function(input_graph, delta = 10, max_iterations = 
 #' It follows a controlled randomization process by swapping edges iteratively.
 #' Similar to the `curve_ball()` function but more computationally demanding.
 #' This function is useful for generating increasingly randomized networks,
-#' to generate fully randomized networks, the `curbe_ball()` function is preferred.
+#' to generate fully randomized networks, the `curve_ball()` function is preferred.
 #'
 #' @param A A square adjacency matrix (directed, weighted or unweighted).
 #' @param delta Number of edge swaps to perform.

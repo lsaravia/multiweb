@@ -78,3 +78,25 @@ test_that("run_infomap is reproducible for a given seed", {
   expect_equal(membership(r1), membership(r2))
   expect_equal(r1$codelength, r2$codelength)
 })
+
+test_that("run_infomap stores the weighted modularity of its partition", {
+  g <- netData[[1]]
+  set.seed(2)
+  E(g)$weight <- runif(ecount(g), 0.1, 10)
+
+  res <- run_infomap(g, output_dir = new_outdir())
+  mem <- membership(res)
+  expect_equal(modularity(res), modularity(g, mem, weights = E(g)$weight, directed = TRUE))
+  # it is not the unweighted value
+  expect_false(isTRUE(all.equal(modularity(res), modularity(g, mem, directed = TRUE))))
+
+  res_und <- run_infomap(g, output_dir = new_outdir(), directed = FALSE)
+  expect_equal(modularity(res_und),
+               modularity(g, membership(res_und), weights = E(g)$weight, directed = FALSE))
+})
+
+test_that("run_infomap stored modularity matches the unweighted partition modularity without weights", {
+  g <- netData[[1]]
+  res <- run_infomap(g, output_dir = new_outdir())
+  expect_equal(modularity(res), modularity(g, membership(res), directed = TRUE))
+})

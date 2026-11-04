@@ -55,7 +55,7 @@ Detect modules for a list of networks using any of the algorithms in igraph or *
 
 
 ```{r modularity}
-mod <- calc_modularity(netData,cluster_function = run_infomap)
+mod <- calc_modularity(netData, cluster_function = run_infomap, directed = TRUE)
 mod$network_name <- names(netData)
 head(mod) 
 ```
@@ -113,7 +113,7 @@ svd_imp$Plot_Prey_Importance
 
 # Randomizations and Null Models
 
-The package includes tools for generating **null models** maintaining the degree distribution (Curbe ball algorithm):
+The package includes tools for generating **null models** maintaining the degree distribution (Curve ball algorithm):
 
 ```{r nullmodel, fig.width=7, fig.height=5}
 rand_net <- curve_ball(net)

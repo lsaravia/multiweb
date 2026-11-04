@@ -3,7 +3,7 @@
 \name{curve_ball}
 \alias{curve_ball}
 \alias{curveBall}
-\title{Curbe ball algorithm to generate random networks with given an igraph network}
+\title{Curve ball algorithm to generate random networks with given an igraph network}
 \usage{
 curve_ball(g, nsim = 1000, istrength = FALSE)
 }

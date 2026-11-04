@@ -7,11 +7,21 @@
 #'
 #' @param ig A list of igraph objects for which modularity will be calculated.
 #' @param ncores Number of cores used for parallel computation. If set to 0, sequential processing is used.
-#' @param cluster_function The **igraph** clustering function to use, or a function that returns modularity.
-#'   default `cluster_spinglass`.
+#' @param cluster_function The **igraph** clustering function to use, or a function that returns
+#'   an igraph communities object (e.g. [run_infomap()]). Default `cluster_spinglass`.
+#' @param directed Logical; if `TRUE` and the network is directed, the directed modularity
+#'   of the partition is computed. Default `FALSE` (undirected modularity), which is consistent with
+#'   the default `cluster_spinglass()` because it ignores the direction of the edges. Use `TRUE`
+#'   only with a clustering function that takes the direction into account, e.g.
+#'   `run_infomap(directed = TRUE)`.
 #'
+#' @details
+#' The modularity is always recomputed from the membership of the partition with
+#' [igraph::modularity()], and not taken from the value stored in the object returned by the
+#' clustering function, because that value is not comparable between algorithms (for
+#' `cluster_spinglass()` it is not the weighted modularity of the partition).
 #' If a network has a 'weight' edge attribute it is used both by the clustering function and
-#' to compute the (weighted) modularity of the resulting partition.
+#' to compute the (weighted) modularity.
 #'
 #' @return A data frame with a column `Modularity` containing the modularity values for each network.
 #'
@@ -26,9 +36,13 @@
 #' \dontrun{
 #' nullg <- generateERbasal(netData[[1]], 10)
 #' calc_modularity(nullg)
+#'
+#' # Directed modularity with an algorithm that uses the direction of the edges
+#' calc_modularity(netData[[1]], cluster_function = run_infomap, directed = TRUE)
 #' }
 #'
-calc_modularity <- function(ig, ncores = 0, cluster_function = cluster_spinglass) {
+calc_modularity <- function(ig, ncores = 0, cluster_function = cluster_spinglass,
+                            directed = FALSE) {
 
   # Ensure input is a list of igraph objects
   if (inherits(ig, "igraph")) {
@@ -54,7 +68,8 @@ calc_modularity <- function(ig, ncores = 0, cluster_function = cluster_spinglass
 
     community <- cluster_function(g)
     w <- if ("weight" %in% edge_attr_names(g)) E(g)$weight else NULL
-    data.frame(Modularity = modularity(g, membership(community), weights = w))
+    data.frame(Modularity = modularity(g, membership(community), weights = w,
+                                       directed = directed))
   }
 
   # Compute modularity in parallel
@@ -69,6 +84,8 @@ calc_modularity <- function(ig, ncores = 0, cluster_function = cluster_spinglass
 #' and imports the detected communities back into R as an igraph-compatible cluster object.
 #' It requires the installation of infomap in the system from https://www.mapequation.org/infomap/#Install
 #' if the network has the weight attribute, it will be used as the weight of the edges.
+#' The modularity stored in the returned object is computed from the partition using the
+#' weights (if present) and the `directed` argument.
 #' It works for networks with more than 1 connected component, but not for networks with isolated nodes.
 #'
 #' @param graph An igraph object.
@@ -159,7 +176,11 @@ run_infomap <- function(graph, infomap_path = "infomap", output_dir = tempdir(),
   } else {
     # Assign communities to igraph object
     membership <- clu_data$module
-    community_obj <- make_clusters(graph, membership = membership, algorithm = "infomap")
+    # make_clusters() would compute an unweighted modularity, so it is computed here
+    w <- if ("weight" %in% edge_attr_names(graph)) E(graph)$weight else NULL
+    community_obj <- make_clusters(graph, membership = membership, algorithm = "infomap",
+                                   modularity = FALSE)
+    community_obj$modularity <- modularity(graph, membership, weights = w, directed = directed)
     community_obj$codelength <- codelength
     # Assign names if available
     if (!is.null(V(graph)$name)) {

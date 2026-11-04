@@ -42,8 +42,8 @@ test_that("calc_modularity computes modularity in the correct range", {
   # Run function
   result <- calc_modularity(g, cluster_function = cluster_spinglass)
 
-  # Modularity of the spinglass partition recomputed on the directed network (~0.19-0.21)
-  expect_true(all(result$Modularity >= 0.18 & result$Modularity <= 0.22))
+  # Undirected modularity (default) of the spinglass partition on netData[[1]] (~0.19-0.20)
+  expect_true(all(result$Modularity >= 0.18 & result$Modularity <= 0.21))
 })
 
 test_that("calc_modularity works with both cluster_spinglass and cluster_infomap", {
@@ -131,4 +131,42 @@ test_that("calc_modularity returns one weighted value per network in a list", {
                c(modularity(p$g, p$planted, weights = p$w),
                  modularity(p$g, p$planted)),
                tolerance = 1e-6)
+})
+
+test_that("calc_modularity directed argument selects directed or undirected modularity", {
+  g <- netData[[1]]
+  expect_true(is_directed(g))
+  # Fixed partition, so the result does not depend on a stochastic algorithm
+  fixed <- function(g) make_clusters(g, membership = rep(1:3, length.out = vcount(g)))
+  mem <- rep(1:3, length.out = vcount(g))
+
+  expect_equal(calc_modularity(g, cluster_function = fixed)$Modularity,
+               modularity(g, mem, directed = FALSE))
+  expect_equal(calc_modularity(g, cluster_function = fixed, directed = FALSE)$Modularity,
+               modularity(g, mem, directed = FALSE))
+  expect_equal(calc_modularity(g, cluster_function = fixed, directed = TRUE)$Modularity,
+               modularity(g, mem, directed = TRUE))
+  expect_false(isTRUE(all.equal(modularity(g, mem, directed = TRUE),
+                                modularity(g, mem, directed = FALSE))))
+})
+
+test_that("calc_modularity weights and directed combine on a fixed partition", {
+  g <- netData[[1]]
+  set.seed(2)
+  E(g)$weight <- runif(ecount(g), 0.1, 10)
+  mem <- rep(1:3, length.out = vcount(g))
+  fixed <- function(g) make_clusters(g, membership = mem)
+
+  for (d in c(TRUE, FALSE)) {
+    expect_equal(calc_modularity(g, cluster_function = fixed, directed = d)$Modularity,
+                 modularity(g, mem, weights = E(g)$weight, directed = d))
+  }
+})
+
+test_that("calc_modularity does not use the modularity stored in the communities object", {
+  g <- netData[[1]]
+  mem <- rep(1:3, length.out = vcount(g))
+  wrong <- function(g) make_clusters(g, membership = mem, modularity = 0.999)
+  expect_equal(calc_modularity(g, cluster_function = wrong)$Modularity,
+               modularity(g, mem, directed = FALSE))
 })

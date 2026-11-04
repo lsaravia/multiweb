@@ -1,5 +1,5 @@
 
-#' Curbe ball algorithm to generate random networks with given an igraph network
+#' Curve ball algorithm to generate random networks with given an igraph network
 #'
 #' This extract the adjacency matrix from an igraph object and generates a randomized version
 #' of the network with the same row and column totals, the results have the same in and out degree sequence

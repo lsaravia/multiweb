@@ -4,18 +4,26 @@
 \alias{calc_modularity}
 \title{Calculation of Modularity for a List of igraph Objects}
 \usage{
-calc_modularity(ig, ncores = 0, cluster_function = cluster_spinglass)
+calc_modularity(
+  ig,
+  ncores = 0,
+  cluster_function = cluster_spinglass,
+  directed = FALSE
+)
 }
 \arguments{
 \item{ig}{A list of igraph objects for which modularity will be calculated.}
 
 \item{ncores}{Number of cores used for parallel computation. If set to 0, sequential processing is used.}
 
-\item{cluster_function}{The \strong{igraph} clustering function to use, or a function that returns modularity.
-default \code{cluster_spinglass}.
+\item{cluster_function}{The \strong{igraph} clustering function to use, or a function that returns
+an igraph communities object (e.g. \code{\link[=run_infomap]{run_infomap()}}). Default \code{cluster_spinglass}.}
 
-If a network has a 'weight' edge attribute it is used both by the clustering function and
-to compute the (weighted) modularity of the resulting partition.}
+\item{directed}{Logical; if \code{TRUE} and the network is directed, the directed modularity
+of the partition is computed. Default \code{FALSE} (undirected modularity), which is consistent with
+the default \code{cluster_spinglass()} because it ignores the direction of the edges. Use \code{TRUE}
+only with a clustering function that takes the direction into account, e.g.
+\code{run_infomap(directed = TRUE)}.}
 }
 \value{
 A data frame with a column \code{Modularity} containing the modularity values for each network.
@@ -26,11 +34,21 @@ Modularity measures the strength of division of a network into modules (communit
 }
 \details{
 \strong{Note:} \code{cluster_spinglass()} only works on networks with a single connected component.
+
+The modularity is always recomputed from the membership of the partition with
+\code{\link[igraph:modularity]{igraph::modularity()}}, and not taken from the value stored in the object returned by the
+clustering function, because that value is not comparable between algorithms (for
+\code{cluster_spinglass()} it is not the weighted modularity of the partition).
+If a network has a 'weight' edge attribute it is used both by the clustering function and
+to compute the (weighted) modularity.
 }
 \examples{
 \dontrun{
 nullg <- generateERbasal(netData[[1]], 10)
 calc_modularity(nullg)
+
+# Directed modularity with an algorithm that uses the direction of the edges
+calc_modularity(netData[[1]], cluster_function = run_infomap, directed = TRUE)
 }
 
 }
