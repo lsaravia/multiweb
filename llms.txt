@@ -177,7 +177,7 @@ calc_QSS(gt)
   : Convert Multilayer Network to Supra-Adjacency Matrix (SAM)
 
 - [`curve_ball()`](https://lsaravia.github.io/multiweb/reference/curve_ball.md)
-  : Curbe ball algorithm to generate random networks with given an
+  : Curve ball algorithm to generate random networks with given an
   igraph network
 
 - [`fromGLVadjToIgraph()`](https://lsaravia.github.io/multiweb/reference/fromGLVadjToIgraph.md)

@@ -79,7 +79,7 @@ it uses the cluster_spinglass algorithm from igraph.
 
 ``` r
 
-mod <- calc_modularity(netData,cluster_function = run_infomap)
+mod <- calc_modularity(netData, cluster_function = run_infomap, directed = TRUE)
 mod$network_name <- names(netData)
 head(mod) 
 #>   Modularity       network_name
@@ -188,7 +188,7 @@ svd_imp$Plot_Prey_Importance
 ## Randomizations and Null Models
 
 The package includes tools for generating **null models** maintaining
-the degree distribution (Curbe ball algorithm):
+the degree distribution (Curve ball algorithm):
 
 ``` r
 
@@ -348,9 +348,9 @@ names(mnet_named) <- c("Negative", "Positive", "Trophic")
 mnet_named <- harmonize_node_sets(mnet_named)
 agg_net <- aggregate_multiplex_network(mnet_named)
 agg_net
-#> IGRAPH 33c480c DNW- 106 4554 -- 
+#> IGRAPH 7eddbaa DNW- 106 4554 -- 
 #> + attr: name (v/c), weight (e/n)
-#> + edges from 33c480c (vertex names):
+#> + edges from 7eddbaa (vertex names):
 #>  [1] acanthina monodon ->concholepas concholepas            
 #>  [2] acanthina monodon ->corallina offcinalis var. chilensis
 #>  [3] acanthina monodon ->gelidium spp.                      

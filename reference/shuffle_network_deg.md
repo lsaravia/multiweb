@@ -6,7 +6,9 @@ edges iteratively. Similar to the
 [`curve_ball()`](https://lsaravia.github.io/multiweb/reference/curve_ball.md)
 function but more computationally demanding. This function is useful for
 generating increasingly randomized networks, to generate fully
-randomized networks, the `curbe_ball()` function is preferred.
+randomized networks, the
+[`curve_ball()`](https://lsaravia.github.io/multiweb/reference/curve_ball.md)
+function is preferred.
 
 ## Usage
 

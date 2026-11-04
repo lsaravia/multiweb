@@ -1,5 +1,40 @@
 # Changelog
 
+## Version 0.9.00.0000
+
+- Added a new function calc_pagerank_ap() to calculate the PageRank of
+  species following Allesina & Pascual (2009).
+- calc_modularity() now computes the modularity from the membership of
+  the partition with igraph::modularity(g, membership, weights), using
+  the ‘weight’ edge attribute when present, instead of returning the
+  value stored in the object returned by the clustering function. That
+  stored value is not comparable between algorithms: for
+  cluster_spinglass() with weights it is not the weighted modularity of
+  the partition (e.g. 0.07 instead of 0.26 in netData\[\[1\]\] with
+  random weights), and the one stored by run_infomap() ignored the
+  weights.
+- New argument directed in calc_modularity() (default FALSE): if TRUE
+  and the network is directed the directed modularity is computed. The
+  default is consistent with the default cluster_spinglass(), which
+  ignores the direction of the edges; use directed = TRUE only with
+  algorithms that take the direction into account, such as
+  run_infomap(directed = TRUE). Values with cluster_spinglass() on
+  directed networks can differ slightly from previous versions
+  (e.g. netData\[\[1\]\] ~0.18 before, ~0.19-0.20 now).
+- run_infomap() now stores in the returned object the modularity
+  computed with the weights (if present) and the directed argument.
+  Before it was computed ignoring the weights.
+- Fixed the example of run_infomap(), which used a non existent
+  argument.
+- Added tests for the weights in calc_modularity() and for
+  run_infomap().
+- Fixed roxygen warnings in the documentation (citations and a\[i,j\]
+  notation) and the spelling of “curve ball” in the documentation.
+- Added a pkgdown website <https://lsaravia.github.io/multiweb/> built
+  with GitHub Actions, and declared in DESCRIPTION the packages imported
+  but missing (ggplot2, ggrepel, tidygraph, tidyr, tibble, rlang,
+  Matrix, viridis, foreach, future; cowplot in Suggests).
+
 ## Version 0.8.93.0000
 
 - Change function plot_troph_level_visNet_multi() and

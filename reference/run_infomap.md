@@ -5,8 +5,10 @@ runs Infomap, and imports the detected communities back into R as an
 igraph-compatible cluster object. It requires the installation of
 infomap in the system from https://www.mapequation.org/infomap/#Install
 if the network has the weight attribute, it will be used as the weight
-of the edges. It works for networks with more than 1 connected
-component, but not for networks with isolated nodes.
+of the edges. The modularity stored in the returned object is computed
+from the partition using the weights (if present) and the `directed`
+argument. It works for networks with more than 1 connected component,
+but not for networks with isolated nodes.
 
 ## Usage
 

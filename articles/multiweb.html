@@ -133,7 +133,7 @@ igraph or <strong>Infomap</strong> (requires the installation of infomap
 in the system from <a href="https://www.mapequation.org/infomap/#Install" class="external-link uri">https://www.mapequation.org/infomap/#Install</a>). By
 default it uses the cluster_spinglass algorithm from igraph.</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">mod</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/calc_modularity.html">calc_modularity</a></span><span class="op">(</span><span class="va">netData</span>,cluster_function <span class="op">=</span> <span class="va">run_infomap</span><span class="op">)</span></span>
+<code class="sourceCode R"><span><span class="va">mod</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/calc_modularity.html">calc_modularity</a></span><span class="op">(</span><span class="va">netData</span>, cluster_function <span class="op">=</span> <span class="va">run_infomap</span>, directed <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
 <span><span class="va">mod</span><span class="op">$</span><span class="va">network_name</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/names.html" class="external-link">names</a></span><span class="op">(</span><span class="va">netData</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">mod</span><span class="op">)</span> </span>
 <span><span class="co">#&gt;   Modularity       network_name</span></span>
@@ -227,7 +227,7 @@ predator):</p>
 <h2 id="randomizations-and-null-models">Randomizations and Null Models<a class="anchor" aria-label="anchor" href="#randomizations-and-null-models"></a>
 </h2>
 <p>The package includes tools for generating <strong>null
-models</strong> maintaining the degree distribution (Curbe ball
+models</strong> maintaining the degree distribution (Curve ball
 algorithm):</p>
 <div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">rand_net</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/curve_ball.html">curve_ball</a></span><span class="op">(</span><span class="va">net</span><span class="op">)</span></span>
@@ -364,9 +364,9 @@ aggregating:</p>
 <span><span class="va">mnet_named</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/harmonize_node_sets.html">harmonize_node_sets</a></span><span class="op">(</span><span class="va">mnet_named</span><span class="op">)</span></span>
 <span><span class="va">agg_net</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/aggregate_multiplex_network.html">aggregate_multiplex_network</a></span><span class="op">(</span><span class="va">mnet_named</span><span class="op">)</span></span>
 <span><span class="va">agg_net</span></span>
-<span><span class="co">#&gt; IGRAPH 33c480c DNW- 106 4554 -- </span></span>
+<span><span class="co">#&gt; IGRAPH 7eddbaa DNW- 106 4554 -- </span></span>
 <span><span class="co">#&gt; + attr: name (v/c), weight (e/n)</span></span>
-<span><span class="co">#&gt; + edges from 33c480c (vertex names):</span></span>
+<span><span class="co">#&gt; + edges from 7eddbaa (vertex names):</span></span>
 <span><span class="co">#&gt;  [1] acanthina monodon -&gt;concholepas concholepas            </span></span>
 <span><span class="co">#&gt;  [2] acanthina monodon -&gt;corallina offcinalis var. chilensis</span></span>
 <span><span class="co">#&gt;  [3] acanthina monodon -&gt;gelidium spp.                      </span></span>

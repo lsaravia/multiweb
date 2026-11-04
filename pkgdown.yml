@@ -3,7 +3,7 @@ pkgdown: 2.2.1
 pkgdown_sha: ~
 articles:
   multiweb: multiweb.html
-last_built: 2026-11-03T14:39Z
+last_built: 2026-11-04T21:15Z
 urls:
   reference: https://lsaravia.github.io/multiweb/reference
   article: https://lsaravia.github.io/multiweb/articles

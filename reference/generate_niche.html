@@ -75,8 +75,8 @@ If <code>nsim &gt; 1</code>, returns a <strong>list of <code>igraph</code> objec
     <div class="section level2">
     <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
     <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="fu">generate_niche</span><span class="op">(</span><span class="fl">20</span>, <span class="fl">0.1</span><span class="op">)</span>        <span class="co"># Single adjacency matrix</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> IGRAPH 39e4fcb D--- 20 53 -- </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> + edges from 39e4fcb:</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> IGRAPH 8244581 D--- 20 53 -- </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> + edges from 8244581:</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  [1]  1-&gt; 3  1-&gt; 5  1-&gt;19  1-&gt;20  2-&gt; 3  2-&gt; 5  2-&gt;19  2-&gt;20  3-&gt;10  3-&gt;13</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [11]  3-&gt;15  3-&gt;18  3-&gt;20  4-&gt;10  4-&gt;13  4-&gt;15  4-&gt;18  4-&gt;20  5-&gt;10  5-&gt;13</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [21]  5-&gt;15  5-&gt;18  5-&gt;20  6-&gt;10  6-&gt;13  6-&gt;15  6-&gt;18  6-&gt;20  7-&gt;10  7-&gt;12</span>
@@ -85,8 +85,8 @@ If <code>nsim &gt; 1</code>, returns a <strong>list of <code>igraph</code> objec
 <span class="r-out co"><span class="r-pr">#&gt;</span> [51] 13-&gt;14 13-&gt;17 14-&gt;17</span>
 <span class="r-in"><span><span class="fu">generate_niche</span><span class="op">(</span><span class="fl">20</span>, <span class="fl">0.1</span>, nsim<span class="op">=</span><span class="fl">5</span><span class="op">)</span> <span class="co"># List of 5 food webs as igraph objects</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [[1]]</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> IGRAPH fe545c9 D--- 20 53 -- </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> + edges from fe545c9:</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> IGRAPH 5b3467f D--- 20 53 -- </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> + edges from 5b3467f:</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  [1]  1-&gt; 3  1-&gt; 4  1-&gt;11  2-&gt; 3  2-&gt; 4  2-&gt; 8  2-&gt;10  3-&gt; 8  4-&gt; 7  4-&gt; 8</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [11]  5-&gt; 7  6-&gt; 9  6-&gt;13  7-&gt;13 10-&gt;18 10-&gt;19 11-&gt;18 11-&gt;19 12-&gt;15 12-&gt;18</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [21] 12-&gt;19 13-&gt;15 13-&gt;18 13-&gt;19 13-&gt;20 14-&gt;15 14-&gt;17 14-&gt;18 14-&gt;19 14-&gt;20</span>
@@ -95,8 +95,8 @@ If <code>nsim &gt; 1</code>, returns a <strong>list of <code>igraph</code> objec
 <span class="r-out co"><span class="r-pr">#&gt;</span> [51] 19-&gt;18 19-&gt;20 20-&gt;17</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [[2]]</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> IGRAPH fca9dd7 D--- 20 50 -- </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> + edges from fca9dd7:</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> IGRAPH 869e976 D--- 20 50 -- </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> + edges from 869e976:</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  [1]  1-&gt;11  2-&gt; 4  2-&gt; 6  2-&gt;16  2-&gt;18  3-&gt; 4  3-&gt;16  3-&gt;18  4-&gt; 5  4-&gt; 7</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [11]  4-&gt; 9  4-&gt;15  5-&gt; 5  5-&gt; 7  5-&gt; 9  5-&gt;15  6-&gt; 7  6-&gt;15  7-&gt;12  7-&gt;15</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [21]  8-&gt;12  8-&gt;15  8-&gt;17  9-&gt;12  9-&gt;15  9-&gt;17 10-&gt;12 10-&gt;13 10-&gt;14 11-&gt;12</span>
@@ -104,8 +104,8 @@ If <code>nsim &gt; 1</code>, returns a <strong>list of <code>igraph</code> objec
 <span class="r-out co"><span class="r-pr">#&gt;</span> [41] 16-&gt;19 16-&gt;20 17-&gt;19 17-&gt;20 18-&gt;19 18-&gt;20 19-&gt;19 19-&gt;20 20-&gt;19 20-&gt;20</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [[3]]</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> IGRAPH c430743 D--- 20 49 -- </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> + edges from c430743:</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> IGRAPH b8af6b0 D--- 20 49 -- </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> + edges from b8af6b0:</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  [1]  1-&gt; 2  1-&gt; 6  1-&gt; 9  1-&gt;14  1-&gt;15  2-&gt; 2  2-&gt; 6  2-&gt; 9  2-&gt;14  2-&gt;15</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [11]  3-&gt; 8  3-&gt;14  3-&gt;15  3-&gt;16  4-&gt; 8  4-&gt;14  4-&gt;15  4-&gt;16  5-&gt; 8  5-&gt;14</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [21]  5-&gt;15  5-&gt;16  6-&gt; 7  6-&gt;15  6-&gt;16  6-&gt;19  7-&gt; 7  7-&gt;16  7-&gt;19  8-&gt; 7</span>
@@ -113,8 +113,8 @@ If <code>nsim &gt; 1</code>, returns a <strong>list of <code>igraph</code> objec
 <span class="r-out co"><span class="r-pr">#&gt;</span> [41] 11-&gt;17 12-&gt;17 13-&gt;17 14-&gt;17 15-&gt;17 16-&gt;20 17-&gt;20 18-&gt;20 19-&gt;20</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [[4]]</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> IGRAPH 85fd121 D--- 20 49 -- </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> + edges from 85fd121:</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> IGRAPH 3d04876 D--- 20 49 -- </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> + edges from 3d04876:</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  [1]  1-&gt;12  2-&gt; 6  2-&gt; 8  2-&gt;13  3-&gt; 7  3-&gt; 8  3-&gt;13  3-&gt;17  4-&gt; 7  4-&gt; 8</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [11]  4-&gt;13  4-&gt;17  5-&gt; 8  5-&gt;13  5-&gt;14  5-&gt;17  6-&gt; 8  6-&gt;13  6-&gt;14  6-&gt;17</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [21]  7-&gt;14  7-&gt;16  7-&gt;19  8-&gt;14  8-&gt;16  8-&gt;19  9-&gt;14  9-&gt;16  9-&gt;19 10-&gt;14</span>
@@ -122,8 +122,8 @@ If <code>nsim &gt; 1</code>, returns a <strong>list of <code>igraph</code> objec
 <span class="r-out co"><span class="r-pr">#&gt;</span> [41] 14-&gt;16 14-&gt;20 15-&gt;16 15-&gt;20 16-&gt;20 17-&gt;20 18-&gt;20 19-&gt;20 20-&gt;20</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [[5]]</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> IGRAPH 290c877 D--- 20 56 -- </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> + edges from 290c877:</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> IGRAPH 8d5c8ce D--- 20 56 -- </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> + edges from 8d5c8ce:</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  [1]  1-&gt; 2  1-&gt; 6  1-&gt; 8  1-&gt; 9  2-&gt; 3  2-&gt;12  3-&gt;12  4-&gt;12  5-&gt;12  5-&gt;17</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [11]  5-&gt;18  5-&gt;19  6-&gt;12  6-&gt;17  6-&gt;18  6-&gt;19  7-&gt;10  7-&gt;11  7-&gt;13  7-&gt;16</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [21]  7-&gt;18  7-&gt;19  8-&gt;10  8-&gt;11  8-&gt;13  8-&gt;16  8-&gt;18  8-&gt;19  9-&gt;10  9-&gt;13</span>
