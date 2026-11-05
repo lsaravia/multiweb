@@ -27,6 +27,10 @@ the algorithm enforces that the results have all 1 component. If the edge attrib
 and istrength=TRUE then the weigth is additionally randomized keeping the column sum equal to the original matrix.
 }
 \details{
+For each randomized network \code{20 * n} trades (n = number of rows) are attempted; in the networks tested
+this is enough for the fraction of links shared with the original network to stop decreasing, giving
+the same distribution as \code{\link[=shuffle_network_deg]{shuffle_network_deg()}} after it converges.
+
 Based on:
 }
 \examples{

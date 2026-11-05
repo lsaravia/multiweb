@@ -15,6 +15,11 @@
   versions (e.g. netData[[1]] ~0.18 before, ~0.19-0.20 now).
 * run_infomap() now stores in the returned object the modularity computed with the weights
   (if present) and the directed argument. Before it was computed ignoring the weights.
+* Fixed curve_ball(): the loop `for (rep in 1:5*l_hp)` was evaluated as `(1:5)*l_hp`, so only 5 trades
+  were attempted and the randomized networks kept ~93-98% of the links of the original network.
+  Now `20 * n` trades are attempted, which gives the same distribution of modularity (run_infomap),
+  codelength and self-links than shuffle_network_deg() once converged (checked with netData[[1]],
+  Potter Cove and Beagle Channel, see data-raw/compare_null_models.R). 
 * Fixed the example of run_infomap(), which used a non existent argument.
 * Added tests for the weights in calc_modularity() and for run_infomap().
 * Fixed roxygen warnings in the documentation (citations and a[i,j] notation)

@@ -9,6 +9,10 @@
 #' the algorithm enforces that the results have all 1 component. If the edge attribute weight is present
 #' and istrength=TRUE then the weigth is additionally randomized keeping the column sum equal to the original matrix.
 #'
+#' For each randomized network `20 * n` trades (n = number of rows) are attempted; in the networks tested
+#' this is enough for the fraction of links shared with the original network to stop decreasing, giving
+#' the same distribution as [shuffle_network_deg()] after it converges.
+#'
 #' Based on:
 #'
 #' @references Strona, G. et al. 2014. A fast and unbiased procedure to randomize ecological binary matrices with
@@ -29,7 +33,7 @@
 curve_ball<-function(g,nsim=1000,istrength=FALSE){
   stopifnot(class(g)=="igraph")
 
-  m <- get.adjacency(g,sparse=FALSE)
+  m <- as_adjacency_matrix(g,sparse=FALSE)
 
   if(components(g)$no>1) {
 
@@ -41,7 +45,7 @@ curve_ball<-function(g,nsim=1000,istrength=FALSE){
       hp <- list()
       for (row in 1:dim(m)[1]) {hp[[row]] <- (which(m[row,]==1))}
       l_hp <- length(hp)
-      for (rep in 1:5*l_hp){
+      for (rep in seq_len(20 * l_hp)){
         AB <- sample(1:l_hp,2)
         a  <- hp[[AB[1]]]
         b  <- hp[[AB[2]]]
@@ -74,7 +78,7 @@ curve_ball<-function(g,nsim=1000,istrength=FALSE){
       hp <- list()
       for (row in 1:dim(m)[1]) {hp[[row]] <- (which(m[row,]==1))}
       l_hp <- length(hp)
-      for (rep in 1:5*l_hp){
+      for (rep in seq_len(20 * l_hp)){
         AB <- sample(1:l_hp,2)
         a  <- hp[[AB[1]]]
         b  <- hp[[AB[2]]]
@@ -103,12 +107,12 @@ curve_ball<-function(g,nsim=1000,istrength=FALSE){
   }
 
   if(istrength) {
-    m <- get.adjacency(g,sparse=FALSE,attr="weight")
+    m <- as_adjacency_matrix(g,sparse=FALSE,attr="weight")
     r <- dim(m)[1]
     c <- dim(m)[2]
 
     wnets<- lapply(nets, function (x) {
-      m1 <- get.adjacency(x,sparse=FALSE)
+      m1 <- as_adjacency_matrix(x,sparse=FALSE)
       for(i in seq_len(c) ){
         ss <- sample(m[,i])
         ss <- ss[ss>0]
