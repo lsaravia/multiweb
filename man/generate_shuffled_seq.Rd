@@ -38,3 +38,16 @@ A list with:
 This function generates a sequence of shuffled networks from an original graph, applying
 incremental shuffling steps while tracking modularity, SVD rank and entropy .
 }
+\details{
+\code{shuffle_func} is called as \code{shuffle_func(A, delta = delta, directed = directed, weighted = weighted)}
+where \code{A} is the adjacency matrix of the current network, so a wrapper must accept those arguments.
+}
+\examples{
+g <- netData[[1]]
+# Keep the self-loops (cannibalism) fixed during the randomization
+res <- generate_shuffled_seq(g, max_delta = 60, delta = 10,
+  shuffle_func = function(x, delta, directed, weighted)
+    shuffle_network_deg(x, delta, directed, weighted, fix_loops = TRUE))
+head(res$Metrics)
+
+}

@@ -5,7 +5,7 @@
 \alias{curveBall}
 \title{Curve ball algorithm to generate random networks with given an igraph network}
 \usage{
-curve_ball(g, nsim = 1000, istrength = FALSE)
+curve_ball(g, nsim = 1000, istrength = FALSE, fix_loops = FALSE)
 }
 \arguments{
 \item{g}{igraph object to extract adjacency matrix}
@@ -13,6 +13,9 @@ curve_ball(g, nsim = 1000, istrength = FALSE)
 \item{nsim}{number of generated random networks}
 
 \item{istrength}{if TRUE the edge attribute weight is taken as interaction strength and randomized keeping the column sum equal to the original matrix.}
+
+\item{fix_loops}{if TRUE the self-loops (the diagonal) are kept fixed: they are not traded and no new loops are created.
+Default FALSE, the diagonal is randomized like any other cell. See \code{\link[=shuffle_network_deg]{shuffle_network_deg()}} for the motivation.}
 }
 \value{
 a list of randomized igraph objects
@@ -27,6 +30,9 @@ the algorithm enforces that the results have all 1 component. If the edge attrib
 and istrength=TRUE then the weigth is additionally randomized keeping the column sum equal to the original matrix.
 }
 \details{
+A warning is given if the adjacency matrix has values greater than 1 (a multigraph), because only
+the cells equal to 1 are used.
+
 For each randomized network \code{20 * n} trades (n = number of rows) are attempted; in the networks tested
 this is enough for the fraction of links shared with the original network to stop decreasing, giving
 the same distribution as \code{\link[=shuffle_network_deg]{shuffle_network_deg()}} after it converges.

@@ -87,9 +87,25 @@ generate_shuffled_seq_tol <- function(input_graph, delta = 10, max_iterations = 
 #' This function is useful for generating increasingly randomized networks,
 #' to generate fully randomized networks, the `curve_ball()` function is preferred.
 #'
-#' @param A A square adjacency matrix (directed, weighted or unweighted).
+#' The function preserves the total in-degree and out-degree (row and column totals) of the
+#' adjacency matrix, but it does not preserve the degree of each layer of a multilayer network
+#' nor the reciprocity: reciprocal pairs A->B / B->A (e.g. mutualism, competition) are separated
+#' by the swaps.
+#'
+#' By default the diagonal is not avoided, so the swaps can create and destroy self-loops
+#' (cannibalism in food-webs). In food-webs with 14-15 loops only 5-8 were left after about two
+#' swaps per link. A loop always falls inside its own module, so losing loops lowers the modularity
+#' of the randomized networks and makes the empirical network look more modular than it is. With
+#' `fix_loops = TRUE` the loops are kept fixed: they are never selected for a swap and a swap that
+#' would create a new loop is rejected.
+#'
+#' @param input_graph An igraph object or a square adjacency matrix (directed, weighted or unweighted).
 #' @param delta Number of edge swaps to perform.
-#' @param max_attempts Number of times to attempt a valid swap before stopping.
+#' @param directed Logical. Whether the network is directed (default: TRUE).
+#' @param weighted Logical. Whether the network is weighted (default: TRUE). When `FALSE` a warning
+#'   is given if the matrix has values greater than 1 (a multigraph).
+#' @param fix_loops Logical. If `TRUE` the self-loops (the diagonal) are kept fixed during the
+#'   randomization (default: `FALSE`, the diagonal is randomized like any other cell).
 #'
 #' @return A shuffled adjacency matrix preserving in-degree and out-degree.
 #'
@@ -105,7 +121,8 @@ generate_shuffled_seq_tol <- function(input_graph, delta = 10, max_iterations = 
 #'
 #' @import igraph
 #' @export
-shuffle_network_deg <- function(input_graph, delta = 100, directed = TRUE,weighted=TRUE) {
+shuffle_network_deg <- function(input_graph, delta = 100, directed = TRUE, weighted = TRUE,
+                                fix_loops = FALSE) {
   if(weighted) {
     w_attr <- "weight"
   } else {
@@ -124,6 +141,8 @@ shuffle_network_deg <- function(input_graph, delta = 100, directed = TRUE,weight
     A <- input_graph  # Assume it's already an adjacency matrix
   }
 
+  if (!weighted) warn_multigraph(A, "shuffle_network_deg()")
+
   mode <- ifelse(directed, "directed", "undirected")
   original_A <- A   # Save the original network
 
@@ -131,6 +150,7 @@ shuffle_network_deg <- function(input_graph, delta = 100, directed = TRUE,weight
 
     # Select two distinct edges (i, j) and (i', j') to swap
     edges <- which(A > 0, arr.ind = TRUE)  # Get all existing edges
+    if (fix_loops) edges <- edges[edges[, 1] != edges[, 2], , drop = FALSE]  # loops stay fixed
     if (nrow(edges) < 2) break  # Ensure at least two edges exist
 
     selected_edges <- sample(1:nrow(edges), 2)
@@ -140,7 +160,8 @@ shuffle_network_deg <- function(input_graph, delta = 100, directed = TRUE,weight
     j_prime <- edges[selected_edges[2], 2]
 
     # Ensure valid swap: i ≠ i', j ≠ j', and no duplicate edges
-    if (i != i_prime && j != j_prime && A[i, j_prime] == 0 && A[i_prime, j] == 0) {
+    if (i != i_prime && j != j_prime && A[i, j_prime] == 0 && A[i_prime, j] == 0 &&
+        (!fix_loops || (i != j_prime && i_prime != j))) {  # fix_loops: do not create new loops
 
       # Swap edges
       A[i, j_prime] <- A[i, j]
@@ -157,6 +178,21 @@ shuffle_network_deg <- function(input_graph, delta = 100, directed = TRUE,weight
 
 
     for(i in seq_len(c) ){
+      if (fix_loops) {
+        # the weights of the loops stay fixed, only the other weights of the column are shuffled
+        rows <- setdiff(seq_len(r), i)
+        ss <- original_A[rows, i]
+        ss <- ss[ss > 0]
+        ss <- ss[sample.int(length(ss))]
+        k <- 1
+        for (j in rows) {
+          if (A[j, i] > 0) {
+            A[j, i] <- ss[k]
+            k <- k + 1
+          }
+        }
+        next
+      }
       ss <- sample(original_A[,i])
       ss <- ss[ss>0]
       k <- 1
@@ -169,6 +205,16 @@ shuffle_network_deg <- function(input_graph, delta = 100, directed = TRUE,weight
     }
   }
   return(A)
+}
+
+# Warn if an adjacency matrix has values > 1 where a binary matrix is expected (multigraph)
+warn_multigraph <- function(A, fun) {
+  if (any(A > 1, na.rm = TRUE)) {
+    warning(fun, ": the adjacency matrix has values greater than 1 (a multigraph); ",
+            "multiple links between the same pair of nodes are not supported and ",
+            "the results are not reliable.", call. = FALSE)
+  }
+  invisible(NULL)
 }
 
 
@@ -188,6 +234,17 @@ shuffle_network_deg <- function(input_graph, delta = 100, directed = TRUE,weight
 #' @return A list with:
 #' \item{Networks}{A list of igraph objects representing the shuffled networks at each step.}
 #' \item{Metrics}{A tibble containing the step number, SVD entropy, SVD Rank, and modularity score.}
+#'
+#' @details `shuffle_func` is called as `shuffle_func(A, delta = delta, directed = directed, weighted = weighted)`
+#' where `A` is the adjacency matrix of the current network, so a wrapper must accept those arguments.
+#'
+#' @examples
+#' g <- netData[[1]]
+#' # Keep the self-loops (cannibalism) fixed during the randomization
+#' res <- generate_shuffled_seq(g, max_delta = 60, delta = 10,
+#'   shuffle_func = function(x, delta, directed, weighted)
+#'     shuffle_network_deg(x, delta, directed, weighted, fix_loops = TRUE))
+#' head(res$Metrics)
 #'
 #' @import igraph dplyr
 #' @export

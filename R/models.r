@@ -9,6 +9,9 @@
 #' the algorithm enforces that the results have all 1 component. If the edge attribute weight is present
 #' and istrength=TRUE then the weigth is additionally randomized keeping the column sum equal to the original matrix.
 #'
+#' A warning is given if the adjacency matrix has values greater than 1 (a multigraph), because only
+#' the cells equal to 1 are used.
+#'
 #' For each randomized network `20 * n` trades (n = number of rows) are attempted; in the networks tested
 #' this is enough for the fraction of links shared with the original network to stop decreasing, giving
 #' the same distribution as [shuffle_network_deg()] after it converges.
@@ -22,6 +25,8 @@
 #' @param g igraph object to extract adjacency matrix
 #' @param nsim number of generated random networks
 #' @param istrength if TRUE the edge attribute weight is taken as interaction strength and randomized keeping the column sum equal to the original matrix.
+#' @param fix_loops if TRUE the self-loops (the diagonal) are kept fixed: they are not traded and no new loops are created.
+#'   Default FALSE, the diagonal is randomized like any other cell. See [shuffle_network_deg()] for the motivation.
 #'
 #' @return a list of randomized igraph objects
 #' @export
@@ -35,77 +40,67 @@
 #' all(igraph::degree(nets[[1]], mode = "out") == igraph::degree(g, mode = "out"))
 #' all(igraph::degree(nets[[1]], mode = "in") == igraph::degree(g, mode = "in"))
 #'
-curve_ball<-function(g,nsim=1000,istrength=FALSE){
+curve_ball<-function(g,nsim=1000,istrength=FALSE,fix_loops=FALSE){
   stopifnot(class(g)=="igraph")
 
   m <- as_adjacency_matrix(g,sparse=FALSE)
+  warn_multigraph(m, "curve_ball()")
+
+  # one randomization of the matrix m (R, C = rows, columns); with fix_loops the diagonal is kept
+  one_trade_set <- function() {
+    RC <- dim(m)
+    R  <- RC[1]
+    C  <- RC[2]
+    hp <- list()
+    for (row in 1:dim(m)[1]) {
+      cols <- which(m[row,]==1)
+      if (fix_loops) cols <- setdiff(cols, row)   # loops are set aside
+      hp[[row]] <- cols
+    }
+    l_hp <- length(hp)
+    for (rep in seq_len(20 * l_hp)){
+      AB <- sample(1:l_hp,2)
+      a  <- hp[[AB[1]]]
+      b  <- hp[[AB[2]]]
+      ab <- intersect(a,b)
+      l_ab <- length(ab)
+      l_a <- length(a)
+      l_b <- length(b)
+      if ((l_ab %in% c(l_a,l_b))==FALSE){
+        tot <- setdiff(c(a,b),ab)
+        l_tot <- length(tot)
+        if (fix_loops) {
+          # a link of a to column AB[2] (or of b to column AB[1]) would become a loop if moved:
+          # those links stay where they are
+          fa <- intersect(AB[2], setdiff(a, ab))
+          fb <- intersect(AB[1], setdiff(b, ab))
+          free <- setdiff(tot, c(fa, fb))
+          free <- free[sample.int(length(free))]
+          L <- l_a - l_ab - length(fa)
+          hp[[AB[1]]] <- c(ab, fa, free[seq_len(L)])
+          hp[[AB[2]]] <- c(ab, fb, free[seq_len(length(free) - L) + L])
+        } else {
+          tot <- sample(tot, l_tot, replace = FALSE, prob = NULL)
+          L <- l_a-l_ab
+          hp[[AB[1]]]  <-  c(ab,tot[1:L])
+          hp[[AB[2]]]  <-  c(ab,tot[(L+1):l_tot])
+        }
+      }
+    }
+    rm <- matrix(0,R,C)
+    for (row in 1:R){rm[row,hp[[row]]] <- 1}
+    if (fix_loops) diag(rm) <- as.numeric(diag(m)==1)
+    graph_from_adjacency_matrix(rm,mode="directed")
+  }
 
   if(components(g)$no>1) {
-
-    nets<- lapply(1:nsim, function (x) {
-      # repeat {
-      RC <- dim(m)
-      R  <- RC[1]
-      C  <- RC[2]
-      hp <- list()
-      for (row in 1:dim(m)[1]) {hp[[row]] <- (which(m[row,]==1))}
-      l_hp <- length(hp)
-      for (rep in seq_len(20 * l_hp)){
-        AB <- sample(1:l_hp,2)
-        a  <- hp[[AB[1]]]
-        b  <- hp[[AB[2]]]
-        ab <- intersect(a,b)
-        l_ab <- length(ab)
-        l_a <- length(a)
-        l_b <- length(b)
-        if ((l_ab %in% c(l_a,l_b))==FALSE){
-          tot <- setdiff(c(a,b),ab)
-          l_tot <- length(tot)
-          tot <- sample(tot, l_tot, replace = FALSE, prob = NULL)
-          L <- l_a-l_ab
-          hp[[AB[1]]]  <-  c(ab,tot[1:L])
-          hp[[AB[2]]]  <-  c(ab,tot[(L+1):l_tot])}
-
-      }
-      rm <- matrix(0,R,C)
-      for (row in 1:R){rm[row,hp[[row]]] <- 1}
-
-      g <- graph_from_adjacency_matrix(rm,mode="directed")
-      return(g)
-    })
+    nets <- lapply(1:nsim, function (x) one_trade_set())
   } else {   #if the the networks has only one component enforce that in the simulations
-
-    nets<- lapply(1:nsim, function (x) {
+    nets <- lapply(1:nsim, function (x) {
       repeat {
-      RC <- dim(m)
-      R  <- RC[1]
-      C  <- RC[2]
-      hp <- list()
-      for (row in 1:dim(m)[1]) {hp[[row]] <- (which(m[row,]==1))}
-      l_hp <- length(hp)
-      for (rep in seq_len(20 * l_hp)){
-        AB <- sample(1:l_hp,2)
-        a  <- hp[[AB[1]]]
-        b  <- hp[[AB[2]]]
-        ab <- intersect(a,b)
-        l_ab <- length(ab)
-        l_a <- length(a)
-        l_b <- length(b)
-        if ((l_ab %in% c(l_a,l_b))==FALSE){
-          tot <- setdiff(c(a,b),ab)
-          l_tot <- length(tot)
-          tot <- sample(tot, l_tot, replace = FALSE, prob = NULL)
-          L <- l_a-l_ab
-          hp[[AB[1]]]  <-  c(ab,tot[1:L])
-          hp[[AB[2]]]  <-  c(ab,tot[(L+1):l_tot])}
-
-      }
-      rm <- matrix(0,R,C)
-      for (row in 1:R){rm[row,hp[[row]]] <- 1}
-
-      g <- graph_from_adjacency_matrix(rm,mode="directed")
-      if(components(g)$no==1)
-         break
+        g <- one_trade_set()
+        if(components(g)$no==1)
+          break
       }
       return(g)
     })
@@ -137,7 +132,7 @@ curve_ball<-function(g,nsim=1000,istrength=FALSE){
 }
 
 #' @export
-curveBall<-function(g,nsim=1000,istrength=FALSE){curve_ball(g,nsim,istrength)}
+curveBall<-function(g,nsim=1000,istrength=FALSE,fix_loops=FALSE){curve_ball(g,nsim,istrength,fix_loops)}
 
 
 
