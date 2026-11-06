@@ -99,37 +99,37 @@ Jacobian matrix</em>.</p>
 
 
 <dt id="arg-verbose">verbose<a class="anchor" aria-label="anchor" href="#arg-verbose"></a></dt>
-<dd><p>Logical. Print diagnostic messages.</p><div class="section">
-<h3 id="returns">Returns<a class="anchor" aria-label="anchor" href="#returns"></a></h3>
+<dd><p>Logical. Print diagnostic messages.</p></dd>
 
+</dl></div>
+    <div class="section level2">
+    <h2 id="value">Value<a class="anchor" aria-label="anchor" href="#value"></a></h2>
+    <p>A list with:</p><dl><dt>threshold</dt>
+<dd><p>Interpolated <code>selfDamping</code> value where the target
+proportion is reached.</p></dd>
 
-<p>A list with:
-thresholdInterpolated <code>selfDamping</code> value where the target
-proportion is reached.
-sd_lowerLower bracketing self-damping value.
-sd_upperUpper bracketing self-damping value.
-prob_lowerProportion of negative eigenvalues at <code>sd_lower</code>.
-prob_upperProportion of negative eigenvalues at <code>sd_upper</code>.
-sd_valuesAll tested self-damping values.
-probsCorresponding proportions of negative eigenvalues.
-qss_interpDistribution of maximum eigenvalues at the interpolated
-threshold value.</p>
-</div>
+<dt>sd_lower</dt>
+<dd><p>Lower bracketing self-damping value.</p></dd>
 
-<div class="section">
-<h3 id="references">References<a class="anchor" aria-label="anchor" href="#references"></a></h3>
+<dt>sd_upper</dt>
+<dd><p>Upper bracketing self-damping value.</p></dd>
 
+<dt>prob_lower</dt>
+<dd><p>Proportion of negative eigenvalues at <code>sd_lower</code>.</p></dd>
 
-<p>Allesina, S. &amp; Pascual, M. (2008). Network structure, predator–prey modules,
-and stability in large food webs. <em>Theoretical Ecology</em>, <strong>1</strong>, 55–64.</p>
-<p>Grilli, J., Rogers, T. &amp; Allesina, S. (2016). Modularity and stability in
-ecological communities. <em>Nature Communications</em>, <strong>7</strong>, 12031.</p>
-<p>Monteiro, A. B. &amp; Del Bianco Faria, L. (2017). Causal relationships between
-population stability and food-web topology. <em>Functional Ecology</em>, <strong>31</strong>,
-1294–1300.</p>
-<p>Borrelli, J. J. (2015). Selection against instability: stable subgraphs are
-most frequent in empirical food webs. <em>Oikos</em>, <strong>124</strong>, 1583–1588.</p>
-</div></dd>
+<dt>prob_upper</dt>
+<dd><p>Proportion of negative eigenvalues at <code>sd_upper</code>.</p></dd>
+
+<dt>sd_values</dt>
+<dd><p>All tested self-damping values.</p></dd>
+
+<dt>probs</dt>
+<dd><p>Corresponding proportions of negative eigenvalues.</p></dd>
+
+<dt>qss_interp</dt>
+<dd><p>Distribution of maximum eigenvalues at the interpolated
+threshold value.</p></dd>
+
 
 </dl></div>
     <div class="section level2">
@@ -173,12 +173,18 @@ modularity–stability relationships, and feasibility analysis.</p>
 <p>For details, see References below.</p>
 </div>
 
-<div class="section">
-<h3 id="parameters">Parameters<a class="anchor" aria-label="anchor" href="#parameters"></a></h3>
-
-
-</div>
-
+    </div>
+    <div class="section level2">
+    <h2 id="references">References<a class="anchor" aria-label="anchor" href="#references"></a></h2>
+    <p>Allesina, S. &amp; Pascual, M. (2008). Network structure, predator–prey modules,
+and stability in large food webs. <em>Theoretical Ecology</em>, <strong>1</strong>, 55–64.</p>
+<p>Grilli, J., Rogers, T. &amp; Allesina, S. (2016). Modularity and stability in
+ecological communities. <em>Nature Communications</em>, <strong>7</strong>, 12031.</p>
+<p>Monteiro, A. B. &amp; Del Bianco Faria, L. (2017). Causal relationships between
+population stability and food-web topology. <em>Functional Ecology</em>, <strong>31</strong>,
+1294–1300.</p>
+<p>Borrelli, J. J. (2015). Selection against instability: stable subgraphs are
+most frequent in empirical food webs. <em>Oikos</em>, <strong>124</strong>, 1583–1588.</p>
     </div>
 
     <div class="section level2">

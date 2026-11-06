@@ -56,33 +56,43 @@ calc_stability_threshold(
 
   Logical. Print diagnostic messages.
 
-  ### Returns
+## Value
 
-  A list with: thresholdInterpolated `selfDamping` value where the
-  target proportion is reached. sd_lowerLower bracketing self-damping
-  value. sd_upperUpper bracketing self-damping value.
-  prob_lowerProportion of negative eigenvalues at `sd_lower`.
-  prob_upperProportion of negative eigenvalues at `sd_upper`.
-  sd_valuesAll tested self-damping values. probsCorresponding
-  proportions of negative eigenvalues. qss_interpDistribution of maximum
-  eigenvalues at the interpolated threshold value.
+A list with:
 
-  ### References
+- threshold:
 
-  Allesina, S. & Pascual, M. (2008). Network structure, predator–prey
-  modules, and stability in large food webs. *Theoretical Ecology*,
-  **1**, 55–64.
+  Interpolated `selfDamping` value where the target proportion is
+  reached.
 
-  Grilli, J., Rogers, T. & Allesina, S. (2016). Modularity and stability
-  in ecological communities. *Nature Communications*, **7**, 12031.
+- sd_lower:
 
-  Monteiro, A. B. & Del Bianco Faria, L. (2017). Causal relationships
-  between population stability and food-web topology. *Functional
-  Ecology*, **31**, 1294–1300.
+  Lower bracketing self-damping value.
 
-  Borrelli, J. J. (2015). Selection against instability: stable
-  subgraphs are most frequent in empirical food webs. *Oikos*, **124**,
-  1583–1588.
+- sd_upper:
+
+  Upper bracketing self-damping value.
+
+- prob_lower:
+
+  Proportion of negative eigenvalues at `sd_lower`.
+
+- prob_upper:
+
+  Proportion of negative eigenvalues at `sd_upper`.
+
+- sd_values:
+
+  All tested self-damping values.
+
+- probs:
+
+  Corresponding proportions of negative eigenvalues.
+
+- qss_interp:
+
+  Distribution of maximum eigenvalues at the interpolated threshold
+  value.
 
 ## Details
 
@@ -129,7 +139,21 @@ modularity–stability relationships, and feasibility analysis.
 
 For details, see References below.
 
-### Parameters
+## References
+
+Allesina, S. & Pascual, M. (2008). Network structure, predator–prey
+modules, and stability in large food webs. *Theoretical Ecology*, **1**,
+55–64.
+
+Grilli, J., Rogers, T. & Allesina, S. (2016). Modularity and stability
+in ecological communities. *Nature Communications*, **7**, 12031.
+
+Monteiro, A. B. & Del Bianco Faria, L. (2017). Causal relationships
+between population stability and food-web topology. *Functional
+Ecology*, **31**, 1294–1300.
+
+Borrelli, J. J. (2015). Selection against instability: stable subgraphs
+are most frequent in empirical food webs. *Oikos*, **124**, 1583–1588.
 
 ## Examples
 
