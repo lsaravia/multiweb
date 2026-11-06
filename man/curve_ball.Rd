@@ -34,8 +34,13 @@ the same distribution as \code{\link[=shuffle_network_deg]{shuffle_network_deg()
 Based on:
 }
 \examples{
+g <- netData[[1]]
+nets <- curve_ball(g, nsim = 5)
+length(nets)
 
-curve_ball(netData[[1]])
+# The randomized networks have the same in and out degree than the original
+all(igraph::degree(nets[[1]], mode = "out") == igraph::degree(g, mode = "out"))
+all(igraph::degree(nets[[1]], mode = "in") == igraph::degree(g, mode = "in"))
 
 }
 \references{
