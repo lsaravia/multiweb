@@ -1,7 +1,7 @@
 # v2.16.0
 # ./Infomap ./network.net . --silent --clu -d -2 --seed 123
-# started at 2026-11-04 21:16:23
-# completed in 0.000437586 s
+# started at 2026-11-06 00:00:43
+# completed in 0.000607413 s
 # trials 1 of 1
 # seed 123
 # partitioned into 2 levels with 4 top modules

@@ -348,9 +348,9 @@ names(mnet_named) <- c("Negative", "Positive", "Trophic")
 mnet_named <- harmonize_node_sets(mnet_named)
 agg_net <- aggregate_multiplex_network(mnet_named)
 agg_net
-#> IGRAPH 7eddbaa DNW- 106 4554 -- 
+#> IGRAPH 418daf4 DNW- 106 4554 -- 
 #> + attr: name (v/c), weight (e/n)
-#> + edges from 7eddbaa (vertex names):
+#> + edges from 418daf4 (vertex names):
 #>  [1] acanthina monodon ->concholepas concholepas            
 #>  [2] acanthina monodon ->corallina offcinalis var. chilensis
 #>  [3] acanthina monodon ->gelidium spp.                      
@@ -398,7 +398,7 @@ self-regulation to remain stable:
 
 stab <- calc_stability_threshold(net, nsim = 200, ncores = 1, verbose = FALSE)
 stab$threshold
-#> [1] -9.083333
+#> [1] -9.1
 ```
 
 The search trajectory can be visualized directly:
@@ -425,13 +425,13 @@ species:
 sp_sample <- V(net)$name[1:3]
 ext_grp <- calc_QSS_extinction_dif_grp(net, sp_sample, nsim = 100, ncores = 1)
 head(ext_grp)
-#>   Size Connectance Components  QSS_all  QSS_ext     difQSS
-#> 1  107  0.05074679          1 3.606543 3.309827  0.2967167
-#> 2  107  0.05074679          1 4.015366 3.319860  0.6955062
-#> 3  107  0.05074679          1 3.977981 3.507072  0.4709096
-#> 4  107  0.05074679          1 3.557852 3.022157  0.5356952
-#> 5  107  0.05074679          1 4.824300 4.317341  0.5069594
-#> 6  107  0.05074679          1 3.681747 4.844631 -1.1628837
+#>   Size Connectance Components  QSS_all  QSS_ext      difQSS
+#> 1  107  0.05074679          1 4.217772 3.431252  0.78651972
+#> 2  107  0.05074679          1 4.631053 3.549625  1.08142898
+#> 3  107  0.05074679          1 3.661623 4.290002 -0.62837823
+#> 4  107  0.05074679          1 3.267733 3.161097  0.10663576
+#> 5  107  0.05074679          1 4.230894 4.153084  0.07780978
+#> 6  107  0.05074679          1 4.403984 3.234259  1.16972457
 ```
 
 To simulate an incremental extinction sequence (species removed one at a
@@ -442,12 +442,12 @@ time, without secondary extinctions):
 ext_seq <- calc_QSS_extinctions_seq(net, sp_sample, nsim = 100, ncores = 1)
 head(ext_seq)
 #>      maxre Size Connectance Components Last_deleted
-#> 1 3.947036  110  0.05363636          1        Total
-#> 2 3.317002  110  0.05363636          1        Total
-#> 3 3.480043  110  0.05363636          1        Total
-#> 4 4.502018  110  0.05363636          1        Total
-#> 5 3.224644  110  0.05363636          1        Total
-#> 6 3.670907  110  0.05363636          1        Total
+#> 1 3.791120  110  0.05363636          1        Total
+#> 2 3.843248  110  0.05363636          1        Total
+#> 3 4.438879  110  0.05363636          1        Total
+#> 4 4.351607  110  0.05363636          1        Total
+#> 5 4.633743  110  0.05363636          1        Total
+#> 6 3.466485  110  0.05363636          1        Total
 ```
 
 Note: `nsim` and `ncores` are set low here for a fast-running vignette;
