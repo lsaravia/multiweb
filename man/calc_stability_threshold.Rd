@@ -32,10 +32,11 @@ calc_stability_threshold(
 
 \item{ncores}{Logical. If > 0 run QSS simulations in parallel.}
 
-\item{verbose}{Logical. Print diagnostic messages.
-\subsection{Returns}{
-
+\item{verbose}{Logical. Print diagnostic messages.}
+}
+\value{
 A list with:
+\describe{
 \item{threshold}{Interpolated \code{selfDamping} value where the target
 proportion is reached.}
 \item{sd_lower}{Lower bracketing self-damping value.}
@@ -47,22 +48,6 @@ proportion is reached.}
 \item{qss_interp}{Distribution of maximum eigenvalues at the interpolated
 threshold value.}
 }
-
-\subsection{References}{
-
-Allesina, S. & Pascual, M. (2008). Network structure, predator–prey modules,
-and stability in large food webs. \emph{Theoretical Ecology}, \strong{1}, 55–64.
-
-Grilli, J., Rogers, T. & Allesina, S. (2016). Modularity and stability in
-ecological communities. \emph{Nature Communications}, \strong{7}, 12031.
-
-Monteiro, A. B. & Del Bianco Faria, L. (2017). Causal relationships between
-population stability and food-web topology. \emph{Functional Ecology}, \strong{31},
-1294–1300.
-
-Borrelli, J. J. (2015). Selection against instability: stable subgraphs are
-most frequent in empirical food webs. \emph{Oikos}, \strong{124}, 1583–1588.
-}}
 }
 \description{
 This function estimates a stability threshold for an ecological network
@@ -113,9 +98,6 @@ modularity–stability relationships, and feasibility analysis.
 
 For details, see References below.
 }
-
-\subsection{Parameters}{
-}
 }
 \examples{
 \dontrun{
@@ -128,4 +110,18 @@ mean(result$qss_raw_interp[result$qss_raw_interp < 0])
 
 }
 
+}
+\references{
+Allesina, S. & Pascual, M. (2008). Network structure, predator–prey modules,
+and stability in large food webs. \emph{Theoretical Ecology}, \strong{1}, 55–64.
+
+Grilli, J., Rogers, T. & Allesina, S. (2016). Modularity and stability in
+ecological communities. \emph{Nature Communications}, \strong{7}, 12031.
+
+Monteiro, A. B. & Del Bianco Faria, L. (2017). Causal relationships between
+population stability and food-web topology. \emph{Functional Ecology}, \strong{31},
+1294–1300.
+
+Borrelli, J. J. (2015). Selection against instability: stable subgraphs are
+most frequent in empirical food webs. \emph{Oikos}, \strong{124}, 1583–1588.
 }

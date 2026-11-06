@@ -47,8 +47,6 @@
 #'
 #' For details, see References below.
 #'
-#' ## Parameters
-#'
 #' @param g An \code{igraph} ecological network.
 #' @param nsim Integer. Number of QSS simulations per self-damping value.
 #' @param target_prob Numeric. Target proportion of negative eigenvalues
@@ -60,9 +58,8 @@
 #' @param ncores Logical. If > 0 run QSS simulations in parallel.
 #' @param verbose Logical. Print diagnostic messages.
 #'
-#' ## Returns
-#'
-#' A list with:
+#' @return A list with:
+#' \describe{
 #'   \item{threshold}{Interpolated \code{selfDamping} value where the target
 #'         proportion is reached.}
 #'   \item{sd_lower}{Lower bracketing self-damping value.}
@@ -73,8 +70,9 @@
 #'   \item{probs}{Corresponding proportions of negative eigenvalues.}
 #'   \item{qss_interp}{Distribution of maximum eigenvalues at the interpolated
 #'         threshold value.}
+#' }
 #'
-#' ## References
+#' @references
 #'
 #' Allesina, S. & Pascual, M. (2008). Network structure, predator–prey modules,
 #' and stability in large food webs. *Theoretical Ecology*, **1**, 55–64.
