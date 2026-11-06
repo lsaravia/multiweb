@@ -15,7 +15,7 @@ to the original matrix.
 ## Usage
 
 ``` r
-curve_ball(g, nsim = 1000, istrength = FALSE)
+curve_ball(g, nsim = 1000, istrength = FALSE, fix_loops = FALSE)
 ```
 
 ## Arguments
@@ -33,11 +33,22 @@ curve_ball(g, nsim = 1000, istrength = FALSE)
   if TRUE the edge attribute weight is taken as interaction strength and
   randomized keeping the column sum equal to the original matrix.
 
+- fix_loops:
+
+  if TRUE the self-loops (the diagonal) are kept fixed: they are not
+  traded and no new loops are created. Default FALSE, the diagonal is
+  randomized like any other cell. See
+  [`shuffle_network_deg()`](https://lsaravia.github.io/multiweb/reference/shuffle_network_deg.md)
+  for the motivation.
+
 ## Value
 
 a list of randomized igraph objects
 
 ## Details
+
+A warning is given if the adjacency matrix has values greater than 1 (a
+multigraph), because only the cells equal to 1 are used.
 
 For each randomized network `20 * n` trades (n = number of rows) are
 attempted; in the networks tested this is enough for the fraction of

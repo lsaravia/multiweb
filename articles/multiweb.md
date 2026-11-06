@@ -348,9 +348,9 @@ names(mnet_named) <- c("Negative", "Positive", "Trophic")
 mnet_named <- harmonize_node_sets(mnet_named)
 agg_net <- aggregate_multiplex_network(mnet_named)
 agg_net
-#> IGRAPH d84cd32 DNW- 106 4554 -- 
+#> IGRAPH 98773e3 DNW- 106 4554 -- 
 #> + attr: name (v/c), weight (e/n)
-#> + edges from d84cd32 (vertex names):
+#> + edges from 98773e3 (vertex names):
 #>  [1] acanthina monodon ->concholepas concholepas            
 #>  [2] acanthina monodon ->corallina offcinalis var. chilensis
 #>  [3] acanthina monodon ->gelidium spp.                      

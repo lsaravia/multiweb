@@ -19,7 +19,7 @@ and istrength=TRUE then the weigth is additionally randomized keeping the column
 
     <a class="navbar-brand me-2" href="../index.html">multiweb</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.9.00.0000</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.9.01.0000</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -58,7 +58,7 @@ and istrength=TRUE then the weigth is additionally randomized keeping the column
 
     <div class="section level2">
     <h2 id="ref-usage">Usage<a class="anchor" aria-label="anchor" href="#ref-usage"></a></h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">curve_ball</span><span class="op">(</span><span class="va">g</span>, nsim <span class="op">=</span> <span class="fl">1000</span>, istrength <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">curve_ball</span><span class="op">(</span><span class="va">g</span>, nsim <span class="op">=</span> <span class="fl">1000</span>, istrength <span class="op">=</span> <span class="cn">FALSE</span>, fix_loops <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div class="section level2">
@@ -76,6 +76,11 @@ and istrength=TRUE then the weigth is additionally randomized keeping the column
 <dt id="arg-istrength">istrength<a class="anchor" aria-label="anchor" href="#arg-istrength"></a></dt>
 <dd><p>if TRUE the edge attribute weight is taken as interaction strength and randomized keeping the column sum equal to the original matrix.</p></dd>
 
+
+<dt id="arg-fix-loops">fix_loops<a class="anchor" aria-label="anchor" href="#arg-fix-loops"></a></dt>
+<dd><p>if TRUE the self-loops (the diagonal) are kept fixed: they are not traded and no new loops are created.
+Default FALSE, the diagonal is randomized like any other cell. See <code><a href="shuffle_network_deg.html">shuffle_network_deg()</a></code> for the motivation.</p></dd>
+
 </dl></div>
     <div class="section level2">
     <h2 id="value">Value<a class="anchor" aria-label="anchor" href="#value"></a></h2>
@@ -83,7 +88,9 @@ and istrength=TRUE then the weigth is additionally randomized keeping the column
     </div>
     <div class="section level2">
     <h2 id="details">Details<a class="anchor" aria-label="anchor" href="#details"></a></h2>
-    <p>For each randomized network <code>20 * n</code> trades (n = number of rows) are attempted; in the networks tested
+    <p>A warning is given if the adjacency matrix has values greater than 1 (a multigraph), because only
+the cells equal to 1 are used.</p>
+<p>For each randomized network <code>20 * n</code> trades (n = number of rows) are attempted; in the networks tested
 this is enough for the fraction of links shared with the original network to stop decreasing, giving
 the same distribution as <code><a href="shuffle_network_deg.html">shuffle_network_deg()</a></code> after it converges.</p>
 <p>Based on:</p>

@@ -1,5 +1,20 @@
 # Changelog
 
+## Version 0.9.01.0000
+
+- New argument fix_loops in shuffle_network_deg() and curve_ball()
+  (default FALSE, same behaviour as before): if TRUE the self-loops
+  (cannibalism) are kept fixed, they are not traded and no new loops are
+  created. Without it the randomization creates and destroys loops (in
+  food-webs with 14-15 loops only 5-8 were left), which lowers the
+  modularity of the randomized networks. The documentation of
+  shuffle_network_deg() now states that it keeps total in- and
+  out-degrees but not the degree by layer nor the reciprocity. Added an
+  example with fix_loops to generate_shuffled_seq().
+- shuffle_network_deg() (when weighted = FALSE) and curve_ball() now
+  give a warning if the adjacency matrix has values greater than 1 (a
+  multigraph); curve_ball() used to discard those cells silently.
+
 ## Version 0.9.00.0000
 
 - Added a new function calc_pagerank_ap() to calculate the PageRank of

@@ -7,7 +7,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">multiweb</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.9.00.0000</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.9.01.0000</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -33,6 +33,11 @@
       <small>Source: <a href="https://github.com/lsaravia/multiweb/blob/master/NEWS.md" class="external-link"><code>NEWS.md</code></a></small>
     </div>
 
+    <div class="section level2">
+<h2 class="pkg-version" data-toc-text="0.9.01.0000" id="version-09010000">Version 0.9.01.0000<a class="anchor" aria-label="anchor" href="#version-09010000"></a></h2>
+<ul><li>New argument fix_loops in shuffle_network_deg() and curve_ball() (default FALSE, same behaviour as before): if TRUE the self-loops (cannibalism) are kept fixed, they are not traded and no new loops are created. Without it the randomization creates and destroys loops (in food-webs with 14-15 loops only 5-8 were left), which lowers the modularity of the randomized networks. The documentation of shuffle_network_deg() now states that it keeps total in- and out-degrees but not the degree by layer nor the reciprocity. Added an example with fix_loops to generate_shuffled_seq().</li>
+<li>shuffle_network_deg() (when weighted = FALSE) and curve_ball() now give a warning if the adjacency matrix has values greater than 1 (a multigraph); curve_ball() used to discard those cells silently.</li>
+</ul></div>
     <div class="section level2">
 <h2 class="pkg-version" data-toc-text="0.9.00.0000" id="version-09000000">Version 0.9.00.0000<a class="anchor" aria-label="anchor" href="#version-09000000"></a></h2>
 <ul><li>Added a new function calc_pagerank_ap() to calculate the PageRank of species following Allesina &amp; Pascual (2009).</li>

@@ -9,7 +9,7 @@ incremental shuffling steps while tracking modularity, SVD rank and entropy ."><
 
     <a class="navbar-brand me-2" href="../index.html">multiweb</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.9.00.0000</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.9.01.0000</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -96,7 +96,32 @@ incremental shuffling steps while tracking modularity, SVD rank and entropy .</p
 <dd><p>A tibble containing the step number, SVD entropy, SVD Rank, and modularity score.</p></dd>
 
 </dl></div>
+    <div class="section level2">
+    <h2 id="details">Details<a class="anchor" aria-label="anchor" href="#details"></a></h2>
+    <p><code>shuffle_func</code> is called as <code>shuffle_func(A, delta = delta, directed = directed, weighted = weighted)</code>
+where <code>A</code> is the adjacency matrix of the current network, so a wrapper must accept those arguments.</p>
+    </div>
 
+    <div class="section level2">
+    <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="va">g</span> <span class="op">&lt;-</span> <span class="va">netData</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span></span></span>
+<span class="r-in"><span><span class="co"># Keep the self-loops (cannibalism) fixed during the randomization</span></span></span>
+<span class="r-in"><span><span class="va">res</span> <span class="op">&lt;-</span> <span class="fu">generate_shuffled_seq</span><span class="op">(</span><span class="va">g</span>, max_delta <span class="op">=</span> <span class="fl">60</span>, delta <span class="op">=</span> <span class="fl">10</span>,</span></span>
+<span class="r-in"><span>  shuffle_func <span class="op">=</span> <span class="kw">function</span><span class="op">(</span><span class="va">x</span>, <span class="va">delta</span>, <span class="va">directed</span>, <span class="va">weighted</span><span class="op">)</span></span></span>
+<span class="r-in"><span>    <span class="fu"><a href="shuffle_network_deg.html">shuffle_network_deg</a></span><span class="op">(</span><span class="va">x</span>, <span class="va">delta</span>, <span class="va">directed</span>, <span class="va">weighted</span>, fix_loops <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">res</span><span class="op">$</span><span class="va">Metrics</span><span class="op">)</span></span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 6 × 4</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>    Step SVD_Entropy SVD_Rank Modularity</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>       <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;int&gt;</span>      <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">1</span>     1       0.886       21          0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">2</span>     2       0.890       21          0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">3</span>     3       0.900       22          0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">4</span>     4       0.903       22          0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">5</span>     5       0.901       22          0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">6</span>     6       0.900       22          0</span>
+<span class="r-in"><span></span></span>
+</code></pre></div>
+    </div>
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>
     </nav></aside></div>
 

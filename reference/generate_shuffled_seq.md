@@ -63,3 +63,30 @@ A list with:
 
   A tibble containing the step number, SVD entropy, SVD Rank, and
   modularity score.
+
+## Details
+
+`shuffle_func` is called as
+`shuffle_func(A, delta = delta, directed = directed, weighted = weighted)`
+where `A` is the adjacency matrix of the current network, so a wrapper
+must accept those arguments.
+
+## Examples
+
+``` r
+g <- netData[[1]]
+# Keep the self-loops (cannibalism) fixed during the randomization
+res <- generate_shuffled_seq(g, max_delta = 60, delta = 10,
+  shuffle_func = function(x, delta, directed, weighted)
+    shuffle_network_deg(x, delta, directed, weighted, fix_loops = TRUE))
+head(res$Metrics)
+#> # A tibble: 6 × 4
+#>    Step SVD_Entropy SVD_Rank Modularity
+#>   <dbl>       <dbl>    <int>      <dbl>
+#> 1     1       0.886       21          0
+#> 2     2       0.890       21          0
+#> 3     3       0.900       22          0
+#> 4     4       0.903       22          0
+#> 5     5       0.901       22          0
+#> 6     6       0.900       22          0
+```

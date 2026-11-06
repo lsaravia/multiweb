@@ -15,7 +15,7 @@ to generate fully randomized networks, the curve_ball() function is preferred.">
 
     <a class="navbar-brand me-2" href="../index.html">multiweb</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.9.00.0000</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.9.01.0000</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -52,28 +52,57 @@ to generate fully randomized networks, the <code><a href="curve_ball.html">curve
 
     <div class="section level2">
     <h2 id="ref-usage">Usage<a class="anchor" aria-label="anchor" href="#ref-usage"></a></h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">shuffle_network_deg</span><span class="op">(</span><span class="va">input_graph</span>, delta <span class="op">=</span> <span class="fl">100</span>, directed <span class="op">=</span> <span class="cn">TRUE</span>, weighted <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">shuffle_network_deg</span><span class="op">(</span></span>
+<span>  <span class="va">input_graph</span>,</span>
+<span>  delta <span class="op">=</span> <span class="fl">100</span>,</span>
+<span>  directed <span class="op">=</span> <span class="cn">TRUE</span>,</span>
+<span>  weighted <span class="op">=</span> <span class="cn">TRUE</span>,</span>
+<span>  fix_loops <span class="op">=</span> <span class="cn">FALSE</span></span>
+<span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div class="section level2">
     <h2 id="arguments">Arguments<a class="anchor" aria-label="anchor" href="#arguments"></a></h2>
 
 
-<dl><dt id="arg-delta">delta<a class="anchor" aria-label="anchor" href="#arg-delta"></a></dt>
+<dl><dt id="arg-input-graph">input_graph<a class="anchor" aria-label="anchor" href="#arg-input-graph"></a></dt>
+<dd><p>An igraph object or a square adjacency matrix (directed, weighted or unweighted).</p></dd>
+
+
+<dt id="arg-delta">delta<a class="anchor" aria-label="anchor" href="#arg-delta"></a></dt>
 <dd><p>Number of edge swaps to perform.</p></dd>
 
 
-<dt id="arg-a">A<a class="anchor" aria-label="anchor" href="#arg-a"></a></dt>
-<dd><p>A square adjacency matrix (directed, weighted or unweighted).</p></dd>
+<dt id="arg-directed">directed<a class="anchor" aria-label="anchor" href="#arg-directed"></a></dt>
+<dd><p>Logical. Whether the network is directed (default: TRUE).</p></dd>
 
 
-<dt id="arg-max-attempts">max_attempts<a class="anchor" aria-label="anchor" href="#arg-max-attempts"></a></dt>
-<dd><p>Number of times to attempt a valid swap before stopping.</p></dd>
+<dt id="arg-weighted">weighted<a class="anchor" aria-label="anchor" href="#arg-weighted"></a></dt>
+<dd><p>Logical. Whether the network is weighted (default: TRUE). When <code>FALSE</code> a warning
+is given if the matrix has values greater than 1 (a multigraph).</p></dd>
+
+
+<dt id="arg-fix-loops">fix_loops<a class="anchor" aria-label="anchor" href="#arg-fix-loops"></a></dt>
+<dd><p>Logical. If <code>TRUE</code> the self-loops (the diagonal) are kept fixed during the
+randomization (default: <code>FALSE</code>, the diagonal is randomized like any other cell).</p></dd>
 
 </dl></div>
     <div class="section level2">
     <h2 id="value">Value<a class="anchor" aria-label="anchor" href="#value"></a></h2>
     <p>A shuffled adjacency matrix preserving in-degree and out-degree.</p>
+    </div>
+    <div class="section level2">
+    <h2 id="details">Details<a class="anchor" aria-label="anchor" href="#details"></a></h2>
+    <p>The function preserves the total in-degree and out-degree (row and column totals) of the
+adjacency matrix, but it does not preserve the degree of each layer of a multilayer network
+nor the reciprocity: reciprocal pairs A-&gt;B / B-&gt;A (e.g. mutualism, competition) are separated
+by the swaps.</p>
+<p>By default the diagonal is not avoided, so the swaps can create and destroy self-loops
+(cannibalism in food-webs). In food-webs with 14-15 loops only 5-8 were left after about two
+swaps per link. A loop always falls inside its own module, so losing loops lowers the modularity
+of the randomized networks and makes the empirical network look more modular than it is. With
+<code>fix_loops = TRUE</code> the loops are kept fixed: they are never selected for a swap and a swap that
+would create a new loop is rejected.</p>
     </div>
     <div class="section level2">
     <h2 id="references">References<a class="anchor" aria-label="anchor" href="#references"></a></h2>
